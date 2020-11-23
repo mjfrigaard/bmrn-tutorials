@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -14,6 +13,7 @@
 
 <title>Gotchas</title>
 
+<script src="site_libs/header-attrs-2.5.3/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -23,6 +23,17 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -232,6 +243,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -365,11 +377,10 @@ x %&gt;% {
   tibble(id = . %&gt;% map_int(&quot;int&quot;),
          chr = . %&gt;% map_chr(&quot;chr&quot;))
 }
-#&gt; All columns in a tibble must be 1d or 2d objects:
-#&gt; * Column `id` is fseq
-#&gt; * Column `chr` is fseq</code></pre>
+#&gt; Error: All columns in a tibble must be vectors.
+#&gt; x Column `id` is a `fseq/function` object.</code></pre>
 <p>What went wrong?</p>
-<p><code>. %&gt;% map_int(&quot;int&quot;)</code> built a unary function, instead of passing <code>x</code> into <code>map_int()</code>. Do not start a pipeline with <code>.</code> unless you want a unary function.</p>
+<p><code>. %&gt;% map_int("int")</code> built a unary function, instead of passing <code>x</code> into <code>map_int()</code>. Do not start a pipeline with <code>.</code> unless you want a unary function.</p>
 <p>What does this have to do with <code>purrr</code>?</p>
 <p>If you’ve got a complicated object <code>x</code> (e.g., a deeply nested list from JSON), you might build a data frame with repeated calls to <code>map_*()</code> functions. Be careful where you put your dot <code>.</code>!</p>
 </div>
@@ -416,7 +427,7 @@ x_list %&gt;%
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

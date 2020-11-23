@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -14,6 +13,7 @@
 
 <title>Introduction to map(): extract elements</title>
 
+<script src="site_libs/header-attrs-2.5.3/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -26,6 +26,17 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -235,6 +246,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -263,6 +275,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -370,10 +388,9 @@ div.tocify {
 
 
 <pre class="r"><code>search()
-#&gt;  [1] &quot;.GlobalEnv&quot;        &quot;package:stats&quot;     &quot;package:graphics&quot; 
-#&gt;  [4] &quot;package:grDevices&quot; &quot;package:utils&quot;     &quot;package:datasets&quot; 
-#&gt;  [7] &quot;package:methods&quot;   &quot;Autoloads&quot;         &quot;tools:callr&quot;      
-#&gt; [10] &quot;package:base&quot;</code></pre>
+#&gt; [1] &quot;.GlobalEnv&quot;        &quot;package:stats&quot;     &quot;package:graphics&quot; 
+#&gt; [4] &quot;package:grDevices&quot; &quot;package:utils&quot;     &quot;package:datasets&quot; 
+#&gt; [7] &quot;package:methods&quot;   &quot;Autoloads&quot;         &quot;package:base&quot;</code></pre>
 <div id="load-packages" class="section level2">
 <h2>Load packages</h2>
 <p>Load purrr and repurrrsive, which contains recursive list examples.</p>
@@ -446,7 +463,7 @@ sqrt(c(9, 16, 25))
 <ul>
 <li>provide “TEXT” to extract the element named “TEXT”
 <ul>
-<li>equivalent to <code>function(x) x[[&quot;TEXT&quot;]]</code></li>
+<li>equivalent to <code>function(x) x[["TEXT"]]</code></li>
 </ul></li>
 <li>provide <code>i</code> to extract the <code>i</code>-th element
 <ul>
@@ -557,18 +574,18 @@ str(x[18:19])
 <p>This is what <code>map_dfr()</code> is for.</p>
 <pre class="r"><code>map_dfr(got_chars, extract, c(&quot;name&quot;, &quot;culture&quot;, &quot;gender&quot;, &quot;id&quot;, &quot;born&quot;, &quot;alive&quot;))
 #&gt; # A tibble: 30 x 6
-#&gt;    name            culture  gender    id born                         alive
-#&gt;    &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;                        &lt;lgl&gt;
-#&gt;  1 Theon Greyjoy   Ironborn Male    1022 In 278 AC or 279 AC, at Pyke TRUE 
-#&gt;  2 Tyrion Lannist… &quot;&quot;       Male    1052 In 273 AC, at Casterly Rock  TRUE 
-#&gt;  3 Victarion Grey… Ironborn Male    1074 In 268 AC or before, at Pyke TRUE 
-#&gt;  4 Will            &quot;&quot;       Male    1109 &quot;&quot;                           FALSE
-#&gt;  5 Areo Hotah      Norvoshi Male    1166 In 257 AC or before, at Nor… TRUE 
-#&gt;  6 Chett           &quot;&quot;       Male    1267 At Hag&#39;s Mire                FALSE
-#&gt;  7 Cressen         &quot;&quot;       Male    1295 In 219 AC or 220 AC          FALSE
-#&gt;  8 Arianne Martell Dornish  Female   130 In 276 AC, at Sunspear       TRUE 
-#&gt;  9 Daenerys Targa… Valyrian Female  1303 In 284 AC, at Dragonstone    TRUE 
-#&gt; 10 Davos Seaworth  Westeros Male    1319 In 260 AC or before, at Kin… TRUE 
+#&gt;    name            culture    gender    id born                            alive
+#&gt;    &lt;chr&gt;           &lt;chr&gt;      &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;                           &lt;lgl&gt;
+#&gt;  1 Theon Greyjoy   &quot;Ironborn&quot; Male    1022 &quot;In 278 AC or 279 AC, at Pyke&quot;  TRUE 
+#&gt;  2 Tyrion Lannist… &quot;&quot;         Male    1052 &quot;In 273 AC, at Casterly Rock&quot;   TRUE 
+#&gt;  3 Victarion Grey… &quot;Ironborn&quot; Male    1074 &quot;In 268 AC or before, at Pyke&quot;  TRUE 
+#&gt;  4 Will            &quot;&quot;         Male    1109 &quot;&quot;                              FALSE
+#&gt;  5 Areo Hotah      &quot;Norvoshi&quot; Male    1166 &quot;In 257 AC or before, at Norvo… TRUE 
+#&gt;  6 Chett           &quot;&quot;         Male    1267 &quot;At Hag&#39;s Mire&quot;                 FALSE
+#&gt;  7 Cressen         &quot;&quot;         Male    1295 &quot;In 219 AC or 220 AC&quot;           FALSE
+#&gt;  8 Arianne Martell &quot;Dornish&quot;  Female   130 &quot;In 276 AC, at Sunspear&quot;        TRUE 
+#&gt;  9 Daenerys Targa… &quot;Valyrian&quot; Female  1303 &quot;In 284 AC, at Dragonstone&quot;     TRUE 
+#&gt; 10 Davos Seaworth  &quot;Westeros&quot; Male    1319 &quot;In 260 AC or before, at King&#39;… TRUE 
 #&gt; # … with 20 more rows</code></pre>
 <p>Finally! A data frame! Hallelujah!</p>
 <p>Notice how the variables have been automatically type converted. It’s a beautiful thing. Until it’s not. When programming, it is safer, but more cumbersome, to explicitly specify type and build your data frame the usual way.</p>
@@ -584,18 +601,18 @@ got_chars %&gt;% {
   )
 }
 #&gt; # A tibble: 30 x 6
-#&gt;    name            culture  gender    id born                         alive
-#&gt;    &lt;chr&gt;           &lt;chr&gt;    &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;                        &lt;lgl&gt;
-#&gt;  1 Theon Greyjoy   Ironborn Male    1022 In 278 AC or 279 AC, at Pyke TRUE 
-#&gt;  2 Tyrion Lannist… &quot;&quot;       Male    1052 In 273 AC, at Casterly Rock  TRUE 
-#&gt;  3 Victarion Grey… Ironborn Male    1074 In 268 AC or before, at Pyke TRUE 
-#&gt;  4 Will            &quot;&quot;       Male    1109 &quot;&quot;                           FALSE
-#&gt;  5 Areo Hotah      Norvoshi Male    1166 In 257 AC or before, at Nor… TRUE 
-#&gt;  6 Chett           &quot;&quot;       Male    1267 At Hag&#39;s Mire                FALSE
-#&gt;  7 Cressen         &quot;&quot;       Male    1295 In 219 AC or 220 AC          FALSE
-#&gt;  8 Arianne Martell Dornish  Female   130 In 276 AC, at Sunspear       TRUE 
-#&gt;  9 Daenerys Targa… Valyrian Female  1303 In 284 AC, at Dragonstone    TRUE 
-#&gt; 10 Davos Seaworth  Westeros Male    1319 In 260 AC or before, at Kin… TRUE 
+#&gt;    name            culture    gender    id born                            alive
+#&gt;    &lt;chr&gt;           &lt;chr&gt;      &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;                           &lt;lgl&gt;
+#&gt;  1 Theon Greyjoy   &quot;Ironborn&quot; Male    1022 &quot;In 278 AC or 279 AC, at Pyke&quot;  TRUE 
+#&gt;  2 Tyrion Lannist… &quot;&quot;         Male    1052 &quot;In 273 AC, at Casterly Rock&quot;   TRUE 
+#&gt;  3 Victarion Grey… &quot;Ironborn&quot; Male    1074 &quot;In 268 AC or before, at Pyke&quot;  TRUE 
+#&gt;  4 Will            &quot;&quot;         Male    1109 &quot;&quot;                              FALSE
+#&gt;  5 Areo Hotah      &quot;Norvoshi&quot; Male    1166 &quot;In 257 AC or before, at Norvo… TRUE 
+#&gt;  6 Chett           &quot;&quot;         Male    1267 &quot;At Hag&#39;s Mire&quot;                 FALSE
+#&gt;  7 Cressen         &quot;&quot;         Male    1295 &quot;In 219 AC or 220 AC&quot;           FALSE
+#&gt;  8 Arianne Martell &quot;Dornish&quot;  Female   130 &quot;In 276 AC, at Sunspear&quot;        TRUE 
+#&gt;  9 Daenerys Targa… &quot;Valyrian&quot; Female  1303 &quot;In 284 AC, at Dragonstone&quot;     TRUE 
+#&gt; 10 Davos Seaworth  &quot;Westeros&quot; Male    1319 &quot;In 260 AC or before, at King&#39;… TRUE 
 #&gt; # … with 20 more rows</code></pre>
 <p><em>Syntax notes: The dot <code>.</code> above is the placeholder for the primary input: <code>got_chars</code> in this case. The curly braces <code>{}</code> surrounding the <code>tibble()</code> call prevent <code>got_chars</code> from being passed in as the first argument of <code>tibble()</code>.</em></p>
 <div id="exercises-3" class="section level4">
@@ -619,7 +636,7 @@ got_chars %&gt;% {
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -658,7 +675,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

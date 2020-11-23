@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -14,6 +13,7 @@
 
 <title>Sample from groups, n varies by group</title>
 
+<script src="site_libs/header-attrs-2.5.3/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -23,6 +23,17 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -232,6 +243,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -331,11 +343,11 @@ set.seed(4561)
     ungroup() %&gt;% 
     mutate(n = c(2, 5, 3))) # add sample sizes
 #&gt; # A tibble: 3 x 3
-#&gt;   Species              data     n
-#&gt;   &lt;fct&gt;      &lt;list&lt;df[,4]&gt;&gt; &lt;dbl&gt;
-#&gt; 1 setosa           [50 × 4]     2
-#&gt; 2 versicolor       [50 × 4]     5
-#&gt; 3 virginica        [50 × 4]     3</code></pre>
+#&gt;   Species    data                  n
+#&gt;   &lt;fct&gt;      &lt;list&gt;            &lt;dbl&gt;
+#&gt; 1 setosa     &lt;tibble [50 × 4]&gt;     2
+#&gt; 2 versicolor &lt;tibble [50 × 4]&gt;     5
+#&gt; 3 virginica  &lt;tibble [50 × 4]&gt;     3</code></pre>
 <p>Draw the samples.</p>
 <ul>
 <li><code>purrr::map2()</code> is good since we want to operate on 2 things <code>(data = DATA FOR ONE SPECIES, n = SAMPLE SIZE)</code>.</li>
@@ -346,11 +358,11 @@ set.seed(4561)
 <pre class="r"><code>(sampled_iris &lt;- nested_iris %&gt;%
   mutate(samp = map2(data, n, sample_n)))
 #&gt; # A tibble: 3 x 4
-#&gt;   Species              data     n samp            
-#&gt;   &lt;fct&gt;      &lt;list&lt;df[,4]&gt;&gt; &lt;dbl&gt; &lt;list&gt;          
-#&gt; 1 setosa           [50 × 4]     2 &lt;tibble [2 × 4]&gt;
-#&gt; 2 versicolor       [50 × 4]     5 &lt;tibble [5 × 4]&gt;
-#&gt; 3 virginica        [50 × 4]     3 &lt;tibble [3 × 4]&gt;</code></pre>
+#&gt;   Species    data                  n samp            
+#&gt;   &lt;fct&gt;      &lt;list&gt;            &lt;dbl&gt; &lt;list&gt;          
+#&gt; 1 setosa     &lt;tibble [50 × 4]&gt;     2 &lt;tibble [2 × 4]&gt;
+#&gt; 2 versicolor &lt;tibble [50 × 4]&gt;     5 &lt;tibble [5 × 4]&gt;
+#&gt; 3 virginica  &lt;tibble [50 × 4]&gt;     3 &lt;tibble [3 × 4]&gt;</code></pre>
 <p>What came back? More <code>Species</code>-specific data frames.</p>
 <p>We are in that uncomfortable intermediate state, with two list-columns: the original <code>data</code> and the sampled data, <code>samp</code>. Let’s get back to a normal data frame!</p>
 <ul>
@@ -481,7 +493,7 @@ do.call(rbind, sampled_iris)            # :( do.call()
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();

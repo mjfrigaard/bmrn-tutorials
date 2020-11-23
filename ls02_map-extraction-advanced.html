@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
@@ -14,6 +13,7 @@
 
 <title>Simplifying data from a list of GitHub users</title>
 
+<script src="site_libs/header-attrs-2.5.3/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -26,10 +26,21 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<script src="site_libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<link href="site_libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="site_libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
 <link href="site_libs/jsoneditor-5.25.6/jsoneditor.min.css" rel="stylesheet" />
 <script src="site_libs/jsoneditor-5.25.6/jsoneditor.min.js"></script>
-<script src="site_libs/jsonedit-binding-2.1.0/jsonedit.js"></script>
+<script src="site_libs/jsonedit-binding-3.0.0/jsonedit.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -239,6 +250,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -267,6 +279,12 @@ $(document).ready(function () {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -422,7 +440,7 @@ To have the interactive list viewing experience, visit <http://rpubs.com/jennybc
 <li>What does the <code>list.len</code> argument of <code>str()</code> control? What is it’s default value? Call <code>str()</code> on <code>gh_users</code> and then on a single component of <code>gh_users</code> with <code>list.len</code> set to a value much smaller than the default.</li>
 <li>Call <code>str()</code> on <code>gh_users</code>, specifying both <code>max.level</code> and <code>list.len</code>.</li>
 <li>Recall the <a href="bk00_vectors-and-lists.html#list_indexing">list and vector indexing techniques</a>. Inspect elements 1, 2, 6, 18, 21, and 24 of the list component for the 5th GitHub user. One of these should be the URL for the user’s profile on GitHub.com. Go there and compare info you see there with the info you just extracted from <code>gh_users</code>.</li>
-<li>Consider the interactive view of <code>gh_users</code> here. Or, optionally, install the listviewer package via <code>install.packages(&quot;listviewer&quot;)</code> and call <code>jsonedit(gh_users)</code> to run this widget locally. Can you find the same info you extracted in the previous exercise? The same info you see in user’s GitHub.com profile?</li>
+<li>Consider the interactive view of <code>gh_users</code> here. Or, optionally, install the listviewer package via <code>install.packages("listviewer")</code> and call <code>jsonedit(gh_users)</code> to run this widget locally. Can you find the same info you extracted in the previous exercise? The same info you see in user’s GitHub.com profile?</li>
 </ol>
 </div>
 </div>
@@ -478,7 +496,7 @@ To have the interactive list viewing experience, visit <http://rpubs.com/jennybc
 <ul>
 <li>provide “TEXT” to extract the element named “TEXT”
 <ul>
-<li>equivalent to <code>function(x) x[[&quot;TEXT&quot;]]</code></li>
+<li>equivalent to <code>function(x) x[["TEXT"]]</code></li>
 </ul></li>
 <li>provide <code>i</code> to extract the <code>i</code>-th element
 <ul>
@@ -510,9 +528,8 @@ gh_users %&gt;%
 #&gt; [1] &quot;gaborcsardi&quot; &quot;jennybc&quot;     &quot;jtleek&quot;      &quot;juliasilge&quot;  &quot;leeper&quot;     
 #&gt; [6] &quot;masalmon&quot;
 map_chr(gh_users, 18)
-#&gt; [1] &quot;Gábor Csárdi&quot;           &quot;Jennifer (Jenny) Bryan&quot;
-#&gt; [3] &quot;Jeff L.&quot;                &quot;Julia Silge&quot;           
-#&gt; [5] &quot;Thomas J. Leeper&quot;       &quot;Maëlle Salmon&quot;</code></pre>
+#&gt; [1] &quot;Gábor Csárdi&quot;           &quot;Jennifer (Jenny) Bryan&quot; &quot;Jeff L.&quot;               
+#&gt; [4] &quot;Julia Silge&quot;            &quot;Thomas J. Leeper&quot;       &quot;Maëlle Salmon&quot;</code></pre>
 <p>Besides <code>map_chr()</code>, there are other variants of <code>map()</code>, with the target type conveyed by the name:</p>
 <ul>
 <li><code>map_lgl()</code>, <code>map_int()</code>, <code>map_dbl()</code></li>
@@ -830,7 +847,7 @@ map_df(one_user, `[`, c(&quot;name&quot;, &quot;fork&quot;, &quot;open_issues&qu
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -869,7 +886,7 @@ $(document).ready(function ()  {
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
       },
       ignoreSelector: ".toc-ignore",
       scrollTo: 0

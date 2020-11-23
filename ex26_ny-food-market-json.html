@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
-<meta charset="utf-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
 
 <title>Food Markets in New York</title>
 
+<script src="site_libs/header-attrs-2.5.3/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -23,12 +24,23 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-1.1/highlight.js"></script>
-<script src="site_libs/htmlwidgets-0.8/htmlwidgets.js"></script>
-<link href="site_libs/jsoneditor-5.5.5/jsoneditor.min.css" rel="stylesheet" />
-<script src="site_libs/jsoneditor-5.5.5/jsoneditor.min.js"></script>
-<script src="site_libs/jsonedit-binding-1.4.0/jsonedit.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="site_libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<link href="site_libs/jsoneditor-5.25.6/jsoneditor.min.css" rel="stylesheet" />
+<script src="site_libs/jsoneditor-5.25.6/jsoneditor.min.js"></script>
+<script src="site_libs/jsonedit-binding-3.0.0/jsonedit.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -37,10 +49,12 @@
   }
 </style>
 <script type="text/javascript">
-if (window.hljs && document.readyState && document.readyState === "complete") {
-   window.setTimeout(function() {
-      hljs.initHighlighting();
-   }, 0);
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
 </script>
 
@@ -74,9 +88,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -90,13 +102,18 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
 }
+.html-widget {
+  margin-bottom: 20px;
+}
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -112,7 +129,6 @@ body {
   padding-top: 65px;
   margin-top: -65px;
 }
-
 .section h2 {
   padding-top: 65px;
   margin-top: -65px;
@@ -132,6 +148,43 @@ body {
 .section h6 {
   padding-top: 65px;
   margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -153,47 +206,66 @@ $(document).ready(function () {
 });
 </script>
 
-
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-</script>
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
 
 <!-- code folding -->
 
 
-
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -207,6 +279,12 @@ $(document).ready(function ()  {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -242,8 +320,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -252,6 +328,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -284,7 +370,7 @@ div.tocify {
   <a href="more-resources.html">More resources</a>
 </li>
 <li>
-  <a href="slides.html">Slides</a>
+  <a href="talks.html">Talks</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -318,15 +404,23 @@ div.tocify {
 <li>tibble and dplyr for forming and manipulating data frames, especially the “tibble” variant (class <code>tbl_df</code>), which is friendly to list-columns.</li>
 </ul>
 <pre class="r"><code>library(jsonlite)
+library(purrr)
 #&gt; 
-#&gt; Attaching package: &#39;jsonlite&#39;
-#&gt; The following object is masked from &#39;package:purrr&#39;:
+#&gt; Attaching package: &#39;purrr&#39;
+#&gt; The following object is masked from &#39;package:jsonlite&#39;:
 #&gt; 
 #&gt;     flatten
-library(purrr)
 library(listviewer)
 library(tibble)
 library(dplyr)
+#&gt; 
+#&gt; Attaching package: &#39;dplyr&#39;
+#&gt; The following objects are masked from &#39;package:stats&#39;:
+#&gt; 
+#&gt;     filter, lag
+#&gt; The following objects are masked from &#39;package:base&#39;:
+#&gt; 
+#&gt;     intersect, setdiff, setequal, union
 food_mkts_raw &lt;- fromJSON(&quot;foodMarkets/retail_food_markets.json&quot;,
                           simplifyVector = FALSE)</code></pre>
 </div>
@@ -336,21 +430,15 @@ food_mkts_raw &lt;- fromJSON(&quot;foodMarkets/retail_food_markets.json&quot;,
 <pre class="r"><code>str(food_mkts_raw, max.level = 1)
 #&gt; List of 2
 #&gt;  $ meta:List of 1
-#&gt;  $ data:List of 28355
-#&gt;   .. [list output truncated]</code></pre>
+#&gt;  $ data:List of 28355</code></pre>
 <p>Ooh, a <code>data</code> component sounds promising!</p>
 <pre class="r"><code>str(food_mkts_raw$data, max.level = 1, list.len = 5)
 #&gt; List of 28355
 #&gt;  $ :List of 23
-#&gt;   .. [list output truncated]
 #&gt;  $ :List of 23
-#&gt;   .. [list output truncated]
 #&gt;  $ :List of 23
-#&gt;   .. [list output truncated]
 #&gt;  $ :List of 23
-#&gt;   .. [list output truncated]
 #&gt;  $ :List of 23
-#&gt;   .. [list output truncated]
 #&gt;   [list output truncated]</code></pre>
 <p>Working hypothesis: we have data of similar form for each of 28355 food markets. A slightly mysterious, but homogeneous list.</p>
 <p>Pull out just the <code>data</code> component and store as <code>food_mkts</code>.</p>
@@ -360,10 +448,10 @@ food_mkts_raw &lt;- fromJSON(&quot;foodMarkets/retail_food_markets.json&quot;,
 <h2>Voyage of discovery: <code>meta</code> and <code>columns</code></h2>
 <p>Before we move on, what’s in the <code>meta</code> component of the raw JSON? It turns out we should focus on its sole component, which is named <code>view</code>.</p>
 <pre class="r"><code>jsonedit(food_mkts_raw[[c(&quot;meta&quot;, &quot;view&quot;)]])</code></pre>
-<div id="htmlwidget-49cda215267c7db41420" style="width:672px;height:480px;" class="jsonedit html-widget"></div>
-<script type="application/json" data-for="htmlwidget-49cda215267c7db41420">{"x":{"data":{"id":"9a8c-vfzj","name":"Retail Food Stores","attribution":"New York State Department of Agriculture and Markets","attributionLink":"http://www.agriculture.ny.gov/FS/FSHome.html","averageRating":0,"category":"Economic Development","createdAt":1361890199,"description":"A listing of all retail food stores which are licensed by the Department of Agriculture and Markets.","displayType":"table","downloadCount":1519,"indexUpdatedAt":1414627105,"newBackend":false,"numberOfComments":0,"oid":9007657,"publicationAppendEnabled":false,"publicationDate":1412263696,"publicationGroup":700965,"publicationStage":"published","rowsUpdatedAt":1412262837,"rowsUpdatedBy":"xzik-pf59","tableId":1750091,"totalTimesRated":0,"viewCount":24373,"viewLastModified":1412263696,"viewType":"tabular","columns":[{"id":-1,"name":"sid","dataTypeName":"meta_data","fieldName":":sid","position":0,"renderTypeName":"meta_data","format":{}},{"id":-1,"name":"id","dataTypeName":"meta_data","fieldName":":id","position":0,"renderTypeName":"meta_data","format":{}},{"id":-1,"name":"position","dataTypeName":"meta_data","fieldName":":position","position":0,"renderTypeName":"meta_data","format":{}},{"id":-1,"name":"created_at","dataTypeName":"meta_data","fieldName":":created_at","position":0,"renderTypeName":"meta_data","format":{}},{"id":-1,"name":"created_meta","dataTypeName":"meta_data","fieldName":":created_meta","position":0,"renderTypeName":"meta_data","format":{}},{"id":-1,"name":"updated_at","dataTypeName":"meta_data","fieldName":":updated_at","position":0,"renderTypeName":"meta_data","format":{}},{"id":-1,"name":"updated_meta","dataTypeName":"meta_data","fieldName":":updated_meta","position":0,"renderTypeName":"meta_data","format":{}},{"id":-1,"name":"meta","dataTypeName":"meta_data","fieldName":":meta","position":0,"renderTypeName":"meta_data","format":{}},{"id":169457637,"name":"County","dataTypeName":"text","description":"County this location is in","fieldName":"county","position":1,"renderTypeName":"text","tableColumnId":8179659,"width":137,"cachedContents":{"non_null":28355,"smallest":"Albany","null":0,"largest":"Yates","top":[{"count":20,"item":"Albany"},{"count":19,"item":"Broome"},{"count":18,"item":"Chautauqua"},{"count":17,"item":"Chemung"},{"count":16,"item":"Clinton"},{"count":15,"item":"Columbia"},{"count":14,"item":"Dutchess"},{"count":13,"item":"Erie"},{"count":12,"item":"Jefferson"},{"count":11,"item":"Monroe"},{"count":10,"item":"Nassau"},{"count":9,"item":"Niagara"},{"count":8,"item":"Oneida"},{"count":7,"item":"Onondaga"},{"count":6,"item":"Ontario"},{"count":5,"item":"Orange"},{"count":4,"item":"Oswego"},{"count":3,"item":"Rensselaer"},{"count":2,"item":"Rockland"},{"count":1,"item":"St. Lawrence"}]},"format":{"align":"left"}},{"id":169457638,"name":"License Number","dataTypeName":"text","description":"License number for this location","fieldName":"license_number","position":2,"renderTypeName":"text","tableColumnId":8179648,"width":183,"cachedContents":{"non_null":28355,"smallest":"100001","null":0,"largest":"95419","top":[{"count":20,"item":"641351"},{"count":19,"item":"641240"},{"count":18,"item":"641202"},{"count":17,"item":"641298"},{"count":16,"item":"641203"},{"count":15,"item":"641595"},{"count":14,"item":"641000"},{"count":13,"item":"641001"},{"count":12,"item":"641002"},{"count":11,"item":"641482"},{"count":10,"item":"641198"},{"count":9,"item":"641448"},{"count":8,"item":"641192"},{"count":7,"item":"641081"},{"count":6,"item":"641256"},{"count":5,"item":"641079"},{"count":4,"item":"641348"},{"count":3,"item":"641562"},{"count":2,"item":"641506"},{"count":1,"item":"641193"}]},"format":{"precisionStyle":"standard","noCommas":"true","align":"center"}},{"id":169457639,"name":"Operation Type","dataTypeName":"text","description":"Indicates the type of operation this \nlicensed entity conducts","fieldName":"operation_type","position":3,"renderTypeName":"text","tableColumnId":8179649,"width":176,"cachedContents":{"non_null":28355,"smallest":"Store","null":0,"largest":"Store","top":[{"count":20,"item":"Store"}]},"format":{"align":"center"}},{"id":169457640,"name":"Estab Type","dataTypeName":"text","fieldName":"estab_type","position":4,"renderTypeName":"text","tableColumnId":21635505,"width":162,"cachedContents":{"non_null":28355,"smallest":"A     ","null":0,"largest":"JWBCA ","top":[{"count":20,"item":"JAC   "},{"count":19,"item":"A     "},{"count":18,"item":"JABH  "},{"count":17,"item":"JAS   "},{"count":16,"item":"JABC  "},{"count":15,"item":"JACD  "},{"count":14,"item":"JABHK "},{"count":13,"item":"JAB   "},{"count":12,"item":"JACDK "},{"count":11,"item":"JACK  "},{"count":10,"item":"JACH  "},{"count":9,"item":"JABCHK"},{"count":8,"item":"JADK  "},{"count":7,"item":"JAD   "},{"count":6,"item":"JAW   "},{"count":5,"item":"JAM   "},{"count":4,"item":"JACDH "},{"count":3,"item":"JABCH "},{"count":2,"item":"JACHK "},{"count":1,"item":"JACO  "}]},"format":{}},{"id":169457641,"name":"Entity Name","dataTypeName":"text","description":"Name of this licensed entity","fieldName":"entity_name","position":5,"renderTypeName":"text","tableColumnId":8179650,"width":232,"cachedContents":{"non_null":28355,"smallest":"$1 DEPOT INC                     ","null":0,"largest":"ZZ PETROLEUM INC                 ","top":[{"count":20,"item":"CVS ALBANY LLC                   "},{"count":19,"item":"WALGREEN EASTERN CO INC          "},{"count":18,"item":"PORT RICHMOND DISCOUNT INC       "},{"count":17,"item":"WATERFRONT GAS&CONVENIENCE LLC   "},{"count":16,"item":"TAMAYO ALEJANDRO                 "},{"count":15,"item":"KANG SUNG HWAN                   "},{"count":14,"item":"YH NEW DORP INC                  "},{"count":13,"item":"EL JARDIN DELI & GROCERY INC     "},{"count":12,"item":"ANTONIOS GOURMET LLC             "},{"count":11,"item":"CONVENIENCE DISCOUNT INC         "},{"count":10,"item":"FAMILY DOLLAR STORES OF NY INC   "},{"count":9,"item":"HYLAN CONVENIENCE INC            "},{"count":8,"item":"DOLLAR TREE STORES INC           "},{"count":7,"item":"MSZ CORP                         "},{"count":6,"item":"ABOUNAJI DELI&GROCERY INC        "}]},"format":{"align":"left"}},{"id":169457642,"name":"DBA Name","dataTypeName":"text","description":"Name this licensed entity is doing \nbusiness as","fieldName":"dba_name","position":6,"renderTypeName":"text","tableColumnId":8179651,"width":196,"cachedContents":{"non_null":28355,"smallest":"                       ","null":0,"largest":"ZW DELI&GROCERY        ","top":[{"count":20,"item":"STUYVESANT PL DELI & GR"},{"count":19,"item":"RICHMOND DELI          "},{"count":18,"item":"NET COST MARKETS       "},{"count":17,"item":"DIANES DELI            "},{"count":16,"item":"EHR GROCERY            "},{"count":15,"item":"KING DELI OF THE ISLAND"},{"count":14,"item":"AFRICAN CARIB MKT      "},{"count":13,"item":"FAMILY DELI            "},{"count":12,"item":"SOUTH SHORE DELI       "},{"count":11,"item":"VICTORY BLVD QUICK STOP"},{"count":10,"item":"TOP TOMATO #5          "},{"count":9,"item":"PORT RICHMOND DISCOUNT "},{"count":8,"item":"WATERFRONT GAS&CNVNC   "},{"count":7,"item":"ACAPULCO BAKERY        "},{"count":6,"item":"NEW HAPPY FARM         "},{"count":5,"item":"YH NEW DORP            "},{"count":4,"item":"EL JARDIN DELI & GRCRY "},{"count":3,"item":"ANTONIOS GOURMET       "},{"count":2,"item":"CONVENIENCE DISCOUNT   "},{"count":1,"item":"FAMILY DOLLAR #7795    "}]},"format":{"align":"left"}},{"id":169457643,"name":"Street Number","dataTypeName":"text","description":"Number of the location on a street","fieldName":"street_number","position":7,"renderTypeName":"text","tableColumnId":8179652,"width":174,"cachedContents":{"non_null":28023,"smallest":"1","null":332,"largest":"Oct-40","top":[{"count":20,"item":"151"},{"count":19,"item":"99"},{"count":18,"item":"1062"},{"count":17,"item":"1138"},{"count":16,"item":"7344"},{"count":15,"item":"149"},{"count":14,"item":"1071"},{"count":13,"item":"203"},{"count":12,"item":"1125"},{"count":11,"item":"166"},{"count":10,"item":"2500A"},{"count":9,"item":"268"},{"count":8,"item":"274"},{"count":7,"item":"7319"},{"count":6,"item":"327"},{"count":5,"item":"2264"},{"count":4,"item":"1150"},{"count":3,"item":"3231"},{"count":2,"item":"4300"},{"count":1,"item":"87"}]},"format":{"align":"center"}},{"id":169457644,"name":"Street Name","dataTypeName":"text","description":"1\nst address line of the physical address \nfor this location","fieldName":"street_name","position":8,"renderTypeName":"text","tableColumnId":8179653,"width":232,"cachedContents":{"non_null":28355,"smallest":"                             ","null":0,"largest":"ZEREGA AVE                  ","top":[{"count":20,"item":"BROADWAY                    "},{"count":19,"item":"JAMAICA AVE               "},{"count":18,"item":"HYLAN BLVD                  "},{"count":17,"item":"PORT RICHMOND AVE            "},{"count":16,"item":"VICTORY BLVD                "},{"count":15,"item":"RICHMOND AVE                "},{"count":14,"item":"AMBOY RD                    "},{"count":13,"item":"FOREST AVE                  "},{"count":12,"item":"RICHMOND TERR               "},{"count":11,"item":"SOUTH AVE                    "},{"count":10,"item":"CLOVE RD                    "},{"count":9,"item":"FOREST AVE              "},{"count":8,"item":"BROOK ST                      "},{"count":7,"item":"VICTORY BLVD                 "},{"count":6,"item":"NEW DORP LN                    "},{"count":5,"item":"VICTORY BLVD            "},{"count":4,"item":"RHINE AVE                    "},{"count":3,"item":"MANOR RD                     "},{"count":2,"item":"FOREST AVE                   "},{"count":1,"item":"N RAILROAD AVE              "}]},"format":{"align":"left"}},{"id":169457645,"name":"Address Line 2","dataTypeName":"text","description":"2\nnd address line of the physical address \nfor this location","fieldName":"address_line_2","position":9,"renderTypeName":"text","tableColumnId":8179654,"width":188,"cachedContents":{"non_null":28355,"smallest":"             ","null":0,"largest":"             ","top":[{"count":20,"item":"             "}]},"format":{"align":"left"}},{"id":169457646,"name":"Address Line 3","dataTypeName":"text","description":"3\nrd address line of the physical address \nfor this location","fieldName":"address_line_3","position":10,"renderTypeName":"text","tableColumnId":8179655,"width":187,"cachedContents":{"non_null":28355,"smallest":"               ","null":0,"largest":"               ","top":[{"count":20,"item":"               "}]},"format":{"align":"left"}},{"id":169457647,"name":"City","dataTypeName":"text","description":"City name of the physical address for \nthis location","fieldName":"city","position":11,"renderTypeName":"text","tableColumnId":8179656,"width":148,"cachedContents":{"non_null":28355,"smallest":"4EW YORK          ","null":0,"largest":"YULAN             ","top":[{"count":20,"item":"BUFFALO           "},{"count":19,"item":"ROCHESTER         "},{"count":18,"item":"SYRACUSE          "},{"count":17,"item":"YONKERS           "},{"count":16,"item":"MOUNT VERNON      "},{"count":15,"item":"BRONX             "},{"count":14,"item":"NEW YORK          "},{"count":13,"item":"BROOKLYN          "},{"count":12,"item":"ASTORIA           "},{"count":11,"item":"JACKSON HEIGHTS   "},{"count":10,"item":"JAMAICA           "},{"count":9,"item":"ELMHURST          "},{"count":8,"item":"LONG ISLAND CITY  "},{"count":7,"item":"RIDGEWOOD         "},{"count":6,"item":"CORONA            "},{"count":5,"item":"FLUSHING          "},{"count":4,"item":"OZONE PARK        "},{"count":3,"item":"WOODSIDE          "},{"count":2,"item":"RICHMOND HILL     "},{"count":1,"item":"FOREST HILLS      "}]},"format":{"align":"left"}},{"id":169457648,"name":"State","dataTypeName":"text","description":"2 character state code for the physical \naddress for this location","fieldName":"state","position":12,"renderTypeName":"text","tableColumnId":8179657,"width":123,"cachedContents":{"non_null":28355,"smallest":"NY","null":0,"largest":"NY","top":[{"count":20,"item":"NY"}]},"format":{"align":"left"}},{"id":169457649,"name":"Zip Code","dataTypeName":"number","description":"Zip code for the physical address for \nthis location","fieldName":"zip_code","position":13,"renderTypeName":"number","tableColumnId":8179658,"width":152,"cachedContents":{"non_null":28355,"smallest":"6390","sum":"334997029","null":0,"average":"11814.39001939693","largest":"14905","top":[{"count":20,"item":"10029"},{"count":19,"item":"10002"},{"count":18,"item":"11101"},{"count":17,"item":"11368"},{"count":16,"item":"11385"},{"count":15,"item":"11373"},{"count":14,"item":"11372"},{"count":13,"item":"11377"},{"count":12,"item":"11432"},{"count":11,"item":"11435"},{"count":10,"item":"11419"},{"count":9,"item":"11105"},{"count":8,"item":"11375"},{"count":7,"item":"11103"},{"count":6,"item":"11374"},{"count":5,"item":"11106"},{"count":4,"item":"11354"},{"count":3,"item":"11378"},{"count":2,"item":"11421"},{"count":1,"item":"11434"}]},"format":{"precisionStyle":"standard","align":"left","noCommas":"true"}},{"id":169457650,"name":"Square Footage","dataTypeName":"number","fieldName":"square_footage","position":14,"renderTypeName":"number","tableColumnId":21635506,"width":184,"cachedContents":{"non_null":28355,"smallest":"0","sum":"151863720","null":0,"average":"5355.800387938635","largest":"800000","top":[{"count":20,"item":"0"},{"count":19,"item":"2000"},{"count":18,"item":"1500"},{"count":17,"item":"1000"},{"count":16,"item":"1200"},{"count":15,"item":"800"},{"count":14,"item":"2500"},{"count":13,"item":"3000"},{"count":12,"item":"1800"},{"count":11,"item":"5000"},{"count":10,"item":"10000"},{"count":9,"item":"4000"},{"count":8,"item":"500"},{"count":7,"item":"600"},{"count":6,"item":"1600"},{"count":5,"item":"700"},{"count":4,"item":"900"},{"count":3,"item":"1100"},{"count":2,"item":"8000"},{"count":1,"item":"400"}]},"format":{}},{"id":169457651,"name":"Location","dataTypeName":"location","fieldName":"location","position":15,"renderTypeName":"location","tableColumnId":8179660,"width":196,"cachedContents":{"non_null":28355,"smallest":{"longitude":"-72.30174869299964","latitude":"40.93989944500049","human_address":"{\"address\":\"\",\"city\":\"BRIDGEHAMPTON\",\"state\":\"NY\",\"zip\":\"11932\"}"},"null":0,"largest":{"longitude":"-72.83257801499963","latitude":"40.95184821000049","human_address":"{\"address\":\"WILDWOOD STATE PARK\",\"city\":\"WADING RIVER\",\"state\":\"NY\",\"zip\":\"11792\"}"},"top":[{"count":20,"item":{"longitude":"-74.07728105399963","latitude":"40.643506190000494","human_address":"{\"address\":\"105 STUYVESANT PLACE\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10301\"}"}},{"count":19,"item":{"longitude":"-74.14904386899963","latitude":"40.624107507000474","human_address":"{\"address\":\"950 RICHMOND AVE\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10314\"}"}},{"count":18,"item":{"longitude":"-74.13193853099966","latitude":"40.56435765700047","human_address":"{\"address\":\"3155 AMBOY RD\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10306\"}"}},{"count":17,"item":{"longitude":"-74.07591446099963","latitude":"40.636006214000474","human_address":"{\"address\":\"248 BAY ST\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10301\"}"}},{"count":16,"item":{"longitude":"-74.13266200799967","latitude":"40.63720455200047","human_address":"{\"address\":\"151 VREELAND ST\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10302\"}"}},{"count":15,"item":{"longitude":"-74.07674308299966","latitude":"40.62711631700046","human_address":"{\"address\":\"99 WATER ST\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10304\"}"}},{"count":14,"item":{"longitude":"-74.11812189399967","latitude":"40.63446295500046","human_address":"{\"address\":\"1062 CASTLETON AVE\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10310\"}"}},{"count":13,"item":{"longitude":"-74.12052463599963","latitude":"40.63424646800047","human_address":"{\"address\":\"1138 CASTLETON AVE\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10310\"}"}},{"count":12,"item":{"longitude":"-74.24185748799965","latitude":"40.51084900800049","human_address":"{\"address\":\"7344 AMBOY RD\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10307\"}"}},{"count":11,"item":{"longitude":"-74.08099557499963","latitude":"40.637129797000455","human_address":"{\"address\":\"149 VICTORY BLVD\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10301\"}"}},{"count":10,"item":{"longitude":"-74.06803202799966","latitude":"40.61673285800049","human_address":"{\"address\":\"1071 BAY ST\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10305\"}"}},{"count":9,"item":{"longitude":"-74.13453631799968","latitude":"40.63632217200046","human_address":"{\"address\":\"203 PORT RICHMOND AVE\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10302\"}"}},{"count":8,"item":{"longitude":"-74.10819548299963","latitude":"40.645226022000486","human_address":"{\"address\":\"1125 RICHMOND TERRACE\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10310\"}"}},{"count":7,"item":{"longitude":"-74.14608802899966","latitude":"40.6338864170005","human_address":"{\"address\":\"166 MORNINGSTAR RD\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10303\"}"}},{"count":6,"item":{"longitude":"-74.14654835399966","latitude":"40.61020816400048","human_address":"{\"address\":\"2500A VICTORY BLVD\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10314\"}"}},{"count":5,"item":{"longitude":"-74.11326795699966","latitude":"40.57232190700046","human_address":"{\"address\":\"268 NEW DORP LN\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10306\"}"}},{"count":4,"item":{"longitude":"-74.06828251299964","latitude":"40.59265918000045","human_address":"{\"address\":\"274 SAND LN\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10305\"}"}},{"count":3,"item":{"longitude":"-74.24129571499964","latitude":"40.511181182000485","human_address":"{\"address\":\"7319 AMBOY RD\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10307\"}"}},{"count":2,"item":{"longitude":"-74.08571296999963","latitude":"40.63406429100047","human_address":"{\"address\":\"327 VICTORY BLVD\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10301\"}"}},{"count":1,"item":{"longitude":"-74.16506334299964","latitude":"40.62707022400048","human_address":"{\"address\":\"2264 FOREST AVE\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10303\"}"}}]},"format":{},"subColumnTypes":["human_address","latitude","longitude","machine_address","needs_recoding"]}],"grants":[{"inherited":false,"type":"viewer","flags":["public"]}],"metadata":{"custom_fields":{"Dataset Summary":{"Granularity":"County","Coverage":"Statewide","Data Frequency":"Biennially","Posting Frequency":"Annually","Units":"Establishment","Dataset Owner":"Division of Food Safety & Inspection","Organization":"Division of Food Safety & Inspection","Time Period":"Snapshot"},"Disclaimers":{"Limitations":"This dataset is from a snap-shot in time and may not always reflect the day-to-day operations of an establishment."},"Dataset Information":{"Agency":"Agriculture and Markets, Department of"},"Local Data":{"County Filter":"Yes","County_Column":"county","Municipality_Column":"city","Municipality Filter":"Yes"}},"renderTypeConfig":{"visible":{"table":true}},"availableDisplayTypes":["table","fatrow","page"],"rdfSubject":"0","attachments":[{"assetId":"","blobId":"5CFC751A-D71C-4B73-AB73-4EB25BFCDB89","name":"NYSDAM_RetailFoodStores_Overview.pdf","filename":"NYSDAM_RetailFoodStores_Overview.pdf"},{"assetId":"nQmIjwR3EmW9F6fHgph6wYyFEevnLQ7WrygWk49NyFY","name":"NYSDAM_RetailFoodStores_DataFileLayout.pdf","filename":"NYSDAM_RetailFoodStores_DataFileLayout.pdf"},{"assetId":"UBDP3oW2f-K767I4f51EJaIUO8eNGPrAQQj8tSvBhbo","name":"EstabType_CodeReference.pdf","filename":"EstabType_CodeReference.pdf"}]},"owner":{"id":"xzik-pf59","displayName":"NY Open Data","profileImageUrlLarge":"/images/profile/5700/9521/image_large.jpg","profileImageUrlMedium":"/images/profile/5700/9521/image_thumb.jpg","profileImageUrlSmall":"/images/profile/5700/9521/image_tiny.jpg","roleName":"publisher","screenName":"NY Open Data","rights":["create_datasets","edit_others_datasets","edit_nominations","approve_nominations","moderate_comments","manage_stories","feature_items","change_configurations","view_domain","view_others_datasets","create_pages","edit_pages","view_goals","view_dashboards","edit_goals","edit_dashboards"]},"query":{},"rights":["read"],"tableAuthor":{"id":"xzik-pf59","displayName":"NY Open Data","profileImageUrlLarge":"/images/profile/5700/9521/image_large.jpg","profileImageUrlMedium":"/images/profile/5700/9521/image_thumb.jpg","profileImageUrlSmall":"/images/profile/5700/9521/image_tiny.jpg","roleName":"publisher","screenName":"NY Open Data","rights":["create_datasets","edit_others_datasets","edit_nominations","approve_nominations","moderate_comments","manage_stories","feature_items","change_configurations","view_domain","view_others_datasets","create_pages","edit_pages","view_goals","view_dashboards","edit_goals","edit_dashboards"]},"tags":["retail food store","food safety","license"],"flags":["default"]},"options":{"mode":"tree","modes":["code","form","text","tree","view"]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-450703a5a431f0bdeb2a" style="width:672px;height:480px;" class="jsonedit html-widget"></div>
+<script type="application/json" data-for="htmlwidget-450703a5a431f0bdeb2a">{"x":{"data":{"id":"9a8c-vfzj","name":"Retail Food Stores","attribution":"New York State Department of Agriculture and Markets","attributionLink":"http://www.agriculture.ny.gov/FS/FSHome.html","averageRating":0,"category":"Economic Development","createdAt":1361890199,"description":"A listing of all retail food stores which are licensed by the Department of Agriculture and Markets.","displayType":"table","downloadCount":1519,"indexUpdatedAt":1414627105,"newBackend":false,"numberOfComments":0,"oid":9007657,"publicationAppendEnabled":false,"publicationDate":1412263696,"publicationGroup":700965,"publicationStage":"published","rowsUpdatedAt":1412262837,"rowsUpdatedBy":"xzik-pf59","tableId":1750091,"totalTimesRated":0,"viewCount":24373,"viewLastModified":1412263696,"viewType":"tabular","columns":[{"id":-1,"name":"sid","dataTypeName":"meta_data","fieldName":":sid","position":0,"renderTypeName":"meta_data","format":{}},{"id":-1,"name":"id","dataTypeName":"meta_data","fieldName":":id","position":0,"renderTypeName":"meta_data","format":{}},{"id":-1,"name":"position","dataTypeName":"meta_data","fieldName":":position","position":0,"renderTypeName":"meta_data","format":{}},{"id":-1,"name":"created_at","dataTypeName":"meta_data","fieldName":":created_at","position":0,"renderTypeName":"meta_data","format":{}},{"id":-1,"name":"created_meta","dataTypeName":"meta_data","fieldName":":created_meta","position":0,"renderTypeName":"meta_data","format":{}},{"id":-1,"name":"updated_at","dataTypeName":"meta_data","fieldName":":updated_at","position":0,"renderTypeName":"meta_data","format":{}},{"id":-1,"name":"updated_meta","dataTypeName":"meta_data","fieldName":":updated_meta","position":0,"renderTypeName":"meta_data","format":{}},{"id":-1,"name":"meta","dataTypeName":"meta_data","fieldName":":meta","position":0,"renderTypeName":"meta_data","format":{}},{"id":169457637,"name":"County","dataTypeName":"text","description":"County this location is in","fieldName":"county","position":1,"renderTypeName":"text","tableColumnId":8179659,"width":137,"cachedContents":{"non_null":28355,"smallest":"Albany","null":0,"largest":"Yates","top":[{"count":20,"item":"Albany"},{"count":19,"item":"Broome"},{"count":18,"item":"Chautauqua"},{"count":17,"item":"Chemung"},{"count":16,"item":"Clinton"},{"count":15,"item":"Columbia"},{"count":14,"item":"Dutchess"},{"count":13,"item":"Erie"},{"count":12,"item":"Jefferson"},{"count":11,"item":"Monroe"},{"count":10,"item":"Nassau"},{"count":9,"item":"Niagara"},{"count":8,"item":"Oneida"},{"count":7,"item":"Onondaga"},{"count":6,"item":"Ontario"},{"count":5,"item":"Orange"},{"count":4,"item":"Oswego"},{"count":3,"item":"Rensselaer"},{"count":2,"item":"Rockland"},{"count":1,"item":"St. Lawrence"}]},"format":{"align":"left"}},{"id":169457638,"name":"License Number","dataTypeName":"text","description":"License number for this location","fieldName":"license_number","position":2,"renderTypeName":"text","tableColumnId":8179648,"width":183,"cachedContents":{"non_null":28355,"smallest":"100001","null":0,"largest":"95419","top":[{"count":20,"item":"641351"},{"count":19,"item":"641240"},{"count":18,"item":"641202"},{"count":17,"item":"641298"},{"count":16,"item":"641203"},{"count":15,"item":"641595"},{"count":14,"item":"641000"},{"count":13,"item":"641001"},{"count":12,"item":"641002"},{"count":11,"item":"641482"},{"count":10,"item":"641198"},{"count":9,"item":"641448"},{"count":8,"item":"641192"},{"count":7,"item":"641081"},{"count":6,"item":"641256"},{"count":5,"item":"641079"},{"count":4,"item":"641348"},{"count":3,"item":"641562"},{"count":2,"item":"641506"},{"count":1,"item":"641193"}]},"format":{"precisionStyle":"standard","noCommas":"true","align":"center"}},{"id":169457639,"name":"Operation Type","dataTypeName":"text","description":"Indicates the type of operation this \nlicensed entity conducts","fieldName":"operation_type","position":3,"renderTypeName":"text","tableColumnId":8179649,"width":176,"cachedContents":{"non_null":28355,"smallest":"Store","null":0,"largest":"Store","top":[{"count":20,"item":"Store"}]},"format":{"align":"center"}},{"id":169457640,"name":"Estab Type","dataTypeName":"text","fieldName":"estab_type","position":4,"renderTypeName":"text","tableColumnId":21635505,"width":162,"cachedContents":{"non_null":28355,"smallest":"A     ","null":0,"largest":"JWBCA ","top":[{"count":20,"item":"JAC   "},{"count":19,"item":"A     "},{"count":18,"item":"JABH  "},{"count":17,"item":"JAS   "},{"count":16,"item":"JABC  "},{"count":15,"item":"JACD  "},{"count":14,"item":"JABHK "},{"count":13,"item":"JAB   "},{"count":12,"item":"JACDK "},{"count":11,"item":"JACK  "},{"count":10,"item":"JACH  "},{"count":9,"item":"JABCHK"},{"count":8,"item":"JADK  "},{"count":7,"item":"JAD   "},{"count":6,"item":"JAW   "},{"count":5,"item":"JAM   "},{"count":4,"item":"JACDH "},{"count":3,"item":"JABCH "},{"count":2,"item":"JACHK "},{"count":1,"item":"JACO  "}]},"format":{}},{"id":169457641,"name":"Entity Name","dataTypeName":"text","description":"Name of this licensed entity","fieldName":"entity_name","position":5,"renderTypeName":"text","tableColumnId":8179650,"width":232,"cachedContents":{"non_null":28355,"smallest":"$1 DEPOT INC                     ","null":0,"largest":"ZZ PETROLEUM INC                 ","top":[{"count":20,"item":"CVS ALBANY LLC                   "},{"count":19,"item":"WALGREEN EASTERN CO INC          "},{"count":18,"item":"PORT RICHMOND DISCOUNT INC       "},{"count":17,"item":"WATERFRONT GAS&CONVENIENCE LLC   "},{"count":16,"item":"TAMAYO ALEJANDRO                 "},{"count":15,"item":"KANG SUNG HWAN                   "},{"count":14,"item":"YH NEW DORP INC                  "},{"count":13,"item":"EL JARDIN DELI & GROCERY INC     "},{"count":12,"item":"ANTONIOS GOURMET LLC             "},{"count":11,"item":"CONVENIENCE DISCOUNT INC         "},{"count":10,"item":"FAMILY DOLLAR STORES OF NY INC   "},{"count":9,"item":"HYLAN CONVENIENCE INC            "},{"count":8,"item":"DOLLAR TREE STORES INC           "},{"count":7,"item":"MSZ CORP                         "},{"count":6,"item":"ABOUNAJI DELI&GROCERY INC        "}]},"format":{"align":"left"}},{"id":169457642,"name":"DBA Name","dataTypeName":"text","description":"Name this licensed entity is doing \nbusiness as","fieldName":"dba_name","position":6,"renderTypeName":"text","tableColumnId":8179651,"width":196,"cachedContents":{"non_null":28355,"smallest":"                       ","null":0,"largest":"ZW DELI&GROCERY        ","top":[{"count":20,"item":"STUYVESANT PL DELI & GR"},{"count":19,"item":"RICHMOND DELI          "},{"count":18,"item":"NET COST MARKETS       "},{"count":17,"item":"DIANES DELI            "},{"count":16,"item":"EHR GROCERY            "},{"count":15,"item":"KING DELI OF THE ISLAND"},{"count":14,"item":"AFRICAN CARIB MKT      "},{"count":13,"item":"FAMILY DELI            "},{"count":12,"item":"SOUTH SHORE DELI       "},{"count":11,"item":"VICTORY BLVD QUICK STOP"},{"count":10,"item":"TOP TOMATO #5          "},{"count":9,"item":"PORT RICHMOND DISCOUNT "},{"count":8,"item":"WATERFRONT GAS&CNVNC   "},{"count":7,"item":"ACAPULCO BAKERY        "},{"count":6,"item":"NEW HAPPY FARM         "},{"count":5,"item":"YH NEW DORP            "},{"count":4,"item":"EL JARDIN DELI & GRCRY "},{"count":3,"item":"ANTONIOS GOURMET       "},{"count":2,"item":"CONVENIENCE DISCOUNT   "},{"count":1,"item":"FAMILY DOLLAR #7795    "}]},"format":{"align":"left"}},{"id":169457643,"name":"Street Number","dataTypeName":"text","description":"Number of the location on a street","fieldName":"street_number","position":7,"renderTypeName":"text","tableColumnId":8179652,"width":174,"cachedContents":{"non_null":28023,"smallest":"1","null":332,"largest":"Oct-40","top":[{"count":20,"item":"151"},{"count":19,"item":"99"},{"count":18,"item":"1062"},{"count":17,"item":"1138"},{"count":16,"item":"7344"},{"count":15,"item":"149"},{"count":14,"item":"1071"},{"count":13,"item":"203"},{"count":12,"item":"1125"},{"count":11,"item":"166"},{"count":10,"item":"2500A"},{"count":9,"item":"268"},{"count":8,"item":"274"},{"count":7,"item":"7319"},{"count":6,"item":"327"},{"count":5,"item":"2264"},{"count":4,"item":"1150"},{"count":3,"item":"3231"},{"count":2,"item":"4300"},{"count":1,"item":"87"}]},"format":{"align":"center"}},{"id":169457644,"name":"Street Name","dataTypeName":"text","description":"1\nst address line of the physical address \nfor this location","fieldName":"street_name","position":8,"renderTypeName":"text","tableColumnId":8179653,"width":232,"cachedContents":{"non_null":28355,"smallest":"                             ","null":0,"largest":"ZEREGA AVE                  ","top":[{"count":20,"item":"BROADWAY                    "},{"count":19,"item":"JAMAICA AVE               "},{"count":18,"item":"HYLAN BLVD                  "},{"count":17,"item":"PORT RICHMOND AVE            "},{"count":16,"item":"VICTORY BLVD                "},{"count":15,"item":"RICHMOND AVE                "},{"count":14,"item":"AMBOY RD                    "},{"count":13,"item":"FOREST AVE                  "},{"count":12,"item":"RICHMOND TERR               "},{"count":11,"item":"SOUTH AVE                    "},{"count":10,"item":"CLOVE RD                    "},{"count":9,"item":"FOREST AVE              "},{"count":8,"item":"BROOK ST                      "},{"count":7,"item":"VICTORY BLVD                 "},{"count":6,"item":"NEW DORP LN                    "},{"count":5,"item":"VICTORY BLVD            "},{"count":4,"item":"RHINE AVE                    "},{"count":3,"item":"MANOR RD                     "},{"count":2,"item":"FOREST AVE                   "},{"count":1,"item":"N RAILROAD AVE              "}]},"format":{"align":"left"}},{"id":169457645,"name":"Address Line 2","dataTypeName":"text","description":"2\nnd address line of the physical address \nfor this location","fieldName":"address_line_2","position":9,"renderTypeName":"text","tableColumnId":8179654,"width":188,"cachedContents":{"non_null":28355,"smallest":"             ","null":0,"largest":"             ","top":[{"count":20,"item":"             "}]},"format":{"align":"left"}},{"id":169457646,"name":"Address Line 3","dataTypeName":"text","description":"3\nrd address line of the physical address \nfor this location","fieldName":"address_line_3","position":10,"renderTypeName":"text","tableColumnId":8179655,"width":187,"cachedContents":{"non_null":28355,"smallest":"               ","null":0,"largest":"               ","top":[{"count":20,"item":"               "}]},"format":{"align":"left"}},{"id":169457647,"name":"City","dataTypeName":"text","description":"City name of the physical address for \nthis location","fieldName":"city","position":11,"renderTypeName":"text","tableColumnId":8179656,"width":148,"cachedContents":{"non_null":28355,"smallest":"4EW YORK          ","null":0,"largest":"YULAN             ","top":[{"count":20,"item":"BUFFALO           "},{"count":19,"item":"ROCHESTER         "},{"count":18,"item":"SYRACUSE          "},{"count":17,"item":"YONKERS           "},{"count":16,"item":"MOUNT VERNON      "},{"count":15,"item":"BRONX             "},{"count":14,"item":"NEW YORK          "},{"count":13,"item":"BROOKLYN          "},{"count":12,"item":"ASTORIA           "},{"count":11,"item":"JACKSON HEIGHTS   "},{"count":10,"item":"JAMAICA           "},{"count":9,"item":"ELMHURST          "},{"count":8,"item":"LONG ISLAND CITY  "},{"count":7,"item":"RIDGEWOOD         "},{"count":6,"item":"CORONA            "},{"count":5,"item":"FLUSHING          "},{"count":4,"item":"OZONE PARK        "},{"count":3,"item":"WOODSIDE          "},{"count":2,"item":"RICHMOND HILL     "},{"count":1,"item":"FOREST HILLS      "}]},"format":{"align":"left"}},{"id":169457648,"name":"State","dataTypeName":"text","description":"2 character state code for the physical \naddress for this location","fieldName":"state","position":12,"renderTypeName":"text","tableColumnId":8179657,"width":123,"cachedContents":{"non_null":28355,"smallest":"NY","null":0,"largest":"NY","top":[{"count":20,"item":"NY"}]},"format":{"align":"left"}},{"id":169457649,"name":"Zip Code","dataTypeName":"number","description":"Zip code for the physical address for \nthis location","fieldName":"zip_code","position":13,"renderTypeName":"number","tableColumnId":8179658,"width":152,"cachedContents":{"non_null":28355,"smallest":"6390","sum":"334997029","null":0,"average":"11814.39001939693","largest":"14905","top":[{"count":20,"item":"10029"},{"count":19,"item":"10002"},{"count":18,"item":"11101"},{"count":17,"item":"11368"},{"count":16,"item":"11385"},{"count":15,"item":"11373"},{"count":14,"item":"11372"},{"count":13,"item":"11377"},{"count":12,"item":"11432"},{"count":11,"item":"11435"},{"count":10,"item":"11419"},{"count":9,"item":"11105"},{"count":8,"item":"11375"},{"count":7,"item":"11103"},{"count":6,"item":"11374"},{"count":5,"item":"11106"},{"count":4,"item":"11354"},{"count":3,"item":"11378"},{"count":2,"item":"11421"},{"count":1,"item":"11434"}]},"format":{"precisionStyle":"standard","align":"left","noCommas":"true"}},{"id":169457650,"name":"Square Footage","dataTypeName":"number","fieldName":"square_footage","position":14,"renderTypeName":"number","tableColumnId":21635506,"width":184,"cachedContents":{"non_null":28355,"smallest":"0","sum":"151863720","null":0,"average":"5355.800387938635","largest":"800000","top":[{"count":20,"item":"0"},{"count":19,"item":"2000"},{"count":18,"item":"1500"},{"count":17,"item":"1000"},{"count":16,"item":"1200"},{"count":15,"item":"800"},{"count":14,"item":"2500"},{"count":13,"item":"3000"},{"count":12,"item":"1800"},{"count":11,"item":"5000"},{"count":10,"item":"10000"},{"count":9,"item":"4000"},{"count":8,"item":"500"},{"count":7,"item":"600"},{"count":6,"item":"1600"},{"count":5,"item":"700"},{"count":4,"item":"900"},{"count":3,"item":"1100"},{"count":2,"item":"8000"},{"count":1,"item":"400"}]},"format":{}},{"id":169457651,"name":"Location","dataTypeName":"location","fieldName":"location","position":15,"renderTypeName":"location","tableColumnId":8179660,"width":196,"cachedContents":{"non_null":28355,"smallest":{"longitude":"-72.30174869299964","latitude":"40.93989944500049","human_address":"{\"address\":\"\",\"city\":\"BRIDGEHAMPTON\",\"state\":\"NY\",\"zip\":\"11932\"}"},"null":0,"largest":{"longitude":"-72.83257801499963","latitude":"40.95184821000049","human_address":"{\"address\":\"WILDWOOD STATE PARK\",\"city\":\"WADING RIVER\",\"state\":\"NY\",\"zip\":\"11792\"}"},"top":[{"count":20,"item":{"longitude":"-74.07728105399963","latitude":"40.643506190000494","human_address":"{\"address\":\"105 STUYVESANT PLACE\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10301\"}"}},{"count":19,"item":{"longitude":"-74.14904386899963","latitude":"40.624107507000474","human_address":"{\"address\":\"950 RICHMOND AVE\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10314\"}"}},{"count":18,"item":{"longitude":"-74.13193853099966","latitude":"40.56435765700047","human_address":"{\"address\":\"3155 AMBOY RD\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10306\"}"}},{"count":17,"item":{"longitude":"-74.07591446099963","latitude":"40.636006214000474","human_address":"{\"address\":\"248 BAY ST\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10301\"}"}},{"count":16,"item":{"longitude":"-74.13266200799967","latitude":"40.63720455200047","human_address":"{\"address\":\"151 VREELAND ST\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10302\"}"}},{"count":15,"item":{"longitude":"-74.07674308299966","latitude":"40.62711631700046","human_address":"{\"address\":\"99 WATER ST\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10304\"}"}},{"count":14,"item":{"longitude":"-74.11812189399967","latitude":"40.63446295500046","human_address":"{\"address\":\"1062 CASTLETON AVE\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10310\"}"}},{"count":13,"item":{"longitude":"-74.12052463599963","latitude":"40.63424646800047","human_address":"{\"address\":\"1138 CASTLETON AVE\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10310\"}"}},{"count":12,"item":{"longitude":"-74.24185748799965","latitude":"40.51084900800049","human_address":"{\"address\":\"7344 AMBOY RD\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10307\"}"}},{"count":11,"item":{"longitude":"-74.08099557499963","latitude":"40.637129797000455","human_address":"{\"address\":\"149 VICTORY BLVD\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10301\"}"}},{"count":10,"item":{"longitude":"-74.06803202799966","latitude":"40.61673285800049","human_address":"{\"address\":\"1071 BAY ST\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10305\"}"}},{"count":9,"item":{"longitude":"-74.13453631799968","latitude":"40.63632217200046","human_address":"{\"address\":\"203 PORT RICHMOND AVE\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10302\"}"}},{"count":8,"item":{"longitude":"-74.10819548299963","latitude":"40.645226022000486","human_address":"{\"address\":\"1125 RICHMOND TERRACE\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10310\"}"}},{"count":7,"item":{"longitude":"-74.14608802899966","latitude":"40.6338864170005","human_address":"{\"address\":\"166 MORNINGSTAR RD\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10303\"}"}},{"count":6,"item":{"longitude":"-74.14654835399966","latitude":"40.61020816400048","human_address":"{\"address\":\"2500A VICTORY BLVD\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10314\"}"}},{"count":5,"item":{"longitude":"-74.11326795699966","latitude":"40.57232190700046","human_address":"{\"address\":\"268 NEW DORP LN\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10306\"}"}},{"count":4,"item":{"longitude":"-74.06828251299964","latitude":"40.59265918000045","human_address":"{\"address\":\"274 SAND LN\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10305\"}"}},{"count":3,"item":{"longitude":"-74.24129571499964","latitude":"40.511181182000485","human_address":"{\"address\":\"7319 AMBOY RD\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10307\"}"}},{"count":2,"item":{"longitude":"-74.08571296999963","latitude":"40.63406429100047","human_address":"{\"address\":\"327 VICTORY BLVD\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10301\"}"}},{"count":1,"item":{"longitude":"-74.16506334299964","latitude":"40.62707022400048","human_address":"{\"address\":\"2264 FOREST AVE\",\"city\":\"STATEN ISLAND\",\"state\":\"NY\",\"zip\":\"10303\"}"}}]},"format":{},"subColumnTypes":["human_address","latitude","longitude","machine_address","needs_recoding"]}],"grants":[{"inherited":false,"type":"viewer","flags":["public"]}],"metadata":{"custom_fields":{"Dataset Summary":{"Granularity":"County","Coverage":"Statewide","Data Frequency":"Biennially","Posting Frequency":"Annually","Units":"Establishment","Dataset Owner":"Division of Food Safety & Inspection","Organization":"Division of Food Safety & Inspection","Time Period":"Snapshot"},"Disclaimers":{"Limitations":"This dataset is from a snap-shot in time and may not always reflect the day-to-day operations of an establishment."},"Dataset Information":{"Agency":"Agriculture and Markets, Department of"},"Local Data":{"County Filter":"Yes","County_Column":"county","Municipality_Column":"city","Municipality Filter":"Yes"}},"renderTypeConfig":{"visible":{"table":true}},"availableDisplayTypes":["table","fatrow","page"],"rdfSubject":"0","attachments":[{"assetId":"","blobId":"5CFC751A-D71C-4B73-AB73-4EB25BFCDB89","name":"NYSDAM_RetailFoodStores_Overview.pdf","filename":"NYSDAM_RetailFoodStores_Overview.pdf"},{"assetId":"nQmIjwR3EmW9F6fHgph6wYyFEevnLQ7WrygWk49NyFY","name":"NYSDAM_RetailFoodStores_DataFileLayout.pdf","filename":"NYSDAM_RetailFoodStores_DataFileLayout.pdf"},{"assetId":"UBDP3oW2f-K767I4f51EJaIUO8eNGPrAQQj8tSvBhbo","name":"EstabType_CodeReference.pdf","filename":"EstabType_CodeReference.pdf"}]},"owner":{"id":"xzik-pf59","displayName":"NY Open Data","profileImageUrlLarge":"/images/profile/5700/9521/image_large.jpg","profileImageUrlMedium":"/images/profile/5700/9521/image_thumb.jpg","profileImageUrlSmall":"/images/profile/5700/9521/image_tiny.jpg","roleName":"publisher","screenName":"NY Open Data","rights":["create_datasets","edit_others_datasets","edit_nominations","approve_nominations","moderate_comments","manage_stories","feature_items","change_configurations","view_domain","view_others_datasets","create_pages","edit_pages","view_goals","view_dashboards","edit_goals","edit_dashboards"]},"query":{},"rights":["read"],"tableAuthor":{"id":"xzik-pf59","displayName":"NY Open Data","profileImageUrlLarge":"/images/profile/5700/9521/image_large.jpg","profileImageUrlMedium":"/images/profile/5700/9521/image_thumb.jpg","profileImageUrlSmall":"/images/profile/5700/9521/image_tiny.jpg","roleName":"publisher","screenName":"NY Open Data","rights":["create_datasets","edit_others_datasets","edit_nominations","approve_nominations","moderate_comments","manage_stories","feature_items","change_configurations","view_domain","view_others_datasets","create_pages","edit_pages","view_goals","view_dashboards","edit_goals","edit_dashboards"]},"tags":["retail food store","food safety","license"],"flags":["default"]},"options":{"mode":"tree","modes":["code","form","text","tree","view"]}},"evals":[],"jsHooks":[]}</script>
 <p>The <code>columns</code> component is especially valuable, because it tells us what data we have for each food market over in the <code>data</code> component. This is an example of a common but, in my opinion, dangerous practice of storing information with no explanatory names and providing a separate lexicon. This is kind of like a CSV with variables named <code>X1</code> through <code>Xn</code> or no names at all.</p>
-<p>We need to pull out the <code>name</code> elements of <code>columns</code>. We kick off with <code>[[</code> vector indexing into a nested list, to drill down to the <code>columns</code> sub-component. Then <code>map_chr(..., &quot;name&quot;)</code> to grab the <code>name</code>s as character vector.</p>
+<p>We need to pull out the <code>name</code> elements of <code>columns</code>. We kick off with <code>[[</code> vector indexing into a nested list, to drill down to the <code>columns</code> sub-component. Then <code>map_chr(..., "name")</code> to grab the <code>name</code>s as character vector.</p>
 <pre class="r"><code>(cnames &lt;- food_mkts_raw[[c(&quot;meta&quot;, &quot;view&quot;, &quot;columns&quot;)]] %&gt;% 
    map_chr(&quot;name&quot;))
 #&gt;  [1] &quot;sid&quot;            &quot;id&quot;             &quot;position&quot;       &quot;created_at&quot;    
@@ -409,18 +497,17 @@ food_mkts_raw &lt;- fromJSON(&quot;foodMarkets/retail_food_markets.json&quot;,
 <p>Ideally, I would use <code>map_df()</code> like this for food markets instead of just the first 3:</p>
 <pre class="r"><code>food_mkts[1:3] %&gt;% 
   map_df(`[`, to_process)
-#&gt; # A tibble: 3 × 22
-#&gt;     sid                                   id position created_at
-#&gt;   &lt;int&gt;                                &lt;chr&gt;    &lt;int&gt;      &lt;int&gt;
-#&gt; 1     1 D943D633-8DB5-4740-B5F4-06AAB6FC52E2        1 1412261567
-#&gt; 2     2 7A069C98-90B2-4B11-A4A7-3C4761D14DDD        2 1412261567
-#&gt; 3     3 68DBE61E-ACF4-4803-BD90-87380FDAA4F9        3 1412261567
-#&gt; # ... with 18 more variables: created_meta &lt;chr&gt;, updated_at &lt;int&gt;,
-#&gt; #   updated_meta &lt;chr&gt;, meta &lt;chr&gt;, County &lt;chr&gt;, `License Number` &lt;chr&gt;,
-#&gt; #   `Operation Type` &lt;chr&gt;, `Estab Type` &lt;chr&gt;, `Entity Name` &lt;chr&gt;, `DBA
-#&gt; #   Name` &lt;chr&gt;, `Street Number` &lt;chr&gt;, `Street Name` &lt;chr&gt;, `Address Line
-#&gt; #   2` &lt;chr&gt;, `Address Line 3` &lt;chr&gt;, City &lt;chr&gt;, State &lt;chr&gt;, `Zip
-#&gt; #   Code` &lt;chr&gt;, `Square Footage` &lt;chr&gt;</code></pre>
+#&gt; # A tibble: 3 x 22
+#&gt;     sid id    position created_at created_meta updated_at updated_meta meta 
+#&gt;   &lt;int&gt; &lt;chr&gt;    &lt;int&gt;      &lt;int&gt; &lt;chr&gt;             &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;
+#&gt; 1     1 D943…        1 1412261567 707400       1412262737 708543       &quot;{\n…
+#&gt; 2     2 7A06…        2 1412261567 707400       1412262426 708543       &quot;{\n…
+#&gt; 3     3 68DB…        3 1412261567 707400       1412262278 708543       &quot;{\n…
+#&gt; # … with 14 more variables: County &lt;chr&gt;, `License Number` &lt;chr&gt;, `Operation
+#&gt; #   Type` &lt;chr&gt;, `Estab Type` &lt;chr&gt;, `Entity Name` &lt;chr&gt;, `DBA Name` &lt;chr&gt;,
+#&gt; #   `Street Number` &lt;chr&gt;, `Street Name` &lt;chr&gt;, `Address Line 2` &lt;chr&gt;,
+#&gt; #   `Address Line 3` &lt;chr&gt;, City &lt;chr&gt;, State &lt;chr&gt;, `Zip Code` &lt;chr&gt;, `Square
+#&gt; #   Footage` &lt;chr&gt;</code></pre>
 <p>But I have learned the hard way that the <code>NULL</code>s are a dealkiller.</p>
 <p>How does <code>map_df()</code> actually work? First, it calls <code>map()</code> and, in my application, gets the sub-list of non-<code>Location</code> variables for each food market. Then a list of these lists is shipped off to <code>dplyr::bind_rows()</code> for row-binding and type conversion. But the presence of <code>NULL</code>s breaks this workflow when there are markets, like the one below, that lack, say, a street number. Basically most of R’s data-frame-making facilities balk at <code>NULL</code>s. Here is some exploration of that.</p>
 <pre class="r"><code>food_mkts[[67]][14:16]
@@ -436,7 +523,7 @@ data.frame(food_mkts[[67]][14:16])
 #&gt; Error in (function (..., row.names = NULL, check.rows = FALSE, check.names = TRUE, : arguments imply differing number of rows: 1, 0
 food_mkts[66:68] %&gt;% 
   map_df(`[`, to_process)
-#&gt; Error in eval(expr, envir, enclos): incompatible sizes (1 != 0)</code></pre>
+#&gt; Error: Internal error in `vec_proxy_assign_opts()`: `proxy` of type `character` incompatible with `value` proxy of type `NULL`.</code></pre>
 <p>I want to rescue this workflow, because the automatic type conversion from <code>dplyr::bind_rows()</code> is very appealing.</p>
 <p>Therefore, like Zev, I use a custom function <code>safe_extract()</code>. It’s a slightly expanded version of <code>[</code> that replaces <code>NULL</code> with <code>NA</code>.</p>
 <pre class="r"><code>safe_extract &lt;- function(l, wut) {
@@ -457,25 +544,24 @@ safe_extract(food_mkts[[67]][14:16])
 <p>Now I can get a data frame easily.</p>
 <pre class="r"><code>(mkts_df &lt;- food_mkts %&gt;% 
     map_df(safe_extract, to_process))
-#&gt; # A tibble: 28,355 × 22
-#&gt;      sid                                   id position created_at
-#&gt;    &lt;int&gt;                                &lt;chr&gt;    &lt;int&gt;      &lt;int&gt;
-#&gt; 1      1 D943D633-8DB5-4740-B5F4-06AAB6FC52E2        1 1412261567
-#&gt; 2      2 7A069C98-90B2-4B11-A4A7-3C4761D14DDD        2 1412261567
-#&gt; 3      3 68DBE61E-ACF4-4803-BD90-87380FDAA4F9        3 1412261567
-#&gt; 4      4 9DA5A827-A0AD-4782-8CE2-5D6867B53293        4 1412261567
-#&gt; 5      5 5D624E4B-E4A8-4F3D-BF88-190663DF8FCF        5 1412261567
-#&gt; 6      6 86BC29A4-55DA-43C5-BDED-6EF2C92C3C8B        6 1412261567
-#&gt; 7      7 51EE0EB4-6D71-4C2E-AD44-E225A1A45987        7 1412261567
-#&gt; 8      8 22B148DF-F188-4245-8E69-1137F9A6064E        8 1412261567
-#&gt; 9      9 62526ABF-801E-46DE-97CD-05C2DDE6BB20        9 1412261567
-#&gt; 10    10 13153CBA-3E65-4D4D-9A4C-ACB24BCD33DF       10 1412261567
-#&gt; # ... with 28,345 more rows, and 18 more variables: created_meta &lt;chr&gt;,
-#&gt; #   updated_at &lt;int&gt;, updated_meta &lt;chr&gt;, meta &lt;chr&gt;, County &lt;chr&gt;,
-#&gt; #   `License Number` &lt;chr&gt;, `Operation Type` &lt;chr&gt;, `Estab Type` &lt;chr&gt;,
-#&gt; #   `Entity Name` &lt;chr&gt;, `DBA Name` &lt;chr&gt;, `Street Number` &lt;chr&gt;, `Street
-#&gt; #   Name` &lt;chr&gt;, `Address Line 2` &lt;chr&gt;, `Address Line 3` &lt;chr&gt;,
-#&gt; #   City &lt;chr&gt;, State &lt;chr&gt;, `Zip Code` &lt;chr&gt;, `Square Footage` &lt;chr&gt;</code></pre>
+#&gt; # A tibble: 28,355 x 22
+#&gt;      sid id    position created_at created_meta updated_at updated_meta meta 
+#&gt;    &lt;int&gt; &lt;chr&gt;    &lt;int&gt;      &lt;int&gt; &lt;chr&gt;             &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;
+#&gt;  1     1 D943…        1 1412261567 707400       1412262737 708543       &quot;{\n…
+#&gt;  2     2 7A06…        2 1412261567 707400       1412262426 708543       &quot;{\n…
+#&gt;  3     3 68DB…        3 1412261567 707400       1412262278 708543       &quot;{\n…
+#&gt;  4     4 9DA5…        4 1412261567 707400       1412262565 708543       &quot;{\n…
+#&gt;  5     5 5D62…        5 1412261567 707400       1412262177 708543       &quot;{\n…
+#&gt;  6     6 86BC…        6 1412261567 707400       1412262499 708543       &quot;{\n…
+#&gt;  7     7 51EE…        7 1412261567 707400       1412262135 708543       &quot;{\n…
+#&gt;  8     8 22B1…        8 1412261567 707400       1412261937 708543       &quot;{\n…
+#&gt;  9     9 6252…        9 1412261567 707400       1412262213 708543       &quot;{\n…
+#&gt; 10    10 1315…       10 1412261567 707400       1412261871 708543       &quot;{\n…
+#&gt; # … with 28,345 more rows, and 14 more variables: County &lt;chr&gt;, `License
+#&gt; #   Number` &lt;chr&gt;, `Operation Type` &lt;chr&gt;, `Estab Type` &lt;chr&gt;, `Entity
+#&gt; #   Name` &lt;chr&gt;, `DBA Name` &lt;chr&gt;, `Street Number` &lt;chr&gt;, `Street Name` &lt;chr&gt;,
+#&gt; #   `Address Line 2` &lt;chr&gt;, `Address Line 3` &lt;chr&gt;, City &lt;chr&gt;, State &lt;chr&gt;,
+#&gt; #   `Zip Code` &lt;chr&gt;, `Square Footage` &lt;chr&gt;</code></pre>
 <p>Victory is ours. Well, partial victory. We still need to deal with <code>Location</code>.</p>
 </div>
 <div id="rows-first-recap" class="section level3">
@@ -514,20 +600,20 @@ mkts_df &lt;- food_mkts %&gt;%
     city = map_chr(., &quot;City&quot;)
   )
 }
-#&gt; # A tibble: 28,355 × 2
-#&gt;                   dba_name               city
-#&gt;                      &lt;chr&gt;              &lt;chr&gt;
-#&gt; 1  PLAZA 23 TRUCK STOP     ALBANY            
-#&gt; 2  PRICE CHOPPER #245      WATERVLIET        
-#&gt; 3  PEACOCK                 ALBANY            
-#&gt; 4  FINYOUR FISHMONGER      GUILDERLAND       
-#&gt; 5  R&amp;A GROCERY STORE       ALBANY            
-#&gt; 6  ANTHONYS CHOC DIP FRUIT ALBANY            
-#&gt; 7  DOLLAR TREE #4168       GLENMONT          
-#&gt; 8  GREAT WALL EXPRESS ASIA SLINGERLANDS      
-#&gt; 9  INANC I OZBAY           ALBANY            
-#&gt; 10 SAGAMIA                 SLINGERLANDS      
-#&gt; # ... with 28,345 more rows</code></pre>
+#&gt; # A tibble: 28,355 x 2
+#&gt;    dba_name                  city                
+#&gt;    &lt;chr&gt;                     &lt;chr&gt;               
+#&gt;  1 &quot;PLAZA 23 TRUCK STOP    &quot; &quot;ALBANY            &quot;
+#&gt;  2 &quot;PRICE CHOPPER #245     &quot; &quot;WATERVLIET        &quot;
+#&gt;  3 &quot;PEACOCK                &quot; &quot;ALBANY            &quot;
+#&gt;  4 &quot;FINYOUR FISHMONGER     &quot; &quot;GUILDERLAND       &quot;
+#&gt;  5 &quot;R&amp;A GROCERY STORE      &quot; &quot;ALBANY            &quot;
+#&gt;  6 &quot;ANTHONYS CHOC DIP FRUIT&quot; &quot;ALBANY            &quot;
+#&gt;  7 &quot;DOLLAR TREE #4168      &quot; &quot;GLENMONT          &quot;
+#&gt;  8 &quot;GREAT WALL EXPRESS ASIA&quot; &quot;SLINGERLANDS      &quot;
+#&gt;  9 &quot;INANC I OZBAY          &quot; &quot;ALBANY            &quot;
+#&gt; 10 &quot;SAGAMIA                &quot; &quot;SLINGERLANDS      &quot;
+#&gt; # … with 28,345 more rows</code></pre>
 <p>Doing this for 22 variables is a drag, though it’s certainly possible, and even reasonable for the ingest of an important dataset.</p>
 <p>However, because I can, I store the type of each variable and do extraction + type conversion programmatically. This lets us explore more of the functional programming side of purrr.</p>
 <p>I exploit the variable types learned from the automatic type conversion in the “rows first” approach. Here’s a data frame with one row per variable, providing the expected class and the type-appropriate <code>map_*()</code> and <code>NA</code>. It will soon become clear why I use the specific variable names, <code>.f</code> and <code>.null</code>.</p>
@@ -538,26 +624,26 @@ mkts_df &lt;- food_mkts %&gt;%
           mapper = c(integer = &quot;map_int&quot;, character = &quot;map_chr&quot;)[type],
           .null = list(integer = NA_integer_,
                        character = NA_character_)[type]))
-#&gt; # A tibble: 22 × 5
-#&gt;                .f      type          vname  mapper     .null
-#&gt;             &lt;chr&gt;     &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;    &lt;list&gt;
-#&gt; 1             sid   integer            sid map_int &lt;int [1]&gt;
-#&gt; 2              id character             id map_chr &lt;chr [1]&gt;
-#&gt; 3        position   integer       position map_int &lt;int [1]&gt;
-#&gt; 4      created_at   integer     created_at map_int &lt;int [1]&gt;
-#&gt; 5    created_meta character   created_meta map_chr &lt;chr [1]&gt;
-#&gt; 6      updated_at   integer     updated_at map_int &lt;int [1]&gt;
-#&gt; 7    updated_meta character   updated_meta map_chr &lt;chr [1]&gt;
-#&gt; 8            meta character           meta map_chr &lt;chr [1]&gt;
-#&gt; 9          County character         county map_chr &lt;chr [1]&gt;
-#&gt; 10 License Number character license_number map_chr &lt;chr [1]&gt;
-#&gt; # ... with 12 more rows</code></pre>
+#&gt; # A tibble: 22 x 5
+#&gt;    .f             type      vname          mapper  .null       
+#&gt;    &lt;chr&gt;          &lt;chr&gt;     &lt;chr&gt;          &lt;chr&gt;   &lt;named list&gt;
+#&gt;  1 sid            integer   sid            map_int &lt;int [1]&gt;   
+#&gt;  2 id             character id             map_chr &lt;chr [1]&gt;   
+#&gt;  3 position       integer   position       map_int &lt;int [1]&gt;   
+#&gt;  4 created_at     integer   created_at     map_int &lt;int [1]&gt;   
+#&gt;  5 created_meta   character created_meta   map_chr &lt;chr [1]&gt;   
+#&gt;  6 updated_at     integer   updated_at     map_int &lt;int [1]&gt;   
+#&gt;  7 updated_meta   character updated_meta   map_chr &lt;chr [1]&gt;   
+#&gt;  8 meta           character meta           map_chr &lt;chr [1]&gt;   
+#&gt;  9 County         character county         map_chr &lt;chr [1]&gt;   
+#&gt; 10 License Number character license_number map_chr &lt;chr [1]&gt;   
+#&gt; # … with 12 more rows</code></pre>
 <p>Here’s how I could use <code>do.call()</code> to create one variable based on one row of this data frame.</p>
 <pre class="r"><code>i &lt;- 14 # DBA Name
 vdf[i, ]
-#&gt; # A tibble: 1 × 5
-#&gt;         .f      type    vname  mapper     .null
-#&gt;      &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;    &lt;list&gt;
+#&gt; # A tibble: 1 x 5
+#&gt;   .f       type      vname    mapper  .null       
+#&gt;   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;   &lt;named list&gt;
 #&gt; 1 DBA Name character dba_name map_chr &lt;chr [1]&gt;
 do.call(vdf$mapper[i],
         list(.x = food_mkts, .f = vdf$.f[i], .null = vdf$.null[[i]])) %&gt;% 
@@ -570,29 +656,28 @@ do.call(vdf$mapper[i],
 <pre class="r"><code>(mkts_df &lt;- invoke_map_df(.f = set_names(vdf$mapper, vdf$vname),
                           .x = transpose(vdf[c(&quot;.f&quot;, &quot;.null&quot;)]),
                           food_mkts))
-#&gt; # A tibble: 28,355 × 22
-#&gt;      sid                                   id position created_at
-#&gt;    &lt;int&gt;                                &lt;chr&gt;    &lt;int&gt;      &lt;int&gt;
-#&gt; 1      1 D943D633-8DB5-4740-B5F4-06AAB6FC52E2        1 1412261567
-#&gt; 2      2 7A069C98-90B2-4B11-A4A7-3C4761D14DDD        2 1412261567
-#&gt; 3      3 68DBE61E-ACF4-4803-BD90-87380FDAA4F9        3 1412261567
-#&gt; 4      4 9DA5A827-A0AD-4782-8CE2-5D6867B53293        4 1412261567
-#&gt; 5      5 5D624E4B-E4A8-4F3D-BF88-190663DF8FCF        5 1412261567
-#&gt; 6      6 86BC29A4-55DA-43C5-BDED-6EF2C92C3C8B        6 1412261567
-#&gt; 7      7 51EE0EB4-6D71-4C2E-AD44-E225A1A45987        7 1412261567
-#&gt; 8      8 22B148DF-F188-4245-8E69-1137F9A6064E        8 1412261567
-#&gt; 9      9 62526ABF-801E-46DE-97CD-05C2DDE6BB20        9 1412261567
-#&gt; 10    10 13153CBA-3E65-4D4D-9A4C-ACB24BCD33DF       10 1412261567
-#&gt; # ... with 28,345 more rows, and 18 more variables: created_meta &lt;chr&gt;,
-#&gt; #   updated_at &lt;int&gt;, updated_meta &lt;chr&gt;, meta &lt;chr&gt;, county &lt;chr&gt;,
+#&gt; # A tibble: 28,355 x 22
+#&gt;      sid id    position created_at created_meta updated_at updated_meta meta 
+#&gt;    &lt;int&gt; &lt;chr&gt;    &lt;int&gt;      &lt;int&gt; &lt;chr&gt;             &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;
+#&gt;  1     1 D943…        1 1412261567 707400       1412262737 708543       &quot;{\n…
+#&gt;  2     2 7A06…        2 1412261567 707400       1412262426 708543       &quot;{\n…
+#&gt;  3     3 68DB…        3 1412261567 707400       1412262278 708543       &quot;{\n…
+#&gt;  4     4 9DA5…        4 1412261567 707400       1412262565 708543       &quot;{\n…
+#&gt;  5     5 5D62…        5 1412261567 707400       1412262177 708543       &quot;{\n…
+#&gt;  6     6 86BC…        6 1412261567 707400       1412262499 708543       &quot;{\n…
+#&gt;  7     7 51EE…        7 1412261567 707400       1412262135 708543       &quot;{\n…
+#&gt;  8     8 22B1…        8 1412261567 707400       1412261937 708543       &quot;{\n…
+#&gt;  9     9 6252…        9 1412261567 707400       1412262213 708543       &quot;{\n…
+#&gt; 10    10 1315…       10 1412261567 707400       1412261871 708543       &quot;{\n…
+#&gt; # … with 28,345 more rows, and 14 more variables: county &lt;chr&gt;,
 #&gt; #   license_number &lt;chr&gt;, operation_type &lt;chr&gt;, estab_type &lt;chr&gt;,
-#&gt; #   entity_name &lt;chr&gt;, dba_name &lt;chr&gt;, street_number &lt;chr&gt;,
-#&gt; #   street_name &lt;chr&gt;, address_line_2 &lt;chr&gt;, address_line_3 &lt;chr&gt;,
-#&gt; #   city &lt;chr&gt;, state &lt;chr&gt;, zip_code &lt;chr&gt;, square_footage &lt;chr&gt;</code></pre>
+#&gt; #   entity_name &lt;chr&gt;, dba_name &lt;chr&gt;, street_number &lt;chr&gt;, street_name &lt;chr&gt;,
+#&gt; #   address_line_2 &lt;chr&gt;, address_line_3 &lt;chr&gt;, city &lt;chr&gt;, state &lt;chr&gt;,
+#&gt; #   zip_code &lt;chr&gt;, square_footage &lt;chr&gt;</code></pre>
 <p>Partial victory is ours again! A data frame, one row per food market, with 22 variables. How did this work? Line-by-line:</p>
 <ul>
 <li><code>.f = set_names(vdf$mapper, vdf$vname)</code> specifies the list of functions to iterate over: the type-specific mappers we pre-selected above. I bother to apply names here because they propagate to the variable names of the data frame.</li>
-<li><code>.x = transpose(vdf[c(&quot;.f&quot;, &quot;.null&quot;)])</code> gives the parallel list of function arguments, namely the strings specifying named elements to extract and the value to insert in place of explicit <code>NULL</code>. Two things that might be confusing:
+<li><code>.x = transpose(vdf[c(".f", ".null")])</code> gives the parallel list of function arguments, namely the strings specifying named elements to extract and the value to insert in place of explicit <code>NULL</code>. Two things that might be confusing:
 <ul>
 <li>This instance of <code>.f</code> is at the variable level, i.e. inside our iteration. In the previous line, <code>.f</code> refers to the overall operation, i.e. setting up our iteration.</li>
 <li><code>transpose()</code> is needed to repackage the <code>.f</code> and <code>.null</code> variables. Instead of a list of two same-length vectors, we want a single list holding lists of length two.</li>
@@ -704,15 +789,15 @@ loc_raw[[345]]
   map_df(fromJSON) %&gt;% 
   set_names(paste0(&quot;ha_&quot;, names(.)))
 head(ha)
-#&gt; # A tibble: 6 × 4
-#&gt;           ha_address     ha_city ha_state ha_zip
-#&gt;                &lt;chr&gt;       &lt;chr&gt;    &lt;chr&gt;  &lt;chr&gt;
-#&gt; 1 240 CHURCH ST #242      ALBANY       NY  12202
-#&gt; 2        515 19TH ST  WATERVLIET       NY  12189
-#&gt; 3       795 BROADWAY      ALBANY       NY  12207
-#&gt; 4   2050 WESTERN AVE GUILDERLAND       NY  12084
-#&gt; 5    265 CENTRAL AVE      ALBANY       NY  12206
-#&gt; 6   1693 CENTRAL AVE      ALBANY       NY  12205</code></pre>
+#&gt; # A tibble: 6 x 4
+#&gt;   ha_address         ha_city     ha_state ha_zip
+#&gt;   &lt;chr&gt;              &lt;chr&gt;       &lt;chr&gt;    &lt;chr&gt; 
+#&gt; 1 240 CHURCH ST #242 ALBANY      NY       12202 
+#&gt; 2 515 19TH ST        WATERVLIET  NY       12189 
+#&gt; 3 795 BROADWAY       ALBANY      NY       12207 
+#&gt; 4 2050 WESTERN AVE   GUILDERLAND NY       12084 
+#&gt; 5 265 CENTRAL AVE    ALBANY      NY       12206 
+#&gt; 6 1693 CENTRAL AVE   ALBANY      NY       12205</code></pre>
 </div>
 <div id="convert-remaining-variables-into-a-data-frame" class="section level3">
 <h3>Convert remaining variables into a data frame</h3>
@@ -721,21 +806,21 @@ head(ha)
   map_df(safe_extract, lnames[lnames != &quot;human_address&quot;]) %&gt;% 
   mutate_at(vars(latitude, longitude), as.numeric)
 head(ee)
-#&gt; # A tibble: 6 × 4
+#&gt; # A tibble: 6 x 4
 #&gt;   latitude longitude machine_address needs_recoding
-#&gt;      &lt;dbl&gt;     &lt;dbl&gt;           &lt;lgl&gt;          &lt;lgl&gt;
-#&gt; 1 42.63541 -73.75541              NA          FALSE
-#&gt; 2 42.73111 -73.70496              NA          FALSE
-#&gt; 3 42.65794 -73.74780              NA          FALSE
-#&gt; 4 42.69787 -73.88924              NA          FALSE
-#&gt; 5 42.66340 -73.77088              NA          FALSE
-#&gt; 6 42.72312 -73.83912              NA          FALSE
+#&gt;      &lt;dbl&gt;     &lt;dbl&gt; &lt;lgl&gt;           &lt;lgl&gt;         
+#&gt; 1     42.6     -73.8 NA              FALSE         
+#&gt; 2     42.7     -73.7 NA              FALSE         
+#&gt; 3     42.7     -73.7 NA              FALSE         
+#&gt; 4     42.7     -73.9 NA              FALSE         
+#&gt; 5     42.7     -73.8 NA              FALSE         
+#&gt; 6     42.7     -73.8 NA              FALSE
 ee %&gt;% 
   select(latitude, longitude) %&gt;% 
   map(summary)
 #&gt; $latitude
 #&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
-#&gt;   40.51   40.71   40.84   41.46   42.45   45.00       1 
+#&gt;   40.51   40.71   40.84   41.46   42.45   44.99       1 
 #&gt; 
 #&gt; $longitude
 #&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
@@ -746,51 +831,49 @@ ee %&gt;%
 <h2>Put everything together</h2>
 <p>Column bind the main data frame <code>mkts_df</code> with the human address data in <code>ha</code> and everything else from <code>Location</code>.</p>
 <pre class="r"><code>(mkts_df &lt;- bind_cols(mkts_df, ha, ee))
-#&gt; # A tibble: 28,355 × 30
-#&gt;      sid                                   id position created_at
-#&gt;    &lt;int&gt;                                &lt;chr&gt;    &lt;int&gt;      &lt;int&gt;
-#&gt; 1      1 D943D633-8DB5-4740-B5F4-06AAB6FC52E2        1 1412261567
-#&gt; 2      2 7A069C98-90B2-4B11-A4A7-3C4761D14DDD        2 1412261567
-#&gt; 3      3 68DBE61E-ACF4-4803-BD90-87380FDAA4F9        3 1412261567
-#&gt; 4      4 9DA5A827-A0AD-4782-8CE2-5D6867B53293        4 1412261567
-#&gt; 5      5 5D624E4B-E4A8-4F3D-BF88-190663DF8FCF        5 1412261567
-#&gt; 6      6 86BC29A4-55DA-43C5-BDED-6EF2C92C3C8B        6 1412261567
-#&gt; 7      7 51EE0EB4-6D71-4C2E-AD44-E225A1A45987        7 1412261567
-#&gt; 8      8 22B148DF-F188-4245-8E69-1137F9A6064E        8 1412261567
-#&gt; 9      9 62526ABF-801E-46DE-97CD-05C2DDE6BB20        9 1412261567
-#&gt; 10    10 13153CBA-3E65-4D4D-9A4C-ACB24BCD33DF       10 1412261567
-#&gt; # ... with 28,345 more rows, and 26 more variables: created_meta &lt;chr&gt;,
-#&gt; #   updated_at &lt;int&gt;, updated_meta &lt;chr&gt;, meta &lt;chr&gt;, county &lt;chr&gt;,
+#&gt; # A tibble: 28,355 x 30
+#&gt;      sid id    position created_at created_meta updated_at updated_meta meta 
+#&gt;    &lt;int&gt; &lt;chr&gt;    &lt;int&gt;      &lt;int&gt; &lt;chr&gt;             &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;
+#&gt;  1     1 D943…        1 1412261567 707400       1412262737 708543       &quot;{\n…
+#&gt;  2     2 7A06…        2 1412261567 707400       1412262426 708543       &quot;{\n…
+#&gt;  3     3 68DB…        3 1412261567 707400       1412262278 708543       &quot;{\n…
+#&gt;  4     4 9DA5…        4 1412261567 707400       1412262565 708543       &quot;{\n…
+#&gt;  5     5 5D62…        5 1412261567 707400       1412262177 708543       &quot;{\n…
+#&gt;  6     6 86BC…        6 1412261567 707400       1412262499 708543       &quot;{\n…
+#&gt;  7     7 51EE…        7 1412261567 707400       1412262135 708543       &quot;{\n…
+#&gt;  8     8 22B1…        8 1412261567 707400       1412261937 708543       &quot;{\n…
+#&gt;  9     9 6252…        9 1412261567 707400       1412262213 708543       &quot;{\n…
+#&gt; 10    10 1315…       10 1412261567 707400       1412261871 708543       &quot;{\n…
+#&gt; # … with 28,345 more rows, and 22 more variables: county &lt;chr&gt;,
 #&gt; #   license_number &lt;chr&gt;, operation_type &lt;chr&gt;, estab_type &lt;chr&gt;,
-#&gt; #   entity_name &lt;chr&gt;, dba_name &lt;chr&gt;, street_number &lt;chr&gt;,
-#&gt; #   street_name &lt;chr&gt;, address_line_2 &lt;chr&gt;, address_line_3 &lt;chr&gt;,
-#&gt; #   city &lt;chr&gt;, state &lt;chr&gt;, zip_code &lt;chr&gt;, square_footage &lt;chr&gt;,
-#&gt; #   ha_address &lt;chr&gt;, ha_city &lt;chr&gt;, ha_state &lt;chr&gt;, ha_zip &lt;chr&gt;,
-#&gt; #   latitude &lt;dbl&gt;, longitude &lt;dbl&gt;, machine_address &lt;lgl&gt;,
-#&gt; #   needs_recoding &lt;lgl&gt;</code></pre>
+#&gt; #   entity_name &lt;chr&gt;, dba_name &lt;chr&gt;, street_number &lt;chr&gt;, street_name &lt;chr&gt;,
+#&gt; #   address_line_2 &lt;chr&gt;, address_line_3 &lt;chr&gt;, city &lt;chr&gt;, state &lt;chr&gt;,
+#&gt; #   zip_code &lt;chr&gt;, square_footage &lt;chr&gt;, ha_address &lt;chr&gt;, ha_city &lt;chr&gt;,
+#&gt; #   ha_state &lt;chr&gt;, ha_zip &lt;chr&gt;, latitude &lt;dbl&gt;, longitude &lt;dbl&gt;,
+#&gt; #   machine_address &lt;lgl&gt;, needs_recoding &lt;lgl&gt;</code></pre>
 <p>Trim any leading/trailing whitespace from the character variables.</p>
 <pre class="r"><code>mkts_df &lt;- mkts_df %&gt;% 
   mutate_if(is.character, trimws)</code></pre>
 <p>Take a look at some of the most interpretable variables.</p>
 <pre class="r"><code>mkts_df %&gt;% 
   select(dba_name, city, latitude, longitude, square_footage)
-#&gt; # A tibble: 28,355 × 5
-#&gt;                   dba_name         city latitude longitude square_footage
-#&gt;                      &lt;chr&gt;        &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;          &lt;chr&gt;
-#&gt; 1      PLAZA 23 TRUCK STOP       ALBANY 42.63541 -73.75541           3600
-#&gt; 2       PRICE CHOPPER #245   WATERVLIET 42.73111 -73.70496              0
-#&gt; 3                  PEACOCK       ALBANY 42.65794 -73.74780           2000
-#&gt; 4       FINYOUR FISHMONGER  GUILDERLAND 42.69787 -73.88924           2100
-#&gt; 5        R&amp;A GROCERY STORE       ALBANY 42.66340 -73.77088           1500
-#&gt; 6  ANTHONYS CHOC DIP FRUIT       ALBANY 42.72312 -73.83912              0
-#&gt; 7        DOLLAR TREE #4168     GLENMONT 42.60176 -73.79454          10000
-#&gt; 8  GREAT WALL EXPRESS ASIA SLINGERLANDS 42.64117 -73.86302              0
-#&gt; 9            INANC I OZBAY       ALBANY 42.71746 -73.83267              0
-#&gt; 10                 SAGAMIA SLINGERLANDS 42.64117 -73.86302           1000
-#&gt; # ... with 28,345 more rows</code></pre>
+#&gt; # A tibble: 28,355 x 5
+#&gt;    dba_name                city         latitude longitude square_footage
+#&gt;    &lt;chr&gt;                   &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;         
+#&gt;  1 PLAZA 23 TRUCK STOP     ALBANY           42.6     -73.8 3600          
+#&gt;  2 PRICE CHOPPER #245      WATERVLIET       42.7     -73.7 0             
+#&gt;  3 PEACOCK                 ALBANY           42.7     -73.7 2000          
+#&gt;  4 FINYOUR FISHMONGER      GUILDERLAND      42.7     -73.9 2100          
+#&gt;  5 R&amp;A GROCERY STORE       ALBANY           42.7     -73.8 1500          
+#&gt;  6 ANTHONYS CHOC DIP FRUIT ALBANY           42.7     -73.8 0             
+#&gt;  7 DOLLAR TREE #4168       GLENMONT         42.6     -73.8 10000         
+#&gt;  8 GREAT WALL EXPRESS ASIA SLINGERLANDS     42.6     -73.9 0             
+#&gt;  9 INANC I OZBAY           ALBANY           42.7     -73.8 0             
+#&gt; 10 SAGAMIA                 SLINGERLANDS     42.6     -73.9 1000          
+#&gt; # … with 28,345 more rows</code></pre>
 </div>
 
-<p><a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="by-nc.png" height="400" width="65"/></a></p>
+<i class="fab fa-creative-commons fa-2x"></i><i class="fab fa-creative-commons-by fa-2x"></i><i class="fab fa-creative-commons-sa fa-2x"></i>
 
 
 </div>
@@ -802,7 +885,7 @@ ee %&gt;%
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
@@ -811,12 +894,55 @@ $(document).ready(function () {
 
 </script>
 
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
