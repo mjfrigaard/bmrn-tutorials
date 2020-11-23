@@ -1,14 +1,14 @@
-name: "purrr-tutorial"
+name: "r-meetup-tutorials"
 output_dir: "."
 navbar:
-  title: "purrr tutorial"
+  title: "BioMarin R meetup tutorials"
   left:
     - text: "Lessons and examples"
       href: index.html
     - text: "More resources"
       href: more-resources.html
-    - text: "Talks"
-      href: talks.html
+    - text: "Slides"
+      href: slides.html
   right:
     - text: "About"
       href: about.html

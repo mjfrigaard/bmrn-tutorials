@@ -1,0 +1,14 @@
+---
+title: "Slides"
+---
+
+### Slide decks for each workshop
+
++ [Reproducible Data Analysis With R](https://mjfrigaard.github.io/rep-res-rmarkdown/Index.html)
+
++ [Data Manipulation with R: An introduction to the dplyr package](https://mjfrigaard.github.io/data-manip-intro/Index.html)
+
++ [Data Reshaping in R: reshaping, transforming, and joining data in R](https://mjfrigaard.github.io/data-transformations-joins/Index.html)
+
++ [Introduction to Data Visualization with ggplot2](https://mjfrigaard.github.io/data-viz-intro/Index.html#1)
+
