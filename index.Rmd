@@ -35,7 +35,8 @@ x <- tibble(fls = list.files()) %>%
   group_by(basename) %>% 
   summarize_all(list) %>% 
   filter(map_lgl(ext, has_all_things, things = c("Rmd", "html")))
-
+x %>% 
+  unnest_wider(ext)
 x <- x %>% 
   mutate(
     yaml = basename %>% ext_file("Rmd") %>% map(parse_yaml),
@@ -44,31 +45,31 @@ x <- x %>%
     href = map2(ext_file(basename, "html"), title, ~ a(href = .x, .y)) %>%
       map_chr(as.character),
     bullet = map2_chr(href, comment, ~ paste("*", .x, .y, "\n")))
-x
 ```
 
-### Background basics
+### Introduction to R & RStudio
 
-```{r results = 'asis', echo = FALSE}
-# this uses the `bk` as a prefix and identifier for the 'background' section 
+```{r intro-files, results='asis', echo=FALSE, eval=TRUE}
+# this uses the `bk` as a prefix and identifier for the 'background' section
 cat_bullet(x, "^bk")
 ```
 
-### Core purrr lessons
+
+### Data Manipulation and Transformation
 
 ```{r results = 'asis', echo = FALSE}
-# here we see the 'ls' as core purrr lessons
-cat_bullet(x, "^ls")
+# here we see the 'dt' as core dplyr/tidyr lessons
+cat_bullet(x, "^dt")
 ```
 
-### Worked examples
+### Data Visualization
 
-```{r results = 'asis', echo = FALSE}
+```{r results = 'asis', echo = FALSE, eval=FALSE}
 # here we see the 'ex' for exercises 
 cat_bullet(x, "^ex")
 ```
 
-### Patterns and anti-patterns
+### Dashboards and Shiny
 
 ```{r results = 'asis', echo = FALSE}
 # and the `pt` for anti-patterns

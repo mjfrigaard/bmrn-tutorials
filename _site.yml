@@ -1,9 +1,9 @@
 name: "r-meetup-tutorials"
 output_dir: "."
 navbar:
-  title: "BioMarin R meetup tutorials"
+  title: "bmRn R Training"
   left:
-    - text: "Lessons and examples"
+    - text: "Lessons and exercises"
       href: index.html
     - text: "More resources"
       href: more-resources.html

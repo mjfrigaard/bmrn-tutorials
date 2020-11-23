@@ -1,0 +1,364 @@
+---
+title: "Introduction to R Programming"
+comment: "*functions and objects*"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r, echo = FALSE}
+# don't name this setup!
+knitr::opts_chunk$set(collapse = TRUE, 
+                      comment = "#>", 
+                      message = FALSE, 
+                      warning = FALSE)
+```
+
+# Motivation
+
+This document contains some exercises on R functions and data objects. Check out the slides [here.]()
+
+## R Syntax {.tabset}
+
+Two major elements in R programming: functions and objects.
+
+### Functions 
+
+Functions perform operations (calculate a mean, build a table, create a graph, etc.)
+
+### Objects 
+
+Objects hold information (a collection of numbers, dates, words, models results, etc.)
+
+## Atomic vectors {.tabset}
+
+The "atomic" in atomic vectors means, "*of or forming a single irreducible unit or component in a larger system.*"
+
+### Logical 
+
+Logical vectors are handy because when we add them together, and the total number tells us how many `TRUE` values there are.
+
+```{r vec_logical}
+vec_logical <- c(TRUE, FALSE)
+vec_logical
+```
+
+### Integer 
+
+Integer vectors are created with a number and capital letter `L`
+
+```{r vec_integer}
+vec_integer <- c(1L, 10L, 100L)
+vec_integer
+```
+
+### Double 
+
+Double vectors can be entered as decimals
+
+```{r vec_double}
+vec_double <- c(0.1, 1.0, 10.01)
+vec_double
+```
+
+### Character
+
+Note that character vectors need to be in quotes.
+
+```{r vec_character}
+vec_character <- c("A", "B", "C")
+vec_character
+```
+
+
+## Evaluating vectors {.tabset}
+
+**Store and explore** - create an object, perform an operation on the object, store the results, then explore the contents with another function.
+
+```{r store-explore, echo=FALSE, out.height='60%', out.width='60%', fig.align='center'}
+knitr::include_graphics(path = "img/store-explore.png")
+```
+
+### `typeof()` 
+
+Explore all vectors with `typeof()`
+
+```{r typeof-vec_integer}
+typeof(vec_integer)
+```
+
+### `is.integer()`
+
+Integers have no decimals.
+
+```{r is.integer}
+is.integer(vec_integer)
+```
+
+
+### `is.numeric()`
+
+Evaluate numeric vectors with `is.numeric()`
+
+```{r is-numeric-vec_double}
+is.numeric(vec_double)
+```
+
+### `is.logical()`
+
+`is.logical()` to check vectors that are logical.
+
+```{r is.logical}
+is.logical(vec_logical)
+```
+
+Recall that you can sum logical vectors. 
+
+```{r sum-logical-vectors}
+TRUE + TRUE + FALSE + TRUE
+```
+
+Great for subsetting too.
+
+```{r subsetting-with-loigcals}
+vec_integer > 5
+```
+
+### `is.character()`
+
+Check character vectors with `is.character()`
+
+```{r is.character}
+is.character(vec_character)
+```
+
+## S3 vectors {.tabset}
+
+S3 vector objects are factors, dates, date-times, durations.
+
+### Factors 
+
+Factors are categorical vectors with a given set of responses.
+
+```{r vec_factor}
+vec_factor <- factor(x = c("low", "medium", "high"))
+vec_factor
+# Not character variables!
+typeof(vec_factor)
+```
+
+We can manually assign the order of factor levels with the `levels` argument in `factor()`.
+
+```{r factor-levels}
+vec_factor <- factor(x = c("medium", "high", "low"), 
+                     levels = c("low", "medium", "high"))
+# check with:
+levels(vec_factor)
+unclass(vec_factor)
+```
+
+
+
+### Dates 
+
+Dates are stored as `double` vectors with a class attribute set to `Date`.
+
+```{r vec_date}
+vec_date <- c(Sys.Date(), Sys.Date() + 1, Sys.Date() + 2)
+vec_date
+attributes(vec_date)
+```
+
+`unclass()` tells us what the actual number is.
+
+```{r unclass-vec_date}
+unclass(vec_date)
+```
+
+### Date-times 
+
+Date-times contain a bit more information than dates.
+
+```{r vec_datetime_ct}
+vec_datetime_ct <- as.POSIXct(x = vec_date)
+vec_datetime_ct
+```
+
+`vec_datetime_ct` is a `double` vector 
+
+```{r typeof-vec_datetime_ct}
+typeof(vec_datetime_ct)
+```
+
+
+### Durations (difftime)
+
+We need two times to be able to calculate the difftime, but the output is fairly clear. 
+
+```{r vec_difftime}
+time_01 <- Sys.Date()
+time_02 <- Sys.Date() + 10
+vec_difftime <- difftime(time_01, time_02, units = "days")
+vec_difftime
+```
+
+These have `class` and `units` attributes. 
+
+```{r attributes-vec_difftime}
+attributes(vec_difftime)
+```
+
+## Matrices {.tabset}
+
+These are two-dimensional objects. We can create with `matrix()`. 
+
+### Create matrices
+
+We can make a matrix using our existing vectors.
+
+```{r mat_data}
+mat_data <- matrix(data = c(vec_double, vec_integer), 
+                   nrow = 3, ncol = 2, byrow = FALSE)
+mat_data
+```
+
+### Check dimensions 
+
+We can check the dimensions of `mat_data` with `dim()`.
+
+```{r dim-mat_data}
+dim(mat_data)
+```
+
+
+### Matrix positions 
+
+We can subset using position. 
+
+```{r mat_data-positions}
+mat_data[2, 2]
+```
+
+
+## Arrays {.subset}
+
+Arrays are like matrices, but with more dimensions.
+
+```{r array-png, out.height='45%', out.width='45%', fig.align='center', echo=FALSE}
+knitr::include_graphics(path = "img/array.png")
+```
+
+
+### Create an array
+
+Arrays need three dimensions in the `dim` argument.
+
+```{r dat_array}
+dat_array <- array(data = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+                            14, 15, 16, 17, 18), dim = c(3, 3, 2))
+dat_array
+```
+
+### Matrix vs. Array
+
+Matrices are arrays, but arrays are not matrices.
+
+```{r class-dat_array}
+class(dat_array)
+```
+
+```{r class-mat_data}
+class(mat_data)
+```
+
+## Data Frames {.tabset}
+
+Rectangular data with rows and columns. 
+
+### Create data frames 
+
+We will create a data frame below using `data.frame()`. When we create a data frame, the data are transposed (i.e. columns are written left-to-right).
+
+```{r DataFrame}
+DataFrame <- data.frame(character = c("A", "B", "C"), 
+                        integer = c(0.1, 1.0, 10.01), 
+                        logical = c(TRUE, FALSE, TRUE), 
+                        stringsAsFactors = FALSE)
+DataFrame
+```
+
+*NOTE: `stringsAsFactors = FALSE` is not required as of R version 4.0.0.*
+
+
+### Inspect `data.frame`s
+
+Check the structure of the data.frame with `str()`
+
+```{r str-DataFrame}
+str(DataFrame)
+```
+
+## Tibbles {.tabset}
+
+These are special kinds of `data.frame`s (they print better to the console, and character vectors are never coerced into factors).
+
+### Create `tibble`s  
+
+Creating `tibble`s is *not* transposed. 
+
+```{r Tibble}
+Tibble <- tibble::tribble(
+       ~character, ~integer,  ~logical,
+              "A",      0.1,      TRUE,
+              "B",        1,     FALSE,
+              "C",    10.01,      TRUE)
+Tibble
+```
+
+
+### Inspect `tibble`s
+
+`tibbles` are S3 objects, with types `tbl_df`, `tbl`, *and* `data.frame`
+
+```{r str-tibble}
+str(Tibble)
+```
+
+
+### Rectangular data recap
+
+If you're importing spreadsheets, most of the work you'll do in R will be with rectangular data objects (i.e. `data.frame`s and `tibble`s).
+
+```{r data-frame-tibble, echo=FALSE, out.width='40%', out.height='40%', fig.align='center'}
+knitr::include_graphics(path = "img/data-frame-tibble.png")
+```
+
+Think of `data.frame`s and `tibble`s as special kinds of rectangular `lists`, made with different types of vectors, with each vector being of equal length.
+
+## Lists {.tabset}
+
+Lists can contain all other objects (including other lists).
+
+### Create lists 
+
+We can put all the objects we've created in `dat_list`.
+
+```{r dat_list}
+dat_list <- list("integer" = vec_integer, 
+                 "array" = dat_array,
+                 "matrix data" = mat_data,
+                 "data frame" = DataFrame, 
+                 "tibble" = Tibble)
+dat_list
+```
+
+
+### List attributes 
+
+And we can see all of these elements are stored (with the appropriate name).
+
+```{r attributes-dat_list}
+attributes(dat_list)
+```
+

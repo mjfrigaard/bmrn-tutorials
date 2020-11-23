@@ -1,0 +1,32 @@
+---
+title: "R Workflow Best Practices"
+comment: "*managing code, data, and files*"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, 
+                      comment = "#>", 
+                      error = TRUE)
+```
+
+# Motivation 
+
+This document covers managing your code, data, and files with RStudio.
+
+## Code {.tabset}
+
+
+
+## Console {.tabset}
+
+## Appearance {.tabset}
+
+## Pane layout {.tabset}
+
+## R Markdown {.tabset}
+
+
