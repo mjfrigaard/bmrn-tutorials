@@ -1,5 +1,6 @@
 ---
-title: "BioMarin RMarkdown Training: Building Reproducible Reports (exercises)"
+title: "Reproducible Reporting With R Markdown"
+comment: "*building reproducible reports*"
 output:
   html_document:
     toc: true

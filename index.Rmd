@@ -54,6 +54,12 @@ x <- x %>%
 cat_bullet(x, "^bk")
 ```
 
+### Reproducible Analysis With R Markdown
+
+```{r markdown-files, results='asis', echo=FALSE, eval=TRUE}
+# this uses the `bk` as a prefix and identifier for the 'background' section
+cat_bullet(x, "^mk")
+```
 
 ### Data Manipulation and Transformation
 
@@ -64,16 +70,20 @@ cat_bullet(x, "^dt")
 
 ### Data Visualization
 
+*coming soon!*
+
 ```{r results = 'asis', echo = FALSE, eval=FALSE}
 # here we see the 'ex' for exercises 
-cat_bullet(x, "^ex")
+cat_bullet(x, "^gg")
 ```
 
 ### Dashboards and Shiny
 
-```{r results = 'asis', echo = FALSE}
+*coming soon!*
+
+```{r results = 'asis', echo = FALSE, eval=FALSE}
 # and the `pt` for anti-patterns
-cat_bullet(x, "^pt")
+cat_bullet(x, "^sh")
 ```
 
 This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-sa/4.0/).

@@ -2,7 +2,7 @@
 title: "Slides"
 ---
 
-### Slide decks for each workshop
+## Slide Decks 
 
 + [Reproducible Data Analysis With R](https://mjfrigaard.github.io/rep-res-rmarkdown/Index.html)
 
