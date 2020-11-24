@@ -15,9 +15,9 @@ knitr::opts_chunk$set(collapse = TRUE,
                       warning = FALSE)
 ```
 
-# Motivation
+# Objectives
 
-This document contains some exercises on R functions and data objects. Check out the slides [here.]()
+This document contains a basic exposure to R functions and data objects. Check out the slides [here]()
 
 ## R Syntax {.tabset}
 

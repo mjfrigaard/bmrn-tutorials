@@ -13,7 +13,7 @@ params:
 always_allow_html: true
 ---
 
-```{r, echo = FALSE, results='hide'}
+```{r, echo = FALSE, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE, 
                       comment = "#>", 
                       error = TRUE)

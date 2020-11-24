@@ -13,17 +13,13 @@ knitr::opts_chunk$set(collapse = TRUE,
                       error = TRUE)
 ```
 
-# Motivation 
+# Objectives 
 
-This document covers managing your code, data, and files with RStudio. We will start with a tour of the IDE, and some of the custom settings that you can do to increase your productivity. 
+This document covers managing your code, data, and files with RStudio. The sections below give a tour of the IDE, and some of the custom settings that you can do to increase your productivity. 
 
 ## Global Settings 
 
-We will cover settings in the following sections: 
-
-```{r setting-options, echo=FALSE, out.width='30%', out.height='30%', fig.align='left'}
-knitr::include_graphics(path = "img/setting-options.png")
-```
+These can be found under **Tools > Global Options...** 
 
 ## General {.tabset}
 
