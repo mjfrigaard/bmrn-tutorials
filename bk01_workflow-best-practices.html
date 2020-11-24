@@ -389,21 +389,366 @@ div.tocify {
 
 <div id="motivation" class="section level1">
 <h1>Motivation</h1>
-<p>This document covers managing your code, data, and files with RStudio.</p>
+<p>This document covers managing your code, data, and files with RStudio. We will start with a tour of the IDE, and some of the custom settings that you can do to increase your productivity.</p>
+<div id="global-settings" class="section level2">
+<h2>Global Settings</h2>
+<p>We will cover settings in the following sections:</p>
+<p><img src="img/setting-options.png" width="30%" height="30%" style="display: block; margin: auto auto auto 0;" /></p>
+</div>
+<div id="general" class="section level2 tabset">
+<h2 class="tabset">General</h2>
+<p>Click on <strong>Tools &gt; Global Options…</strong>, in the <strong>General</strong> section, you will see settings for <strong>Workspace</strong></p>
+<div id="workspace" class="section level3">
+<h3>Workspace</h3>
+<p>Un-check the option for “<em>Restore .RData into workspace at startup</em>”</p>
+</div>
+<div id="rdata" class="section level3">
+<h3><code>.RData</code></h3>
+<p>We also don’t want the workspace to <code>.RData</code> on exit, so we will set this to <strong>Never</strong></p>
+</div>
+<div id="general-settings" class="section level3">
+<h3>General Settings</h3>
+<p>How your <strong>General</strong> settings should look:</p>
+<p><img src="img/settings.png" width="89%" height="80%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
 <div id="code" class="section level2 tabset">
 <h2 class="tabset">Code</h2>
+<p>Under <strong>Tools &gt; Global Options…</strong> click on <strong>Code</strong></p>
+<div id="code-editing" class="section level3">
+<h3>Code Editing</h3>
+<ul>
+<li>Auto indent? <em>not recommended if you regularly paste lots of text</em></li>
+<li>Continue comment lines? <em>very handy if you write a lot of comments</em></li>
+<li>Save R scripts before sourcing? <em>can’t see how this is a bad thing…</em></li>
+</ul>
+<p><img src="img/code-settings.png" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="code-display" class="section level3">
+<h3>Code Display</h3>
+<ul>
+<li>Margins? <em>this is handy for knowing when to wrap code</em></li>
+<li>Scrolling? <em>not sure why this is even an option?</em></li>
+<li>Rainbow parentheses? <em>add some color to your life!</em></li>
+</ul>
+<p><img src="img/code-display.png" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="code-saving" class="section level3">
+<h3>Code Saving</h3>
+<ul>
+<li>Cursor position? <em>this is nice when you want to remember where you left off</em></li>
+<li>Line endings? <em>‘platform native’ seems the safest</em></li>
+<li>Text encoding? <em>I use UTF-8, but ASCII works for special characters</em></li>
+</ul>
+<p><img src="img/code-savings.png" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="code-completion" class="section level3">
+<h3>Code Completion</h3>
+<ul>
+<li>Insert parentheses? <em>one less things to think about/type</em></li>
+<li>Insert spaces? <em>reduces the keystroke/neuron load</em></li>
+<li>Completion delay setting? <em>how quickly do you want help? :)</em></li>
+</ul>
+<p><img src="img/code-completion.png" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="code-diagnostics" class="section level3">
+<h3>Code Diagnostics</h3>
+<ul>
+<li>Check your R Code? <em>just about all of these help me write better code</em></li>
+<li>Check other languages? <em>I write other languages, so this is a great feature</em></li>
+<li>How long? <em>as quickly as possible :)</em></li>
+</ul>
+<p><img src="img/code-diagnostics.png" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+</div>
 </div>
 <div id="console" class="section level2 tabset">
 <h2 class="tabset">Console</h2>
+<p>Under <strong>Tools &gt; Global Options…</strong> click on <strong>Console</strong></p>
+<p>The console is where we can enter code directly, and where we’ll see output. We should consider the following settings:</p>
+<ul>
+<li><p>Display? <em>IMO, syntax highlighting makes sense pretty much everywhere</em></p></li>
+<li><p>Debugging? <em>this makes sense</em></p></li>
+<li><p>Other? <em>this is a personal preference</em></p></li>
+</ul>
+<p><img src="img/console.png" width="40%" height="40%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="appearance" class="section level2 tabset">
 <h2 class="tabset">Appearance</h2>
+<p>Under <strong>Tools &gt; Global Options…</strong> click on <strong>Appearance</strong></p>
+<ul>
+<li>RStudio theme? <em>varies from lighter &gt;&gt; darker</em></li>
+<li>Zoom? <em>controls the entire IDE</em>
+<ul>
+<li>Also hold <code>⌘</code> and press <code>+</code> on macOS</li>
+<li>Also hold <code>ctrl</code> and press <code>+</code> on Windows</li>
+</ul></li>
+<li>Font? <em>also can adjust with Zoom</em></li>
+<li>Editor theme? <em>check out <a href="https://www.garrickadenbuie.com/project/rsthemes/"><code>rsthemes</code> package</a></em></li>
+</ul>
+<p><img src="img/appearance.png" width="40%" height="40%" style="display: block; margin: auto;" /></p>
 </div>
 <div id="pane-layout" class="section level2 tabset">
 <h2 class="tabset">Pane layout</h2>
+<p>Under <strong>Tools &gt; Global Options…</strong> click on <strong>Pane Layout</strong></p>
+<div id="default-panes" class="section level3">
+<h3>Default panes</h3>
+<ul>
+<li>Source? <em>this is where I do most of my work</em></li>
+<li>Console? <em>position so I can see output</em></li>
+<li>Combining? <em>I prefer:</em>
+<ul>
+<li>Plots, Connections, Build, VCS, Presentation</li>
+<li>Files, Packages, Help, Tutorial, Viewer</li>
+</ul></li>
+</ul>
+<p><img src="img/default-layout.png" width="40%" height="40%" style="display: block; margin: auto;" /></p>
 </div>
-<div id="r-markdown" class="section level2 tabset">
-<h2 class="tabset">R Markdown</h2>
+<div id="adding-columns" class="section level3">
+<h3>Adding columns</h3>
+<ul>
+<li>Two screens?
+<ul>
+<li>add a Source column and rearrange the panes</li>
+</ul></li>
+</ul>
+<p><img src="img/add-column-switch-panes.png" width="40%" height="40%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="three-column-view" class="section level3">
+<h3>Three Column View</h3>
+<p>Now you see <strong>Source</strong>, <strong>Tutorial</strong>, and <strong>Console</strong> panes on a single screen!</p>
+<p><img src="img/three-column-layout.png" width="65%" height="65%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="rstudio-projects" class="section level2 tabset">
+<h2 class="tabset">RStudio Projects</h2>
+<p><strong><em>Why RStudio Projects?</em></strong></p>
+<p>Keep track of all your files with RStudio project files (<code>.Rproj</code>).</p>
+<ul>
+<li><p>Self contained <em>Using R projects keeps track or your current working directory!</em></p></li>
+<li><p>Project orientated <em><code>.Rproj</code> files make bundling and shipping files and folders easier!</em></p></li>
+<li><p>Avoid removing all the files</p></li>
+</ul>
+<p><em>see <a href="https://twitter.com/hadleywickham/status/940021008764846080">tweets below</a> and <a href="https://www.tidyverse.org/blog/2017/12/workflow-vs-script/">tidyverse article</a></em></p>
+<blockquote>
+<p>If the first line of your R script is<br />
+<code>setwd("C:\Users\jenny\path\that\only\I\have")</code><br />
+I will come into your office and SET YOUR COMPUTER ON FIRE 🔥<br />
+If the first line of your R script is <code>rm(list = ls())</code><br />
+I will come into your office and SET YOUR COMPUTER ON FIRE 🔥</p>
+</blockquote>
+<div id="rstudio-project-existing-folder" class="section level3">
+<h3>RStudio Project (existing folder)</h3>
+<p>Click on ‘<strong><em>Project: (New)</em></strong>’ &gt; ‘<strong><em>New Project</em></strong>’</p>
+<p><img src="img/proj-existing-dir.png" width="60%" height="60%" style="display: block; margin: auto auto auto 0;" /></p>
+<p>Click on ‘<strong><em>Browse</em></strong>’ &gt; ‘<strong><em>Create Project</em></strong>’</p>
+<p><img src="img/proj-existing-dir-create.png" width="60%" height="60%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="rstudio-project-new-folder" class="section level3">
+<h3>RStudio Project (new folder)</h3>
+<p>Click on ‘<strong><em>Project: (New)</em></strong>’ &gt; ‘<strong><em>New Project</em></strong>’</p>
+<p><img src="img/proj-new-dir.png" width="60%" height="60%" style="display: block; margin: auto auto auto 0;" /></p>
+<p>Select project type</p>
+<p><img src="img/proj-new-project.png" width="60%" height="60%" style="display: block; margin: auto auto auto 0;" /></p>
+<p>Create new folder name</p>
+<p><img src="img/proj-new-dir-name.png" width="60%" height="60%" style="display: block; margin: auto auto auto 0;" /></p>
+<p>Choose parent folder</p>
+<p><img src="img/proj-new-parent-dir-name.png" width="60%" height="60%" style="display: block; margin: auto auto auto 0;" /></p>
+<p>Use Git (if installed)</p>
+<p><img src="img/proj-new-dir-version-crtl.png" width="60%" height="60%" /></p>
+</div>
+</div>
+<div id="folder-structure" class="section level2 tabset">
+<h2 class="tabset">Folder Structure</h2>
+<p>Good folder and file organization saves time and headaches. See the tabs below for some basic guidelines.</p>
+<div id="general-advice" class="section level3">
+<h3>General Advice</h3>
+<ul>
+<li><p>separate raw and cleaned data</p></li>
+<li><p>keep documents and code separate</p></li>
+<li><p>keep figures separate</p></li>
+<li><p>name files appropriately (preferably 2 digit prefix)</p></li>
+<li><p>structure is reusable and easy to understand</p></li>
+</ul>
+</div>
+<div id="example-folder-structure" class="section level3">
+<h3>Example Folder Structure</h3>
+<p>Adapted from from ‘<a href="https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510">Good enough practices in scientific computing</a>’</p>
+<pre class="bash"><code>project-name/
+            |-- CITATION
+            |-- project-name.Rproj
+            |-- README.md
+            |-- LICENSE
+            |-- requirements.txt
+            |--data/
+                   |--raw/
+                         |--raw-birds-data.csv
+                   |--processed/
+                               |--processed-birds-data.csv
+            |--doc/
+                  |-- notebook.Rmd
+                  |-- manuscript.Rmd
+                  |-- changelog.txt
+            |-- results/
+                  |-- summarized-results.csv
+            |-- code/
+                  |-- 01-sightings-import.R
+                  |-- 02-sightings-wrangle.R
+                  |-- 03-sightings-model.R
+                  |-- runall.R</code></pre>
+</div>
+</div>
+<div id="naming-things" class="section level2 tabset">
+<h2 class="tabset">Naming Things</h2>
+<p>Basic rules to follow:</p>
+<ol style="list-style-type: decimal">
+<li><p>human readable -&gt; (makes sense)</p></li>
+<li><p>machine readable -&gt; (regex)</p></li>
+<li><p>sort/order well -&gt; (ISO 8601 date)</p></li>
+</ol>
+<div id="example-file-names" class="section level3">
+<h3>Example File Names</h3>
+<p><em>These are handy names:</em></p>
+<p>2020-10-12-270-301-<strong><em>central-lab-metrics</em></strong>.csv<br />
+2020-10-12-<strong><em>270-301</em></strong>-central-lab-metrics.csv<br />
+<strong><em>2020-10-12</em></strong>-270-301-central-lab-metrics.csv</p>
+<p><em>So are these:</em></p>
+<p><strong><em>01.0</em></strong>-import_270-301_central-lab-metrics.R<br />
+02.0-<strong><em>wrangle</em></strong>_270-301_central-lab-metrics.R<br />
+03.0-eda_<strong><em>270-301</em></strong>_central-lab-metrics.R<br />
+04.0-model_270-301_<strong><em>central-lab-metrics</em></strong>.R</p>
+<blockquote>
+<p>*Adapted from <a href="https://speakerdeck.com/jennybc/how-to-name-files">Jenny Byran’s slides</a></p>
+</blockquote>
+</div>
+<div id="locating-files" class="section level3">
+<h3>Locating Files</h3>
+<p><em>We can use regular expressions to find ‘270-301’ files!!</em></p>
+<pre class="r"><code>grepl(pattern = &quot;270-301&quot;, 
+      x = &quot;2020-10-12-270-301-central-lab-metrics.csv&quot;)
+#&gt; [1] TRUE</code></pre>
+<blockquote>
+<p>*Adapted from <a href="https://speakerdeck.com/jennybc/how-to-name-files">Jenny Byran’s slides</a></p>
+</blockquote>
+</div>
+<div id="other-examples" class="section level3">
+<h3>Other Examples</h3>
+<p><em>Logical order and underscores <code>_</code> also make it easier to sort files</em></p>
+<pre class="r"><code># writeLines(files)
+files
+#&gt; [1] &quot;01.0-import_270-301_central-lab-metrics.R&quot; 
+#&gt; [2] &quot;02.0-wrangle_270-301_central-lab-metrics.R&quot;
+#&gt; [3] &quot;03.0-eda_270-301_central-lab-metrics.R&quot;    
+#&gt; [4] &quot;04.0-model_270-301_central-lab-metrics.R&quot;</code></pre>
+<pre class="r"><code>stringr::str_split_fixed(string = files, pattern = &quot;_&quot;, 3)
+#&gt;      [,1]           [,2]      [,3]                   
+#&gt; [1,] &quot;01.0-import&quot;  &quot;270-301&quot; &quot;central-lab-metrics.R&quot;
+#&gt; [2,] &quot;02.0-wrangle&quot; &quot;270-301&quot; &quot;central-lab-metrics.R&quot;
+#&gt; [3,] &quot;03.0-eda&quot;     &quot;270-301&quot; &quot;central-lab-metrics.R&quot;
+#&gt; [4,] &quot;04.0-model&quot;   &quot;270-301&quot; &quot;central-lab-metrics.R&quot;</code></pre>
+<blockquote>
+<p>*Adapted from <a href="https://speakerdeck.com/jennybc/how-to-name-files">Jenny Byran’s slides</a></p>
+</blockquote>
+</div>
+</div>
+<div id="file-paths" class="section level2 tabset">
+<h2 class="tabset">File Paths</h2>
+<p>Use relative rather than absolute file paths</p>
+<div id="absolute-paths" class="section level3">
+<h3>Absolute paths</h3>
+<p>These are specific to a <em>system</em></p>
+<p><code>/project-name/data</code> -&gt; absolute path in macOS</p>
+<p><code>\\project-name\\data</code> -&gt; absolute path in Windows</p>
+</div>
+<div id="relative-paths" class="section level3">
+<h3>Relative paths</h3>
+<p>These are specific to a <em>folder</em></p>
+<p><code>project-name/data</code> -&gt; relative path in macOS</p>
+<p><code>project-name\\data</code> -&gt; relative path in Windows</p>
+</div>
+</div>
+<div id="the-here-package" class="section level2 tabset">
+<h2 class="tabset">The <code>here</code> Package</h2>
+<p>The <code>here::set_here()</code> function solves a lot of file path problems (<em>especially if you’re not using R projects</em>)</p>
+<div id="using-here" class="section level3">
+<h3>Using <code>here()</code></h3>
+<pre class="r"><code>library(here)
+#&gt; here() starts at /Users/mjfrigaard/Documents/@BioMarin/r-meetup-tutorials</code></pre>
+</div>
+<div id="set_here." class="section level3">
+<h3><code>set_here(".")</code></h3>
+<p>This creates a <code>.here</code> file (similar to <code>.Rproj</code> files)</p>
+<pre class="r"><code>here::set_here(&quot;.&quot;)
+#&gt; Created file .here in /Users/mjfrigaard/Documents/@BioMarin/r-meetup-tutorials . Please start a new R session in the new project directory.
+list.files(all.files = TRUE, pattern = &quot;here&quot;)
+#&gt; [1] &quot;.here&quot;</code></pre>
+</div>
+</div>
+<div id="terminal-pane" class="section level2 tabset">
+<h2 class="tabset">Terminal Pane</h2>
+<p>Learn a handful of command-line tools to make life easier</p>
+<div id="command-line-basics" class="section level3">
+<h3>Command Line Basics</h3>
+<p>Know how to use <code>cd</code>, <code>pwd</code>, <code>mkdir</code>, <code>rm</code>, <code>ls</code>, etc.</p>
+</div>
+<div id="terminal-in-rstudio" class="section level3">
+<h3>Terminal in RStudio</h3>
+<p>RStudio comes with a Terminal pane for quick access to the command-line</p>
+<p><img src="img/terminal-pane.png" width="60%" height="60%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="getting-help" class="section level2 tabset">
+<h2 class="tabset">Getting Help</h2>
+<p>R comes with a <em>ton</em> of accessible help files</p>
+<div id="accessing-help-files" class="section level3">
+<h3>Accessing Help Files</h3>
+<pre class="r"><code>?read.csv</code></pre>
+</div>
+<div id="the-help-pane" class="section level3">
+<h3>The <strong><em>Help</em></strong> Pane</h3>
+<p><img src="img/help-pane.png" width="60%" height="60%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="reproducible-examples" class="section level2 tabset">
+<h2 class="tabset">Reproducible Examples</h2>
+<p>The <a href="https://github.com/tidyverse/reprex"><code>reprex</code> package</a> was designed to help you create a reproducible example</p>
+<div id="reprex-addin-1" class="section level3">
+<h3>Reprex Addin 1</h3>
+<ol style="list-style-type: decimal">
+<li>Copy code</li>
+<li>Select <em>Addin</em> &gt; <em>Render selection</em></li>
+</ol>
+<p><img src="img/copy-render-reprex.png" width="60%" height="60%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="reprex-addin-2" class="section level3">
+<h3>Reprex Addin 2</h3>
+<ol style="list-style-type: decimal">
+<li>Copy code</li>
+<li>Select <em>Addin</em> &gt; <em>Render selection</em><br />
+</li>
+<li>Wait for console<br />
+</li>
+<li>Paste reprex</li>
+</ol>
+<p><img src="img/paste-reprex.png" width="60%" height="60%" style="display: block; margin: auto;" /></p>
+</div>
+<div id="reprex-datapasta" class="section level3">
+<h3>Reprex + datapasta</h3>
+<p>To copy + paste actual data in a reproducible example, try <a href="https://reprex.tidyverse.org/articles/articles/datapasta-reprex.html"><code>datapasta</code></a>!</p>
+<p><img src="https://raw.githubusercontent.com/tidyverse/reprex/master/img/datapasta_w_reprex_sheet_to_tribble.gif" width="60%" height="60%" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="learn-more-about-r-best-practices" class="section level2">
+<h2>Learn more about R best practices</h2>
+<ol style="list-style-type: decimal">
+<li><p><a href="https://r4ds.had.co.nz/">R for Data Science</a></p></li>
+<li><p><a href="https://www.tidyverse.org/">Tidyverse</a></p></li>
+<li><p><a href="https://rviews.rstudio.com/">RViews Community Blog</a></p></li>
+</ol>
+</div>
+<div id="feedback" class="section level2">
+<h2>Feedback</h2>
+<p><span class="citation">@mjfrigaard</span> on Twitter and Github</p>
+<p><a href="mailto:mjfrigaard@gmail.com" class="email">mjfrigaard@gmail.com</a></p>
 </div>
 </div>
 
