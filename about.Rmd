@@ -20,7 +20,7 @@ Other tutorials and lessons by me:
 
 Versions of key packages:
 
-```{r}
-devtools::session_info(c("purrr", "repurrrsive"))
+```{r session_info}
+devtools::session_info(c("dplyr", "tidyr", "ggplot2", "shiny"))
 ```
 
