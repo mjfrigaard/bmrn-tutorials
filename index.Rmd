@@ -35,8 +35,6 @@ x <- tibble(fls = list.files()) %>%
   group_by(basename) %>% 
   summarize_all(list) %>% 
   filter(map_lgl(ext, has_all_things, things = c("Rmd", "html")))
-x %>% 
-  unnest_wider(ext)
 x <- x %>% 
   mutate(
     yaml = basename %>% ext_file("Rmd") %>% map(parse_yaml),
@@ -70,9 +68,7 @@ cat_bullet(x, "^dt")
 
 ### Data Visualization
 
-*coming soon!*
-
-```{r results = 'asis', echo = FALSE, eval=FALSE}
+```{r results = 'asis', echo = FALSE, eval=TRUE}
 # here we see the 'ex' for exercises 
 cat_bullet(x, "^gg")
 ```

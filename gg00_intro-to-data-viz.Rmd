@@ -1,0 +1,1050 @@
+---
+title: "Introduction to Data Visualization with ggplot2"
+comment: "*exercises for introducing ggplot2*"
+output: 
+  html_document: 
+    toc: yes
+    toc_float: yes
+    toc_depth: 5
+    code_folding: show
+    theme: flatly
+    df_print: paged
+    number_sections: yes
+    
+always_allow_html: true
+---
+
+
+```{r , include=FALSE}
+library(tidyverse)
+library(skimr)
+# create data folder
+knitr::opts_chunk$set(warning = FALSE, 
+                      message = FALSE,
+                      tidy = FALSE)
+# set width
+options(width = 60)
+```
+
+# Objectives 
+
+This document outlines and introduction to data visualization with `ggplot2`. 
+
+# Materials
+
+The slides for this presentation are [here](https://mjfrigaard.github.io/data-viz-intro/Index.html)
+
+There is also an accompanying RStudio.Cloud project:
+
+# Previous lessons
+
+All of the exercises and lessons are available [here](https://mjfrigaard.github.io/r-meetup-tutorials/), but you can also read more about [`dplyr`](https://dplyr.tidyverse.org/index.html) and [`tidyr`](https://tidyr.tidyverse.org/) on the tidyverse website, and in the [Data Transformation](https://r4ds.had.co.nz/transform.html) and [Tidy Data](https://r4ds.had.co.nz/tidy-data.html) chapters of R for Data Science. 
+
+# Load the packages 
+
+The main packages we're going to use are `dplyr`, `tidyr`, and `ggplot2`. These are all part of the `tidyverse`, so we'll import this package below: 
+
+```{r packages, eval=FALSE}
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+# Largest Pharmaceutical Companies (Wikipedia)
+
+We're going to import some data from the wild (wikipedia), because data are never in the ideal format when we first get them.
+
+## Import the data {.tabset}
+
+I Googled "largest pharmaceutical companies" and found [this wikipedia page](https://en.wikipedia.org/wiki/List_of_largest_biotechnology_and_pharmaceutical_companies). 
+
+```{r scrape-packages}
+library(xml2)
+library(rvest)
+```
+
+
+### Read HTML
+
+The first function I'll use comes from the `xml2` [package](https://blog.rstudio.com/2015/04/21/xml2/). `xml2::read_html()` loads the html from the wikipedia page into an R object I call `wiki_html`.
+
+```{r wiki_html}
+wiki_html <- xml2::read_html("https://en.wikipedia.org/wiki/List_of_largest_biotechnology_and_pharmaceutical_companies")
+```
+
+We should check the structure of new objects, so we know what we're working with.
+
+```{r structure_wiki_html}
+wiki_html %>% str()
+```
+
+I can see this is a list of two objects (a `node` and a `doc`).
+
+### HTML Nodes (css)
+
+I want the html `node`, so I will use a function from the `rvest` [package](https://github.com/hadley/rvest). 
+The `css` argument is set to `"table"`. Once again I check the structure of the output object.
+
+```{r wiki_html_tables}
+wiki_html_tables <- wiki_html %>% rvest::html_nodes(css = "table")
+wiki_html_tables %>% str()
+```
+
+This is a list of three lists, each of them `xml_node`s. 
+
+In order to find the relevant tables in the `wiki_html_tables` object, I need to be able to search on something. Fortunately, the `base::grep()` function can be used in combination with sub-setting to extract the `relevant_tables` from `wiki_html_tables`.
+
+Get the relevant tables from the `xml_nodeset` in `wiki_html_tables`.
+
+```{r relevant_tables}
+relevant_tables <- wiki_html_tables[base::grep("rank", wiki_html_tables)]
+relevant_tables %>% str()
+```
+
+This returned yet another list of lists! (another set of `node` and `doc`). 
+
+### Extract HTML table
+
+Now I need to use `rvest::html_table()` function (combined with some bracket sub-setting) to explore this object and learn about it's contents (read more about how this works [here](https://dcl-wrangle.stanford.edu/rvest.html#scrape-data-with-rvest)). 
+
+I will start with position `[[1]]` and set `fill = TRUE`. 
+
+```{r test-html_table}
+rvest::html_table(relevant_tables[[1]], 
+                  fill = TRUE) %>% utils::head()
+```
+
+This looks like the table I want! Let's it to a data frame and get wrangling!
+
+```{r TopPharmCompRaw}
+TopPharmCompRaw <- rvest::html_table(relevant_tables[[1]], 
+                  fill = TRUE)
+```
+
+## Data wrangling (outline) 
+
+We have a raw dataset now, and we should make a 'to-do' list of what we want the data to look like: 
+
+1. Standardized column names  
+2. Each variable in it's own column:  
+   - i.e. type of company in it's own column (`B` – Biotechnology company, `P` – Pharmaceutical company)
+   - stock exchange identifier in it's own column (i.e. `NYSE`, `NASDAQ`, etc.) 
+3. Properly formatted values (numeric, factor, etc.)   
+4. Missing variables formatted correctly (replace `-` with `NA`)
+
+## Column Names {.tabset}
+
+Follow along on each tab for the steps to wrangle the column names:
+
+### String manipulations
+
+We can use `janitor::clean_names()`, but first we should do some string manipulation to remove the extra characters from the column names. 
+
+```{r cleaned_names}
+TopPharmCompRaw %>% 
+    # get a vector of 'dirty' names
+    names() %>% 
+    # remove citations in brackets [ ]
+    stringr::str_remove_all(string = ., pattern = "\\[[0-9]\\]") %>%
+    # replace (USD billions)
+    stringr::str_replace_all(string = ., pattern = "\\s*\\([^\\)]+\\)", 
+                             replacement = "_us_bil") %>% 
+    # remove bracket from Rank
+    stringr::str_remove_all(string = ., pattern = "\\[|\\]") %>% 
+    # remove alpha numeric from end of Rank
+    stringr::str_remove_all(string = ., pattern = "N 1$") %>% 
+    # make all lowercase
+    stringr::str_to_lower() -> cleaned_names
+cleaned_names
+```
+
+### `janitor::clean_names`
+
+Now we can apply the new names (`cleaned_names`) to `TopPharmCompRaw` and use `janitor::clean_names()` to standardize them. 
+
+```{r clean_names}
+TopPharmCompRaw %>% 
+    set_names(nm = cleaned_names) %>% 
+    janitor::clean_names()
+```
+
+### Assign to data frame
+
+If this looks acceptable, we can assign to `TopPharmComp` (because this is no longer a raw dataset!)
+
+```{r TopPharmComp}
+TopPharmComp <- TopPharmCompRaw %>% 
+    set_names(nm = cleaned_names) %>% 
+    janitor::clean_names()
+```
+
+## Define Variables {.tabset}
+
+We want to split up the following variables into their own columns: 
+
+1. `company_type` = `[P]` for `Pharmaceutical` or `[B]` for `Biotechnology`  
+2. `stock_exch` = `NSYE` (New York Stock Exchange), `NASDAQ` (National Association of Securities Dealers Automated Quotations), `FWB` (Frankfurt Stock Exchange), `TYO` (Australian Securities Exchange), `TSX` (Toronto Stock Exchange), and `SIX` (Swiss Exchange).
+3. `stock_id` = acronym for each company on `stock_exch`  
+4. `largest_market_cap_date` = date from `largest_market_cap_us_bil`  
+5. `company_name` a variable containing *only* the company name 
+6. a `ranking` variable with a numerically coded rank
+
+### `company_type`
+
+Here we `separate` the `company` column into two new columns, then use the `company_name_etc` to create `company_type`
+
+```{r check-company_type}
+TopPharmComp %>% 
+  # separate company into 2 columns
+  separate(col = company, into = c("company_name_etc", "company_etc"), 
+           sep = "\\]", 
+           remove = FALSE) %>% 
+  # create categories
+  mutate(company_type = case_when(
+    str_detect(string = company_name_etc, pattern = "\\[P$") ~ "Pharma", 
+    str_detect(string = company_name_etc, pattern = "\\[B$") ~ "Biotech")) %>% 
+  # check our work
+  dplyr::select(contains("comp"))
+```
+
+These categories look are correct, so we can assign `company_type` to `TopPharmComp`.
+
+```{r assign-company_type}
+TopPharmComp <- TopPharmComp %>% 
+  # separate company into 2 columns
+  separate(col = company, into = c("company_name_etc", "company_etc"), 
+           sep = "\\]", 
+           remove = FALSE) %>% 
+  # create categories
+  mutate(company_type = case_when(
+    str_detect(string = company_name_etc, pattern = "\\[P$") ~ "Pharma", 
+    str_detect(string = company_name_etc, pattern = "\\[B$") ~ "Biotech")) %>% 
+  # remove company_name_etc
+  select(-company_name_etc)
+TopPharmComp
+```
+
+### `stock_exch` & `stock_id`
+
+We will use the `company_etc` column to create `stock_exch` and `stock_id`.
+
+```{r check-stock_exch-stock_id}
+TopPharmComp %>% 
+  # first separate the columns
+    separate(col = company_etc, 
+             into = c("stock_exch", "stock_id"), 
+             sep = ":", remove = FALSE) %>% 
+  # check our work
+  select(company,
+         company_etc, 
+         contains("stock"))
+```
+
+The `sep` argument helps us a lot here, so we can create two new variables with minimal steps! We'll assign to `TopPharmComp`.
+
+```{r assign-stock_exch-stock_id}
+TopPharmComp <- TopPharmComp %>% 
+  # first separate the columns
+    separate(col = company_etc, 
+             into = c("stock_exch", "stock_id"), 
+             sep = ":", remove = FALSE) %>% 
+  select(rank, 
+         contains("comp"),
+         contains("stock"),
+         everything(), 
+         -company_etc)
+```
+
+### `largest_market_cap_date`
+
+Here we'll use `dplyr::rename()` to change `largest_market_cap_us_bil` to `_original` so we can check our work with `remove = FALSE`.
+
+```{r check-largest_market_cap_date}
+TopPharmComp %>% 
+  # rename column to largest_market_cap_original
+  dplyr::rename(largest_market_cap_original = largest_market_cap_us_bil) %>% 
+  # separate into two columns
+  separate(col = largest_market_cap_original, 
+           into = c('largest_market_cap_us_bil', 'largest_market_cap_date'),
+           sep = "\\(", 
+           remove = FALSE) %>% 
+  # remove parenthesis
+  mutate(largest_market_cap_date = 
+           str_remove_all(largest_market_cap_date, pattern = "\\)$")) %>% 
+  # check our work
+  select(contains("large"))
+```
+
+Now we have the month and year separated into `largest_market_cap_date`--we can assign to `TopPharmComp`
+
+```{r assign-largest_market_cap_date}}
+TopPharmComp <- TopPharmComp %>% 
+  # rename column to largest_market_cap_original
+  dplyr::rename(largest_market_cap_original = largest_market_cap_us_bil) %>% 
+  # separate into two columns
+  separate(col = largest_market_cap_original, 
+           into = c('largest_market_cap_us_bil', 'largest_market_cap_date'),
+           sep = "\\(", 
+           remove = FALSE) %>% 
+  # remove parenthesis
+  mutate(largest_market_cap_date = 
+           str_remove_all(largest_market_cap_date, pattern = "\\)$")) %>% 
+  # reorganize
+  select(rank, 
+         contains("comp"),
+         contains("stock"),
+         contains("large"),
+         everything(), 
+         -largest_market_cap_original)
+```
+
+
+### `company_name`
+
+We will create a `company_name` variable using a different `sep` argument here, and we clean the `company_name` variable with `str_remove_all()`
+
+```{r check-company_name}
+TopPharmComp %>% 
+  # separate company into 2 columns
+  separate(col = company, into = c("company_name", "company_junk"), 
+           sep = "\\[",
+           remove = FALSE) %>% 
+  # remove preceding \
+  mutate(company_name = 
+           str_remove_all(string = company_name, pattern = "^/")) %>% 
+  # check our work
+  select(company, company_name, company_junk)
+```
+
+This gives us only the name in `company_name`. We can assign and remove `company_junk`.
+
+```{r assign-company_name}
+TopPharmComp <- TopPharmComp %>% 
+  # separate company into 2 columns
+  separate(col = company, into = c("company_name", "company_junk"), 
+           sep = "\\[",
+           remove = FALSE) %>% 
+  # remove preceding \
+  mutate(company_name = 
+           str_remove_all(string = company_name, pattern = "^/")) %>% 
+  # reorganize
+  select(rank, 
+         contains("comp"),
+         contains("stock"),
+         contains("large"),
+         everything(),
+         -c(company, company_junk))
+```
+
+### `ranking`
+
+Here we can use `str_remove_all()` to remove the extra numbers in `rank` and create the `ranking` variable.
+
+```{r check-ranking}
+TopPharmComp %>% 
+  dplyr::mutate(ranking = 
+          stringr::str_remove_all(string = rank, pattern = " \\d$")) %>% 
+  select(contains("rank"))
+```
+
+We assign this to `TopPharmComp` and move onto the missing values.
+
+```{r assign-ranking}
+TopPharmComp <- TopPharmComp %>% 
+  dplyr::mutate(ranking = 
+          stringr::str_remove_all(string = rank, pattern = " \\d$")) %>% 
+  select(ranking, 
+         contains("comp"),
+         contains("stock"),
+         contains("large"),
+         everything(),
+         # remove rank
+         -rank)
+```
+
+## Missing Values {.tabset}
+
+We can see there is a missing value in `market_cap_in_2013_us_bil` formatted as `-`. We can change these with `dplyr::na_if()`
+
+```{r check-na_if}
+TopPharmComp %>% 
+  na_if(x = ., y = "-") %>% 
+  select(market_cap_in_2013_us_bil)
+```
+
+We can assign this and move onto formatting the variables. 
+
+```{r assign-na_if}
+TopPharmComp <- TopPharmComp %>% 
+  na_if(x = ., y = "-")
+```
+
+## Format Values {.tabset}
+
+Let's take a look with `glimpse()` to see how these are formatted. 
+
+```{r TopPharmComp-glimpse}
+# set width
+options(width = 60)
+# view transposed data
+TopPharmComp %>% glimpse()
+```
+
+We can see the `market_cap_in_2013_us_bil` and `largest_market_cap_us_bil` are formatted as `character`s (but they should be `double`).
+
+### Remove whitespace  
+
+Remove the whitespace from `largest_market_cap_us_bil` with `stringr::str_trim()`.
+
+```{r check-str_trim}
+TopPharmComp %>% 
+  mutate(
+    largest_market_cap_us_bil = str_trim(string = largest_market_cap_us_bil, 
+                                         side = "both"),
+    largest_market_cap_us_bil = as.numeric(largest_market_cap_us_bil))
+```
+
+This is working on the `largest_market_cap_us_bil`--assign this to `TopPharmComp`.
+
+```{r assign-str_trim}
+TopPharmComp <- TopPharmComp %>% 
+  mutate(
+    largest_market_cap_us_bil = str_trim(string = largest_market_cap_us_bil, 
+                                         side = "both"),
+    largest_market_cap_us_bil = as.numeric(largest_market_cap_us_bil))
+```
+
+We will also format `market_cap_in_2013_us_bil` as a numeric value.
+
+```{r format-market_cap_in_2013_us_bil}
+TopPharmComp <- TopPharmComp %>% 
+  mutate(
+    market_cap_in_2013_us_bil = as.numeric(market_cap_in_2013_us_bil))
+```
+
+
+
+### Dates  
+
+We will use the `_original` suffix again to check our work. 
+
+```{r check-lubridate-my}
+TopPharmComp %>% 
+  rename(cap_date_original = largest_market_cap_date) %>% 
+  mutate(largest_market_cap_date = lubridate::my(cap_date_original)) %>% 
+  dplyr::select(contains("date"))
+```
+
+This is giving us the date in `largest_market_cap_date`, but each day is rounded to the first day of the relative month (which is OK). Assign to `TopPharmComp` (but keep `cap_date_original`).
+
+```{r assign-lubridate-my}
+TopPharmComp <- TopPharmComp %>% 
+  # rename
+  rename(cap_date_original = largest_market_cap_date) %>% 
+  # change format 
+  mutate(largest_market_cap_date = lubridate::my(cap_date_original)) %>% 
+  # reorganize
+  select(ranking, 
+         contains("comp"),
+         contains("stock"),
+         contains("date"),
+         contains("us_bil"))
+TopPharmComp
+```
+
+### Factors  
+
+We want to keep the order of `ranking`, so we will format this as an ordered factor. We don't need to supply any `levels` because they are already numeric. 
+
+```{r factor-ranking}
+TopPharmComp <- TopPharmComp %>% 
+  mutate(
+    ranking = as.integer(ranking),
+    ranking = factor(ranking, ordered = TRUE))
+# check
+TopPharmComp %>% arrange(ranking)
+```
+
+# Tidy Data 
+
+These data are in a wide format, with each `market_cap_in_` spread across columns. 
+
+```{r view-TopPharmComp}
+TopPharmComp
+```
+
+
+## Pivot data {.tabset}
+
+Ideally, we want two variables, `market_cap_year` and `market_cap_us_bil`. 
+
+### `pivot_longer`
+
+We can re-shape `TopPharmComp` with `tidyr::pivot_longer()`. 
+
+```{r check-pivot_longer}
+TopPharmComp %>% 
+  tidyr::pivot_longer(cols = starts_with("market_cap"), 
+                      names_to = "market_cap_year", 
+                      values_to = "market_cap_us_bil")
+```
+
+This looks correct--let's assign it to `TidyTopPharmComp` (because it's a new data structure).
+
+```{r assign-TidyTopPharmComp}
+TidyTopPharmComp <- TopPharmComp %>% 
+  tidyr::pivot_longer(cols = starts_with("market_cap"), 
+                      names_to = "market_cap_year", 
+                      values_to = "market_cap_us_bil")
+```
+
+
+### `market_cap_year`
+
+We can also wrangle the `market_cap_year` variable so it only contains the four-number year.
+
+```{r check-market_cap_year}
+TidyTopPharmComp %>% 
+  # remove characters
+  dplyr::mutate(market_cap_year = str_remove_all(string = market_cap_year, 
+                                                 pattern = "\\D"),
+                # make numeric
+                market_cap_year = as.integer(market_cap_year)) %>% 
+  # check work
+  select(ranking, 
+         company_name, 
+         market_cap_year, 
+         market_cap_us_bil)
+```
+
+Let's assign `market_cap_year` to `TidyTopPharmComp` and start visualizing!
+
+```{r assign-market_cap_year}
+TidyTopPharmComp <- TidyTopPharmComp %>% 
+  # remove characters
+  dplyr::mutate(market_cap_year = str_remove_all(string = market_cap_year, 
+                                                 pattern = "\\D"),
+                # make numeric
+                market_cap_year = as.integer(market_cap_year))
+```
+
+# Visualize 
+
+We will start by looking at the trends of `market_cap_us_bil` over time (using `market_cap_year`). 
+
+## Labels
+
+I suggest building labels **first** when making a figure or graph, because it forces us to think about what we should expect to see. For example, if we want to see `market_cap_us_bil` on the `y` and `market_cap_year` on the `x`, we can create these with a title using the `ggplot2::labs()` function below. 
+
+```{r lbl_graph_01}
+lbl_graph_01 <- ggplot2::labs(title = "Market Cap Trends Over Time", 
+                              subtitle = "Largest Pharmaceutical Companies",
+                              x = "Year", y = "Market cap (USD in billions)")
+```
+
+
+## Map Variables to Positions {.tabset}
+
+The exercises below are a refresher on mapping variables to aesthetics and picking geoms. 
+
+### exercise
+
+Map the `market_cap_year` to the `x` and `market_cap_us_bil` to the `y` and add a `geom_point()`
+
+```{r aes-ex-01, eval=FALSE}
+TidyTopPharmComp %>% 
+  ggplot(aes(x = __________, y = __________)) + 
+  geom______() + 
+  lbl_graph_01
+```
+
+### solution
+
+Check the solution below--what is wrong with this plot?
+
+```{r aes-sol-01}
+TidyTopPharmComp %>% 
+  ggplot(aes(x = market_cap_year, y = market_cap_us_bil)) + 
+  geom_point() + 
+  lbl_graph_01
+```
+
+### exercise
+
+Change the geom to a `geom_line()`. Does it help?
+
+```{r aes-ex-02, eval=FALSE}
+TidyTopPharmComp %>% 
+  ggplot(aes(x = __________, y = __________)) + 
+  geom_____() + 
+  lbl_graph_01
+```
+
+### solution
+
+Check the updated graph below. It's closer to what we want, but not quite. What do you think the issue is?
+
+```{r aes-sol-02}
+TidyTopPharmComp %>% 
+  ggplot(aes(x = market_cap_year, y = market_cap_us_bil)) + 
+  geom_line() + 
+  lbl_graph_01
+```
+
+### exercise
+
+This time add another `aes()` *inside* the `geom_line()` function, and apply `group` to `company_name`.
+
+```{r aes-ex-03, eval=FALSE}
+TidyTopPharmComp %>% 
+  ggplot(aes(x = market_cap_year, y = market_cap_us_bil)) + 
+  geom_line(aes(_____ = __________)) + 
+  lbl_graph_01
+```
+
+### solution
+
+Now the graph is looking how we want! We can see the trend lines are separated according to each company name, but we can't tell which line is which. 
+
+Let's add some color to see more.
+
+```{r aes-sol-03}
+TidyTopPharmComp %>% 
+  ggplot(aes(x = market_cap_year, y = market_cap_us_bil)) + 
+  geom_line(aes(group = company_name)) + 
+  lbl_graph_01
+```
+
+## Map Variables to Aesthetics {.tabset} 
+
+In the previous graph, we were able to get a different line per company. However, we want to identify more about these companies with color. 
+
+We know there are 33 different `company_names`, and this is too many to map with color (check this with `distinct()`) 
+
+```{r distinct-company_name}
+TidyTopPharmComp %>% distinct(company_name)
+```
+
+### exercise
+
+Use the `stock_exch` to color the lines, assign this graph to `gg_trend_line`
+
+```{r aes-ex-04-gg_trend_line, eval=FALSE}
+gg_trend_line <- TidyTopPharmComp %>% 
+  ggplot(aes(x = market_cap_year, y = market_cap_us_bil)) + 
+  geom_line(aes(group = company_name, color = __________)) + 
+  lbl_graph_01
+gg_trend_line
+```
+
+### solution
+
+This graph is showing us more information that the previous plot. For example, we can see the companies with the best performance are on the `NYSE`, and those with relatively low performance are on the `TSX`. 
+
+```{r aes-sol-04-gg_trend_line}
+gg_trend_line <- TidyTopPharmComp %>% 
+  ggplot(aes(x = market_cap_year, y = market_cap_us_bil)) + 
+  geom_line(aes(group = company_name, color = stock_exch)) + 
+  lbl_graph_01
+gg_trend_line
+```
+
+This graph is better then the previous versions, but it still has too much information to be very helpful. In the next section, we'll summarize the data a bit more to create different visualizations.
+
+## Graphing Data Summaries {.tabset}
+
+We're going to summarize the data in `TidyTopPharmComp`. Summarizations are helpful when we're interested in comparing variables across groups.
+
+### Average Market Cap
+
+We want the `TidyTopPharmComp` dataset to have one variable per `company_name` name and `stock_exch`. A good measure of central tendency for this is the `mean()` (or average). First we define the new labels.
+
+```{r lbl_graph_02}
+lbl_graph_02 <- ggplot2::labs(title = "Average Market Cap (2013-2019)", 
+                              subtitle = "Largest Pharmaceutical Companies",
+                              x = "Average Market cap (USD in billions)",
+                              y = "Company")
+```
+
+The code below groups the `TidyTopPharmComp` data by `company_name` and `stock_exch` and summarizes the mean `market_cap_us_bil`.
+
+```{r group_by-summarize}
+TidyTopPharmComp %>% 
+  group_by(company_name, stock_exch) %>% 
+  summarize(
+    avg_market_cap = mean(market_cap_us_bil, na.rm = TRUE)) %>% 
+  ungroup()
+```
+
+This dataset will allow us to show more information per company.
+
+### exercise 
+
+Complete the code below with the following:
+
+1. map `avg_market_cap` to the `x` axis  
+2. map `company_name` to the `y` axis
+3. map `stock_exch` to `fill`
+
+```{r aes-ex-05, eval=FALSE}
+TidyTopPharmComp %>% 
+  group_by(company_name, stock_exch) %>% 
+  summarize(
+    avg_market_cap = mean(market_cap_us_bil, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  ggplot() + 
+  geom_col(aes(x = _________, 
+             
+             y = __________,
+             
+             fill = _________)) + 
+  lbl_graph_02
+```
+
+### solution 
+
+```{r aes-sol-05-gg_col_graph}
+TidyTopPharmComp %>% 
+  group_by(company_name, stock_exch) %>% 
+  summarize(
+    avg_market_cap = mean(market_cap_us_bil, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  ggplot() + 
+  geom_col(aes(x = avg_market_cap, 
+               
+               y = company_name,
+             
+               fill = stock_exch)) + 
+  lbl_graph_02
+```
+
+This graph is better because we can see the average performance of the market cap per company. The lines are very unorganized, though. We can use a combination of `factor()` and `forcats::fct_reorder()` to fix this.
+
+### exercise 
+
+Use `fct_reorder` and `factor` to reorder `avg_market_cap` according to `company_name`  
+
+```{r aes-ex-6, eval=FALSE}
+TidyTopPharmComp %>% 
+  group_by(company_name, stock_exch) %>% 
+  summarize(
+    avg_market_cap = mean(market_cap_us_bil, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  ggplot() + 
+  geom_col(aes(x = avg_market_cap, 
+             y = fct_reorder(factor(_________), __________),
+             fill = stock_exch)) + 
+  lbl_graph_02
+```
+
+### solution 
+
+```{r aes-sol-6}
+TidyTopPharmComp %>% 
+  group_by(company_name, stock_exch) %>% 
+  summarize(
+    avg_market_cap = mean(market_cap_us_bil, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  ggplot() + 
+  geom_col(aes(x = avg_market_cap, 
+             y = fct_reorder(factor(company_name), avg_market_cap),
+             fill = stock_exch)) + 
+  lbl_graph_02
+```
+
+
+### exercise 
+
+Change the labels below so that the legend is named, `"Stock Exchange"`. Re-build the plot with the new labels and assign this to `gg_col_graph`.
+
+```{r label-ex-07-gg_col_graph, eval=FALSE}
+lbl_graph_02 <- ggplot2::labs(x = "Company", 
+                              y = "Average Market cap (USD in billions)", 
+                              title = "Average Market Cap (2013-2019)", 
+                              subtitle = "Largest Pharmaceutical Companies", 
+                              fill = ___________)
+
+gg_col_graph <- TidyTopPharmComp %>% 
+  group_by(company_name, stock_exch) %>% 
+  summarize(
+    avg_market_cap = mean(market_cap_us_bil, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  ggplot() + 
+  geom_col(aes(x = avg_market_cap, 
+             y = fct_reorder(factor(company_name), avg_market_cap),
+             fill = stock_exch)) + 
+  lbl_graph_02
+
+gg_col_graph
+```
+
+### solution
+
+```{r label-sol-07}
+lbl_graph_02 <- ggplot2::labs(x = "Company", 
+                              y = "Average Market cap (USD in billions)", 
+                              title = "Average Market Cap (2013-2019)", 
+                              subtitle = "Largest Pharmaceutical Companies", 
+                              fill = "Stock Exchange")
+gg_col_graph <- TidyTopPharmComp %>% 
+  group_by(company_name, stock_exch) %>% 
+  summarize(
+    avg_market_cap = mean(market_cap_us_bil, na.rm = TRUE)) %>% 
+  ungroup() %>% 
+  ggplot() + 
+  geom_col(aes(x = avg_market_cap, 
+             y = fct_reorder(factor(company_name), avg_market_cap),
+             fill = stock_exch)) + 
+  lbl_graph_02
+
+gg_col_graph
+```
+
+
+## Using Facets {.tabset}
+
+We're going to focus on the Largest Market Cap (`largest_market_cap_us_bil`) and Largest Market Cap Date (`largest_market_cap_date`) variables. We will define a new set of labels below. 
+
+```{r lbl_graph_03}
+lbl_graph_03 <- ggplot2::labs(title = "Largest Market Cap (USD in billions)", 
+                              subtitle = "Largest Pharmaceutical Companies",
+                              x = "Largest Market Cap Date", 
+                              y = "Largest Market Cap (USD in billions)", 
+                              color = "Company Type")
+```
+
+### exercise 
+
+`select()` the `stock_exch`, `stock_id`, `company_type`, `largest_market_cap_date`, and `largest_market_cap_us_bil` variables and get the `distinct()` values. Assign this to `TidyTopPharmComCaps`. 
+
+```{r dplyr-ex-08, eval=FALSE}
+TidyTopPharmComCaps <- TidyTopPharmComp %>% 
+  select(_________, _________, _________,
+         _________, _________) %>% 
+  dplyr::distinct()
+```
+
+
+### solution
+
+```{r dplyr-sol-08-TidyTopPharmComCaps}
+TidyTopPharmComCaps <- TidyTopPharmComp %>% 
+  select(stock_exch, stock_id, company_type,
+         largest_market_cap_date, largest_market_cap_us_bil) %>%  
+  dplyr::distinct()
+TidyTopPharmComCaps
+```
+
+### exercise 
+
+Use `TidyTopPharmComCaps` to create a scatter plot with `largest_market_cap_date` to the `x` axis, and `largest_market_cap_us_bil` to the `y`. Color the points by `company_type`. 
+
+```{r aes-ex-09, eval=FALSE}
+TidyTopPharmComCaps %>% 
+  ggplot() + 
+  geom_point(aes(x = _____________, 
+             y = _____________, 
+             color = _____________)) + 
+  lbl_graph_03
+```
+
+### solution
+
+We can see this plot is showing us the date they reached their Largest Market Cap, and the date they reached it. But we still can't see which company is which.
+
+```{r aes-sol-09}
+TidyTopPharmComCaps %>% 
+  ggplot() + 
+  geom_point(aes(x = largest_market_cap_date, 
+                 y = largest_market_cap_us_bil, 
+                 color = company_type)) + 
+  lbl_graph_03
+```
+
+### exercise 
+
+Add another layer to the plot above using `geom_text()` 
+
+- map `largest_market_cap_date` to the `x`  
+- map `largest_market_cap_us_bil` to the `y`  
+- map `stock_id` to `label` 
+- set `size` to `3` (outside `aes()`)
+
+```{r aes-ex-10, eval=FALSE}
+TidyTopPharmComCaps %>% 
+  ggplot() + 
+  
+  geom_point(aes(x = largest_market_cap_date, 
+                 y = largest_market_cap_us_bil, 
+                 color = company_type)) + 
+  
+  geom_text(aes(x = _____________, 
+                y = _____________, 
+                label = _____________), size = _) + 
+  lbl_graph_03
+```
+
+
+
+### solution
+
+We can see this plot has labelled each company so we can clearly see the date they reached their Largest Market Cap in comparison to other companies. The labels are hard to see, though...
+
+```{r ael-sol-10}
+TidyTopPharmComCaps %>% 
+  ggplot() + 
+  
+  geom_point(aes(x = largest_market_cap_date, 
+                 y = largest_market_cap_us_bil, 
+                 color = company_type)) + 
+  
+  geom_text(aes(x = largest_market_cap_date, 
+                y = largest_market_cap_us_bil, 
+                label = stock_id), size = 3) + 
+  lbl_graph_03
+```
+
+### exercise 
+
+Use the [`ggrepel` package](https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html) to adjust the labels.
+
+- Map `stock_id` to `geom_text_repel()`
+
+```{r aes-ex-11, eval=FALSE}
+library(ggrepel)
+TidyTopPharmComCaps %>% 
+  ggplot(aes(x = largest_market_cap_date, 
+             y = largest_market_cap_us_bil)) + 
+  geom_point(aes(color = company_type)) + 
+  geom_text_repel(aes(label = __________), size = 3) + 
+  lbl_graph_03 
+```
+
+### solution
+
+Now the labels for each company are easier to see. But this is still a very busy graph...
+
+```{r aes-sol-11}
+library(ggrepel)
+TidyTopPharmComCaps %>% 
+  ggplot(aes(x = largest_market_cap_date, 
+             y = largest_market_cap_us_bil)) + 
+  geom_point(aes(color = company_type)) + 
+  geom_text_repel(aes(label = stock_id), size = 3) + 
+  lbl_graph_03 
+```
+
+### exercise 
+
+Use `facet_wrap()` to split the graphs by `company_type` 
+
+- set the `scales` argument to `"free"` and `nrow` to `2`.
+
+```{r aes-ex-12, eval=FALSE}
+TidyTopPharmComCaps %>% 
+  ggplot(aes(x = largest_market_cap_date, 
+             y = largest_market_cap_us_bil)) + 
+  geom_point(aes(color = company_type), show.legend = FALSE) + 
+  geom_text_repel(aes(label = stock_id), size = 3) + 
+  
+  facet_wrap(. ~ company_type, scales = ______, nrow = _) + 
+  
+  lbl_graph_03 
+```
+
+
+
+### solution
+
+This creates two graphs--one for each level of `company_type`. Why would setting the `scales` to `"free"` be an issue?
+
+```{r aes-sol-12}
+TidyTopPharmComCaps %>% 
+  ggplot(aes(x = largest_market_cap_date, 
+             y = largest_market_cap_us_bil)) + 
+  geom_point(aes(color = company_type), show.legend = FALSE) + 
+  geom_text_repel(aes(label = stock_id), size = 3) + 
+  
+  facet_wrap(. ~ company_type, scales = "free", nrow = 2) + 
+  
+  lbl_graph_03 
+```
+
+### exercise 
+
+Change the `scales` argument to `"free_x"` and rebuild the graph above.
+
+```{r aes-ex-13, eval=FALSE}
+TidyTopPharmComCaps %>% 
+  filter(stock_exch %in% c("NASDAQ", "NYSE"), 
+         company_type == "Pharma") %>% 
+  ggplot(aes(x = largest_market_cap_date, 
+             y = largest_market_cap_us_bil)) + 
+  geom_point(aes(color = stock_exch), show.legend = FALSE) + 
+  geom_text_repel(aes(label = stock_id), size = 3) + 
+  facet_wrap(. ~ stock_exch, scales = ______, nrow = 2) + 
+  lbl_graph_03 
+```
+
+
+### solution
+
+This fixes the `y` axis, but allows the `x` to adjust according to the data. How can this be helpful?
+
+```{r aes-sol-13}
+TidyTopPharmComCaps %>% 
+  filter(stock_exch %in% c("NASDAQ", "NYSE"), 
+         company_type == "Pharma") %>% 
+  ggplot(aes(x = largest_market_cap_date, 
+             y = largest_market_cap_us_bil)) + 
+  geom_point(aes(color = stock_exch), show.legend = FALSE) + 
+  geom_text_repel(aes(label = stock_id), size = 3) + 
+  
+  facet_wrap(. ~ stock_exch, scales = "free_x", nrow = 2) + 
+  
+  lbl_graph_03 
+```
+
+### exercise 
+
+Change the `scales` argument to `"free_y"` and rebuild the graph.
+
+```{r aes-ex-14, eval=FALSE}
+TidyTopPharmComCaps %>% 
+  filter(stock_exch %in% c("NASDAQ", "NYSE"), 
+         company_type == "Pharma") %>% 
+  ggplot(aes(x = largest_market_cap_date, 
+             y = largest_market_cap_us_bil)) + 
+  geom_point(aes(color = stock_exch), show.legend = FALSE) + 
+  geom_text_repel(aes(label = stock_id), size = 3) + 
+  
+  facet_wrap(. ~ stock_exch, scales = ________, nrow = 2) + 
+  
+  lbl_graph_03
+```
+
+
+### solution
+
+Now we have a fixed `x` axis, and the `y` axis can adjust according to the data. How might this be helpful?
+
+
+```{r aes-sol-14}
+TidyTopPharmComCaps %>% 
+  filter(stock_exch %in% c("NASDAQ", "NYSE"), 
+         company_type == "Pharma") %>% 
+  ggplot(aes(x = largest_market_cap_date, 
+             y = largest_market_cap_us_bil)) + 
+  geom_point(aes(color = stock_exch), show.legend = FALSE) + 
+  geom_text_repel(aes(label = stock_id), size = 3) + 
+  facet_wrap(. ~ stock_exch, scales = "free_y", nrow = 2) + 
+  lbl_graph_03 
+```
+
+## Recap 
+
+These exercises have covered: 
+ 
+1. Wrangling data with `dplyr`, `stringr` and `janitor`    
+2. Tidying data with `tidyr`   
+3. Graphing data using positions, aesthetics, and geoms   
+4. Using `facet`s to explore graphs across different scales for the `x` and `y` axes   
