@@ -6,10 +6,10 @@ output:
     toc: yes
     toc_float: yes
     toc_depth: 5
+    number_sections: yes
     code_folding: show
     theme: flatly
     df_print: paged
-    number_sections: yes
     
 always_allow_html: true
 ---

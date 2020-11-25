@@ -16,7 +16,7 @@ has_all_things <- function(y, things) {
   all(match(tolower(things), tolower(y), nomatch = 0) > 0)
 }
 
-parse_yaml <- function(file, n = 15) {
+parse_yaml <- function(file, n = 30) {
   rmarkdown:::parse_yaml_front_matter(read_lines(file, n_max = n))
 }
 
@@ -28,7 +28,7 @@ cat_bullet <- function(x, pattern) {
 }
 ```
 
-```{r create-x, include = FALSE, warning = FALSE}
+```{r create-x, warning=FALSE, include=FALSE}
 x <- tibble(fls = list.files()) %>%
   mutate(basename = tools::file_path_sans_ext(fls),
          ext = tools::file_ext(fls)) %>% 

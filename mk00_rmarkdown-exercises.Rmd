@@ -1,15 +1,19 @@
 ---
 title: "Reproducible Reporting With R Markdown"
 comment: "*building reproducible reports*"
-output:
-  html_document:
-    toc: true
-    toc_float: true
+output: 
+  html_document: 
+    toc: yes
+    toc_float: yes
+    toc_depth: 5
+    number_sections: yes
+    theme: flatly
+    df_print: paged
     
 params: 
   data_dir: !r file.path("data/starwars.rds")
   list_vars: !r c("films", "vehicles", "starships")
-
+  
 always_allow_html: true
 ---
 

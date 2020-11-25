@@ -1,15 +1,19 @@
 ---
 title: "Data Manipulation"
-comment: "*an introduction to wrangling data*"
-output:
-  html_document:
-    toc: true
-    toc_float: true
+comment: "*introduction to wrangling data*"
+output: 
+  html_document: 
+    toc: yes
+    toc_float: yes
+    toc_depth: 5
+    number_sections: yes
+    code_folding: show
+    theme: flatly
     df_print: paged
 
 params: 
   data_file: !r file.path("https://bit.ly/mini-strwrs")
-
+  
 always_allow_html: true
 ---
 

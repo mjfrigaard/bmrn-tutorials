@@ -26,6 +26,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 <link href="site_libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="site_libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
@@ -387,77 +389,77 @@ div.tocify {
 </div>
 
 
-<div id="objectives" class="section level1">
-<h1>Objectives</h1>
+<div id="objectives" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Objectives</h1>
 <p>This document contains a basic exposure to R functions and data objects. Check out the slides <a href="">here</a></p>
-<div id="r-syntax" class="section level2 tabset">
-<h2 class="tabset">R Syntax</h2>
+<div id="r-syntax" class="section level2 tabset" number="1.1">
+<h2 class="tabset" number="1.1"><span class="header-section-number">1.1</span> R Syntax</h2>
 <p>Two major elements in R programming: functions and objects.</p>
-<div id="functions" class="section level3">
-<h3>Functions</h3>
+<div id="functions" class="section level3" number="1.1.1">
+<h3 number="1.1.1"><span class="header-section-number">1.1.1</span> Functions</h3>
 <p>Functions perform operations (calculate a mean, build a table, create a graph, etc.)</p>
 </div>
-<div id="objects" class="section level3">
-<h3>Objects</h3>
+<div id="objects" class="section level3" number="1.1.2">
+<h3 number="1.1.2"><span class="header-section-number">1.1.2</span> Objects</h3>
 <p>Objects hold information (a collection of numbers, dates, words, models results, etc.)</p>
 </div>
 </div>
-<div id="atomic-vectors" class="section level2 tabset">
-<h2 class="tabset">Atomic vectors</h2>
+<div id="atomic-vectors" class="section level2 tabset" number="1.2">
+<h2 class="tabset" number="1.2"><span class="header-section-number">1.2</span> Atomic vectors</h2>
 <p>The “atomic” in atomic vectors means, “<em>of or forming a single irreducible unit or component in a larger system.</em>”</p>
-<div id="logical" class="section level3">
-<h3>Logical</h3>
+<div id="logical" class="section level3" number="1.2.1">
+<h3 number="1.2.1"><span class="header-section-number">1.2.1</span> Logical</h3>
 <p>Logical vectors are handy because when we add them together, and the total number tells us how many <code>TRUE</code> values there are.</p>
 <pre class="r"><code>vec_logical &lt;- c(TRUE, FALSE)
 vec_logical
 #&gt; [1]  TRUE FALSE</code></pre>
 </div>
-<div id="integer" class="section level3">
-<h3>Integer</h3>
+<div id="integer" class="section level3" number="1.2.2">
+<h3 number="1.2.2"><span class="header-section-number">1.2.2</span> Integer</h3>
 <p>Integer vectors are created with a number and capital letter <code>L</code></p>
 <pre class="r"><code>vec_integer &lt;- c(1L, 10L, 100L)
 vec_integer
 #&gt; [1]   1  10 100</code></pre>
 </div>
-<div id="double" class="section level3">
-<h3>Double</h3>
+<div id="double" class="section level3" number="1.2.3">
+<h3 number="1.2.3"><span class="header-section-number">1.2.3</span> Double</h3>
 <p>Double vectors can be entered as decimals</p>
 <pre class="r"><code>vec_double &lt;- c(0.1, 1.0, 10.01)
 vec_double
 #&gt; [1]  0.10  1.00 10.01</code></pre>
 </div>
-<div id="character" class="section level3">
-<h3>Character</h3>
+<div id="character" class="section level3" number="1.2.4">
+<h3 number="1.2.4"><span class="header-section-number">1.2.4</span> Character</h3>
 <p>Note that character vectors need to be in quotes.</p>
 <pre class="r"><code>vec_character &lt;- c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;)
 vec_character
 #&gt; [1] &quot;A&quot; &quot;B&quot; &quot;C&quot;</code></pre>
 </div>
 </div>
-<div id="evaluating-vectors" class="section level2 tabset">
-<h2 class="tabset">Evaluating vectors</h2>
+<div id="evaluating-vectors" class="section level2 tabset" number="1.3">
+<h2 class="tabset" number="1.3"><span class="header-section-number">1.3</span> Evaluating vectors</h2>
 <p><strong>Store and explore</strong> - create an object, perform an operation on the object, store the results, then explore the contents with another function.</p>
 <p><img src="img/store-explore.png" width="60%" height="60%" style="display: block; margin: auto;" /></p>
-<div id="typeof" class="section level3">
-<h3><code>typeof()</code></h3>
+<div id="typeof" class="section level3" number="1.3.1">
+<h3 number="1.3.1"><span class="header-section-number">1.3.1</span> <code>typeof()</code></h3>
 <p>Explore all vectors with <code>typeof()</code></p>
 <pre class="r"><code>typeof(vec_integer)
 #&gt; [1] &quot;integer&quot;</code></pre>
 </div>
-<div id="is.integer" class="section level3">
-<h3><code>is.integer()</code></h3>
+<div id="is.integer" class="section level3" number="1.3.2">
+<h3 number="1.3.2"><span class="header-section-number">1.3.2</span> <code>is.integer()</code></h3>
 <p>Integers have no decimals.</p>
 <pre class="r"><code>is.integer(vec_integer)
 #&gt; [1] TRUE</code></pre>
 </div>
-<div id="is.numeric" class="section level3">
-<h3><code>is.numeric()</code></h3>
+<div id="is.numeric" class="section level3" number="1.3.3">
+<h3 number="1.3.3"><span class="header-section-number">1.3.3</span> <code>is.numeric()</code></h3>
 <p>Evaluate numeric vectors with <code>is.numeric()</code></p>
 <pre class="r"><code>is.numeric(vec_double)
 #&gt; [1] TRUE</code></pre>
 </div>
-<div id="is.logical" class="section level3">
-<h3><code>is.logical()</code></h3>
+<div id="is.logical" class="section level3" number="1.3.4">
+<h3 number="1.3.4"><span class="header-section-number">1.3.4</span> <code>is.logical()</code></h3>
 <p><code>is.logical()</code> to check vectors that are logical.</p>
 <pre class="r"><code>is.logical(vec_logical)
 #&gt; [1] TRUE</code></pre>
@@ -468,18 +470,18 @@ vec_character
 <pre class="r"><code>vec_integer &gt; 5
 #&gt; [1] FALSE  TRUE  TRUE</code></pre>
 </div>
-<div id="is.character" class="section level3">
-<h3><code>is.character()</code></h3>
+<div id="is.character" class="section level3" number="1.3.5">
+<h3 number="1.3.5"><span class="header-section-number">1.3.5</span> <code>is.character()</code></h3>
 <p>Check character vectors with <code>is.character()</code></p>
 <pre class="r"><code>is.character(vec_character)
 #&gt; [1] TRUE</code></pre>
 </div>
 </div>
-<div id="s3-vectors" class="section level2 tabset">
-<h2 class="tabset">S3 vectors</h2>
+<div id="s3-vectors" class="section level2 tabset" number="1.4">
+<h2 class="tabset" number="1.4"><span class="header-section-number">1.4</span> S3 vectors</h2>
 <p>S3 vector objects are factors, dates, date-times, durations.</p>
-<div id="factors" class="section level3">
-<h3>Factors</h3>
+<div id="factors" class="section level3" number="1.4.1">
+<h3 number="1.4.1"><span class="header-section-number">1.4.1</span> Factors</h3>
 <p>Factors are categorical vectors with a given set of responses.</p>
 <pre class="r"><code>vec_factor &lt;- factor(x = c(&quot;low&quot;, &quot;medium&quot;, &quot;high&quot;))
 vec_factor
@@ -499,8 +501,8 @@ unclass(vec_factor)
 #&gt; attr(,&quot;levels&quot;)
 #&gt; [1] &quot;low&quot;    &quot;medium&quot; &quot;high&quot;</code></pre>
 </div>
-<div id="dates" class="section level3">
-<h3>Dates</h3>
+<div id="dates" class="section level3" number="1.4.2">
+<h3 number="1.4.2"><span class="header-section-number">1.4.2</span> Dates</h3>
 <p>Dates are stored as <code>double</code> vectors with a class attribute set to <code>Date</code>.</p>
 <pre class="r"><code>vec_date &lt;- c(Sys.Date(), Sys.Date() + 1, Sys.Date() + 2)
 vec_date
@@ -512,8 +514,8 @@ attributes(vec_date)
 <pre class="r"><code>unclass(vec_date)
 #&gt; [1] 18590 18591 18592</code></pre>
 </div>
-<div id="date-times" class="section level3">
-<h3>Date-times</h3>
+<div id="date-times" class="section level3" number="1.4.3">
+<h3 number="1.4.3"><span class="header-section-number">1.4.3</span> Date-times</h3>
 <p>Date-times contain a bit more information than dates.</p>
 <pre class="r"><code>vec_datetime_ct &lt;- as.POSIXct(x = vec_date)
 vec_datetime_ct
@@ -523,8 +525,8 @@ vec_datetime_ct
 <pre class="r"><code>typeof(vec_datetime_ct)
 #&gt; [1] &quot;double&quot;</code></pre>
 </div>
-<div id="durations-difftime" class="section level3">
-<h3>Durations (difftime)</h3>
+<div id="durations-difftime" class="section level3" number="1.4.4">
+<h3 number="1.4.4"><span class="header-section-number">1.4.4</span> Durations (difftime)</h3>
 <p>We need two times to be able to calculate the difftime, but the output is fairly clear.</p>
 <pre class="r"><code>time_01 &lt;- Sys.Date()
 time_02 &lt;- Sys.Date() + 10
@@ -540,11 +542,11 @@ vec_difftime
 #&gt; [1] &quot;days&quot;</code></pre>
 </div>
 </div>
-<div id="matrices" class="section level2 tabset">
-<h2 class="tabset">Matrices</h2>
+<div id="matrices" class="section level2 tabset" number="1.5">
+<h2 class="tabset" number="1.5"><span class="header-section-number">1.5</span> Matrices</h2>
 <p>These are two-dimensional objects. We can create with <code>matrix()</code>.</p>
-<div id="create-matrices" class="section level3">
-<h3>Create matrices</h3>
+<div id="create-matrices" class="section level3" number="1.5.1">
+<h3 number="1.5.1"><span class="header-section-number">1.5.1</span> Create matrices</h3>
 <p>We can make a matrix using our existing vectors.</p>
 <pre class="r"><code>mat_data &lt;- matrix(data = c(vec_double, vec_integer), 
                    nrow = 3, ncol = 2, byrow = FALSE)
@@ -554,25 +556,25 @@ mat_data
 #&gt; [2,]  1.00   10
 #&gt; [3,] 10.01  100</code></pre>
 </div>
-<div id="check-dimensions" class="section level3">
-<h3>Check dimensions</h3>
+<div id="check-dimensions" class="section level3" number="1.5.2">
+<h3 number="1.5.2"><span class="header-section-number">1.5.2</span> Check dimensions</h3>
 <p>We can check the dimensions of <code>mat_data</code> with <code>dim()</code>.</p>
 <pre class="r"><code>dim(mat_data)
 #&gt; [1] 3 2</code></pre>
 </div>
-<div id="matrix-positions" class="section level3">
-<h3>Matrix positions</h3>
+<div id="matrix-positions" class="section level3" number="1.5.3">
+<h3 number="1.5.3"><span class="header-section-number">1.5.3</span> Matrix positions</h3>
 <p>We can subset using position.</p>
 <pre class="r"><code>mat_data[2, 2]
 #&gt; [1] 10</code></pre>
 </div>
 </div>
-<div id="arrays" class="section level2 subset">
-<h2 class="subset">Arrays</h2>
+<div id="arrays" class="section level2 subset" number="1.6">
+<h2 class="subset" number="1.6"><span class="header-section-number">1.6</span> Arrays</h2>
 <p>Arrays are like matrices, but with more dimensions.</p>
 <p><img src="img/array.png" width="45%" height="45%" style="display: block; margin: auto;" /></p>
-<div id="create-an-array" class="section level3">
-<h3>Create an array</h3>
+<div id="create-an-array" class="section level3" number="1.6.1">
+<h3 number="1.6.1"><span class="header-section-number">1.6.1</span> Create an array</h3>
 <p>Arrays need three dimensions in the <code>dim</code> argument.</p>
 <pre class="r"><code>dat_array &lt;- array(data = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
                             14, 15, 16, 17, 18), dim = c(3, 3, 2))
@@ -591,8 +593,8 @@ dat_array
 #&gt; [2,]   11   14   17
 #&gt; [3,]   12   15   18</code></pre>
 </div>
-<div id="matrix-vs.-array" class="section level3">
-<h3>Matrix vs. Array</h3>
+<div id="matrix-vs.-array" class="section level3" number="1.6.2">
+<h3 number="1.6.2"><span class="header-section-number">1.6.2</span> Matrix vs. Array</h3>
 <p>Matrices are arrays, but arrays are not matrices.</p>
 <pre class="r"><code>class(dat_array)
 #&gt; [1] &quot;array&quot;</code></pre>
@@ -600,25 +602,26 @@ dat_array
 #&gt; [1] &quot;matrix&quot; &quot;array&quot;</code></pre>
 </div>
 </div>
-<div id="data-frames" class="section level2 tabset">
-<h2 class="tabset">Data Frames</h2>
+<div id="data-frames" class="section level2 tabset" number="1.7">
+<h2 class="tabset" number="1.7"><span class="header-section-number">1.7</span> Data Frames</h2>
 <p>Rectangular data with rows and columns.</p>
-<div id="create-data-frames" class="section level3">
-<h3>Create data frames</h3>
+<div id="create-data-frames" class="section level3" number="1.7.1">
+<h3 number="1.7.1"><span class="header-section-number">1.7.1</span> Create data frames</h3>
 <p>We will create a data frame below using <code>data.frame()</code>. When we create a data frame, the data are transposed (i.e. columns are written left-to-right).</p>
 <pre class="r"><code>DataFrame &lt;- data.frame(character = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;), 
                         integer = c(0.1, 1.0, 10.01), 
                         logical = c(TRUE, FALSE, TRUE), 
                         stringsAsFactors = FALSE)
-DataFrame
-#&gt;   character integer logical
-#&gt; 1         A    0.10    TRUE
-#&gt; 2         B    1.00   FALSE
-#&gt; 3         C   10.01    TRUE</code></pre>
+DataFrame</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["character"],"name":[1],"type":["chr"],"align":["left"]},{"label":["integer"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["logical"],"name":[3],"type":["lgl"],"align":["right"]}],"data":[{"1":"A","2":"0.10","3":"TRUE"},{"1":"B","2":"1.00","3":"FALSE"},{"1":"C","2":"10.01","3":"TRUE"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 <p><em>NOTE: <code>stringsAsFactors = FALSE</code> is not required as of R version 4.0.0.</em></p>
 </div>
-<div id="inspect-data.frames" class="section level3">
-<h3>Inspect <code>data.frame</code>s</h3>
+<div id="inspect-data.frames" class="section level3" number="1.7.2">
+<h3 number="1.7.2"><span class="header-section-number">1.7.2</span> Inspect <code>data.frame</code>s</h3>
 <p>Check the structure of the data.frame with <code>str()</code></p>
 <pre class="r"><code>str(DataFrame)
 #&gt; &#39;data.frame&#39;:    3 obs. of  3 variables:
@@ -627,27 +630,26 @@ DataFrame
 #&gt;  $ logical  : logi  TRUE FALSE TRUE</code></pre>
 </div>
 </div>
-<div id="tibbles" class="section level2 tabset">
-<h2 class="tabset">Tibbles</h2>
+<div id="tibbles" class="section level2 tabset" number="1.8">
+<h2 class="tabset" number="1.8"><span class="header-section-number">1.8</span> Tibbles</h2>
 <p>These are special kinds of <code>data.frame</code>s (they print better to the console, and character vectors are never coerced into factors).</p>
-<div id="create-tibbles" class="section level3">
-<h3>Create <code>tibble</code>s</h3>
+<div id="create-tibbles" class="section level3" number="1.8.1">
+<h3 number="1.8.1"><span class="header-section-number">1.8.1</span> Create <code>tibble</code>s</h3>
 <p>Creating <code>tibble</code>s is <em>not</em> transposed.</p>
 <pre class="r"><code>Tibble &lt;- tibble::tribble(
        ~character, ~integer,  ~logical,
               &quot;A&quot;,      0.1,      TRUE,
               &quot;B&quot;,        1,     FALSE,
               &quot;C&quot;,    10.01,      TRUE)
-Tibble
-#&gt; # A tibble: 3 x 3
-#&gt;   character integer logical
-#&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;lgl&gt;  
-#&gt; 1 A             0.1 TRUE   
-#&gt; 2 B             1   FALSE  
-#&gt; 3 C            10.0 TRUE</code></pre>
+Tibble</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["character"],"name":[1],"type":["chr"],"align":["left"]},{"label":["integer"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["logical"],"name":[3],"type":["lgl"],"align":["right"]}],"data":[{"1":"A","2":"0.10","3":"TRUE"},{"1":"B","2":"1.00","3":"FALSE"},{"1":"C","2":"10.01","3":"TRUE"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
 </div>
-<div id="inspect-tibbles" class="section level3">
-<h3>Inspect <code>tibble</code>s</h3>
+</div>
+<div id="inspect-tibbles" class="section level3" number="1.8.2">
+<h3 number="1.8.2"><span class="header-section-number">1.8.2</span> Inspect <code>tibble</code>s</h3>
 <p><code>tibbles</code> are S3 objects, with types <code>tbl_df</code>, <code>tbl</code>, <em>and</em> <code>data.frame</code></p>
 <pre class="r"><code>str(Tibble)
 #&gt; tibble [3 × 3] (S3: tbl_df/tbl/data.frame)
@@ -655,18 +657,18 @@ Tibble
 #&gt;  $ integer  : num [1:3] 0.1 1 10
 #&gt;  $ logical  : logi [1:3] TRUE FALSE TRUE</code></pre>
 </div>
-<div id="rectangular-data-recap" class="section level3">
-<h3>Rectangular data recap</h3>
+<div id="rectangular-data-recap" class="section level3" number="1.8.3">
+<h3 number="1.8.3"><span class="header-section-number">1.8.3</span> Rectangular data recap</h3>
 <p>If you’re importing spreadsheets, most of the work you’ll do in R will be with rectangular data objects (i.e. <code>data.frame</code>s and <code>tibble</code>s).</p>
 <p><img src="img/data-frame-tibble.png" width="40%" height="40%" style="display: block; margin: auto;" /></p>
 <p>Think of <code>data.frame</code>s and <code>tibble</code>s as special kinds of rectangular <code>lists</code>, made with different types of vectors, with each vector being of equal length.</p>
 </div>
 </div>
-<div id="lists" class="section level2 tabset">
-<h2 class="tabset">Lists</h2>
+<div id="lists" class="section level2 tabset" number="1.9">
+<h2 class="tabset" number="1.9"><span class="header-section-number">1.9</span> Lists</h2>
 <p>Lists can contain all other objects (including other lists).</p>
-<div id="create-lists" class="section level3">
-<h3>Create lists</h3>
+<div id="create-lists" class="section level3" number="1.9.1">
+<h3 number="1.9.1"><span class="header-section-number">1.9.1</span> Create lists</h3>
 <p>We can put all the objects we’ve created in <code>dat_list</code>.</p>
 <pre class="r"><code>dat_list &lt;- list(&quot;integer&quot; = vec_integer, 
                  &quot;array&quot; = dat_array,
@@ -713,8 +715,8 @@ dat_list
 #&gt; 2 B             1   FALSE  
 #&gt; 3 C            10.0 TRUE</code></pre>
 </div>
-<div id="list-attributes" class="section level3">
-<h3>List attributes</h3>
+<div id="list-attributes" class="section level3" number="1.9.2">
+<h3 number="1.9.2"><span class="header-section-number">1.9.2</span> List attributes</h3>
 <p>And we can see all of these elements are stored (with the appropriate name).</p>
 <pre class="r"><code>attributes(dat_list)
 #&gt; $names
@@ -770,7 +772,7 @@ $(document).ready(function ()  {
 
     // establish options
     var options = {
-      selectors: "h1,h2,h3",
+      selectors: "h1,h2,h3,h4,h5",
       theme: "bootstrap3",
       context: '.toc-content',
       hashGenerator: function (text) {
