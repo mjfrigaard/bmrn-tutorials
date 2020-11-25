@@ -120,6 +120,15 @@ TopPharmCompRaw <- rvest::html_table(relevant_tables[[1]],
                   fill = TRUE)
 ```
 
+```{r export-TopPharmCompRaw, echo=FALSE}
+library(readr)
+# little fail-safe here to export the current data as-is and read it back in just in case the data change in the future... 
+write_rds(x = TopPharmCompRaw, path = "data/2020-11-24-TopPharmCompRaw.rds")
+# read back in
+TopPharmCompRaw <- read_rds(file = "data/2020-11-24-TopPharmCompRaw.rds")
+```
+
+
 ## Data wrangling (outline) 
 
 We have a raw dataset now, and we should make a 'to-do' list of what we want the data to look like: 
