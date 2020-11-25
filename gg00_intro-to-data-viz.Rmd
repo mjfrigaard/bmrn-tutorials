@@ -800,7 +800,7 @@ gg_col_graph
 ```
 
 
-## Using Facets {.tabset}
+## Labelling Values {.tabset}
 
 We're going to focus on the Largest Market Cap (`largest_market_cap_us_bil`) and Largest Market Cap Date (`largest_market_cap_date`) variables. We will define a new set of labels below. 
 
@@ -933,6 +933,10 @@ TidyTopPharmComCaps %>%
   lbl_graph_03 
 ```
 
+## Using Facets {.tabset}
+
+In the next few exercises we're going to see how to use facets to explore values across different levels and scales. 
+
 ### exercise 
 
 Use `facet_wrap()` to split the graphs by `company_type` 
@@ -950,8 +954,6 @@ TidyTopPharmComCaps %>%
   
   lbl_graph_03 
 ```
-
-
 
 ### solution
 

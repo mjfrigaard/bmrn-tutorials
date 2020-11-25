@@ -1138,8 +1138,8 @@ gg_col_graph</code></pre>
 <p><img src="gg00_intro-to-data-viz_files/figure-html/label-sol-07-1.png" width="672" /></p>
 </div>
 </div>
-<div id="using-facets" class="section level2 tabset" number="7.5">
-<h2 class="tabset" number="7.5"><span class="header-section-number">7.5</span> Using Facets</h2>
+<div id="labelling-values" class="section level2 tabset" number="7.5">
+<h2 class="tabset" number="7.5"><span class="header-section-number">7.5</span> Labelling Values</h2>
 <p>We’re going to focus on the Largest Market Cap (<code>largest_market_cap_us_bil</code>) and Largest Market Cap Date (<code>largest_market_cap_date</code>) variables. We will define a new set of labels below.</p>
 <pre class="r"><code>lbl_graph_03 &lt;- ggplot2::labs(title = &quot;Largest Market Cap (USD in billions)&quot;, 
                               subtitle = &quot;Largest Pharmaceutical Companies&quot;,
@@ -1253,8 +1253,12 @@ TidyTopPharmComCaps %&gt;%
   lbl_graph_03 </code></pre>
 <p><img src="gg00_intro-to-data-viz_files/figure-html/aes-sol-11-1.png" width="672" /></p>
 </div>
-<div id="exercise-11" class="section level3" number="7.5.9">
-<h3 number="7.5.9"><span class="header-section-number">7.5.9</span> exercise</h3>
+</div>
+<div id="using-facets" class="section level2 tabset" number="7.6">
+<h2 class="tabset" number="7.6"><span class="header-section-number">7.6</span> Using Facets</h2>
+<p>In the next few exercises we’re going to see how to use facets to explore values across different levels and scales.</p>
+<div id="exercise-11" class="section level3" number="7.6.1">
+<h3 number="7.6.1"><span class="header-section-number">7.6.1</span> exercise</h3>
 <p>Use <code>facet_wrap()</code> to split the graphs by <code>company_type</code></p>
 <ul>
 <li>set the <code>scales</code> argument to <code>"free"</code> and <code>nrow</code> to <code>2</code>.</li>
@@ -1269,8 +1273,8 @@ TidyTopPharmComCaps %&gt;%
   
   lbl_graph_03 </code></pre>
 </div>
-<div id="solution-11" class="section level3" number="7.5.10">
-<h3 number="7.5.10"><span class="header-section-number">7.5.10</span> solution</h3>
+<div id="solution-11" class="section level3" number="7.6.2">
+<h3 number="7.6.2"><span class="header-section-number">7.6.2</span> solution</h3>
 <p>This creates two graphs–one for each level of <code>company_type</code>. Why would setting the <code>scales</code> to <code>"free"</code> be an issue?</p>
 <pre class="r"><code>TidyTopPharmComCaps %&gt;% 
   ggplot(aes(x = largest_market_cap_date, 
@@ -1283,8 +1287,8 @@ TidyTopPharmComCaps %&gt;%
   lbl_graph_03 </code></pre>
 <p><img src="gg00_intro-to-data-viz_files/figure-html/aes-sol-12-1.png" width="672" /></p>
 </div>
-<div id="exercise-12" class="section level3" number="7.5.11">
-<h3 number="7.5.11"><span class="header-section-number">7.5.11</span> exercise</h3>
+<div id="exercise-12" class="section level3" number="7.6.3">
+<h3 number="7.6.3"><span class="header-section-number">7.6.3</span> exercise</h3>
 <p>Change the <code>scales</code> argument to <code>"free_x"</code> and rebuild the graph above.</p>
 <pre class="r"><code>TidyTopPharmComCaps %&gt;% 
   filter(stock_exch %in% c(&quot;NASDAQ&quot;, &quot;NYSE&quot;), 
@@ -1296,8 +1300,8 @@ TidyTopPharmComCaps %&gt;%
   facet_wrap(. ~ stock_exch, scales = ______, nrow = 2) + 
   lbl_graph_03 </code></pre>
 </div>
-<div id="solution-12" class="section level3" number="7.5.12">
-<h3 number="7.5.12"><span class="header-section-number">7.5.12</span> solution</h3>
+<div id="solution-12" class="section level3" number="7.6.4">
+<h3 number="7.6.4"><span class="header-section-number">7.6.4</span> solution</h3>
 <p>This fixes the <code>y</code> axis, but allows the <code>x</code> to adjust according to the data. How can this be helpful?</p>
 <pre class="r"><code>TidyTopPharmComCaps %&gt;% 
   filter(stock_exch %in% c(&quot;NASDAQ&quot;, &quot;NYSE&quot;), 
@@ -1312,8 +1316,8 @@ TidyTopPharmComCaps %&gt;%
   lbl_graph_03 </code></pre>
 <p><img src="gg00_intro-to-data-viz_files/figure-html/aes-sol-13-1.png" width="672" /></p>
 </div>
-<div id="exercise-13" class="section level3" number="7.5.13">
-<h3 number="7.5.13"><span class="header-section-number">7.5.13</span> exercise</h3>
+<div id="exercise-13" class="section level3" number="7.6.5">
+<h3 number="7.6.5"><span class="header-section-number">7.6.5</span> exercise</h3>
 <p>Change the <code>scales</code> argument to <code>"free_y"</code> and rebuild the graph.</p>
 <pre class="r"><code>TidyTopPharmComCaps %&gt;% 
   filter(stock_exch %in% c(&quot;NASDAQ&quot;, &quot;NYSE&quot;), 
@@ -1327,8 +1331,8 @@ TidyTopPharmComCaps %&gt;%
   
   lbl_graph_03</code></pre>
 </div>
-<div id="solution-13" class="section level3" number="7.5.14">
-<h3 number="7.5.14"><span class="header-section-number">7.5.14</span> solution</h3>
+<div id="solution-13" class="section level3" number="7.6.6">
+<h3 number="7.6.6"><span class="header-section-number">7.6.6</span> solution</h3>
 <p>Now we have a fixed <code>x</code> axis, and the <code>y</code> axis can adjust according to the data. How might this be helpful?</p>
 <pre class="r"><code>TidyTopPharmComCaps %&gt;% 
   filter(stock_exch %in% c(&quot;NASDAQ&quot;, &quot;NYSE&quot;), 
