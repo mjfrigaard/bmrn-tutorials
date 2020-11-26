@@ -21,7 +21,8 @@ library(skimr)
 # create data folder
 knitr::opts_chunk$set(warning = FALSE, 
                       message = FALSE,
-                      tidy = FALSE)
+                      tidy = FALSE, 
+                      fig.path = "img/")
 # set width
 options(width = 60)
 ```

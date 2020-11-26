@@ -369,10 +369,10 @@ div.tocify {
   <a href="index.html">Lessons and exercises</a>
 </li>
 <li>
-  <a href="more-resources.html">More resources</a>
+  <a href="slides.html">Slides</a>
 </li>
 <li>
-  <a href="slides.html">Slides</a>
+  <a href="more-resources.html">More resources</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -935,7 +935,7 @@ TopPharmComp %&gt;% arrange(ranking)</code></pre>
   ggplot(aes(x = market_cap_year, y = market_cap_us_bil)) + 
   geom_point() + 
   lbl_graph_01</code></pre>
-<p><img src="gg00_intro-to-data-viz_files/figure-html/aes-sol-01-1.png" width="672" /></p>
+<p><img src="img/aes-sol-01-1.png" width="672" /></p>
 </div>
 <div id="exercise-1" class="section level3" number="7.2.3">
 <h3 number="7.2.3"><span class="header-section-number">7.2.3</span> exercise</h3>
@@ -952,7 +952,7 @@ TopPharmComp %&gt;% arrange(ranking)</code></pre>
   ggplot(aes(x = market_cap_year, y = market_cap_us_bil)) + 
   geom_line() + 
   lbl_graph_01</code></pre>
-<p><img src="gg00_intro-to-data-viz_files/figure-html/aes-sol-02-1.png" width="672" /></p>
+<p><img src="img/aes-sol-02-1.png" width="672" /></p>
 </div>
 <div id="exercise-2" class="section level3" number="7.2.5">
 <h3 number="7.2.5"><span class="header-section-number">7.2.5</span> exercise</h3>
@@ -970,7 +970,7 @@ TopPharmComp %&gt;% arrange(ranking)</code></pre>
   ggplot(aes(x = market_cap_year, y = market_cap_us_bil)) + 
   geom_line(aes(group = company_name)) + 
   lbl_graph_01</code></pre>
-<p><img src="gg00_intro-to-data-viz_files/figure-html/aes-sol-03-1.png" width="672" /></p>
+<p><img src="img/aes-sol-03-1.png" width="672" /></p>
 </div>
 </div>
 <div id="map-variables-to-aesthetics" class="section level2 tabset" number="7.3">
@@ -1000,7 +1000,7 @@ gg_trend_line</code></pre>
   geom_line(aes(group = company_name, color = stock_exch)) + 
   lbl_graph_01
 gg_trend_line</code></pre>
-<p><img src="gg00_intro-to-data-viz_files/figure-html/aes-sol-04-gg_trend_line-1.png" width="672" /></p>
+<p><img src="img/aes-sol-04-gg_trend_line-1.png" width="672" /></p>
 <p>This graph is better then the previous versions, but it still has too much information to be very helpful. In the next section, we’ll summarize the data a bit more to create different visualizations.</p>
 </div>
 </div>
@@ -1063,7 +1063,7 @@ gg_trend_line</code></pre>
              
                fill = stock_exch)) + 
   lbl_graph_02</code></pre>
-<p><img src="gg00_intro-to-data-viz_files/figure-html/aes-sol-05-gg_col_graph-1.png" width="672" /></p>
+<p><img src="img/aes-sol-05-gg_col_graph-1.png" width="672" /></p>
 <p>This graph is better because we can see the average performance of the market cap per company. The lines are very unorganized, though. We can use a combination of <code>factor()</code> and <code>forcats::fct_reorder()</code> to fix this.</p>
 </div>
 <div id="exercise-5" class="section level3" number="7.4.4">
@@ -1092,7 +1092,7 @@ gg_trend_line</code></pre>
              y = fct_reorder(factor(company_name), avg_market_cap),
              fill = stock_exch)) + 
   lbl_graph_02</code></pre>
-<p><img src="gg00_intro-to-data-viz_files/figure-html/aes-sol-6-1.png" width="672" /></p>
+<p><img src="img/aes-sol-6-1.png" width="672" /></p>
 </div>
 <div id="exercise-6" class="section level3" number="7.4.6">
 <h3 number="7.4.6"><span class="header-section-number">7.4.6</span> exercise</h3>
@@ -1135,7 +1135,7 @@ gg_col_graph &lt;- TidyTopPharmComp %&gt;%
   lbl_graph_02
 
 gg_col_graph</code></pre>
-<p><img src="gg00_intro-to-data-viz_files/figure-html/label-sol-07-1.png" width="672" /></p>
+<p><img src="img/label-sol-07-1.png" width="672" /></p>
 </div>
 </div>
 <div id="labelling-values" class="section level2 tabset" number="7.5">
@@ -1186,7 +1186,7 @@ TidyTopPharmComCaps</code></pre>
                  y = largest_market_cap_us_bil, 
                  color = company_type)) + 
   lbl_graph_03</code></pre>
-<p><img src="gg00_intro-to-data-viz_files/figure-html/aes-sol-09-1.png" width="672" /></p>
+<p><img src="img/aes-sol-09-1.png" width="672" /></p>
 </div>
 <div id="exercise-9" class="section level3" number="7.5.5">
 <h3 number="7.5.5"><span class="header-section-number">7.5.5</span> exercise</h3>
@@ -1225,7 +1225,7 @@ TidyTopPharmComCaps</code></pre>
                 y = largest_market_cap_us_bil, 
                 label = stock_id), size = 3) + 
   lbl_graph_03</code></pre>
-<p><img src="gg00_intro-to-data-viz_files/figure-html/ael-sol-10-1.png" width="672" /></p>
+<p><img src="img/ael-sol-10-1.png" width="672" /></p>
 </div>
 <div id="exercise-10" class="section level3" number="7.5.7">
 <h3 number="7.5.7"><span class="header-section-number">7.5.7</span> exercise</h3>
@@ -1251,7 +1251,7 @@ TidyTopPharmComCaps %&gt;%
   geom_point(aes(color = company_type)) + 
   geom_text_repel(aes(label = stock_id), size = 3) + 
   lbl_graph_03 </code></pre>
-<p><img src="gg00_intro-to-data-viz_files/figure-html/aes-sol-11-1.png" width="672" /></p>
+<p><img src="img/aes-sol-11-1.png" width="672" /></p>
 </div>
 </div>
 <div id="using-facets" class="section level2 tabset" number="7.6">
@@ -1286,7 +1286,7 @@ TidyTopPharmComCaps %&gt;%
   facet_wrap(. ~ company_type, scales = &quot;free&quot;, nrow = 2) + 
   
   lbl_graph_03 </code></pre>
-<p><img src="gg00_intro-to-data-viz_files/figure-html/aes-sol-12-1.png" width="672" /></p>
+<p><img src="img/aes-sol-12-1.png" width="672" /></p>
 </div>
 <div id="exercise-12" class="section level3" number="7.6.3">
 <h3 number="7.6.3"><span class="header-section-number">7.6.3</span> exercise</h3>
@@ -1315,7 +1315,7 @@ TidyTopPharmComCaps %&gt;%
   facet_wrap(. ~ stock_exch, scales = &quot;free_x&quot;, nrow = 2) + 
   
   lbl_graph_03 </code></pre>
-<p><img src="gg00_intro-to-data-viz_files/figure-html/aes-sol-13-1.png" width="672" /></p>
+<p><img src="img/aes-sol-13-1.png" width="672" /></p>
 </div>
 <div id="exercise-13" class="section level3" number="7.6.5">
 <h3 number="7.6.5"><span class="header-section-number">7.6.5</span> exercise</h3>
@@ -1344,7 +1344,7 @@ TidyTopPharmComCaps %&gt;%
   geom_text_repel(aes(label = stock_id), size = 3) + 
   facet_wrap(. ~ stock_exch, scales = &quot;free_y&quot;, nrow = 2) + 
   lbl_graph_03 </code></pre>
-<p><img src="gg00_intro-to-data-viz_files/figure-html/aes-sol-14-1.png" width="672" /></p>
+<p><img src="img/aes-sol-14-1.png" width="672" /></p>
 </div>
 </div>
 </div>

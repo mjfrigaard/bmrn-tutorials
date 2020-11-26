@@ -5,10 +5,10 @@ navbar:
   left:
     - text: "Lessons and exercises"
       href: index.html
-    - text: "More resources"
-      href: more-resources.html
     - text: "Slides"
       href: slides.html
+    - text: "More resources"
+      href: more-resources.html
   right:
     - text: "About"
       href: about.html

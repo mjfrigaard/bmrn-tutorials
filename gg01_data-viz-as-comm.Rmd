@@ -499,10 +499,10 @@ TidyApple %>%
               country == "United States", 
                 date >= as_date(start_date) & 
                   date <= as_date(end_date)) %>%
-  ggplot(aes(x = date, y = dir_request, 
-             group = trans_type, color = trans_type)) +
+  ggplot() +
   # make these slightly larger...
-  geom_line(size = 0.30) + 
+  geom_line(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type), size = 0.30) + 
   lab_line_02 -> ___________
 ```
 
@@ -523,13 +523,308 @@ TidyApple %>%
               country == "United States", 
                 date >= as_date(start_date) & 
                   date <= as_date(end_date)) %>%
-  ggplot(aes(x = date, y = dir_request, 
-             group = trans_type, color = trans_type)) +
-  # make these slightly larger...
-  geom_line(size = 0.30) + 
+  ggplot() +
+  
+  geom_line(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type), 
+            # make these slightly larger...
+            size = 0.30) + 
   lab_line_02 -> gg_us_cities
 ```
 
 ```{r show-gg_us_cities, echo=FALSE}
 gg_us_cities
 ```
+
+# Labelling Data 
+
+In the previous lesson, we introduced the `ggrepel` package to show the points on this graph of top performing pharmaceutical companies. 
+
+```{r aes-sol-11-1, echo=FALSE, fig.align='center', out.height='70%', out.width='70%'}
+knitr::include_graphics(path = "img/aes-sol-11-1.png")
+```
+
+We're going to use labels to highlight a few cities in the `TidyApple` dataset. 
+
+## Max Driving Requests {.tabset}
+
+The code below creates a subset of the data (`TopUSCities`). Use this to add the labels.
+
+```{r TopUSCities}
+TopUSCities <- TidyApple %>% 
+  filter(country == "United States" & 
+           region %in% c("New York City", "Los Angeles", 
+                         "Chicago", "Houston", "Phoenix")) 
+TopUSCities
+```
+
+### exercise
+
+Create `MaxUSCitiesDriving` by filtering `trans_type`, grouping on the `region` variable, and using `dplyr::slice_max()` to get the top value in `dir_request`.
+
+```{r TopUSCities-MaxUSCitiesDriving-ex-01, eval=FALSE}
+TopUSCities %>% 
+  filter(trans_type == __________) %>% 
+  group_by(__________) %>% 
+  slice_max(__________) -> MaxUSCitiesDriving
+MaxUSCitiesDriving
+```
+
+### solution
+
+See below:
+
+```{r TopUSCities-MaxUSCitiesDriving-sol-01}
+TopUSCities %>% 
+  filter(trans_type == "driving") %>% 
+  group_by(region) %>% 
+  slice_max(dir_request) -> MaxUSCitiesDriving
+MaxUSCitiesDriving
+```
+
+### exercise 
+
+Create graph labels:
+
+- assign `"Peak Driving Direction Requests in Largest US Cities"` to `title` 
+
+- assign `"Max Driving Direction Requests & Date"` to `subtitle`
+
+```{r lab_line_max_drivers-ex-01, eval=FALSE}
+lab_line_max_drivers <- labs(
+                 x = "Date",
+                 y = "Direction Requests",
+                 title = "_________________________________",
+                 subtitle = "_________________________________",
+                 caption = "source: https://covid19.apple.com/mobility", 
+                 color = "Transit Type")
+```
+
+
+### solution
+
+See below:
+
+```{r lab_line_max_drivers-sol-01}
+lab_line_max_drivers <- labs(
+                 x = "Date",
+                 y = "Direction Requests",
+                 title = "Peak Driving Direction Requests in Largest US Cities",
+                 subtitle = "Max Driving Direction Requests & Date",
+                 caption = "source: https://covid19.apple.com/mobility", 
+                 color = "Transit Type")
+```
+
+### exercise 
+
+Create `max_driving_labels` using `paste0()` with `region` and `date`.
+
+```{r max_driving_labels-ex-01, eval=FALSE}
+MaxUSCitiesDriving %>% 
+  mutate(
+    max_driving_labels = paste0(______, ", ", ______)) -> MaxUSCitiesDriving
+MaxUSCitiesDriving
+```
+
+### solution
+
+See below:
+
+```{r max_driving_labels-sol-01}
+MaxUSCitiesDriving %>% 
+  mutate(max_driving_labels = paste0(region, ", ", date)) -> MaxUSCitiesDriving
+MaxUSCitiesDriving
+```
+
+### exercise 
+
+Create a line plot, assigning the following values in `geom_label_repel()`:
+
+- set the `data` argument to `MaxUSCitiesDriving`  
+
+Inside the `aes()`:
+
+- map `label` to `max_driving_labels`
+
+Outside the `aes()`
+
+- map `color` to `"red"`  
+- map `size` to `3`  
+
+```{r label-plot-ex-01, eval=FALSE}
+TopUSCities %>% 
+    ggplot() + 
+    geom_line(aes(x = date, y = dir_request, 
+                  group = trans_type, 
+                  color = trans_type), 
+                  # make these slightly smaller again...
+                  size = 0.15) + 
+    geom_label_repel(data = _____________,
+              aes(x = date, y = dir_request, 
+                  label = _____________), 
+                  # set color and size...
+                  color = _____, 
+                  size = _) + 
+  lab_line_max_drivers
+```
+
+### solution
+
+See below:
+
+```{r label-plot-sol-01}
+TopUSCities %>% 
+    ggplot() + 
+    geom_line(aes(x = date, y = dir_request, 
+                  group = trans_type, 
+                  color = trans_type), 
+                  # make these slightly smaller again...
+                  size = 0.15) + 
+    geom_label_repel(data = MaxUSCitiesDriving,
+              aes(x = date, y = dir_request, 
+                  label = max_driving_labels), 
+                  # set color and size...
+                  color = "red", 
+                  size = 3) + 
+  lab_line_max_drivers
+```
+
+## Min Walking Requests {.tabset}
+
+We are going to repeat the process above, but use the minimum value for walking direction requests. 
+
+### exercise 
+
+- `filter()` the `trans_type` to `"walking"`  
+- `group_by()` the `region`  
+- use `slice_min()` to get the minimum value for `dir_request` 
+- Assign to `MinUSCitiesWalking`
+
+```{r MinUSCitiesWalking-ex, eval=FALSE}
+TopUSCities %>% 
+  filter(________ == ________) %>% 
+  group_by(________) %>% 
+  slice_min(________) -> ________
+MinUSCitiesWalking
+```
+
+### solution
+
+See below:
+
+```{r MinUSCitiesWalking-sol}
+TopUSCities %>% 
+  filter(trans_type == "walking") %>% 
+  group_by(region) %>% 
+  slice_min(dir_request) -> MinUSCitiesWalking
+MinUSCitiesWalking
+```
+
+### exercise 
+
+- assign `"Lowest Walking Direction Requests in Largest US Cities"` to `title`  
+- assign `"Min Walking Direction Requests & Date"` to `caption`  
+
+```{r lab_line_min_walking-ex, eval=FALSE}
+lab_line_min_walking <- labs(
+               x = "Date",
+               y = "Direction Requests",
+               title = "__________________________________________",
+               subtitle = "__________________________________________",
+               caption = "source: https://covid19.apple.com/mobility", 
+               color = "Transit Type")
+```
+
+### solution
+
+See below:
+
+```{r lab_line_min_walking-sol}
+lab_line_min_walking <- labs(
+               x = "Date",
+               y = "Direction Requests",
+               title = "Lowest Walking Direction Requests in Largest US Cities",
+               subtitle = "Min Walking Direction Requests & Date",
+               caption = "source: https://covid19.apple.com/mobility", 
+               color = "Transit Type")
+```
+
+### exercise 
+
+Create `min_walking_labels` using `paste0()` with `region` and `date`  
+
+```{r min_walking_labels-ex, eval=FALSE}
+MinUSCitiesWalking %>% 
+  mutate(min_walking_labels = paste0(_____, ", ", _____)) -> MinUSCitiesWalking
+MinUSCitiesWalking
+```
+
+### solution
+
+See below:
+
+```{r min_walking_labels-sol}
+MinUSCitiesWalking %>% 
+  mutate(min_walking_labels = paste0(region, ", ", date)) -> MinUSCitiesWalking
+MinUSCitiesWalking
+```
+
+
+### exercise 
+
+Create a line plot, assigning the following values in `geom_label_repel()`:
+
+- set `data` to `MinUSCitiesWalking`
+
+Inside `aes()`: 
+
+- map `min_walking_labels` to `label` 
+
+Outside `aes()`:
+
+- map `"blue"` to `color`  
+- map `3` to `size`  
+
+```{r label-plot-ex-02, eval=FALSE}
+TopUSCities %>% 
+    ggplot() + 
+    geom_line(aes(x = date, y = dir_request, 
+                  group = trans_type, 
+                  color = trans_type), 
+                  # make these slightly smaller again...
+                  size = 0.15) + 
+    geom_label_repel(data = ____________,
+              aes(x = date, y = dir_request, 
+                  label = ____________), 
+                  # set color and size...
+                  color = _______, 
+                  size = _) + 
+  lab_line_min_walking
+```
+
+### solution
+
+See below:
+
+```{r label-plot-sol-02}
+TopUSCities %>% 
+    ggplot() + 
+    geom_line(aes(x = date, y = dir_request, 
+                  group = trans_type, 
+                  color = trans_type), 
+                  # make these slightly smaller again...
+                  size = 0.15) + 
+    geom_label_repel(data = MinUSCitiesWalking,
+              aes(x = date, y = dir_request, 
+                  label = min_walking_labels), 
+                  # set color and size...
+                  color = "blue", 
+                  size = 3) + 
+  lab_line_min_walking
+```
+
+# Advanced Facets 
+
+In the previous lesson, we introduced the `facet_wrap()` function for viewing the relationship between two variables across the levels of a categorical variable. In the next section, we're going to show how faceting can be used to explore 'small multiples' in a dataset with variation across multiple levels.
+
+
