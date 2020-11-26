@@ -2,7 +2,7 @@
 title: "Slides"
 ---
 
-### View these slide decks in your bowser of save as PDFs
+### View these slide decks in your bowser or save as PDFs
 
 + [Reproducible Data Analysis With R](https://mjfrigaard.github.io/rep-res-rmarkdown/Index.html)
 
