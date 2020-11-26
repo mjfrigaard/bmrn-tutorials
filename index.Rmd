@@ -47,29 +47,29 @@ x <- x %>%
 
 ### Introduction to R & RStudio
 
-```{r intro-files, results='asis', echo=FALSE, eval=TRUE}
+```{r bk-files, results='asis', echo=FALSE, eval=TRUE}
 # this uses the `bk` as a prefix and identifier for the 'background' section
 cat_bullet(x, "^bk")
 ```
 
 ### Reproducible Analysis With R Markdown
 
-```{r markdown-files, results='asis', echo=FALSE, eval=TRUE}
-# this uses the `bk` as a prefix and identifier for the 'background' section
+```{r mk-files, results='asis', echo=FALSE, eval=TRUE}
+# this uses the `mk` as a prefix and identifier for the 'markdown' section
 cat_bullet(x, "^mk")
 ```
 
 ### Data Manipulation and Transformation
 
-```{r results = 'asis', echo = FALSE}
+```{r dt-files, results = 'asis', echo = FALSE}
 # here we see the 'dt' as core dplyr/tidyr lessons
 cat_bullet(x, "^dt")
 ```
 
 ### Data Visualization
 
-```{r results = 'asis', echo = FALSE, eval=TRUE}
-# here we see the 'ex' for exercises 
+```{r gg-files, results = 'asis', echo = FALSE, eval=TRUE}
+# here we see the 'gg' for ggplot2 
 cat_bullet(x, "^gg")
 ```
 
@@ -77,8 +77,8 @@ cat_bullet(x, "^gg")
 
 *coming soon!*
 
-```{r results = 'asis', echo = FALSE, eval=FALSE}
-# and the `pt` for anti-patterns
+```{r sh-files, results = 'asis', echo = FALSE, eval=FALSE}
+# and the `sh` for shiny
 cat_bullet(x, "^sh")
 ```
 

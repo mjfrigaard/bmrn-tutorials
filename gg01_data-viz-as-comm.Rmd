@@ -1,0 +1,535 @@
+---
+title: "Data Visualization as Communication"
+comment: "*using graphs to effectively share ideas*"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+    toc_depth: 5
+    number_sections: yes
+    code_folding: show
+    theme: flatly
+    df_print: paged
+
+always_allow_html: true
+---
+
+
+```{r , include=FALSE}
+library(tidyverse)
+library(skimr)
+library(lubridate)
+library(here)
+library(janitor)
+library(socviz)
+library(ggrepel)
+library(covdata)
+library(showtext)
+library(hrbrthemes)
+# create data folder
+knitr::opts_chunk$set(warning = FALSE,
+                      message = FALSE,
+                      fig.path = "img/",
+                      tidy = FALSE)
+# set width
+options(width = 60, max.print = 60)
+```
+
+# Objectives
+
+Recognize the needs of your audience 
+
+*level of data literacy, subject matter expertise, etc.*
+
+Check and communicate data quality with stakeholders  
+
+*let them know the good and the bad news*
+
+Identify the correct data visualization (based on the data)
+
+*single variable, bivariate, and multivariate graphs*
+
+# Materials
+
+- Slides: 
+
+- RStudio Project:
+
+# Previous lessons
+
+All of the exercises and lessons are available [here](https://mjfrigaard.github.io/r-meetup-tutorials/), but you can also read more about [`ggplot2`](https://ggplot2.tidyverse.org/index.html) on the tidyverse website, and in the [Data Visualisation](https://r4ds.had.co.nz/data-visualisation.html) chapter of R for Data Science.
+
+# Load the packages
+
+The main packages we're going to use are `dplyr`, `tidyr`, and `ggplot2`. These are all part of the `tidyverse`, so we'll import this package below:
+
+```{r packages, eval=FALSE}
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+# Example: COVID and Mobility
+
+- How has COVID changed our modes of transportation?
+
+  - *are people using fewer or different forms of transportation?*
+
+- What kind of measurements would this be?
+
+  - *how people travel (walk, drive, etc.)*
+
+- What would these data look like?
+
+  - *what would the columns and rows look like?*
+
+## Data Import {.tabset}
+
+Apple mobility data: 
+
+https://covid19.apple.com/mobility
+
+Import these data below: 
+
+```{r import-AppleMobRaw, message=FALSE, warning=FALSE}
+AppleMobRaw <- readr::read_csv("https://bit.ly/apple-mob-raw")
+```
+
+### Tidy `AppleMobRaw`
+
+These data need to be restructured into a tidy format. 
+
+```{r pivot_longer}
+AppleMobRaw %>% 
+  tidyr::pivot_longer(cols = -c(geo_type:country), 
+                      names_to = "date", values_to = "dir_request")
+```
+
+### Wrangle `AppleMobRaw`
+
+We will remove the missing values from `country` and `sub-region`
+
+```{r filter}
+AppleMobRaw %>% 
+  tidyr::pivot_longer(cols = -c(geo_type:country), 
+                      names_to = "date", values_to = "dir_request") %>% 
+    # remove missing country and missing sub-region data
+  dplyr::filter(!is.na(country) & !is.na(`sub-region`))
+```
+
+Use `mutate()` to create a properly formatted `date` variable, and `rename()` the `transportation_type` variable to `trans_type`. Apply `janitor::clean_names()` to the entire dataset and assign the final output to `TidyApple`.
+
+```{r assign-TidyApple}
+AppleMobRaw %>% 
+  tidyr::pivot_longer(cols = -c(geo_type:country), 
+                      names_to = "date", values_to = "dir_request") %>% 
+    # remove missing country and missing sub-region data
+  dplyr::filter(!is.na(country) & !is.na(`sub-region`)) %>% 
+  # format date
+  mutate(date = lubridate::ymd(date)) %>% 
+  # change name of transportation types
+  rename(trans_type = transportation_type) %>% 
+  # clean names 
+  janitor::clean_names() -> TidyApple
+```
+
+### Bonus (counting!)
+
+One of the most important jobs of analytic work is counting things :) below is an example of using the `map()` function from the `purrr` package to pass the `count()` function from `dplyr` to the character variables in `TidyApple`. We can example the counts of each value by using the `$` to subset the `tidy_apple_counts` list. 
+
+```{r tidy_apple_counts}
+TidyApple %>% 
+  select_if(is.character) %>% 
+  map(~count(data.frame(x = .x), x, sort = TRUE)) -> tidy_apple_counts
+
+tidy_apple_counts$country
+```
+
+# Visualizing Distributions
+
+Before we start looking at relationships *between* variables, we might want to examine the underlying distribution of a single variable. We're going to cover two graphs that display variable distributions: histograms and density plots. 
+
+## Histograms {.tabset} 
+
+The `x` axis for the histogram will have the direction requests, and the `y` variable will display a count of the values. 
+
+```{r lab_hist}
+lab_hist <- labs(x = "Apple directions requests",
+                 y = "Count",
+     title = "Distribution of Direction Requests",
+     subtitle = "source: https://covid19.apple.com/mobility")
+```
+
+A histogram is a special kind of bar graph--it only takes a single continuous variable (in this case, `dir_request`), and it displays a relative breakdown of the values. 
+
+### exercise
+
+Create a histogram of direction requests using `dir_request`
+
+```{r geom_histogram-ex, eval=FALSE}
+TidyApple %>% ggplot() + 
+  geom_histogram(aes(x = ____________)) + 
+  lab_hist
+```
+
+### solution
+
+See blow:
+
+```{r geom_histogram-sol, message=FALSE, warning=FALSE}
+TidyApple %>% ggplot() + 
+  geom_histogram(aes(x = dir_request)) + 
+  lab_hist
+```
+
+## Adjusting Y Axes {.tabset}
+
+We can see the `y` axis is in scientific notation. This might be hard for some audiences to interpret, so we will change this to use the whole number with commas with the [`scales` package](https://scales.r-lib.org/). 
+
+### exercise
+
+Add the `scales::comma` value to the `scale_y_continuous()` function.
+
+```{r scales-ex, eval=FALSE}
+library(scales)
+TidyApple %>% ggplot() + 
+  geom_histogram(aes(x = dir_request)) + 
+  scale_y_continuous(labels = __________) +
+  lab_hist
+```
+
+### solution
+
+See below:
+
+```{r scales-sol, message=FALSE, warning=FALSE}
+library(scales)
+TidyApple %>% ggplot() + 
+  geom_histogram(aes(x = dir_request)) + 
+  scale_y_continuous(labels = scales::comma) +
+  lab_hist
+```
+
+
+## Histogram Shape {.tabset}
+
+We can control the shape of the with the `bins` argument. The default is `30`.
+
+### exercie 
+
+Set `bins` to `15`.
+
+```{r bins-15-ex, eval=FALSE}
+TidyApple %>% ggplot() + 
+  geom_histogram(aes(x = dir_request), bins = __) + 
+  scale_y_continuous(labels = scales::comma) +
+  lab_hist
+```
+
+### solution
+
+See below:
+
+```{r bins-15-sol, message=FALSE, warning=FALSE}
+TidyApple %>% ggplot() + 
+  geom_histogram(aes(x = dir_request), bins = 15) + 
+  scale_y_continuous(labels = scales::comma) +
+  lab_hist
+```
+
+### exercise 
+
+Set `bins` to `45` and assign it to `gg_hist45`.
+
+```{r bins-45-gg_hist45-ex, eval=FALSE}
+TidyApple %>% ggplot() + 
+  geom_histogram(aes(x = dir_request), bins = __) + 
+  scale_y_continuous(labels = scales::comma) +
+  lab_hist -> _____________
+```
+
+### solution
+
+See below:
+
+```{r bins-45-gg_hist45-sol, message=FALSE, warning=FALSE}
+TidyApple %>% ggplot() + 
+  geom_histogram(aes(x = dir_request), bins = 45) + 
+  scale_y_continuous(labels = scales::comma) +
+  lab_hist -> gg_hist45
+```
+
+```{r gg_hist45-show, echo=FALSE, message=FALSE, warning=FALSE}
+gg_hist45
+```
+
+
+## Density Plots {.tabset}
+
+What if we want to see how a continuous variable is distributed across a categorical variable? Density plots come in handy here (so do `geom_boxplot()`s!), even though the `y` axis can be hard to interpret. Read more about the density geom [here](https://ggplot2.tidyverse.org/reference/geom_density.html).
+
+We are going to create some labels so we know what to expect when we create our graph. We want to see the distribution of the directions request, filled by the levels of transportation type.
+
+```{r labs_density}
+lab_density <- labs(x = "Apple directions requests",
+                    fill = "Transit Type",
+     title = "Distribution of Direction Requests vs. Transportation Type",
+     subtitle = "source: https://covid19.apple.com/mobility")
+```
+
+Now we build the density plot, passing the variables so they match our labels above. 
+
+### exercise 
+
+Create a density plot of direction requests colored by the type of transportation.
+
+```{r density-ex, eval=FALSE}
+TidyApple %>% 
+  ggplot() +
+  geom_density(aes(x = __________, fill = __________)) + 
+  lab_density
+```
+
+### solution
+
+See below:
+
+```{r density-sol, message=FALSE, warning=FALSE}
+TidyApple %>% 
+  ggplot() +
+  geom_density(aes(x = dir_request, fill = trans_type)) + 
+  lab_density
+```
+
+### exercise
+
+Adjust the overlapping densities by setting `alpha` to `1/3`. Assign this plot to `gg_density`.
+
+```{r density-alpha-ex, eval=FALSE}
+TidyApple %>% 
+  ggplot() +
+  geom_density(aes(x = dir_request, fill = trans_type), 
+               alpha = __________) + 
+  
+  lab_density -> __________
+```
+
+### solution
+
+See below:
+
+```{r density-alpha, message=FALSE, warning=FALSE}
+TidyApple %>% 
+  ggplot() +
+  geom_density(aes(x = dir_request, fill = trans_type), 
+               alpha = 1/3) + 
+  lab_density -> gg_density
+
+gg_density
+```
+
+# Visualizing Trends 
+
+Now we've seen the distribution of `dir_request`, and how it varies across `trans_type`. Next we'll look at how the relaitionship between these two variabels varies over `date`.
+
+## Focus on US Cities {.tabset}
+
+Let's narrow the data down a bit. We'll start by filtering to only US cities.
+
+### exercise
+
+Filter the `geo_type` to `"city"` and the `country` to `"United States"`, and pass the `date` variable to `skimr::skim()`
+
+```{r us-cities-skim-ex, eval=FALSE}
+TidyApple %>% 
+  filter(geo_type == ___________ &
+              country == ___________) %>% 
+                # use skimr to check date
+                skimr::skim(___________)
+```
+
+### solution
+
+Here we reduce the dataset to only cities in the US, and we check the `date` range with `skimr::skim()`
+
+```{r us-cities-skim-sol}
+TidyApple %>% 
+  filter(geo_type == "city" &
+              country == "United States") %>% 
+                # use skimr to check date
+                skimr::skim(date)
+```
+
+## Updating Labels  
+
+We can see this date range is from `r min(TidyApple$date)` to `r max(TidyApple$date)`. 
+
+We want to specify this in our labels object (`lab_line01`), so we will use the `paste0()` function to have the labels update every time the data changes.
+
+```{r lab_line01}
+lab_line01 <- labs(x = "Date",
+                 y = "Direction Requests",
+                 title = "Direction Requests Over Time (US Cities Only)",
+                 subtitle = paste0(min(TidyApple$date), " through ", max(TidyApple$date)),
+                 caption = "source: https://covid19.apple.com/mobility", 
+                 color = "Transit Type")
+```
+
+## Line Graphs {.tabset}
+
+We're going to create a line graph of direction requests over time, colored by color.
+
+### exercise 
+
+Pass the filtered data to the `geom_line()`, mapping the following variables to their relative aesthetics:
+
+- `date` to `x`   
+- `dir_request` to `y`   
+- `trans_type` to both `group` and `color`  
+
+Include `lab_line01` to see how the new labels look.
+
+```{r geom-line-us-cities-ex, eval=FALSE}
+TidyApple %>% 
+  filter(geo_type == "city" &
+              country == "United States") %>% 
+  ggplot() +
+  geom_line(aes(x = __________, y = __________, 
+             group = __________, color = __________)) + 
+  __________
+```
+
+### solution
+
+Let's see what happens when we use `lab_line01`. 
+
+```{r geom-line-us-cities-sol}
+TidyApple %>% 
+  filter(geo_type == "city" &
+              country == "United States") %>% 
+  ggplot() +
+  geom_line(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type)) + 
+  lab_line01
+```
+
+The lines in this graph are overlapping each other, so we will adjust the `size` to `0.20`.
+
+### exercise 
+
+Change the size of the `geom_line()` (outside of `aes()`).
+
+```{r us-cities-line-alpha-ex, eval=FALSE}
+TidyApple %>% 
+  filter(geo_type == "city" &
+              country == "United States") %>% 
+  ggplot() +
+  geom_line(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type), 
+            size = ____________) + 
+  lab_line01
+```
+
+### solution
+
+Now the trends are easier to see.
+
+```{r us-cities-line-alpha-sol}
+TidyApple %>% 
+  filter(geo_type == "city" &
+              country == "United States") %>% 
+  ggplot() +
+  geom_line(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type), 
+            size = 0.20) + 
+  lab_line01
+```
+
+## Narrow Date Range {.tabset}
+
+We are going to only look at the trends between February and August of 2020. We will create two new objects (`start_date` and `end_date`), which we can use to embed the dates into the `filter()` function (and anywhere else we need to use this date range). This method is probably better than passing the dates as a character (i.e. in quotes), because we would only have to change it in one place. However, the option above makes better use of R functional programming syntax.
+
+### exercise
+
+Pass the `start_date` and `end_date` to the `as_date()` functions, and take a look at the `date` variable with `skimr::skim()`
+
+```{r start_date-end_date-skimr-ex, eval=FALSE}
+# create date objects
+start_date <- "2020-02-01"
+end_date <- "2020-08-01"
+# check with skimr
+TidyApple %>% 
+  filter(geo_type == "city" &
+              country == "United States", 
+                date >= as_date(_____________) & 
+                  date <= as_date(_____________)) %>% 
+                  skimr::skim(_____________)
+```
+
+### solution
+
+See below:
+
+```{r start_date-end_date-skimr-sol}
+# create date objects
+start_date <- "2020-02-01"
+end_date <- "2020-08-01"
+# check with skimr
+TidyApple %>% 
+  filter(geo_type == "city" &
+              country == "United States", 
+                date >= as_date(start_date) & 
+                  date <= as_date(end_date)) %>% 
+                  skimr::skim(date)
+```
+
+### exercise 
+
+Create the new labels (`lab_line_02`) with the `paste0()` function by passing both `start_date` and `end_date`. Assign the plot to `gg_us_cities`
+
+```{r lab_line_02-ex, eval=FALSE}
+lab_line_02 <- labs(x = "Date",
+                 y = "Direction Requests",
+                 title = "Direction Requests Over Time (US Cities Only)",
+                 subtitle = paste0(___________, " through ", ___________),
+                 caption = "source: https://covid19.apple.com/mobility", 
+                 color = "Transit Type")
+
+TidyApple %>% 
+  filter(geo_type == "city" &
+              country == "United States", 
+                date >= as_date(start_date) & 
+                  date <= as_date(end_date)) %>%
+  ggplot(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type)) +
+  # make these slightly larger...
+  geom_line(size = 0.30) + 
+  lab_line_02 -> ___________
+```
+
+### solution
+
+See below:
+
+```{r lab_line_02-sol}
+lab_line_02 <- labs(x = "Date",
+                 y = "Direction Requests",
+                 title = "Direction Requests Over Time (US Cities Only)",
+                 subtitle = paste0(start_date, " through ", end_date),
+                 caption = "source: https://covid19.apple.com/mobility", 
+                 color = "Transit Type")
+
+TidyApple %>% 
+  filter(geo_type == "city" &
+              country == "United States", 
+                date >= as_date(start_date) & 
+                  date <= as_date(end_date)) %>%
+  ggplot(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type)) +
+  # make these slightly larger...
+  geom_line(size = 0.30) + 
+  lab_line_02 -> gg_us_cities
+```
+
+```{r show-gg_us_cities, echo=FALSE}
+gg_us_cities
+```

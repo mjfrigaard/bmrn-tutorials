@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Data Visualization as Communication</title>
+
+<script src="site_libs/header-attrs-2.5.3/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">bmRn R Training</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Lessons and exercises</a>
+</li>
+<li>
+  <a href="more-resources.html">More resources</a>
+</li>
+<li>
+  <a href="slides.html">Slides</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Data Visualization as Communication</h1>
+
+</div>
+
+
+<div id="objectives" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Objectives</h1>
+<p>Recognize the needs of your audience</p>
+<p><em>level of data literacy, subject matter expertise, etc.</em></p>
+<p>Check and communicate data quality with stakeholders</p>
+<p><em>let them know the good and the bad news</em></p>
+<p>Identify the correct data visualization (based on the data)</p>
+<p><em>single variable, bivariate, and multivariate graphs</em></p>
+</div>
+<div id="materials" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Materials</h1>
+<ul>
+<li><p>Slides:</p></li>
+<li><p>RStudio Project:</p></li>
+</ul>
+</div>
+<div id="previous-lessons" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Previous lessons</h1>
+<p>All of the exercises and lessons are available <a href="https://mjfrigaard.github.io/r-meetup-tutorials/">here</a>, but you can also read more about <a href="https://ggplot2.tidyverse.org/index.html"><code>ggplot2</code></a> on the tidyverse website, and in the <a href="https://r4ds.had.co.nz/data-visualisation.html">Data Visualisation</a> chapter of R for Data Science.</p>
+</div>
+<div id="load-the-packages" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Load the packages</h1>
+<p>The main packages we’re going to use are <code>dplyr</code>, <code>tidyr</code>, and <code>ggplot2</code>. These are all part of the <code>tidyverse</code>, so we’ll import this package below:</p>
+<pre class="r"><code>install.packages(&quot;tidyverse&quot;)
+library(tidyverse)</code></pre>
+</div>
+<div id="example-covid-and-mobility" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> Example: COVID and Mobility</h1>
+<ul>
+<li><p>How has COVID changed our modes of transportation?</p>
+<ul>
+<li><em>are people using fewer or different forms of transportation?</em></li>
+</ul></li>
+<li><p>What kind of measurements would this be?</p>
+<ul>
+<li><em>how people travel (walk, drive, etc.)</em></li>
+</ul></li>
+<li><p>What would these data look like?</p>
+<ul>
+<li><em>what would the columns and rows look like?</em></li>
+</ul></li>
+</ul>
+<div id="data-import" class="section level2 tabset" number="5.1">
+<h2 class="tabset" number="5.1"><span class="header-section-number">5.1</span> Data Import</h2>
+<p>Apple mobility data:</p>
+<p><a href="https://covid19.apple.com/mobility" class="uri">https://covid19.apple.com/mobility</a></p>
+<p>Import these data below:</p>
+<pre class="r"><code>AppleMobRaw &lt;- readr::read_csv(&quot;https://bit.ly/apple-mob-raw&quot;)</code></pre>
+<div id="tidy-applemobraw" class="section level3" number="5.1.1">
+<h3 number="5.1.1"><span class="header-section-number">5.1.1</span> Tidy <code>AppleMobRaw</code></h3>
+<p>These data need to be restructured into a tidy format.</p>
+<pre class="r"><code>AppleMobRaw %&gt;% 
+  tidyr::pivot_longer(cols = -c(geo_type:country), 
+                      names_to = &quot;date&quot;, values_to = &quot;dir_request&quot;)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["geo_type"],"name":[1],"type":["chr"],"align":["left"]},{"label":["region"],"name":[2],"type":["chr"],"align":["left"]},{"label":["transportation_type"],"name":[3],"type":["chr"],"align":["left"]},{"label":["sub-region"],"name":[4],"type":["chr"],"align":["left"]},{"label":["country"],"name":[5],"type":["chr"],"align":["left"]},{"label":["date"],"name":[6],"type":["chr"],"align":["left"]},{"label":["dir_request"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-01-13","7":"100.00"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-01-14","7":"95.30"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-01-15","7":"101.43"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-01-16","7":"97.20"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-01-17","7":"103.55"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-01-18","7":"112.67"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-01-19","7":"104.83"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-01-20","7":"94.39"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-01-21","7":"94.07"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-01-22","7":"93.51"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-01-23","7":"92.94"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-01-24","7":"102.13"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-01-25","7":"102.38"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-01-26","7":"101.41"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-01-27","7":"94.62"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-01-28","7":"89.12"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-01-29","7":"90.17"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-01-30","7":"90.21"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-01-31","7":"97.71"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-01","7":"102.50"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-02","7":"108.92"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-03","7":"92.82"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-04","7":"91.48"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-05","7":"93.99"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-06","7":"96.72"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-07","7":"102.46"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-08","7":"103.29"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-09","7":"107.83"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-10","7":"87.99"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-11","7":"94.18"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-12","7":"94.62"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-13","7":"99.70"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-14","7":"139.30"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-15","7":"123.90"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-16","7":"129.41"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-17","7":"102.24"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-18","7":"88.09"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-19","7":"88.17"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-20","7":"94.48"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-21","7":"100.62"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-22","7":"111.02"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-23","7":"113.50"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-24","7":"86.95"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-25","7":"83.01"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-26","7":"85.44"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-27","7":"82.73"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-28","7":"89.70"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-02-29","7":"95.48"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-03-01","7":"100.43"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-03-02","7":"89.25"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-03-03","7":"91.02"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-03-04","7":"89.72"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-03-05","7":"94.87"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-03-06","7":"102.82"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-03-07","7":"109.92"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-03-08","7":"110.07"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-03-09","7":"79.68"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-03-10","7":"68.24"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-03-11","7":"51.77"},{"1":"country/region","2":"Albania","3":"driving","4":"NA","5":"NA","6":"2020-03-12","7":"43.79"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="wrangle-applemobraw" class="section level3" number="5.1.2">
+<h3 number="5.1.2"><span class="header-section-number">5.1.2</span> Wrangle <code>AppleMobRaw</code></h3>
+<p>We will remove the missing values from <code>country</code> and <code>sub-region</code></p>
+<pre class="r"><code>AppleMobRaw %&gt;% 
+  tidyr::pivot_longer(cols = -c(geo_type:country), 
+                      names_to = &quot;date&quot;, values_to = &quot;dir_request&quot;) %&gt;% 
+    # remove missing country and missing sub-region data
+  dplyr::filter(!is.na(country) &amp; !is.na(`sub-region`))</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["geo_type"],"name":[1],"type":["chr"],"align":["left"]},{"label":["region"],"name":[2],"type":["chr"],"align":["left"]},{"label":["transportation_type"],"name":[3],"type":["chr"],"align":["left"]},{"label":["sub-region"],"name":[4],"type":["chr"],"align":["left"]},{"label":["country"],"name":[5],"type":["chr"],"align":["left"]},{"label":["date"],"name":[6],"type":["chr"],"align":["left"]},{"label":["dir_request"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-01-13","7":"100.00"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-01-14","7":"100.73"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-01-15","7":"102.86"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-01-16","7":"102.65"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-01-17","7":"109.39"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-01-18","7":"109.62"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-01-19","7":"98.21"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-01-20","7":"102.74"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-01-21","7":"103.85"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-01-22","7":"102.01"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-01-23","7":"101.40"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-01-24","7":"107.57"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-01-25","7":"109.13"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-01-26","7":"97.51"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-01-27","7":"101.64"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-01-28","7":"100.59"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-01-29","7":"103.33"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-01-30","7":"104.31"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-01-31","7":"113.82"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-01","7":"113.59"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-02","7":"98.83"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-03","7":"103.15"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-04","7":"103.89"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-05","7":"101.56"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-06","7":"102.56"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-07","7":"111.98"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-08","7":"112.91"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-09","7":"88.21"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-10","7":"105.14"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-11","7":"107.55"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-12","7":"107.62"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-13","7":"110.29"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-14","7":"121.38"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-15","7":"115.58"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-16","7":"98.64"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-17","7":"108.30"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-18","7":"111.55"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-19","7":"106.26"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-20","7":"98.08"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-21","7":"106.48"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-22","7":"96.88"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-23","7":"82.05"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-24","7":"87.53"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-25","7":"97.50"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-26","7":"97.03"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-27","7":"105.28"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-28","7":"102.80"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-02-29","7":"103.48"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-03-01","7":"92.08"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-03-02","7":"95.39"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-03-03","7":"100.71"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-03-04","7":"101.12"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-03-05","7":"102.29"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-03-06","7":"108.11"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-03-07","7":"107.92"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-03-08","7":"96.28"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-03-09","7":"94.72"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-03-10","7":"96.77"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-03-11","7":"111.70"},{"1":"city","2":"Aachen","3":"driving","4":"North Rhine-Westphalia","5":"Germany","6":"2020-03-12","7":"90.88"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Use <code>mutate()</code> to create a properly formatted <code>date</code> variable, and <code>rename()</code> the <code>transportation_type</code> variable to <code>trans_type</code>. Apply <code>janitor::clean_names()</code> to the entire dataset and assign the final output to <code>TidyApple</code>.</p>
+<pre class="r"><code>AppleMobRaw %&gt;% 
+  tidyr::pivot_longer(cols = -c(geo_type:country), 
+                      names_to = &quot;date&quot;, values_to = &quot;dir_request&quot;) %&gt;% 
+    # remove missing country and missing sub-region data
+  dplyr::filter(!is.na(country) &amp; !is.na(`sub-region`)) %&gt;% 
+  # format date
+  mutate(date = lubridate::ymd(date)) %&gt;% 
+  # change name of transportation types
+  rename(trans_type = transportation_type) %&gt;% 
+  # clean names 
+  janitor::clean_names() -&gt; TidyApple</code></pre>
+</div>
+<div id="bonus-counting" class="section level3" number="5.1.3">
+<h3 number="5.1.3"><span class="header-section-number">5.1.3</span> Bonus (counting!)</h3>
+<p>One of the most important jobs of analytic work is counting things :) below is an example of using the <code>map()</code> function from the <code>purrr</code> package to pass the <code>count()</code> function from <code>dplyr</code> to the character variables in <code>TidyApple</code>. We can example the counts of each value by using the <code>$</code> to subset the <code>tidy_apple_counts</code> list.</p>
+<pre class="r"><code>TidyApple %&gt;% 
+  select_if(is.character) %&gt;% 
+  map(~count(data.frame(x = .x), x, sort = TRUE)) -&gt; tidy_apple_counts
+
+tidy_apple_counts$country</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["x"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"United States","2":"935784"},{"1":"Japan","2":"25360"},{"1":"United Kingdom","2":"15216"},{"1":"Germany","2":"13631"},{"1":"France","2":"10778"},{"1":"Canada","2":"6657"},{"1":"Italy","2":"6657"},{"1":"Brazil","2":"5072"},{"1":"Australia","2":"4755"},{"1":"Switzerland","2":"4755"},{"1":"Mexico","2":"3804"},{"1":"Spain","2":"3804"},{"1":"Netherlands","2":"3487"},{"1":"Sweden","2":"2853"},{"1":"Poland","2":"2536"},{"1":"Belgium","2":"1902"},{"1":"Russia","2":"1268"},{"1":"South Africa","2":"1268"},{"1":"Denmark","2":"951"},{"1":"Finland","2":"951"},{"1":"New Zealand","2":"951"},{"1":"Austria","2":"634"},{"1":"Chile","2":"634"},{"1":"Greece","2":"634"},{"1":"Israel","2":"634"},{"1":"Malaysia","2":"317"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</div>
+<div id="visualizing-distributions" class="section level1" number="6">
+<h1 number="6"><span class="header-section-number">6</span> Visualizing Distributions</h1>
+<p>Before we start looking at relationships <em>between</em> variables, we might want to examine the underlying distribution of a single variable. We’re going to cover two graphs that display variable distributions: histograms and density plots.</p>
+<div id="histograms" class="section level2 tabset" number="6.1">
+<h2 class="tabset" number="6.1"><span class="header-section-number">6.1</span> Histograms</h2>
+<p>The <code>x</code> axis for the histogram will have the direction requests, and the <code>y</code> variable will display a count of the values.</p>
+<pre class="r"><code>lab_hist &lt;- labs(x = &quot;Apple directions requests&quot;,
+                 y = &quot;Count&quot;,
+     title = &quot;Distribution of Direction Requests&quot;,
+     subtitle = &quot;source: https://covid19.apple.com/mobility&quot;)</code></pre>
+<p>A histogram is a special kind of bar graph–it only takes a single continuous variable (in this case, <code>dir_request</code>), and it displays a relative breakdown of the values.</p>
+<div id="exercise" class="section level3" number="6.1.1">
+<h3 number="6.1.1"><span class="header-section-number">6.1.1</span> exercise</h3>
+<p>Create a histogram of direction requests using <code>dir_request</code></p>
+<pre class="r"><code>TidyApple %&gt;% ggplot() + 
+  geom_histogram(aes(x = ____________)) + 
+  lab_hist</code></pre>
+</div>
+<div id="solution" class="section level3" number="6.1.2">
+<h3 number="6.1.2"><span class="header-section-number">6.1.2</span> solution</h3>
+<p>See blow:</p>
+<pre class="r"><code>TidyApple %&gt;% ggplot() + 
+  geom_histogram(aes(x = dir_request)) + 
+  lab_hist</code></pre>
+<p><img src="img/geom_histogram-sol-1.png" width="672" /></p>
+</div>
+</div>
+<div id="adjusting-y-axes" class="section level2 tabset" number="6.2">
+<h2 class="tabset" number="6.2"><span class="header-section-number">6.2</span> Adjusting Y Axes</h2>
+<p>We can see the <code>y</code> axis is in scientific notation. This might be hard for some audiences to interpret, so we will change this to use the whole number with commas with the <a href="https://scales.r-lib.org/"><code>scales</code> package</a>.</p>
+<div id="exercise-1" class="section level3" number="6.2.1">
+<h3 number="6.2.1"><span class="header-section-number">6.2.1</span> exercise</h3>
+<p>Add the <code>scales::comma</code> value to the <code>scale_y_continuous()</code> function.</p>
+<pre class="r"><code>library(scales)
+TidyApple %&gt;% ggplot() + 
+  geom_histogram(aes(x = dir_request)) + 
+  scale_y_continuous(labels = __________) +
+  lab_hist</code></pre>
+</div>
+<div id="solution-1" class="section level3" number="6.2.2">
+<h3 number="6.2.2"><span class="header-section-number">6.2.2</span> solution</h3>
+<p>See below:</p>
+<pre class="r"><code>library(scales)
+TidyApple %&gt;% ggplot() + 
+  geom_histogram(aes(x = dir_request)) + 
+  scale_y_continuous(labels = scales::comma) +
+  lab_hist</code></pre>
+<p><img src="img/scales-sol-1.png" width="672" /></p>
+</div>
+</div>
+<div id="histogram-shape" class="section level2 tabset" number="6.3">
+<h2 class="tabset" number="6.3"><span class="header-section-number">6.3</span> Histogram Shape</h2>
+<p>We can control the shape of the with the <code>bins</code> argument. The default is <code>30</code>.</p>
+<div id="exercie" class="section level3" number="6.3.1">
+<h3 number="6.3.1"><span class="header-section-number">6.3.1</span> exercie</h3>
+<p>Set <code>bins</code> to <code>15</code>.</p>
+<pre class="r"><code>TidyApple %&gt;% ggplot() + 
+  geom_histogram(aes(x = dir_request), bins = __) + 
+  scale_y_continuous(labels = scales::comma) +
+  lab_hist</code></pre>
+</div>
+<div id="solution-2" class="section level3" number="6.3.2">
+<h3 number="6.3.2"><span class="header-section-number">6.3.2</span> solution</h3>
+<p>See below:</p>
+<pre class="r"><code>TidyApple %&gt;% ggplot() + 
+  geom_histogram(aes(x = dir_request), bins = 15) + 
+  scale_y_continuous(labels = scales::comma) +
+  lab_hist</code></pre>
+<p><img src="img/bins-15-sol-1.png" width="672" /></p>
+</div>
+<div id="exercise-2" class="section level3" number="6.3.3">
+<h3 number="6.3.3"><span class="header-section-number">6.3.3</span> exercise</h3>
+<p>Set <code>bins</code> to <code>45</code> and assign it to <code>gg_hist45</code>.</p>
+<pre class="r"><code>TidyApple %&gt;% ggplot() + 
+  geom_histogram(aes(x = dir_request), bins = __) + 
+  scale_y_continuous(labels = scales::comma) +
+  lab_hist -&gt; _____________</code></pre>
+</div>
+<div id="solution-3" class="section level3" number="6.3.4">
+<h3 number="6.3.4"><span class="header-section-number">6.3.4</span> solution</h3>
+<p>See below:</p>
+<pre class="r"><code>TidyApple %&gt;% ggplot() + 
+  geom_histogram(aes(x = dir_request), bins = 45) + 
+  scale_y_continuous(labels = scales::comma) +
+  lab_hist -&gt; gg_hist45</code></pre>
+<p><img src="img/gg_hist45-show-1.png" width="672" /></p>
+</div>
+</div>
+<div id="density-plots" class="section level2 tabset" number="6.4">
+<h2 class="tabset" number="6.4"><span class="header-section-number">6.4</span> Density Plots</h2>
+<p>What if we want to see how a continuous variable is distributed across a categorical variable? Density plots come in handy here (so do <code>geom_boxplot()</code>s!), even though the <code>y</code> axis can be hard to interpret. Read more about the density geom <a href="https://ggplot2.tidyverse.org/reference/geom_density.html">here</a>.</p>
+<p>We are going to create some labels so we know what to expect when we create our graph. We want to see the distribution of the directions request, filled by the levels of transportation type.</p>
+<pre class="r"><code>lab_density &lt;- labs(x = &quot;Apple directions requests&quot;,
+                    fill = &quot;Transit Type&quot;,
+     title = &quot;Distribution of Direction Requests vs. Transportation Type&quot;,
+     subtitle = &quot;source: https://covid19.apple.com/mobility&quot;)</code></pre>
+<p>Now we build the density plot, passing the variables so they match our labels above.</p>
+<div id="exercise-3" class="section level3" number="6.4.1">
+<h3 number="6.4.1"><span class="header-section-number">6.4.1</span> exercise</h3>
+<p>Create a density plot of direction requests colored by the type of transportation.</p>
+<pre class="r"><code>TidyApple %&gt;% 
+  ggplot() +
+  geom_density(aes(x = __________, fill = __________)) + 
+  lab_density</code></pre>
+</div>
+<div id="solution-4" class="section level3" number="6.4.2">
+<h3 number="6.4.2"><span class="header-section-number">6.4.2</span> solution</h3>
+<p>See below:</p>
+<pre class="r"><code>TidyApple %&gt;% 
+  ggplot() +
+  geom_density(aes(x = dir_request, fill = trans_type)) + 
+  lab_density</code></pre>
+<p><img src="img/density-sol-1.png" width="672" /></p>
+</div>
+<div id="exercise-4" class="section level3" number="6.4.3">
+<h3 number="6.4.3"><span class="header-section-number">6.4.3</span> exercise</h3>
+<p>Adjust the overlapping densities by setting <code>alpha</code> to <code>1/3</code>. Assign this plot to <code>gg_density</code>.</p>
+<pre class="r"><code>TidyApple %&gt;% 
+  ggplot() +
+  geom_density(aes(x = dir_request, fill = trans_type), 
+               alpha = __________) + 
+  
+  lab_density -&gt; __________</code></pre>
+</div>
+<div id="solution-5" class="section level3" number="6.4.4">
+<h3 number="6.4.4"><span class="header-section-number">6.4.4</span> solution</h3>
+<p>See below:</p>
+<pre class="r"><code>TidyApple %&gt;% 
+  ggplot() +
+  geom_density(aes(x = dir_request, fill = trans_type), 
+               alpha = 1/3) + 
+  lab_density -&gt; gg_density
+
+gg_density</code></pre>
+<p><img src="img/density-alpha-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="visualizing-trends" class="section level1" number="7">
+<h1 number="7"><span class="header-section-number">7</span> Visualizing Trends</h1>
+<p>Now we’ve seen the distribution of <code>dir_request</code>, and how it varies across <code>trans_type</code>. Next we’ll look at how the relaitionship between these two variabels varies over <code>date</code>.</p>
+<div id="focus-on-us-cities" class="section level2 tabset" number="7.1">
+<h2 class="tabset" number="7.1"><span class="header-section-number">7.1</span> Focus on US Cities</h2>
+<p>Let’s narrow the data down a bit. We’ll start by filtering to only US cities.</p>
+<div id="exercise-5" class="section level3" number="7.1.1">
+<h3 number="7.1.1"><span class="header-section-number">7.1.1</span> exercise</h3>
+<p>Filter the <code>geo_type</code> to <code>"city"</code> and the <code>country</code> to <code>"United States"</code>, and pass the <code>date</code> variable to <code>skimr::skim()</code></p>
+<pre class="r"><code>TidyApple %&gt;% 
+  filter(geo_type == ___________ &amp;
+              country == ___________) %&gt;% 
+                # use skimr to check date
+                skimr::skim(___________)</code></pre>
+</div>
+<div id="solution-6" class="section level3" number="7.1.2">
+<h3 number="7.1.2"><span class="header-section-number">7.1.2</span> solution</h3>
+<p>Here we reduce the dataset to only cities in the US, and we check the <code>date</code> range with <code>skimr::skim()</code></p>
+<pre class="r"><code>TidyApple %&gt;% 
+  filter(geo_type == &quot;city&quot; &amp;
+              country == &quot;United States&quot;) %&gt;% 
+                # use skimr to check date
+                skimr::skim(date)</code></pre>
+<table>
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">Piped data</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">99538</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">7</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Date</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: Date</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="left">min</th>
+<th align="left">max</th>
+<th align="left">median</th>
+<th align="right">n_unique</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">date</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">2020-01-13</td>
+<td align="left">2020-11-24</td>
+<td align="left">2020-06-19</td>
+<td align="right">317</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="updating-labels" class="section level2" number="7.2">
+<h2 number="7.2"><span class="header-section-number">7.2</span> Updating Labels</h2>
+<p>We can see this date range is from 2020-01-13 to 2020-11-24.</p>
+<p>We want to specify this in our labels object (<code>lab_line01</code>), so we will use the <code>paste0()</code> function to have the labels update every time the data changes.</p>
+<pre class="r"><code>lab_line01 &lt;- labs(x = &quot;Date&quot;,
+                 y = &quot;Direction Requests&quot;,
+                 title = &quot;Direction Requests Over Time (US Cities Only)&quot;,
+                 subtitle = paste0(min(TidyApple$date), &quot; through &quot;, max(TidyApple$date)),
+                 caption = &quot;source: https://covid19.apple.com/mobility&quot;, 
+                 color = &quot;Transit Type&quot;)</code></pre>
+</div>
+<div id="line-graphs" class="section level2 tabset" number="7.3">
+<h2 class="tabset" number="7.3"><span class="header-section-number">7.3</span> Line Graphs</h2>
+<p>We’re going to create a line graph of direction requests over time, colored by color.</p>
+<div id="exercise-6" class="section level3" number="7.3.1">
+<h3 number="7.3.1"><span class="header-section-number">7.3.1</span> exercise</h3>
+<p>Pass the filtered data to the <code>geom_line()</code>, mapping the following variables to their relative aesthetics:</p>
+<ul>
+<li><code>date</code> to <code>x</code><br />
+</li>
+<li><code>dir_request</code> to <code>y</code><br />
+</li>
+<li><code>trans_type</code> to both <code>group</code> and <code>color</code></li>
+</ul>
+<p>Include <code>lab_line01</code> to see how the new labels look.</p>
+<pre class="r"><code>TidyApple %&gt;% 
+  filter(geo_type == &quot;city&quot; &amp;
+              country == &quot;United States&quot;) %&gt;% 
+  ggplot() +
+  geom_line(aes(x = __________, y = __________, 
+             group = __________, color = __________)) + 
+  __________</code></pre>
+</div>
+<div id="solution-7" class="section level3" number="7.3.2">
+<h3 number="7.3.2"><span class="header-section-number">7.3.2</span> solution</h3>
+<p>Let’s see what happens when we use <code>lab_line01</code>.</p>
+<pre class="r"><code>TidyApple %&gt;% 
+  filter(geo_type == &quot;city&quot; &amp;
+              country == &quot;United States&quot;) %&gt;% 
+  ggplot() +
+  geom_line(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type)) + 
+  lab_line01</code></pre>
+<p><img src="img/geom-line-us-cities-sol-1.png" width="672" /></p>
+<p>The lines in this graph are overlapping each other, so we will adjust the <code>size</code> to <code>0.20</code>.</p>
+</div>
+<div id="exercise-7" class="section level3" number="7.3.3">
+<h3 number="7.3.3"><span class="header-section-number">7.3.3</span> exercise</h3>
+<p>Change the size of the <code>geom_line()</code> (outside of <code>aes()</code>).</p>
+<pre class="r"><code>TidyApple %&gt;% 
+  filter(geo_type == &quot;city&quot; &amp;
+              country == &quot;United States&quot;) %&gt;% 
+  ggplot() +
+  geom_line(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type), 
+            size = ____________) + 
+  lab_line01</code></pre>
+</div>
+<div id="solution-8" class="section level3" number="7.3.4">
+<h3 number="7.3.4"><span class="header-section-number">7.3.4</span> solution</h3>
+<p>Now the trends are easier to see.</p>
+<pre class="r"><code>TidyApple %&gt;% 
+  filter(geo_type == &quot;city&quot; &amp;
+              country == &quot;United States&quot;) %&gt;% 
+  ggplot() +
+  geom_line(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type), 
+            size = 0.20) + 
+  lab_line01</code></pre>
+<p><img src="img/us-cities-line-alpha-sol-1.png" width="672" /></p>
+</div>
+</div>
+<div id="narrow-date-range" class="section level2 tabset" number="7.4">
+<h2 class="tabset" number="7.4"><span class="header-section-number">7.4</span> Narrow Date Range</h2>
+<p>We are going to only look at the trends between February and August of 2020. We will create two new objects (<code>start_date</code> and <code>end_date</code>), which we can use to embed the dates into the <code>filter()</code> function (and anywhere else we need to use this date range). This method is probably better than passing the dates as a character (i.e. in quotes), because we would only have to change it in one place. However, the option above makes better use of R functional programming syntax.</p>
+<div id="exercise-8" class="section level3" number="7.4.1">
+<h3 number="7.4.1"><span class="header-section-number">7.4.1</span> exercise</h3>
+<p>Pass the <code>start_date</code> and <code>end_date</code> to the <code>as_date()</code> functions, and take a look at the <code>date</code> variable with <code>skimr::skim()</code></p>
+<pre class="r"><code># create date objects
+start_date &lt;- &quot;2020-02-01&quot;
+end_date &lt;- &quot;2020-08-01&quot;
+# check with skimr
+TidyApple %&gt;% 
+  filter(geo_type == &quot;city&quot; &amp;
+              country == &quot;United States&quot;, 
+                date &gt;= as_date(_____________) &amp; 
+                  date &lt;= as_date(_____________)) %&gt;% 
+                  skimr::skim(_____________)</code></pre>
+</div>
+<div id="solution-9" class="section level3" number="7.4.2">
+<h3 number="7.4.2"><span class="header-section-number">7.4.2</span> solution</h3>
+<p>See below:</p>
+<pre class="r"><code># create date objects
+start_date &lt;- &quot;2020-02-01&quot;
+end_date &lt;- &quot;2020-08-01&quot;
+# check with skimr
+TidyApple %&gt;% 
+  filter(geo_type == &quot;city&quot; &amp;
+              country == &quot;United States&quot;, 
+                date &gt;= as_date(start_date) &amp; 
+                  date &lt;= as_date(end_date)) %&gt;% 
+                  skimr::skim(date)</code></pre>
+<table>
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">Piped data</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">57462</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">7</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Date</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: Date</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="left">min</th>
+<th align="left">max</th>
+<th align="left">median</th>
+<th align="right">n_unique</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">date</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">2020-02-01</td>
+<td align="left">2020-08-01</td>
+<td align="left">2020-05-02</td>
+<td align="right">183</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="exercise-9" class="section level3" number="7.4.3">
+<h3 number="7.4.3"><span class="header-section-number">7.4.3</span> exercise</h3>
+<p>Create the new labels (<code>lab_line_02</code>) with the <code>paste0()</code> function by passing both <code>start_date</code> and <code>end_date</code>. Assign the plot to <code>gg_us_cities</code></p>
+<pre class="r"><code>lab_line_02 &lt;- labs(x = &quot;Date&quot;,
+                 y = &quot;Direction Requests&quot;,
+                 title = &quot;Direction Requests Over Time (US Cities Only)&quot;,
+                 subtitle = paste0(___________, &quot; through &quot;, ___________),
+                 caption = &quot;source: https://covid19.apple.com/mobility&quot;, 
+                 color = &quot;Transit Type&quot;)
+
+TidyApple %&gt;% 
+  filter(geo_type == &quot;city&quot; &amp;
+              country == &quot;United States&quot;, 
+                date &gt;= as_date(start_date) &amp; 
+                  date &lt;= as_date(end_date)) %&gt;%
+  ggplot(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type)) +
+  # make these slightly larger...
+  geom_line(size = 0.30) + 
+  lab_line_02 -&gt; ___________</code></pre>
+</div>
+<div id="solution-10" class="section level3" number="7.4.4">
+<h3 number="7.4.4"><span class="header-section-number">7.4.4</span> solution</h3>
+<p>See below:</p>
+<pre class="r"><code>lab_line_02 &lt;- labs(x = &quot;Date&quot;,
+                 y = &quot;Direction Requests&quot;,
+                 title = &quot;Direction Requests Over Time (US Cities Only)&quot;,
+                 subtitle = paste0(start_date, &quot; through &quot;, end_date),
+                 caption = &quot;source: https://covid19.apple.com/mobility&quot;, 
+                 color = &quot;Transit Type&quot;)
+
+TidyApple %&gt;% 
+  filter(geo_type == &quot;city&quot; &amp;
+              country == &quot;United States&quot;, 
+                date &gt;= as_date(start_date) &amp; 
+                  date &lt;= as_date(end_date)) %&gt;%
+  ggplot(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type)) +
+  # make these slightly larger...
+  geom_line(size = 0.30) + 
+  lab_line_02 -&gt; gg_us_cities</code></pre>
+<p><img src="img/show-gg_us_cities-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+
+<i class="fab fa-creative-commons fa-2x"></i><i class="fab fa-creative-commons-by fa-2x"></i><i class="fab fa-creative-commons-sa fa-2x"></i>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4,h5",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

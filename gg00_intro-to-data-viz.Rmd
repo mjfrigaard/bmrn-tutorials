@@ -946,6 +946,8 @@ TidyTopPharmComCaps %>%
 
 In the next few exercises we're going to see how to use facets to explore values across different levels and scales. 
 
+Facets show subplots for different levels of a grouping variable.
+
 ### exercise 
 
 Use `facet_wrap()` to split the graphs by `company_type` 
