@@ -426,6 +426,7 @@ library(tidyverse)</code></pre>
 <div id="import-the-data" class="section level2 tabset" number="5.1">
 <h2 class="tabset" number="5.1"><span class="header-section-number">5.1</span> Import the data</h2>
 <p>I Googled “largest pharmaceutical companies” and found <a href="https://en.wikipedia.org/wiki/List_of_largest_biotechnology_and_pharmaceutical_companies">this wikipedia page</a>.</p>
+<p>These packages will help us scrape the data in the table and manipulate it in R.</p>
 <pre class="r"><code>library(xml2)
 library(rvest)</code></pre>
 <div id="read-html" class="section level3" number="5.1.1">
@@ -442,7 +443,8 @@ library(rvest)</code></pre>
 </div>
 <div id="html-nodes-css" class="section level3" number="5.1.2">
 <h3 number="5.1.2"><span class="header-section-number">5.1.2</span> HTML Nodes (css)</h3>
-<p>I want the html <code>node</code>, so I will use a function from the <code>rvest</code> <a href="https://github.com/hadley/rvest">package</a>. The <code>css</code> argument is set to <code>"table"</code>. Once again I check the structure of the output object.</p>
+<p>I want the html <code>node</code>, so I will use the <code>html_nodes()</code> function from the <code>rvest</code> <a href="https://github.com/hadley/rvest">package</a>.</p>
+<p>The <code>css</code> argument is set to <code>"table"</code>. Once again I check the structure of the output object.</p>
 <pre class="r"><code>wiki_html_tables &lt;- wiki_html %&gt;% rvest::html_nodes(css = &quot;table&quot;)
 wiki_html_tables %&gt;% str()</code></pre>
 <pre><code>## List of 4

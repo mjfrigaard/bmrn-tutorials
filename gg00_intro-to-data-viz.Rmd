@@ -58,6 +58,8 @@ We're going to import some data from the wild (wikipedia), because data are neve
 
 I Googled "largest pharmaceutical companies" and found [this wikipedia page](https://en.wikipedia.org/wiki/List_of_largest_biotechnology_and_pharmaceutical_companies). 
 
+These packages will help us scrape the data in the table and manipulate it in R. 
+
 ```{r scrape-packages}
 library(xml2)
 library(rvest)
@@ -82,7 +84,8 @@ I can see this is a list of two objects (a `node` and a `doc`).
 
 ### HTML Nodes (css)
 
-I want the html `node`, so I will use a function from the `rvest` [package](https://github.com/hadley/rvest). 
+I want the html `node`, so I will use the `html_nodes()` function from the `rvest` [package](https://github.com/hadley/rvest). 
+
 The `css` argument is set to `"table"`. Once again I check the structure of the output object.
 
 ```{r wiki_html_tables}
@@ -121,12 +124,12 @@ TopPharmCompRaw <- rvest::html_table(relevant_tables[[1]],
                   fill = TRUE)
 ```
 
-```{r export-TopPharmCompRaw, echo=FALSE}
+```{r export-TopPharmCompRaw, echo=FALSE, error=TRUE, message=FALSE, warning=FALSE}
 library(readr)
 # little fail-safe here to export the current data as-is and read it back in just in case the data change in the future... 
-write_rds(x = TopPharmCompRaw, path = "data/2020-11-24-TopPharmCompRaw.rds")
+write_csv(x = TopPharmCompRaw, path = "data/2020-11-24-TopPharmCompRaw.csv")
 # read back in
-TopPharmCompRaw <- read_rds(file = "data/2020-11-24-TopPharmCompRaw.rds")
+TopPharmCompRaw <- read_csv(file = "data/2020-11-24-TopPharmCompRaw.csv")
 ```
 
 
@@ -571,7 +574,7 @@ TidyTopPharmComp %>%
 
 Check the solution below--what is wrong with this plot?
 
-```{r aes-sol-01}
+```{r aes-sol-01, message=FALSE, warning=FALSE}
 TidyTopPharmComp %>% 
   ggplot(aes(x = market_cap_year, y = market_cap_us_bil)) + 
   geom_point() + 
@@ -593,7 +596,7 @@ TidyTopPharmComp %>%
 
 Check the updated graph below. It's closer to what we want, but not quite. What do you think the issue is?
 
-```{r aes-sol-02}
+```{r aes-sol-02, message=FALSE, warning=FALSE}
 TidyTopPharmComp %>% 
   ggplot(aes(x = market_cap_year, y = market_cap_us_bil)) + 
   geom_line() + 
@@ -617,7 +620,7 @@ Now the graph is looking how we want! We can see the trend lines are separated a
 
 Let's add some color to see more.
 
-```{r aes-sol-03}
+```{r aes-sol-03, message=FALSE, warning=FALSE}
 TidyTopPharmComp %>% 
   ggplot(aes(x = market_cap_year, y = market_cap_us_bil)) + 
   geom_line(aes(group = company_name)) + 
@@ -650,7 +653,7 @@ gg_trend_line
 
 This graph is showing us more information that the previous plot. For example, we can see the companies with the best performance are on the `NYSE`, and those with relatively low performance are on the `TSX`. 
 
-```{r aes-sol-04-gg_trend_line}
+```{r aes-sol-04-gg_trend_line, message=FALSE, warning=FALSE}
 gg_trend_line <- TidyTopPharmComp %>% 
   ggplot(aes(x = market_cap_year, y = market_cap_us_bil)) + 
   geom_line(aes(group = company_name, color = stock_exch)) + 
@@ -677,7 +680,7 @@ lbl_graph_02 <- ggplot2::labs(title = "Average Market Cap (2013-2019)",
 
 The code below groups the `TidyTopPharmComp` data by `company_name` and `stock_exch` and summarizes the mean `market_cap_us_bil`.
 
-```{r group_by-summarize}
+```{r group_by-summarize, message=FALSE, warning=FALSE}
 TidyTopPharmComp %>% 
   group_by(company_name, stock_exch) %>% 
   summarize(
@@ -712,7 +715,7 @@ TidyTopPharmComp %>%
 
 ### solution 
 
-```{r aes-sol-05-gg_col_graph}
+```{r aes-sol-05-gg_col_graph, message=FALSE, warning=FALSE}
 TidyTopPharmComp %>% 
   group_by(company_name, stock_exch) %>% 
   summarize(
@@ -748,7 +751,7 @@ TidyTopPharmComp %>%
 
 ### solution 
 
-```{r aes-sol-6}
+```{r aes-sol-6, message=FALSE, warning=FALSE}
 TidyTopPharmComp %>% 
   group_by(company_name, stock_exch) %>% 
   summarize(
@@ -789,7 +792,7 @@ gg_col_graph
 
 ### solution
 
-```{r label-sol-07}
+```{r label-sol-07, message=FALSE, warning=FALSE}
 lbl_graph_02 <- ggplot2::labs(x = "Company", 
                               y = "Average Market cap (USD in billions)", 
                               title = "Average Market Cap (2013-2019)", 
@@ -818,7 +821,7 @@ We're going to focus on the Largest Market Cap (`largest_market_cap_us_bil`) and
 
 We will define a new set of labels below. 
 
-```{r lbl_graph_03}
+```{r lbl_graph_03, message=FALSE, warning=FALSE}
 lbl_graph_03 <- ggplot2::labs(title = "Largest Market Cap (USD in billions)", 
                               subtitle = "Largest Pharmaceutical Companies",
                               x = "Largest Market Cap Date", 
@@ -840,7 +843,7 @@ TidyTopPharmComCaps <- TidyTopPharmComp %>%
 
 ### solution
 
-```{r dplyr-sol-08-TidyTopPharmComCaps}
+```{r dplyr-sol-08-TidyTopPharmComCaps, message=FALSE, warning=FALSE}
 TidyTopPharmComCaps <- TidyTopPharmComp %>% 
   select(stock_exch, stock_id, company_type,
          largest_market_cap_date, largest_market_cap_us_bil) %>%  
@@ -865,7 +868,7 @@ TidyTopPharmComCaps %>%
 
 We can see this plot is showing us the date they reached their Largest Market Cap, and the date they reached it. But we still can't see which company is which.
 
-```{r aes-sol-09}
+```{r aes-sol-09, message=FALSE, warning=FALSE}
 TidyTopPharmComCaps %>% 
   ggplot() + 
   geom_point(aes(x = largest_market_cap_date, 
@@ -906,7 +909,7 @@ TidyTopPharmComCaps %>%
 
 We can see this plot has labelled each company so we can clearly see the date they reached their Largest Market Cap in comparison to other companies. The labels are hard to see, though...
 
-```{r ael-sol-10}
+```{r ael-sol-10, message=FALSE, warning=FALSE}
 TidyTopPharmComCaps %>% 
   ggplot() + 
   
@@ -940,7 +943,7 @@ TidyTopPharmComCaps %>%
 
 Now the labels for each company are easier to see. But this is still a very busy graph...
 
-```{r aes-sol-11}
+```{r aes-sol-11, message=FALSE, warning=FALSE}
 library(ggrepel)
 TidyTopPharmComCaps %>% 
   ggplot(aes(x = largest_market_cap_date, 
@@ -978,7 +981,7 @@ TidyTopPharmComCaps %>%
 
 This creates two graphs--one for each level of `company_type`. Why would setting the `scales` to `"free"` be an issue?
 
-```{r aes-sol-12}
+```{r aes-sol-12, message=FALSE, warning=FALSE}
 TidyTopPharmComCaps %>% 
   ggplot(aes(x = largest_market_cap_date, 
              y = largest_market_cap_us_bil)) + 
@@ -1011,7 +1014,7 @@ TidyTopPharmComCaps %>%
 
 This fixes the `y` axis, but allows the `x` to adjust according to the data. How can this be helpful?
 
-```{r aes-sol-13}
+```{r aes-sol-13, message=FALSE, warning=FALSE}
 TidyTopPharmComCaps %>% 
   filter(stock_exch %in% c("NASDAQ", "NYSE"), 
          company_type == "Pharma") %>% 
@@ -1049,7 +1052,7 @@ TidyTopPharmComCaps %>%
 Now we have a fixed `x` axis, and the `y` axis can adjust according to the data. How might this be helpful?
 
 
-```{r aes-sol-14}
+```{r aes-sol-14, message=FALSE, warning=FALSE}
 TidyTopPharmComCaps %>% 
   filter(stock_exch %in% c("NASDAQ", "NYSE"), 
          company_type == "Pharma") %>% 
