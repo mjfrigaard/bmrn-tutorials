@@ -50,7 +50,7 @@ install.packages("tidyverse")
 library(tidyverse)
 ```
 
-# Largest Pharmaceutical Companies (Wikipedia)
+# Largest Pharmaceutical Companies
 
 We're going to import some data from the wild (wikipedia), because data are never in the ideal format when we first get them.
 
@@ -628,7 +628,7 @@ TidyTopPharmComp %>%
 
 In the previous graph, we were able to get a different line per company. However, we want to identify more about these companies with color. 
 
-We know there are 33 different `company_names`, and this is too many to map with color (check this with `distinct()`) 
+We know there are 33 levels in `company_name`, and this is too many to map with color (check this below with `distinct()`) 
 
 ```{r distinct-company_name}
 TidyTopPharmComp %>% distinct(company_name)
@@ -664,7 +664,7 @@ This graph is better then the previous versions, but it still has too much infor
 
 We're going to summarize the data in `TidyTopPharmComp`. Summarizations are helpful when we're interested in comparing variables across groups.
 
-### Average Market Cap
+### Graph Labels
 
 We want the `TidyTopPharmComp` dataset to have one variable per `company_name` name and `stock_exch`. A good measure of central tendency for this is the `mean()` (or average). First we define the new labels.
 
@@ -812,7 +812,11 @@ gg_col_graph
 
 ## Labelling Values {.tabset}
 
-We're going to focus on the Largest Market Cap (`largest_market_cap_us_bil`) and Largest Market Cap Date (`largest_market_cap_date`) variables. We will define a new set of labels below. 
+We're going to focus on the Largest Market Cap (`largest_market_cap_us_bil`) and Largest Market Cap Date (`largest_market_cap_date`) variables. 
+
+### Graph Lables
+
+We will define a new set of labels below. 
 
 ```{r lbl_graph_03}
 lbl_graph_03 <- ggplot2::labs(title = "Largest Market Cap (USD in billions)", 
@@ -870,6 +874,10 @@ TidyTopPharmComCaps %>%
   lbl_graph_03
 ```
 
+## Adding Layers {.tabset}
+
+We're going to add another layer to this plot that will allow us to plot text values onto their points. 
+
 ### exercise 
 
 Add another layer to the plot above using `geom_text()` 
@@ -892,7 +900,6 @@ TidyTopPharmComCaps %>%
                 label = _____________), size = _) + 
   lbl_graph_03
 ```
-
 
 
 ### solution

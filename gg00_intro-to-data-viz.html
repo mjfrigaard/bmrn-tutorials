@@ -420,8 +420,8 @@ div.tocify {
 <pre class="r"><code>install.packages(&quot;tidyverse&quot;)
 library(tidyverse)</code></pre>
 </div>
-<div id="largest-pharmaceutical-companies-wikipedia" class="section level1" number="5">
-<h1 number="5"><span class="header-section-number">5</span> Largest Pharmaceutical Companies (Wikipedia)</h1>
+<div id="largest-pharmaceutical-companies" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> Largest Pharmaceutical Companies</h1>
 <p>We’re going to import some data from the wild (wikipedia), because data are never in the ideal format when we first get them.</p>
 <div id="import-the-data" class="section level2 tabset" number="5.1">
 <h2 class="tabset" number="5.1"><span class="header-section-number">5.1</span> Import the data</h2>
@@ -976,7 +976,7 @@ TopPharmComp %&gt;% arrange(ranking)</code></pre>
 <div id="map-variables-to-aesthetics" class="section level2 tabset" number="7.3">
 <h2 class="tabset" number="7.3"><span class="header-section-number">7.3</span> Map Variables to Aesthetics</h2>
 <p>In the previous graph, we were able to get a different line per company. However, we want to identify more about these companies with color.</p>
-<p>We know there are 33 different <code>company_names</code>, and this is too many to map with color (check this with <code>distinct()</code>)</p>
+<p>We know there are 33 levels in <code>company_name</code>, and this is too many to map with color (check this below with <code>distinct()</code>)</p>
 <pre class="r"><code>TidyTopPharmComp %&gt;% distinct(company_name)</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
@@ -1007,8 +1007,8 @@ gg_trend_line</code></pre>
 <div id="graphing-data-summaries" class="section level2 tabset" number="7.4">
 <h2 class="tabset" number="7.4"><span class="header-section-number">7.4</span> Graphing Data Summaries</h2>
 <p>We’re going to summarize the data in <code>TidyTopPharmComp</code>. Summarizations are helpful when we’re interested in comparing variables across groups.</p>
-<div id="average-market-cap" class="section level3" number="7.4.1">
-<h3 number="7.4.1"><span class="header-section-number">7.4.1</span> Average Market Cap</h3>
+<div id="graph-labels" class="section level3" number="7.4.1">
+<h3 number="7.4.1"><span class="header-section-number">7.4.1</span> Graph Labels</h3>
 <p>We want the <code>TidyTopPharmComp</code> dataset to have one variable per <code>company_name</code> name and <code>stock_exch</code>. A good measure of central tendency for this is the <code>mean()</code> (or average). First we define the new labels.</p>
 <pre class="r"><code>lbl_graph_02 &lt;- ggplot2::labs(title = &quot;Average Market Cap (2013-2019)&quot;, 
                               subtitle = &quot;Largest Pharmaceutical Companies&quot;,
@@ -1140,22 +1140,26 @@ gg_col_graph</code></pre>
 </div>
 <div id="labelling-values" class="section level2 tabset" number="7.5">
 <h2 class="tabset" number="7.5"><span class="header-section-number">7.5</span> Labelling Values</h2>
-<p>We’re going to focus on the Largest Market Cap (<code>largest_market_cap_us_bil</code>) and Largest Market Cap Date (<code>largest_market_cap_date</code>) variables. We will define a new set of labels below.</p>
+<p>We’re going to focus on the Largest Market Cap (<code>largest_market_cap_us_bil</code>) and Largest Market Cap Date (<code>largest_market_cap_date</code>) variables.</p>
+<div id="graph-lables" class="section level3" number="7.5.1">
+<h3 number="7.5.1"><span class="header-section-number">7.5.1</span> Graph Lables</h3>
+<p>We will define a new set of labels below.</p>
 <pre class="r"><code>lbl_graph_03 &lt;- ggplot2::labs(title = &quot;Largest Market Cap (USD in billions)&quot;, 
                               subtitle = &quot;Largest Pharmaceutical Companies&quot;,
                               x = &quot;Largest Market Cap Date&quot;, 
                               y = &quot;Largest Market Cap (USD in billions)&quot;, 
                               color = &quot;Company Type&quot;)</code></pre>
-<div id="exercise-7" class="section level3" number="7.5.1">
-<h3 number="7.5.1"><span class="header-section-number">7.5.1</span> exercise</h3>
+</div>
+<div id="exercise-7" class="section level3" number="7.5.2">
+<h3 number="7.5.2"><span class="header-section-number">7.5.2</span> exercise</h3>
 <p><code>select()</code> the <code>stock_exch</code>, <code>stock_id</code>, <code>company_type</code>, <code>largest_market_cap_date</code>, and <code>largest_market_cap_us_bil</code> variables and get the <code>distinct()</code> values. Assign this to <code>TidyTopPharmComCaps</code>.</p>
 <pre class="r"><code>TidyTopPharmComCaps &lt;- TidyTopPharmComp %&gt;% 
   select(_________, _________, _________,
          _________, _________) %&gt;% 
   dplyr::distinct()</code></pre>
 </div>
-<div id="solution-7" class="section level3" number="7.5.2">
-<h3 number="7.5.2"><span class="header-section-number">7.5.2</span> solution</h3>
+<div id="solution-7" class="section level3" number="7.5.3">
+<h3 number="7.5.3"><span class="header-section-number">7.5.3</span> solution</h3>
 <pre class="r"><code>TidyTopPharmComCaps &lt;- TidyTopPharmComp %&gt;% 
   select(stock_exch, stock_id, company_type,
          largest_market_cap_date, largest_market_cap_us_bil) %&gt;%  
@@ -1167,8 +1171,8 @@ TidyTopPharmComCaps</code></pre>
   </script>
 </div>
 </div>
-<div id="exercise-8" class="section level3" number="7.5.3">
-<h3 number="7.5.3"><span class="header-section-number">7.5.3</span> exercise</h3>
+<div id="exercise-8" class="section level3" number="7.5.4">
+<h3 number="7.5.4"><span class="header-section-number">7.5.4</span> exercise</h3>
 <p>Use <code>TidyTopPharmComCaps</code> to create a scatter plot with <code>largest_market_cap_date</code> to the <code>x</code> axis, and <code>largest_market_cap_us_bil</code> to the <code>y</code>. Color the points by <code>company_type</code>.</p>
 <pre class="r"><code>TidyTopPharmComCaps %&gt;% 
   ggplot() + 
@@ -1177,8 +1181,8 @@ TidyTopPharmComCaps</code></pre>
              color = _____________)) + 
   lbl_graph_03</code></pre>
 </div>
-<div id="solution-8" class="section level3" number="7.5.4">
-<h3 number="7.5.4"><span class="header-section-number">7.5.4</span> solution</h3>
+<div id="solution-8" class="section level3" number="7.5.5">
+<h3 number="7.5.5"><span class="header-section-number">7.5.5</span> solution</h3>
 <p>We can see this plot is showing us the date they reached their Largest Market Cap, and the date they reached it. But we still can’t see which company is which.</p>
 <pre class="r"><code>TidyTopPharmComCaps %&gt;% 
   ggplot() + 
@@ -1188,8 +1192,12 @@ TidyTopPharmComCaps</code></pre>
   lbl_graph_03</code></pre>
 <p><img src="img/aes-sol-09-1.png" width="672" /></p>
 </div>
-<div id="exercise-9" class="section level3" number="7.5.5">
-<h3 number="7.5.5"><span class="header-section-number">7.5.5</span> exercise</h3>
+</div>
+<div id="adding-layers" class="section level2 tabset" number="7.6">
+<h2 class="tabset" number="7.6"><span class="header-section-number">7.6</span> Adding Layers</h2>
+<p>We’re going to add another layer to this plot that will allow us to plot text values onto their points.</p>
+<div id="exercise-9" class="section level3" number="7.6.1">
+<h3 number="7.6.1"><span class="header-section-number">7.6.1</span> exercise</h3>
 <p>Add another layer to the plot above using <code>geom_text()</code></p>
 <ul>
 <li>map <code>largest_market_cap_date</code> to the <code>x</code><br />
@@ -1211,8 +1219,8 @@ TidyTopPharmComCaps</code></pre>
                 label = _____________), size = _) + 
   lbl_graph_03</code></pre>
 </div>
-<div id="solution-9" class="section level3" number="7.5.6">
-<h3 number="7.5.6"><span class="header-section-number">7.5.6</span> solution</h3>
+<div id="solution-9" class="section level3" number="7.6.2">
+<h3 number="7.6.2"><span class="header-section-number">7.6.2</span> solution</h3>
 <p>We can see this plot has labelled each company so we can clearly see the date they reached their Largest Market Cap in comparison to other companies. The labels are hard to see, though…</p>
 <pre class="r"><code>TidyTopPharmComCaps %&gt;% 
   ggplot() + 
@@ -1227,8 +1235,8 @@ TidyTopPharmComCaps</code></pre>
   lbl_graph_03</code></pre>
 <p><img src="img/ael-sol-10-1.png" width="672" /></p>
 </div>
-<div id="exercise-10" class="section level3" number="7.5.7">
-<h3 number="7.5.7"><span class="header-section-number">7.5.7</span> exercise</h3>
+<div id="exercise-10" class="section level3" number="7.6.3">
+<h3 number="7.6.3"><span class="header-section-number">7.6.3</span> exercise</h3>
 <p>Use the <a href="https://cran.r-project.org/web/packages/ggrepel/vignettes/ggrepel.html"><code>ggrepel</code> package</a> to adjust the labels.</p>
 <ul>
 <li>Map <code>stock_id</code> to <code>geom_text_repel()</code></li>
@@ -1241,8 +1249,8 @@ TidyTopPharmComCaps %&gt;%
   geom_text_repel(aes(label = __________), size = 3) + 
   lbl_graph_03 </code></pre>
 </div>
-<div id="solution-10" class="section level3" number="7.5.8">
-<h3 number="7.5.8"><span class="header-section-number">7.5.8</span> solution</h3>
+<div id="solution-10" class="section level3" number="7.6.4">
+<h3 number="7.6.4"><span class="header-section-number">7.6.4</span> solution</h3>
 <p>Now the labels for each company are easier to see. But this is still a very busy graph…</p>
 <pre class="r"><code>library(ggrepel)
 TidyTopPharmComCaps %&gt;% 
@@ -1254,12 +1262,12 @@ TidyTopPharmComCaps %&gt;%
 <p><img src="img/aes-sol-11-1.png" width="672" /></p>
 </div>
 </div>
-<div id="using-facets" class="section level2 tabset" number="7.6">
-<h2 class="tabset" number="7.6"><span class="header-section-number">7.6</span> Using Facets</h2>
+<div id="using-facets" class="section level2 tabset" number="7.7">
+<h2 class="tabset" number="7.7"><span class="header-section-number">7.7</span> Using Facets</h2>
 <p>In the next few exercises we’re going to see how to use facets to explore values across different levels and scales.</p>
 <p>Facets show subplots for different levels of a grouping variable.</p>
-<div id="exercise-11" class="section level3" number="7.6.1">
-<h3 number="7.6.1"><span class="header-section-number">7.6.1</span> exercise</h3>
+<div id="exercise-11" class="section level3" number="7.7.1">
+<h3 number="7.7.1"><span class="header-section-number">7.7.1</span> exercise</h3>
 <p>Use <code>facet_wrap()</code> to split the graphs by <code>company_type</code></p>
 <ul>
 <li>set the <code>scales</code> argument to <code>"free"</code> and <code>nrow</code> to <code>2</code>.</li>
@@ -1274,8 +1282,8 @@ TidyTopPharmComCaps %&gt;%
   
   lbl_graph_03 </code></pre>
 </div>
-<div id="solution-11" class="section level3" number="7.6.2">
-<h3 number="7.6.2"><span class="header-section-number">7.6.2</span> solution</h3>
+<div id="solution-11" class="section level3" number="7.7.2">
+<h3 number="7.7.2"><span class="header-section-number">7.7.2</span> solution</h3>
 <p>This creates two graphs–one for each level of <code>company_type</code>. Why would setting the <code>scales</code> to <code>"free"</code> be an issue?</p>
 <pre class="r"><code>TidyTopPharmComCaps %&gt;% 
   ggplot(aes(x = largest_market_cap_date, 
@@ -1288,8 +1296,8 @@ TidyTopPharmComCaps %&gt;%
   lbl_graph_03 </code></pre>
 <p><img src="img/aes-sol-12-1.png" width="672" /></p>
 </div>
-<div id="exercise-12" class="section level3" number="7.6.3">
-<h3 number="7.6.3"><span class="header-section-number">7.6.3</span> exercise</h3>
+<div id="exercise-12" class="section level3" number="7.7.3">
+<h3 number="7.7.3"><span class="header-section-number">7.7.3</span> exercise</h3>
 <p>Change the <code>scales</code> argument to <code>"free_x"</code> and rebuild the graph above.</p>
 <pre class="r"><code>TidyTopPharmComCaps %&gt;% 
   filter(stock_exch %in% c(&quot;NASDAQ&quot;, &quot;NYSE&quot;), 
@@ -1301,8 +1309,8 @@ TidyTopPharmComCaps %&gt;%
   facet_wrap(. ~ stock_exch, scales = ______, nrow = 2) + 
   lbl_graph_03 </code></pre>
 </div>
-<div id="solution-12" class="section level3" number="7.6.4">
-<h3 number="7.6.4"><span class="header-section-number">7.6.4</span> solution</h3>
+<div id="solution-12" class="section level3" number="7.7.4">
+<h3 number="7.7.4"><span class="header-section-number">7.7.4</span> solution</h3>
 <p>This fixes the <code>y</code> axis, but allows the <code>x</code> to adjust according to the data. How can this be helpful?</p>
 <pre class="r"><code>TidyTopPharmComCaps %&gt;% 
   filter(stock_exch %in% c(&quot;NASDAQ&quot;, &quot;NYSE&quot;), 
@@ -1317,8 +1325,8 @@ TidyTopPharmComCaps %&gt;%
   lbl_graph_03 </code></pre>
 <p><img src="img/aes-sol-13-1.png" width="672" /></p>
 </div>
-<div id="exercise-13" class="section level3" number="7.6.5">
-<h3 number="7.6.5"><span class="header-section-number">7.6.5</span> exercise</h3>
+<div id="exercise-13" class="section level3" number="7.7.5">
+<h3 number="7.7.5"><span class="header-section-number">7.7.5</span> exercise</h3>
 <p>Change the <code>scales</code> argument to <code>"free_y"</code> and rebuild the graph.</p>
 <pre class="r"><code>TidyTopPharmComCaps %&gt;% 
   filter(stock_exch %in% c(&quot;NASDAQ&quot;, &quot;NYSE&quot;), 
@@ -1332,8 +1340,8 @@ TidyTopPharmComCaps %&gt;%
   
   lbl_graph_03</code></pre>
 </div>
-<div id="solution-13" class="section level3" number="7.6.6">
-<h3 number="7.6.6"><span class="header-section-number">7.6.6</span> solution</h3>
+<div id="solution-13" class="section level3" number="7.7.6">
+<h3 number="7.7.6"><span class="header-section-number">7.7.6</span> solution</h3>
 <p>Now we have a fixed <code>x</code> axis, and the <code>y</code> axis can adjust according to the data. How might this be helpful?</p>
 <pre class="r"><code>TidyTopPharmComCaps %&gt;% 
   filter(stock_exch %in% c(&quot;NASDAQ&quot;, &quot;NYSE&quot;), 
