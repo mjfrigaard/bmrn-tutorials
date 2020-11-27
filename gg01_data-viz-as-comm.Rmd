@@ -402,7 +402,7 @@ TidyApple %>%
 
 Let's see what happens when we use `lab_line01`. 
 
-```{r geom-line-us-cities-sol, fig.height=4, fig.width=6, out.height='100%', out.width='100%'}
+```{r geom-line-us-cities-sol, fig.height=8, fig.width=10, out.height='100%', out.width='100%', message=FALSE, warning=FALSE}
 TidyApple %>% 
   filter(geo_type == "city" &
               country == "United States") %>% 
@@ -433,7 +433,7 @@ TidyApple %>%
 
 Now the trends are easier to see.
 
-```{r us-cities-line-alpha-sol, fig.height=4, fig.width=6, out.height='100%', out.width='100%'}
+```{r us-cities-line-alpha-sol, fig.height=8, fig.width=10, out.height='100%', out.width='100%', message=FALSE, warning=FALSE}
 TidyApple %>% 
   filter(geo_type == "city" &
               country == "United States") %>% 
@@ -510,7 +510,7 @@ TidyApple %>%
 
 See below:
 
-```{r lab_line_02-sol, fig.height=4, fig.width=6, out.height='100%', out.width='100%'}
+```{r lab_line_02-sol, fig.height=8, fig.width=10, out.height='100%', out.width='100%', message=FALSE, warning=FALSE}
 lab_line_02 <- labs(x = "Date",
                  y = "Direction Requests",
                  title = "Direction Requests Over Time (US Cities Only)",
@@ -532,7 +532,7 @@ TidyApple %>%
   lab_line_02 -> gg_us_cities
 ```
 
-```{r show-gg_us_cities, echo=FALSE}
+```{r show-gg_us_cities, echo=FALSE, fig.height=8, fig.width=10, out.height='100%', out.width='100%', message=FALSE, warning=FALSE}
 gg_us_cities
 ```
 
@@ -672,7 +672,7 @@ TopUSCities %>%
 
 See below:
 
-```{r label-plot-sol-01, fig.height=4, fig.width=6, out.height='100%', out.width='100%'}
+```{r label-plot-sol-01, fig.height=8, fig.width=10, out.height='100%', out.width='100%', message=FALSE, warning=FALSE}
 TopUSCities %>% 
     ggplot() + 
     geom_line(aes(x = date, y = dir_request, 
@@ -806,7 +806,7 @@ TopUSCities %>%
 
 See below:
 
-```{r label-plot-sol-02, fig.height=4, fig.width=6, out.height='100%', out.width='100%'}
+```{r label-plot-sol-02, fig.height=8, fig.width=10, out.height='100%', out.width='100%', message=FALSE, warning=FALSE}
 TopUSCities %>% 
     ggplot() + 
     geom_line(aes(x = date, y = dir_request, 
@@ -922,7 +922,7 @@ TopCities %>%
 
 See below:
 
-```{r TopCities-geom_line-sol, fig.height=4, fig.width=6, out.height='100%', out.width='100%'}
+```{r TopCities-geom_line-sol, fig.height=8, fig.width=10, out.height='100%', out.width='100%', message=FALSE, warning=FALSE}
 TopCities %>% 
   ggplot(aes(x = date, y = dir_request, 
              group = trans_type, 
@@ -958,7 +958,7 @@ TopCities %>%
 
 See below:
 
-```{r geom_hline-sol, fig.height=4, fig.width=6, out.height='100%', out.width='100%'}
+```{r geom_hline-sol, fig.height=8, fig.width=10, out.height='100%', out.width='100%', message=FALSE, warning=FALSE}
 
 TopCities %>% 
   ggplot(aes(x = date, y = dir_request, 
@@ -993,7 +993,7 @@ TopCities %>%
 
 See below:
 
-```{r facet_wrap-sol, fig.height=4, fig.width=6, out.height='100%', out.width='100%'}
+```{r facet_wrap-sol, fig.height=8, fig.width=10, out.height='100%', out.width='100%', message=FALSE, warning=FALSE}
 TopCities %>% 
   ggplot(aes(x = date, y = dir_request, 
              group = trans_type, 
@@ -1038,7 +1038,7 @@ TopCities %>%
 
 See below:
 
-```{r theme_minimal-sol, fig.height=5, fig.width=7, out.height='100%', out.width='100%'}
+```{r theme_minimal-sol, fig.height=8, fig.width=10, out.height='100%', out.width='100%', message=FALSE, warning=FALSE}
 TopCities %>% 
   ggplot(aes(x = date, y = dir_request, 
              group = trans_type, 
@@ -1076,7 +1076,7 @@ TopCities %>%
 
 See below:
 
-```{r theme-sol, fig.height=5, fig.width=7, out.height='100%', out.width='100%'}
+```{r theme-sol, fig.height=8, fig.width=10, out.height='100%', out.width='100%', message=FALSE, warning=FALSE}
 TopCities %>% 
   ggplot(aes(x = date, y = dir_request, 
              group = trans_type, 
@@ -1215,7 +1215,7 @@ Top25TransitUSAllT1 %>%
 
 See below:
 
-```{r facet_wrap_paginate-sol, fig.height=5, fig.width=7, out.height='100%', out.width='100%'}
+```{r facet_wrap_paginate-sol, fig.height=8, fig.width=10, out.height='100%', out.width='100%', message=FALSE, warning=FALSE}
 Top25TransitUSAllT1 %>% 
   # global settings
   ggplot(aes(x = date, y = dir_request, 
@@ -1279,7 +1279,7 @@ Top25TransitUSAllT1 %>%
 
 See below:
 
-```{r scale_color_jcolors-sol, fig.height=5, fig.width=7, out.height='100%', out.width='100%'}
+```{r scale_color_jcolors-sol, fig.height=8, fig.width=10, out.height='100%', out.width='100%', message=FALSE, warning=FALSE}
 Top25TransitUSAllT1 %>% 
   # global settings
   ggplot(aes(x = date, y = dir_request, 
@@ -1460,4 +1460,13 @@ USWalkingAdj %>%
   
   lab_facet_geo
 ```
+
+# Wrap Up
+
+**Original Question:** *How has COVID changed our modes of transportation?*
+
+1. Which graphs do you feel are best at answering this question? Why?
+
+2. What other information (tables, annotations, etc.) would you include with the graphs?
+
 
