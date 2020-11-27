@@ -536,7 +536,13 @@ TidyApple %>%
 gg_us_cities
 ```
 
-# Labelling Data 
+# Labeling Data 
+
+We can see there is a gap in the direct request data (this is [documented in the data source](https://covid19.apple.com/mobility)). 
+
+> *"Data for May 11-12 is not available and will appear as blank columns in the data set."*
+
+We should communicate this gap with our audience, and we might include a text annotation on the graph so our audience isn't distracted by the gap. 
 
 In the previous lesson, we introduced the `ggrepel` package to show the points on this graph of top performing pharmaceutical companies. 
 
@@ -544,9 +550,286 @@ In the previous lesson, we introduced the `ggrepel` package to show the points o
 knitr::include_graphics(path = "img/aes-sol-11-1.png")
 ```
 
-We're going to use labels to highlight a few cities in the `TidyApple` dataset. 
+We're going to use labels to annotate and highlight US cities between March and July of 2020.
 
-## Max Driving Requests {.tabset}
+## Annotations {.tabset}
+
+Being able to manually add text and annotations as layers to your graph makes it easier to communicate the nuances of your data to your audience. We are going to start by accounting for the missing data in `TidyApple`.
+
+### exercise 
+
+Build a dataset from `TidyApple` that only has US cities, and ranges from March 1, 2020 to July 1, 2020. 
+
+```{r USCitiesMarJul-ex, eval=FALSE}
+USCitiesMarJul <-  TidyApple %>% 
+  filter(geo_type == ___________ &
+              country == ___________, 
+                date >= as_date(___________) & 
+                  date <= as_date(___________)) 
+
+USCitiesMarJul %>% 
+                  skimr::skim()
+```
+
+### solution
+
+See below:
+
+```{r USCitiesMarJul-sol}
+USCitiesMarJul <-  TidyApple %>% 
+  filter(geo_type == "city" &
+              country == "United States", 
+                date >= as_date("2020-03-01") & 
+                  date <= as_date("2020-07-01")) 
+
+USCitiesMarJul %>% skimr::skim()
+```
+
+### exercise 
+
+The previous code for the graph has been added. We're going to add the following layers: 
+
+Inside `coord_cartesian()`:
+
+- map `min(USCitiesMarJul$date)` and `max(USCitiesMarJul$date)` inside `c()` to `xlim`   
+- map `min(USCitiesMarJul$dir_request, na.rm = TRUE)` and `max(USCitiesMarJul$dir_request, na.rm = TRUE)` inside `c()` to `ylim`
+
+Inside the `# horizontal` `annotate()`:
+
+- set `geom` to `"segment"`  
+- map `0.5` to `size`  
+- map `"firebrick3"` to `color`   
+- map `lubridate::as_date("2020-05-10")` to `x`  
+- map `lubridate::as_date("2020-05-13")` to `xend`  
+- map `100` to `y` and `yend`  
+
+Inside the `# big vertical` `annotate()`:
+
+- set `geom` to `"segment"`
+- map `1` to `size`  
+- map `"firebrick3"` to `color`   
+- map `lubridate::as_date("2020-05-11")` to `x`  
+- map `lubridate::as_date("2020-05-11")` to `xend`  
+- map `270` to `y` and `100` to `yend`  
+
+Inside the `# text` `annotate()`:
+
+- set `geom` to `"text"`
+- map `8` to `size`  
+- map `"red"` to `color` 
+- map `0.5` to `hjust`  
+- map `lubridate::as_date("2020-05-07")` to `x`  
+- map `280` to `y`  
+- map `"Data not available"` to `label`
+
+```{r coord_cartesian-annotate-text-ex, eval=FALSE}
+USCitiesMarJul %>% 
+    ggplot() +
+    geom_line(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type), 
+             # make these slightly larger...
+             size = 0.30) + 
+   # coordinate system
+   coord_cartesian(xlim = c(_______________, _______________), 
+                   
+                   ylim = c(_______________, na.rm = __________), 
+                            _______________, na.rm = __________))) +
+   # horizontal
+   annotate(geom = ___________, size = ___________, color = ___________,
+                  x = ___________, 
+                  xend = ___________,
+                  y = ___________, 
+                  yend = ___________) + 
+    # big vertical 
+    annotate(geom = ___________, 
+            size = ___________, 
+            color = ___________,
+            x = ___________, 
+            xend = ___________, 
+            y = ___________, yend = ___________) + 
+    # text
+    annotate(geom = "text",
+               size = 8,
+               color = "red", 
+               hjust = 0.5, 
+               x = lubridate::as_date("2020-05-07"), 
+               y = 280, 
+               label = "Data not available") +
+
+    lab_line_02
+```
+
+### solution
+
+```{r coord_cartesian-annotate-text-sol, fig.height=8, fig.width=10, out.height='100%', out.width='100%', message=FALSE, warning=FALSE}
+# plot
+USCitiesMarJul %>% 
+    ggplot() +
+    geom_line(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type), 
+             # make these slightly larger...
+             size = 0.30) + 
+   # coordinate system
+   coord_cartesian(xlim = c(min(USCitiesMarJul$date), 
+                            max(USCitiesMarJul$date)), 
+                   
+                   ylim = c(min(USCitiesMarJul$dir_request, na.rm = TRUE), 
+                            max(USCitiesMarJul$dir_request, na.rm = TRUE))) +
+   # horizontal
+   annotate(geom = "segment", 
+            size = 0.5, 
+            color = "firebrick3",
+                  x = lubridate::as_date("2020-05-10"), 
+                  xend = lubridate::as_date("2020-05-13"),
+                             y = 100, 
+                             yend = 100) + 
+    # big vertical 
+    annotate(geom = "segment", 
+            size = 1, 
+            color = "firebrick3",
+            x = lubridate::as_date("2020-05-11"), 
+            xend = lubridate::as_date("2020-05-11"), 
+            y = 270, yend = 100) + 
+  
+    # text
+    annotate(geom = "text",
+               color = "red", 
+               hjust = 0.5, 
+               size = 8,
+               x = lubridate::as_date("2020-05-07"), 
+               y = 280, 
+               label = "Data not available") +
+
+    lab_line_02
+```
+
+### exercise 
+
+Add a second and third vertical `segment` to create a fence or bracket for the dates with missing data. 
+
+```{r coord_cartesian-annotate-comp-ex, eval=FALSE}
+# plot
+USCitiesMarJul %>% 
+    ggplot() +
+    geom_line(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type), 
+             # make these slightly larger...
+             size = 0.30) + 
+   # coordinate system
+   coord_cartesian(xlim = c(min(USCitiesMarJul$date), 
+                            max(USCitiesMarJul$date)), 
+                   
+                   ylim = c(min(USCitiesMarJul$dir_request, na.rm = TRUE), 
+                            max(USCitiesMarJul$dir_request, na.rm = TRUE))) +
+   # horizontal
+   annotate(geom = "segment", 
+            size = 0.5, 
+            color = "firebrick3",
+                  x = lubridate::as_date("2020-05-10"), 
+                  xend = lubridate::as_date("2020-05-13"),
+                             y = 100, 
+                             yend = 100) +
+    # big vertical 
+    annotate(geom = "segment", 
+            size = 1, 
+            color = "firebrick3",
+            x = lubridate::as_date("2020-05-11"), 
+            xend = lubridate::as_date("2020-05-11"), 
+            y = 270, yend = 100) + 
+    # text
+    annotate(geom = "text",
+               color = "red", 
+               hjust = 0.5, 
+               size = 8,
+               x = lubridate::as_date("2020-05-07"), 
+               y = 280, 
+               label = "Data not available") +
+   # second vertical 
+   annotate(geom = "segment", 
+            size = 0.5, 
+            color = "firebrick3",
+            x = _____________________________, 
+            xend = _____________________________, 
+            y = _____________________________, 
+            yend = _____________________________) + 
+    # third vertical 
+     annotate(geom = "segment", 
+            size = 0.5, 
+            color = "firebrick3",
+            x = _____________________________, 
+            xend = _____________________________, 
+            y = _____________________________, 
+            yend = _____________________________) + 
+  
+   lab_line_02 
+```
+
+
+### solution
+
+See below:
+
+```{r coord_cartesian-annotate-comp-sol, fig.height=8, fig.width=10, out.height='100%', out.width='100%', message=FALSE, warning=FALSE}
+# plot
+USCitiesMarJul %>% 
+    ggplot() +
+    geom_line(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type), 
+             # make these slightly larger...
+             size = 0.30) + 
+   # coordinate system
+   coord_cartesian(xlim = c(min(USCitiesMarJul$date), 
+                            max(USCitiesMarJul$date)), 
+                   
+                   ylim = c(min(USCitiesMarJul$dir_request, na.rm = TRUE), 
+                            max(USCitiesMarJul$dir_request, na.rm = TRUE))) +
+   # horizontal
+   annotate(geom = "segment", 
+            size = 0.5, 
+            color = "firebrick3",
+                  x = lubridate::as_date("2020-05-10"), 
+                  xend = lubridate::as_date("2020-05-13"),
+                             y = 100, 
+                             yend = 100) +
+    # big vertical 
+    annotate(geom = "segment", 
+            size = 1, 
+            color = "firebrick3",
+            x = lubridate::as_date("2020-05-11"), 
+            xend = lubridate::as_date("2020-05-11"), 
+            y = 270, yend = 100) + 
+    # text
+    annotate(geom = "text",
+               color = "red", 
+               hjust = 0.5, 
+               size = 8,
+               x = lubridate::as_date("2020-05-07"), 
+               y = 280, 
+               label = "Data not available") +
+   # second vertical 
+   annotate(geom = "segment", 
+            size = 0.5, 
+            color = "firebrick3",
+            x = lubridate::as_date("2020-05-10"), 
+            xend = lubridate::as_date("2020-05-10"), 
+            y = 100, yend = 90) + 
+    # third vertical 
+     annotate(geom = "segment", 
+            size = 0.5, 
+            color = "firebrick3",
+            x = lubridate::as_date("2020-05-13"), 
+            xend = lubridate::as_date("2020-05-13"), 
+            y = 100, yend = 90) + 
+  
+   lab_line_02 
+  
+
+```
+
+
+## Labeling Values {.tabset}
+
+**Max Driving Requests**
 
 The code below creates a subset of the data (`TopUSCities`). Use this to add the labels.
 
@@ -689,7 +972,9 @@ TopUSCities %>%
   lab_line_max_drivers
 ```
 
-## Min Walking Requests {.tabset}
+## Labeling Values 2 {.tabset}
+
+**Min Walking Requests**
 
 We are going to repeat the process above, but use the minimum value for walking direction requests. 
 

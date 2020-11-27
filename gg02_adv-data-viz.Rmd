@@ -1,0 +1,69 @@
+---
+title: "Advanced Data Visualization"
+comment: "*extending ggplot2*"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+    toc_depth: 5
+    number_sections: yes
+    code_folding: show
+    theme: flatly
+    df_print: paged
+
+always_allow_html: true
+---
+
+
+```{r , include=FALSE}
+library(tidyverse)
+library(skimr)
+library(lubridate)
+library(here)
+library(janitor)
+library(socviz)
+library(ggrepel)
+library(covdata)
+library(showtext)
+library(hrbrthemes)
+# create data folder
+knitr::opts_chunk$set(warning = FALSE,
+                      message = FALSE,
+                      fig.path = "img/",
+                      tidy = FALSE)
+# set width
+options(width = 60, max.print = 60)
+```
+
+# Objectives
+
+Give your graphs a custom look using `ggplot` extension packages.
+
+# Materials
+
+- Slides:
+
+- RStudio Project:
+
+# Previous lessons
+
+All of the exercises and lessons are available [here](https://mjfrigaard.github.io/r-meetup-tutorials/), but you can also read more about [`ggplot2`](https://ggplot2.tidyverse.org/index.html) on the tidyverse website, and in the [Data Visualisation](https://r4ds.had.co.nz/data-visualisation.html) chapter of R for Data Science.
+
+# Load the `tidyverse`
+
+The main packages we're going to use are `dplyr`, `tidyr`, and `ggplot2`. These are all part of the `tidyverse`, so we'll import this package below:
+
+```{r packages, eval=FALSE}
+install.packages("tidyverse")
+library(tidyverse)
+```
+
+# `ggplot2` extension packages
+
+```{r ggpl2-packages, message=FALSE, warning=FALSE}
+library(ggforce)
+library(ggbeeswarm)
+library(ggfittext)
+library(ggthemes)
+```
+

@@ -940,13 +940,459 @@ TidyApple %&gt;%
 </div>
 </div>
 </div>
-<div id="labelling-data" class="section level1" number="8">
-<h1 number="8"><span class="header-section-number">8</span> Labelling Data</h1>
+<div id="labeling-data" class="section level1" number="8">
+<h1 number="8"><span class="header-section-number">8</span> Labeling Data</h1>
+<p>We can see there is a gap in the direct request data (this is <a href="https://covid19.apple.com/mobility">documented in the data source</a>).</p>
+<blockquote>
+<p><em>“Data for May 11-12 is not available and will appear as blank columns in the data set.”</em></p>
+</blockquote>
+<p>We should communicate this gap with our audience, and we might include a text annotation on the graph so our audience isn’t distracted by the gap.</p>
 <p>In the previous lesson, we introduced the <code>ggrepel</code> package to show the points on this graph of top performing pharmaceutical companies.</p>
 <p><img src="img/aes-sol-11-1.png" width="70%" height="70%" style="display: block; margin: auto;" /></p>
-<p>We’re going to use labels to highlight a few cities in the <code>TidyApple</code> dataset.</p>
-<div id="max-driving-requests" class="section level2 tabset" number="8.1">
-<h2 class="tabset" number="8.1"><span class="header-section-number">8.1</span> Max Driving Requests</h2>
+<p>We’re going to use labels to annotate and highlight US cities between March and July of 2020.</p>
+<div id="annotations" class="section level2 tabset" number="8.1">
+<h2 class="tabset" number="8.1"><span class="header-section-number">8.1</span> Annotations</h2>
+<p>Being able to manually add text and annotations as layers to your graph makes it easier to communicate the nuances of your data to your audience. We are going to start by accounting for the missing data in <code>TidyApple</code>.</p>
+<div id="exercise-10" class="section level3" number="8.1.1">
+<h3 number="8.1.1"><span class="header-section-number">8.1.1</span> exercise</h3>
+<p>Build a dataset from <code>TidyApple</code> that only has US cities, and ranges from March 1, 2020 to July 1, 2020.</p>
+<pre class="r"><code>USCitiesMarJul &lt;-  TidyApple %&gt;% 
+  filter(geo_type == ___________ &amp;
+              country == ___________, 
+                date &gt;= as_date(___________) &amp; 
+                  date &lt;= as_date(___________)) 
+
+USCitiesMarJul %&gt;% 
+                  skimr::skim()</code></pre>
+</div>
+<div id="solution-11" class="section level3" number="8.1.2">
+<h3 number="8.1.2"><span class="header-section-number">8.1.2</span> solution</h3>
+<p>See below:</p>
+<pre class="r"><code>USCitiesMarJul &lt;-  TidyApple %&gt;% 
+  filter(geo_type == &quot;city&quot; &amp;
+              country == &quot;United States&quot;, 
+                date &gt;= as_date(&quot;2020-03-01&quot;) &amp; 
+                  date &lt;= as_date(&quot;2020-07-01&quot;)) 
+
+USCitiesMarJul %&gt;% skimr::skim()</code></pre>
+<table>
+<caption>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">Piped data</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">38622</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">7</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">character</td>
+<td align="left">5</td>
+</tr>
+<tr class="odd">
+<td align="left">Date</td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
+<td align="left">numeric</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: character</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">min</th>
+<th align="right">max</th>
+<th align="right">empty</th>
+<th align="right">n_unique</th>
+<th align="right">whitespace</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">geo_type</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">region</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">39</td>
+<td align="right">0</td>
+<td align="right">111</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">trans_type</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">7</td>
+<td align="right">7</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">sub_region</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">14</td>
+<td align="right">0</td>
+<td align="right">39</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">country</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">13</td>
+<td align="right">13</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: Date</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="left">min</th>
+<th align="left">max</th>
+<th align="left">median</th>
+<th align="right">n_unique</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">date</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="left">2020-03-01</td>
+<td align="left">2020-07-01</td>
+<td align="left">2020-05-01</td>
+<td align="right">123</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">dir_request</td>
+<td align="right">628</td>
+<td align="right">0.98</td>
+<td align="right">82.06</td>
+<td align="right">41.11</td>
+<td align="right">4.37</td>
+<td align="right">50.87</td>
+<td align="right">74.38</td>
+<td align="right">109.11</td>
+<td align="right">525.44</td>
+<td align="left">▇▃▁▁▁</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="exercise-11" class="section level3" number="8.1.3">
+<h3 number="8.1.3"><span class="header-section-number">8.1.3</span> exercise</h3>
+<p>The previous code for the graph has been added. We’re going to add the following layers:</p>
+<p>Inside <code>coord_cartesian()</code>:</p>
+<ul>
+<li>map <code>min(USCitiesMarJul$date)</code> and <code>max(USCitiesMarJul$date)</code> inside <code>c()</code> to <code>xlim</code><br />
+</li>
+<li>map <code>min(USCitiesMarJul$dir_request, na.rm = TRUE)</code> and <code>max(USCitiesMarJul$dir_request, na.rm = TRUE)</code> inside <code>c()</code> to <code>ylim</code></li>
+</ul>
+<p>Inside the <code># horizontal</code> <code>annotate()</code>:</p>
+<ul>
+<li>set <code>geom</code> to <code>"segment"</code><br />
+</li>
+<li>map <code>0.5</code> to <code>size</code><br />
+</li>
+<li>map <code>"firebrick3"</code> to <code>color</code><br />
+</li>
+<li>map <code>lubridate::as_date("2020-05-10")</code> to <code>x</code><br />
+</li>
+<li>map <code>lubridate::as_date("2020-05-13")</code> to <code>xend</code><br />
+</li>
+<li>map <code>100</code> to <code>y</code> and <code>yend</code></li>
+</ul>
+<p>Inside the <code># big vertical</code> <code>annotate()</code>:</p>
+<ul>
+<li>set <code>geom</code> to <code>"segment"</code></li>
+<li>map <code>1</code> to <code>size</code><br />
+</li>
+<li>map <code>"firebrick3"</code> to <code>color</code><br />
+</li>
+<li>map <code>lubridate::as_date("2020-05-11")</code> to <code>x</code><br />
+</li>
+<li>map <code>lubridate::as_date("2020-05-11")</code> to <code>xend</code><br />
+</li>
+<li>map <code>270</code> to <code>y</code> and <code>100</code> to <code>yend</code></li>
+</ul>
+<p>Inside the <code># text</code> <code>annotate()</code>:</p>
+<ul>
+<li>set <code>geom</code> to <code>"text"</code></li>
+<li>map <code>8</code> to <code>size</code><br />
+</li>
+<li>map <code>"red"</code> to <code>color</code></li>
+<li>map <code>0.5</code> to <code>hjust</code><br />
+</li>
+<li>map <code>lubridate::as_date("2020-05-07")</code> to <code>x</code><br />
+</li>
+<li>map <code>280</code> to <code>y</code><br />
+</li>
+<li>map <code>"Data not available"</code> to <code>label</code></li>
+</ul>
+<pre class="r"><code>USCitiesMarJul %&gt;% 
+    ggplot() +
+    geom_line(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type), 
+             # make these slightly larger...
+             size = 0.30) + 
+   # coordinate system
+   coord_cartesian(xlim = c(_______________, _______________), 
+                   
+                   ylim = c(_______________, na.rm = __________), 
+                            _______________, na.rm = __________))) +
+   # horizontal
+   annotate(geom = ___________, size = ___________, color = ___________,
+                  x = ___________, 
+                  xend = ___________,
+                  y = ___________, 
+                  yend = ___________) + 
+    # big vertical 
+    annotate(geom = ___________, 
+            size = ___________, 
+            color = ___________,
+            x = ___________, 
+            xend = ___________, 
+            y = ___________, yend = ___________) + 
+    # text
+    annotate(geom = &quot;text&quot;,
+               size = 8,
+               color = &quot;red&quot;, 
+               hjust = 0.5, 
+               x = lubridate::as_date(&quot;2020-05-07&quot;), 
+               y = 280, 
+               label = &quot;Data not available&quot;) +
+
+    lab_line_02</code></pre>
+</div>
+<div id="solution-12" class="section level3" number="8.1.4">
+<h3 number="8.1.4"><span class="header-section-number">8.1.4</span> solution</h3>
+<pre class="r"><code># plot
+USCitiesMarJul %&gt;% 
+    ggplot() +
+    geom_line(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type), 
+             # make these slightly larger...
+             size = 0.30) + 
+   # coordinate system
+   coord_cartesian(xlim = c(min(USCitiesMarJul$date), 
+                            max(USCitiesMarJul$date)), 
+                   
+                   ylim = c(min(USCitiesMarJul$dir_request, na.rm = TRUE), 
+                            max(USCitiesMarJul$dir_request, na.rm = TRUE))) +
+   # horizontal
+   annotate(geom = &quot;segment&quot;, 
+            size = 0.5, 
+            color = &quot;firebrick3&quot;,
+                  x = lubridate::as_date(&quot;2020-05-10&quot;), 
+                  xend = lubridate::as_date(&quot;2020-05-13&quot;),
+                             y = 100, 
+                             yend = 100) + 
+    # big vertical 
+    annotate(geom = &quot;segment&quot;, 
+            size = 1, 
+            color = &quot;firebrick3&quot;,
+            x = lubridate::as_date(&quot;2020-05-11&quot;), 
+            xend = lubridate::as_date(&quot;2020-05-11&quot;), 
+            y = 270, yend = 100) + 
+  
+    # text
+    annotate(geom = &quot;text&quot;,
+               color = &quot;red&quot;, 
+               hjust = 0.5, 
+               size = 8,
+               x = lubridate::as_date(&quot;2020-05-07&quot;), 
+               y = 280, 
+               label = &quot;Data not available&quot;) +
+
+    lab_line_02</code></pre>
+<p><img src="img/coord_cartesian-annotate-text-sol-1.png" width="100%" height="100%" /></p>
+</div>
+<div id="exercise-12" class="section level3" number="8.1.5">
+<h3 number="8.1.5"><span class="header-section-number">8.1.5</span> exercise</h3>
+<p>Add a second and third vertical <code>segment</code> to create a fence or bracket for the dates with missing data.</p>
+<pre class="r"><code># plot
+USCitiesMarJul %&gt;% 
+    ggplot() +
+    geom_line(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type), 
+             # make these slightly larger...
+             size = 0.30) + 
+   # coordinate system
+   coord_cartesian(xlim = c(min(USCitiesMarJul$date), 
+                            max(USCitiesMarJul$date)), 
+                   
+                   ylim = c(min(USCitiesMarJul$dir_request, na.rm = TRUE), 
+                            max(USCitiesMarJul$dir_request, na.rm = TRUE))) +
+   # horizontal
+   annotate(geom = &quot;segment&quot;, 
+            size = 0.5, 
+            color = &quot;firebrick3&quot;,
+                  x = lubridate::as_date(&quot;2020-05-10&quot;), 
+                  xend = lubridate::as_date(&quot;2020-05-13&quot;),
+                             y = 100, 
+                             yend = 100) +
+    # big vertical 
+    annotate(geom = &quot;segment&quot;, 
+            size = 1, 
+            color = &quot;firebrick3&quot;,
+            x = lubridate::as_date(&quot;2020-05-11&quot;), 
+            xend = lubridate::as_date(&quot;2020-05-11&quot;), 
+            y = 270, yend = 100) + 
+    # text
+    annotate(geom = &quot;text&quot;,
+               color = &quot;red&quot;, 
+               hjust = 0.5, 
+               size = 8,
+               x = lubridate::as_date(&quot;2020-05-07&quot;), 
+               y = 280, 
+               label = &quot;Data not available&quot;) +
+   # second vertical 
+   annotate(geom = &quot;segment&quot;, 
+            size = 0.5, 
+            color = &quot;firebrick3&quot;,
+            x = _____________________________, 
+            xend = _____________________________, 
+            y = _____________________________, 
+            yend = _____________________________) + 
+    # third vertical 
+     annotate(geom = &quot;segment&quot;, 
+            size = 0.5, 
+            color = &quot;firebrick3&quot;,
+            x = _____________________________, 
+            xend = _____________________________, 
+            y = _____________________________, 
+            yend = _____________________________) + 
+  
+   lab_line_02 </code></pre>
+</div>
+<div id="solution-13" class="section level3" number="8.1.6">
+<h3 number="8.1.6"><span class="header-section-number">8.1.6</span> solution</h3>
+<p>See below:</p>
+<pre class="r"><code># plot
+USCitiesMarJul %&gt;% 
+    ggplot() +
+    geom_line(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type), 
+             # make these slightly larger...
+             size = 0.30) + 
+   # coordinate system
+   coord_cartesian(xlim = c(min(USCitiesMarJul$date), 
+                            max(USCitiesMarJul$date)), 
+                   
+                   ylim = c(min(USCitiesMarJul$dir_request, na.rm = TRUE), 
+                            max(USCitiesMarJul$dir_request, na.rm = TRUE))) +
+   # horizontal
+   annotate(geom = &quot;segment&quot;, 
+            size = 0.5, 
+            color = &quot;firebrick3&quot;,
+                  x = lubridate::as_date(&quot;2020-05-10&quot;), 
+                  xend = lubridate::as_date(&quot;2020-05-13&quot;),
+                             y = 100, 
+                             yend = 100) +
+    # big vertical 
+    annotate(geom = &quot;segment&quot;, 
+            size = 1, 
+            color = &quot;firebrick3&quot;,
+            x = lubridate::as_date(&quot;2020-05-11&quot;), 
+            xend = lubridate::as_date(&quot;2020-05-11&quot;), 
+            y = 270, yend = 100) + 
+    # text
+    annotate(geom = &quot;text&quot;,
+               color = &quot;red&quot;, 
+               hjust = 0.5, 
+               size = 8,
+               x = lubridate::as_date(&quot;2020-05-07&quot;), 
+               y = 280, 
+               label = &quot;Data not available&quot;) +
+   # second vertical 
+   annotate(geom = &quot;segment&quot;, 
+            size = 0.5, 
+            color = &quot;firebrick3&quot;,
+            x = lubridate::as_date(&quot;2020-05-10&quot;), 
+            xend = lubridate::as_date(&quot;2020-05-10&quot;), 
+            y = 100, yend = 90) + 
+    # third vertical 
+     annotate(geom = &quot;segment&quot;, 
+            size = 0.5, 
+            color = &quot;firebrick3&quot;,
+            x = lubridate::as_date(&quot;2020-05-13&quot;), 
+            xend = lubridate::as_date(&quot;2020-05-13&quot;), 
+            y = 100, yend = 90) + 
+  
+   lab_line_02 </code></pre>
+<p><img src="img/coord_cartesian-annotate-comp-sol-1.png" width="100%" height="100%" /></p>
+</div>
+</div>
+<div id="labeling-values" class="section level2 tabset" number="8.2">
+<h2 class="tabset" number="8.2"><span class="header-section-number">8.2</span> Labeling Values</h2>
+<p><strong>Max Driving Requests</strong></p>
 <p>The code below creates a subset of the data (<code>TopUSCities</code>). Use this to add the labels.</p>
 <pre class="r"><code>TopUSCities &lt;- TidyApple %&gt;% 
   filter(country == &quot;United States&quot; &amp; 
@@ -958,8 +1404,8 @@ TopUSCities</code></pre>
 {"columns":[{"label":["geo_type"],"name":[1],"type":["chr"],"align":["left"]},{"label":["region"],"name":[2],"type":["chr"],"align":["left"]},{"label":["trans_type"],"name":[3],"type":["chr"],"align":["left"]},{"label":["sub_region"],"name":[4],"type":["chr"],"align":["left"]},{"label":["country"],"name":[5],"type":["chr"],"align":["left"]},{"label":["date"],"name":[6],"type":["date"],"align":["right"]},{"label":["dir_request"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-13","7":"100.00"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-14","7":"103.68"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-15","7":"104.45"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-16","7":"108.72"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-17","7":"132.80"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-18","7":"113.44"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-19","7":"87.48"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-20","7":"100.24"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-21","7":"101.30"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-22","7":"100.51"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-23","7":"104.47"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-24","7":"121.92"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-25","7":"118.55"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-26","7":"85.17"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-27","7":"93.81"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-28","7":"97.36"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-29","7":"98.96"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-30","7":"103.79"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-31","7":"124.37"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-01","7":"122.53"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-02","7":"85.96"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-03","7":"94.62"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-04","7":"97.39"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-05","7":"102.86"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-06","7":"103.66"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-07","7":"117.63"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-08","7":"124.27"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-09","7":"88.41"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-10","7":"98.78"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-11","7":"105.64"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-12","7":"108.54"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-13","7":"115.99"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-14","7":"147.32"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-15","7":"141.24"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-16","7":"111.31"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-17","7":"111.07"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-18","7":"104.69"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-19","7":"105.82"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-20","7":"110.84"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-21","7":"132.55"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-22","7":"138.50"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-23","7":"100.83"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-24","7":"99.41"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-25","7":"100.35"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-26","7":"103.39"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-27","7":"114.33"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-28","7":"139.02"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-29","7":"142.31"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-01","7":"105.39"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-02","7":"105.25"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-03","7":"108.28"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-04","7":"110.71"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-05","7":"116.43"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-06","7":"137.62"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-07","7":"144.91"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-08","7":"107.11"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-09","7":"105.68"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-10","7":"109.76"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-11","7":"107.34"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-12","7":"105.61"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<div id="exercise-10" class="section level3" number="8.1.1">
-<h3 number="8.1.1"><span class="header-section-number">8.1.1</span> exercise</h3>
+<div id="exercise-13" class="section level3" number="8.2.1">
+<h3 number="8.2.1"><span class="header-section-number">8.2.1</span> exercise</h3>
 <p>Create <code>MaxUSCitiesDriving</code> by filtering <code>trans_type</code>, grouping on the <code>region</code> variable, and using <code>dplyr::slice_max()</code> to get the top value in <code>dir_request</code>.</p>
 <pre class="r"><code>TopUSCities %&gt;% 
   filter(trans_type == __________) %&gt;% 
@@ -967,8 +1413,8 @@ TopUSCities</code></pre>
   slice_max(__________) -&gt; MaxUSCitiesDriving
 MaxUSCitiesDriving</code></pre>
 </div>
-<div id="solution-11" class="section level3" number="8.1.2">
-<h3 number="8.1.2"><span class="header-section-number">8.1.2</span> solution</h3>
+<div id="solution-14" class="section level3" number="8.2.2">
+<h3 number="8.2.2"><span class="header-section-number">8.2.2</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>TopUSCities %&gt;% 
   filter(trans_type == &quot;driving&quot;) %&gt;% 
@@ -981,8 +1427,8 @@ MaxUSCitiesDriving</code></pre>
   </script>
 </div>
 </div>
-<div id="exercise-11" class="section level3" number="8.1.3">
-<h3 number="8.1.3"><span class="header-section-number">8.1.3</span> exercise</h3>
+<div id="exercise-14" class="section level3" number="8.2.3">
+<h3 number="8.2.3"><span class="header-section-number">8.2.3</span> exercise</h3>
 <p>Create graph labels:</p>
 <ul>
 <li><p>assign <code>"Peak Driving Direction Requests in Largest US Cities"</code> to <code>title</code></p></li>
@@ -996,8 +1442,8 @@ MaxUSCitiesDriving</code></pre>
                  caption = &quot;source: https://covid19.apple.com/mobility&quot;, 
                  color = &quot;Transit Type&quot;)</code></pre>
 </div>
-<div id="solution-12" class="section level3" number="8.1.4">
-<h3 number="8.1.4"><span class="header-section-number">8.1.4</span> solution</h3>
+<div id="solution-15" class="section level3" number="8.2.4">
+<h3 number="8.2.4"><span class="header-section-number">8.2.4</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>lab_line_max_drivers &lt;- labs(
                  x = &quot;Date&quot;,
@@ -1007,16 +1453,16 @@ MaxUSCitiesDriving</code></pre>
                  caption = &quot;source: https://covid19.apple.com/mobility&quot;, 
                  color = &quot;Transit Type&quot;)</code></pre>
 </div>
-<div id="exercise-12" class="section level3" number="8.1.5">
-<h3 number="8.1.5"><span class="header-section-number">8.1.5</span> exercise</h3>
+<div id="exercise-15" class="section level3" number="8.2.5">
+<h3 number="8.2.5"><span class="header-section-number">8.2.5</span> exercise</h3>
 <p>Create <code>max_driving_labels</code> using <code>paste0()</code> with <code>region</code> and <code>date</code>.</p>
 <pre class="r"><code>MaxUSCitiesDriving %&gt;% 
   mutate(
     max_driving_labels = paste0(______, &quot;, &quot;, ______)) -&gt; MaxUSCitiesDriving
 MaxUSCitiesDriving</code></pre>
 </div>
-<div id="solution-13" class="section level3" number="8.1.6">
-<h3 number="8.1.6"><span class="header-section-number">8.1.6</span> solution</h3>
+<div id="solution-16" class="section level3" number="8.2.6">
+<h3 number="8.2.6"><span class="header-section-number">8.2.6</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>MaxUSCitiesDriving %&gt;% 
   mutate(max_driving_labels = paste0(region, &quot;, &quot;, date)) -&gt; MaxUSCitiesDriving
@@ -1027,8 +1473,8 @@ MaxUSCitiesDriving</code></pre>
   </script>
 </div>
 </div>
-<div id="exercise-13" class="section level3" number="8.1.7">
-<h3 number="8.1.7"><span class="header-section-number">8.1.7</span> exercise</h3>
+<div id="exercise-16" class="section level3" number="8.2.7">
+<h3 number="8.2.7"><span class="header-section-number">8.2.7</span> exercise</h3>
 <p>Create a line plot, assigning the following values in <code>geom_label_repel()</code>:</p>
 <ul>
 <li>set the <code>data</code> argument to <code>MaxUSCitiesDriving</code></li>
@@ -1058,8 +1504,8 @@ MaxUSCitiesDriving</code></pre>
                   size = _) + 
   lab_line_max_drivers</code></pre>
 </div>
-<div id="solution-14" class="section level3" number="8.1.8">
-<h3 number="8.1.8"><span class="header-section-number">8.1.8</span> solution</h3>
+<div id="solution-17" class="section level3" number="8.2.8">
+<h3 number="8.2.8"><span class="header-section-number">8.2.8</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>TopUSCities %&gt;% 
     ggplot() + 
@@ -1078,11 +1524,12 @@ MaxUSCitiesDriving</code></pre>
 <p><img src="img/label-plot-sol-01-1.png" width="100%" height="100%" /></p>
 </div>
 </div>
-<div id="min-walking-requests" class="section level2 tabset" number="8.2">
-<h2 class="tabset" number="8.2"><span class="header-section-number">8.2</span> Min Walking Requests</h2>
+<div id="labeling-values-2" class="section level2 tabset" number="8.3">
+<h2 class="tabset" number="8.3"><span class="header-section-number">8.3</span> Labeling Values 2</h2>
+<p><strong>Min Walking Requests</strong></p>
 <p>We are going to repeat the process above, but use the minimum value for walking direction requests.</p>
-<div id="exercise-14" class="section level3" number="8.2.1">
-<h3 number="8.2.1"><span class="header-section-number">8.2.1</span> exercise</h3>
+<div id="exercise-17" class="section level3" number="8.3.1">
+<h3 number="8.3.1"><span class="header-section-number">8.3.1</span> exercise</h3>
 <ul>
 <li><code>filter()</code> the <code>trans_type</code> to <code>"walking"</code><br />
 </li>
@@ -1097,8 +1544,8 @@ MaxUSCitiesDriving</code></pre>
   slice_min(________) -&gt; ________
 MinUSCitiesWalking</code></pre>
 </div>
-<div id="solution-15" class="section level3" number="8.2.2">
-<h3 number="8.2.2"><span class="header-section-number">8.2.2</span> solution</h3>
+<div id="solution-18" class="section level3" number="8.3.2">
+<h3 number="8.3.2"><span class="header-section-number">8.3.2</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>TopUSCities %&gt;% 
   filter(trans_type == &quot;walking&quot;) %&gt;% 
@@ -1111,8 +1558,8 @@ MinUSCitiesWalking</code></pre>
   </script>
 </div>
 </div>
-<div id="exercise-15" class="section level3" number="8.2.3">
-<h3 number="8.2.3"><span class="header-section-number">8.2.3</span> exercise</h3>
+<div id="exercise-18" class="section level3" number="8.3.3">
+<h3 number="8.3.3"><span class="header-section-number">8.3.3</span> exercise</h3>
 <ul>
 <li>assign <code>"Lowest Walking Direction Requests in Largest US Cities"</code> to <code>title</code><br />
 </li>
@@ -1126,8 +1573,8 @@ MinUSCitiesWalking</code></pre>
                caption = &quot;source: https://covid19.apple.com/mobility&quot;, 
                color = &quot;Transit Type&quot;)</code></pre>
 </div>
-<div id="solution-16" class="section level3" number="8.2.4">
-<h3 number="8.2.4"><span class="header-section-number">8.2.4</span> solution</h3>
+<div id="solution-19" class="section level3" number="8.3.4">
+<h3 number="8.3.4"><span class="header-section-number">8.3.4</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>lab_line_min_walking &lt;- labs(
                x = &quot;Date&quot;,
@@ -1137,15 +1584,15 @@ MinUSCitiesWalking</code></pre>
                caption = &quot;source: https://covid19.apple.com/mobility&quot;, 
                color = &quot;Transit Type&quot;)</code></pre>
 </div>
-<div id="exercise-16" class="section level3" number="8.2.5">
-<h3 number="8.2.5"><span class="header-section-number">8.2.5</span> exercise</h3>
+<div id="exercise-19" class="section level3" number="8.3.5">
+<h3 number="8.3.5"><span class="header-section-number">8.3.5</span> exercise</h3>
 <p>Create <code>min_walking_labels</code> using <code>paste0()</code> with <code>region</code> and <code>date</code></p>
 <pre class="r"><code>MinUSCitiesWalking %&gt;% 
   mutate(min_walking_labels = paste0(_____, &quot;, &quot;, _____)) -&gt; MinUSCitiesWalking
 MinUSCitiesWalking</code></pre>
 </div>
-<div id="solution-17" class="section level3" number="8.2.6">
-<h3 number="8.2.6"><span class="header-section-number">8.2.6</span> solution</h3>
+<div id="solution-20" class="section level3" number="8.3.6">
+<h3 number="8.3.6"><span class="header-section-number">8.3.6</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>MinUSCitiesWalking %&gt;% 
   mutate(min_walking_labels = paste0(region, &quot;, &quot;, date)) -&gt; MinUSCitiesWalking
@@ -1156,8 +1603,8 @@ MinUSCitiesWalking</code></pre>
   </script>
 </div>
 </div>
-<div id="exercise-17" class="section level3" number="8.2.7">
-<h3 number="8.2.7"><span class="header-section-number">8.2.7</span> exercise</h3>
+<div id="exercise-20" class="section level3" number="8.3.7">
+<h3 number="8.3.7"><span class="header-section-number">8.3.7</span> exercise</h3>
 <p>Create a line plot, assigning the following values in <code>geom_label_repel()</code>:</p>
 <ul>
 <li>set <code>data</code> to <code>MinUSCitiesWalking</code></li>
@@ -1187,8 +1634,8 @@ MinUSCitiesWalking</code></pre>
                   size = _) + 
   lab_line_min_walking</code></pre>
 </div>
-<div id="solution-18" class="section level3" number="8.2.8">
-<h3 number="8.2.8"><span class="header-section-number">8.2.8</span> solution</h3>
+<div id="solution-21" class="section level3" number="8.3.8">
+<h3 number="8.3.8"><span class="header-section-number">8.3.8</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>TopUSCities %&gt;% 
     ggplot() + 
@@ -1214,7 +1661,7 @@ MinUSCitiesWalking</code></pre>
 <div id="top-cities" class="section level2 tabset" number="9.1">
 <h2 class="tabset" number="9.1"><span class="header-section-number">9.1</span> Top Cities</h2>
 <p>We’re going to focus on the top 8 cites according to their <a href="https://en.wikipedia.org/wiki/List_of_United_States_cities_by_population">population</a> (the date of this writing is <code>2020-11-26</code>).</p>
-<div id="exercise-18" class="section level3" number="9.1.1">
+<div id="exercise-21" class="section level3" number="9.1.1">
 <h3 number="9.1.1"><span class="header-section-number">9.1.1</span> exercise</h3>
 <p><strong>Top Cities</strong></p>
 <p>We’ll store these eight cities in the <code>focus_on</code> vector and use it to filter the <code>TidyApple</code> dataset.</p>
@@ -1228,7 +1675,7 @@ TopCities &lt;- TidyApple %&gt;%
 
 TopCities %&gt;% glimpse(60)</code></pre>
 </div>
-<div id="solution-19" class="section level3" number="9.1.2">
+<div id="solution-22" class="section level3" number="9.1.2">
 <h3 number="9.1.2"><span class="header-section-number">9.1.2</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>focus_on &lt;- c(&quot;New York City&quot;, &quot;Los Angeles&quot;, 
@@ -1254,7 +1701,7 @@ TopCities %&gt;% glimpse(60)</code></pre>
 <div id="graph-labels" class="section level2 tabset" number="9.2">
 <h2 class="tabset" number="9.2"><span class="header-section-number">9.2</span> Graph Labels</h2>
 <p>We’re going to place <code>date</code> on the <code>x</code> axis, and <code>dir_request</code> on the <code>y</code>. The <code>tite</code> will reflect a general description of what we’re expecting to see, and we’ll list the cities in the <code>subtitle</code>. <code>color</code> will be used to give a better description than <code>trans_type</code>.</p>
-<div id="exercise-19" class="section level3" number="9.2.1">
+<div id="exercise-22" class="section level3" number="9.2.1">
 <h3 number="9.2.1"><span class="header-section-number">9.2.1</span> exercise</h3>
 <p><strong>Graph Labels</strong></p>
 <p>Fill in names for the <code>x</code>, <code>y</code>, and <code>color</code>.</p>
@@ -1263,7 +1710,7 @@ TopCities %&gt;% glimpse(60)</code></pre>
      subtitle = &quot;NY, LA, CH, HOU, PHA, PHL, SATX, SD&quot;, 
      color = _________)</code></pre>
 </div>
-<div id="solution-20" class="section level3" number="9.2.2">
+<div id="solution-23" class="section level3" number="9.2.2">
 <h3 number="9.2.2"><span class="header-section-number">9.2.2</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>lab_top_cities &lt;- labs(x = &quot;Date&quot;, y  = &quot;Direction Requests&quot;, 
@@ -1275,7 +1722,7 @@ TopCities %&gt;% glimpse(60)</code></pre>
 <div id="set-global-aes" class="section level2 tabset" number="9.3">
 <h2 class="tabset" number="9.3"><span class="header-section-number">9.3</span> Set Global <code>aes()</code></h2>
 <p>We’re going to set the global graph aesthetics inside <code>ggplot(aes())</code> using our labels as a guide.</p>
-<div id="exercise-20" class="section level3" number="9.3.1">
+<div id="exercise-23" class="section level3" number="9.3.1">
 <h3 number="9.3.1"><span class="header-section-number">9.3.1</span> exercise</h3>
 <p><strong>Global <code>aes()</code></strong></p>
 <ul>
@@ -1289,7 +1736,7 @@ TopCities %&gt;% glimpse(60)</code></pre>
   geom_line(size = 0.1) + 
   lab_top_cities</code></pre>
 </div>
-<div id="solution-21" class="section level3" number="9.3.2">
+<div id="solution-24" class="section level3" number="9.3.2">
 <h3 number="9.3.2"><span class="header-section-number">9.3.2</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>TopCities %&gt;% 
@@ -1304,7 +1751,7 @@ TopCities %&gt;% glimpse(60)</code></pre>
 <div id="add-reference-line" class="section level2 tabset" number="9.4">
 <h2 class="tabset" number="9.4"><span class="header-section-number">9.4</span> Add reference line</h2>
 <p>The documentation for the data tells us each <code>dir_request</code> has a baseline value of <code>100</code>. We’re going to add this as a reference line on the graph using <code>ggplot2::geom_hline()</code>.</p>
-<div id="exercise-21" class="section level3" number="9.4.1">
+<div id="exercise-24" class="section level3" number="9.4.1">
 <h3 number="9.4.1"><span class="header-section-number">9.4.1</span> exercise</h3>
 <p>The <code>geom_hline()</code> function takes <code>yintercept</code>, <code>size</code>, and <code>color</code> arguments.</p>
 <ul>
@@ -1321,7 +1768,7 @@ TopCities %&gt;% glimpse(60)</code></pre>
   geom_hline(yintercept = __, size = ___, color = &quot;&quot;) +
   lab_top_cities</code></pre>
 </div>
-<div id="solution-22" class="section level3" number="9.4.2">
+<div id="solution-25" class="section level3" number="9.4.2">
 <h3 number="9.4.2"><span class="header-section-number">9.4.2</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>TopCities %&gt;% 
@@ -1337,7 +1784,7 @@ TopCities %&gt;% glimpse(60)</code></pre>
 <div id="facet_wrap" class="section level2 tabset" number="9.5">
 <h2 class="tabset" number="9.5"><span class="header-section-number">9.5</span> <code>facet_wrap()</code></h2>
 <p>Now that we have a graph we can use to compare the <code>8</code> cities, we will use <code>facet_wrap</code> to create a subplot for each level of <code>region</code>.</p>
-<div id="exercise-22" class="section level3" number="9.5.1">
+<div id="exercise-25" class="section level3" number="9.5.1">
 <h3 number="9.5.1"><span class="header-section-number">9.5.1</span> exercise</h3>
 <p>Fill in the <code>facet_wrap()</code> (note the use of the <code>~</code>) function with <code>region</code> and set the <code>ncol</code> to <code>2</code>.</p>
 <pre class="r"><code>TopCities %&gt;% 
@@ -1349,7 +1796,7 @@ TopCities %&gt;% glimpse(60)</code></pre>
   facet_wrap(~ _______,  ncol = _) + 
   lab_top_cities</code></pre>
 </div>
-<div id="solution-23" class="section level3" number="9.5.2">
+<div id="solution-26" class="section level3" number="9.5.2">
 <h3 number="9.5.2"><span class="header-section-number">9.5.2</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>TopCities %&gt;% 
@@ -1372,7 +1819,7 @@ TopCities %&gt;% glimpse(60)</code></pre>
   base_line_size = base_size/22,
   base_rect_size = base_size/22
 )</code></pre>
-<div id="exercise-23" class="section level3" number="9.6.1">
+<div id="exercise-26" class="section level3" number="9.6.1">
 <h3 number="9.6.1"><span class="header-section-number">9.6.1</span> exercise</h3>
 <p>We’ll use the <code>theme_minimal()</code> function to reduce the number of <code>elements</code> on our graph (don’t add any arguments).</p>
 <pre class="r"><code>TopCities %&gt;% 
@@ -1385,7 +1832,7 @@ TopCities %&gt;% glimpse(60)</code></pre>
   ______________() +
   lab_top_cities </code></pre>
 </div>
-<div id="solution-24" class="section level3" number="9.6.2">
+<div id="solution-27" class="section level3" number="9.6.2">
 <h3 number="9.6.2"><span class="header-section-number">9.6.2</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>TopCities %&gt;% 
@@ -1403,7 +1850,7 @@ TopCities %&gt;% glimpse(60)</code></pre>
 <div id="theme-elements" class="section level2 tabset" number="9.7">
 <h2 class="tabset" number="9.7"><span class="header-section-number">9.7</span> Theme elements</h2>
 <p>Themes (accessible with the <code>theme</code> function) give up the ability to customize various <code>element_()</code> settings, which affect the ‘look’ of our graph.</p>
-<div id="exercise-24" class="section level3" number="9.7.1">
+<div id="exercise-27" class="section level3" number="9.7.1">
 <h3 number="9.7.1"><span class="header-section-number">9.7.1</span> exercise</h3>
 <p>We will start by moving the <code>legend.position</code> to <code>"top"</code> so it’s not crowding the <code>x</code> axis on our graph. Notice we pass the <code>theme()</code> layer after the <code>theme_minimal()</code> layer (if we ordered these the other way around, <code>theme_minimal()</code> would overwrite any custom settings we made in <code>theme()</code>).</p>
 <pre class="r"><code>TopCities %&gt;% 
@@ -1417,7 +1864,7 @@ TopCities %&gt;% glimpse(60)</code></pre>
   theme(___________ = _____) +
   lab_top_cities </code></pre>
 </div>
-<div id="solution-25" class="section level3" number="9.7.2">
+<div id="solution-28" class="section level3" number="9.7.2">
 <h3 number="9.7.2"><span class="header-section-number">9.7.2</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>TopCities %&gt;% 
@@ -1641,7 +2088,7 @@ Top25TransitUSAllT1 %&gt;% skimr::skim()</code></pre>
 </tbody>
 </table>
 </div>
-<div id="exercise-25" class="section level3" number="9.8.2">
+<div id="exercise-28" class="section level3" number="9.8.2">
 <h3 number="9.8.2"><span class="header-section-number">9.8.2</span> exercise</h3>
 <ul>
 <li><p>set <code>title</code> to <code>"States With Highest Transit Direction Requests"</code></p></li>
@@ -1652,14 +2099,14 @@ Top25TransitUSAllT1 %&gt;% skimr::skim()</code></pre>
        title = _____________________________________,
        subtitle = _____________________________________)</code></pre>
 </div>
-<div id="solution-26" class="section level3" number="9.8.3">
+<div id="solution-29" class="section level3" number="9.8.3">
 <h3 number="9.8.3"><span class="header-section-number">9.8.3</span> solution</h3>
 <pre class="r"><code>lab_facet_wrap_paginate &lt;- labs(
        x = &quot;Date&quot;, y = &quot;Direction Requests&quot;, 
        title = &quot;States With Highest Transit Direction Requests&quot;,
        subtitle = &quot;Top 25 states based on number of total transit requests&quot;)</code></pre>
 </div>
-<div id="exercise-26" class="section level3" number="9.8.4">
+<div id="exercise-29" class="section level3" number="9.8.4">
 <h3 number="9.8.4"><span class="header-section-number">9.8.4</span> exercise</h3>
 <p>Inside <code>ggforce::facet_wrap_paginate()</code>:</p>
 <ul>
@@ -1702,7 +2149,7 @@ Top25TransitUSAllT1 %&gt;% skimr::skim()</code></pre>
   # labels
   lab_facet_wrap_paginate</code></pre>
 </div>
-<div id="solution-27" class="section level3" number="9.8.5">
+<div id="solution-30" class="section level3" number="9.8.5">
 <h3 number="9.8.5"><span class="header-section-number">9.8.5</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>Top25TransitUSAllT1 %&gt;% 
@@ -1733,7 +2180,7 @@ Top25TransitUSAllT1 %&gt;% skimr::skim()</code></pre>
 <div id="adjusting-colors" class="section level2 tabset" number="9.9">
 <h2 class="tabset" number="9.9"><span class="header-section-number">9.9</span> Adjusting Colors</h2>
 <p>Changing the colors on graphs gives us the ability to further customize their look. We can set these manually, or use one of the many complete color palettes from a user-written package. Below we’ll use the <a href="https://jaredhuling.org/jcolors/index.html"><code>jcolors</code> package</a> to highlight the <code>transit</code> direction requests from the previous graph.</p>
-<div id="exercise-27" class="section level3" number="9.9.1">
+<div id="exercise-30" class="section level3" number="9.9.1">
 <h3 number="9.9.1"><span class="header-section-number">9.9.1</span> exercise</h3>
 <ul>
 <li>add <code>scale_color_jcolors()</code> and play with the <code>palette</code> argument to make the graph look like the <code>solution</code>.</li>
@@ -1763,7 +2210,7 @@ Top25TransitUSAllT1 %&gt;% skimr::skim()</code></pre>
   
   lab_facet_wrap_paginate</code></pre>
 </div>
-<div id="solution-28" class="section level3" number="9.9.2">
+<div id="solution-31" class="section level3" number="9.9.2">
 <h3 number="9.9.2"><span class="header-section-number">9.9.2</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>Top25TransitUSAllT1 %&gt;% 
@@ -1800,7 +2247,7 @@ Top25TransitUSAllT1 %&gt;% skimr::skim()</code></pre>
 <h3 number="9.10.1"><span class="header-section-number">9.10.1</span> Adjusted Walking Data</h3>
 <p>Create the <code>USWalkingAdj</code> data by filtering the <code>trans_type</code> to <code>"walking"</code> and creating two new variables: <code>above_below</code> (a logical indicator for values being above or below the baseline value of <code>100</code>), and <code>dir_request_adj</code> (the adjusted direction request value).</p>
 </div>
-<div id="exercise-28" class="section level3" number="9.10.2">
+<div id="exercise-31" class="section level3" number="9.10.2">
 <h3 number="9.10.2"><span class="header-section-number">9.10.2</span> exercise</h3>
 <p>Fill in the correct variables in the wrangling steps below:</p>
 <pre class="r"><code>USWalkingAdj &lt;- TidyAppleUS %&gt;% 
@@ -1811,7 +2258,7 @@ Top25TransitUSAllT1 %&gt;% skimr::skim()</code></pre>
 USWalkingAdj %&gt;% 
   skimr::skim()</code></pre>
 </div>
-<div id="solution-29" class="section level3" number="9.10.3">
+<div id="solution-32" class="section level3" number="9.10.3">
 <h3 number="9.10.3"><span class="header-section-number">9.10.3</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>USWalkingAdj &lt;- TidyAppleUS %&gt;% 
@@ -2030,7 +2477,7 @@ USWalkingAdj %&gt;%
 </tbody>
 </table>
 </div>
-<div id="exercise-29" class="section level3" number="9.10.4">
+<div id="exercise-32" class="section level3" number="9.10.4">
 <h3 number="9.10.4"><span class="header-section-number">9.10.4</span> exercise</h3>
 <p>Assign the following to the labels:</p>
 <ul>
@@ -2045,7 +2492,7 @@ USWalkingAdj %&gt;%
        caption = ____________________________________________, 
        fill = &quot;Below Baseline&quot;)</code></pre>
 </div>
-<div id="solution-30" class="section level3" number="9.10.5">
+<div id="solution-33" class="section level3" number="9.10.5">
 <h3 number="9.10.5"><span class="header-section-number">9.10.5</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>lab_facet_geo &lt;- labs(x = &quot;Date&quot;, 
@@ -2055,7 +2502,7 @@ USWalkingAdj %&gt;%
        caption = &quot;https://covid19.apple.com/mobility&quot;,
        fill = &quot;Below Baseline&quot;)</code></pre>
 </div>
-<div id="exercise-30" class="section level3" number="9.10.6">
+<div id="exercise-33" class="section level3" number="9.10.6">
 <h3 number="9.10.6"><span class="header-section-number">9.10.6</span> exercise</h3>
 <ul>
 <li><p>set the colors in <code>color_bl_or</code> as <code>c("#8470FF", "#7FFFD4")</code></p></li>
@@ -2107,7 +2554,7 @@ USWalkingAdj %&gt;%
   
   lab_facet_geo</code></pre>
 </div>
-<div id="solution-31" class="section level3" number="9.10.7">
+<div id="solution-34" class="section level3" number="9.10.7">
 <h3 number="9.10.7"><span class="header-section-number">9.10.7</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code># set colors
