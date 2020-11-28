@@ -37,27 +37,29 @@ options(width = 60, max.print = 60)
 
 # Objectives
 
-Recognize the needs of your audience 
+In order to use graphs and figures to effectively communicate with our audience, we need to consider a few things: 
 
-*level of data literacy, subject matter expertise, etc.*
+1. Recognize the needs of your audience (who are they, and where are they coming from?)
 
-Check and communicate data quality with stakeholders  
+  - *level of data literacy, subject matter expertise, etc.*
 
-*let them know the good and the bad news*
+2. Communicate the quality of the data with stakeholders (can we answer their question(s) with the available data?)
 
-Identify the correct data visualization (based on the data)
+  - *let them know the good and the bad news*
 
-*single variable, bivariate, and multivariate graphs*
+3. Identify the correct data visualization (based on the data *and* the problem/question)
+
+  - *single variable, bivariate, and multivariate graphs*
 
 # Materials
 
-- Slides: 
+- Slides: https://mjfrigaard.github.io/data-viz-as-comm/Index.html
 
-- RStudio Project:
+- RStudio Project: <TBD>
 
 # Previous lessons
 
-All of the exercises and lessons are available [here](https://mjfrigaard.github.io/r-meetup-tutorials/), but you can also read more about [`ggplot2`](https://ggplot2.tidyverse.org/index.html) on the tidyverse website, and in the [Data Visualisation](https://r4ds.had.co.nz/data-visualisation.html) chapter of R for Data Science.
+All of the exercises and lessons are available [here](https://mjfrigaard.github.io/r-meetup-tutorials/). Read more about [`ggplot2`](https://ggplot2.tidyverse.org/index.html) on the tidyverse website, and in the [Data Visualisation](https://r4ds.had.co.nz/data-visualisation.html) chapter of R for Data Science.
 
 # Load the packages
 
@@ -70,25 +72,31 @@ library(tidyverse)
 
 # Example: COVID and Mobility
 
-- How has COVID changed our modes of transportation?
+Assume we received the following questions from a stakeholder:
 
-  - *are people using fewer or different forms of transportation?*
+***How has COVID changed our modes of transportation?***
 
-- What kind of measurements would this be?
+Or
+
+***Are people using fewer or different forms of transportation since the COVID pandemic?***
+
+Questions we should be considering:
+
+1. What kind of measurements would this be?  
 
   - *how people travel (walk, drive, etc.)*
 
-- What would these data look like?
+2. What would these data look like?
 
   - *what would the columns and rows look like?*
 
 ## Data Import {.tabset}
 
-Apple mobility data: 
+We're going to use the following data to answer the stakeholder's questions:
 
-https://covid19.apple.com/mobility
+- Apple mobility data: https://covid19.apple.com/mobility
 
-Import these data below: 
+Import the data below
 
 ```{r import-AppleMobRaw, message=FALSE, warning=FALSE}
 AppleMobRaw <- readr::read_csv("https://bit.ly/apple-mob-raw")
@@ -101,7 +109,8 @@ These data need to be restructured into a tidy format.
 ```{r pivot_longer}
 AppleMobRaw %>% 
   tidyr::pivot_longer(cols = -c(geo_type:country), 
-                      names_to = "date", values_to = "dir_request")
+                      names_to = "date", 
+                      values_to = "dir_request")
 ```
 
 ### Wrangle `AppleMobRaw`
@@ -134,21 +143,32 @@ AppleMobRaw %>%
 
 ### Bonus (counting!)
 
-One of the most important jobs of analytic work is counting things :) below is an example of using the `map()` function from the `purrr` package to pass the `count()` function from `dplyr` to the character variables in `TidyApple`. We can example the counts of each value by using the `$` to subset the `tidy_apple_counts` list. 
+One of the most important jobs of analytic work is counting things :)
+
+Below is an example of using the `map()` function from the `purrr` package to pass the `count()` function from `dplyr` to the character variables in `TidyApple`. 
+
 
 ```{r tidy_apple_counts}
 TidyApple %>% 
   select_if(is.character) %>% 
   map(~count(data.frame(x = .x), x, sort = TRUE)) -> tidy_apple_counts
+```
 
+We can example the counts of each value by using the `$` to subset the `tidy_apple_counts` list.
+
+```{r tidy_apple_counts-country}
 tidy_apple_counts$country
 ```
 
 # Visualizing Distributions
 
-Before we start looking at relationships *between* variables, we might want to examine the underlying distribution of a single variable. We're going to cover two graphs that display variable distributions: histograms and density plots. 
+Before we start looking at relationships *between* variables, we should examine each variable's underlying distribution. 
+
+We're going to cover two graphs that display variable distributions: histograms and density plots. 
 
 ## Histograms {.tabset} 
+
+A histogram is a special kind of bar graph--it only takes a single continuous variable (in this case, `dir_request`), and it displays a relative breakdown of the values. 
 
 The `x` axis for the histogram will have the direction requests, and the `y` variable will display a count of the values. 
 
@@ -158,8 +178,6 @@ lab_hist <- labs(x = "Apple directions requests",
      title = "Distribution of Direction Requests",
      subtitle = "source: https://covid19.apple.com/mobility")
 ```
-
-A histogram is a special kind of bar graph--it only takes a single continuous variable (in this case, `dir_request`), and it displays a relative breakdown of the values. 
 
 ### exercise
 
@@ -183,7 +201,7 @@ TidyApple %>% ggplot() +
 
 ## Adjusting Y Axes {.tabset}
 
-We can see the `y` axis is in scientific notation. This might be hard for some audiences to interpret, so we will change this to use the whole number with commas with the [`scales` package](https://scales.r-lib.org/). 
+We can see the `y` axis of the histogram is in scientific notation. This might be hard for some audiences to interpret, so we will change this to use the whole number with commas with the [`scales` package](https://scales.r-lib.org/). 
 
 ### exercise
 
@@ -212,7 +230,7 @@ TidyApple %>% ggplot() +
 
 ## Histogram Shape {.tabset}
 
-We can control the shape of the with the `bins` argument. The default is `30`.
+We can control the shape of the histogram with the `bins` argument. The default is `30`.
 
 ### exercie 
 
@@ -265,9 +283,13 @@ gg_hist45
 
 ## Density Plots {.tabset}
 
-What if we want to see how a continuous variable is distributed across a categorical variable? Density plots come in handy here (so do `geom_boxplot()`s!), even though the `y` axis can be hard to interpret. Read more about the density geom [here](https://ggplot2.tidyverse.org/reference/geom_density.html).
+What if we want to see how a continuous variable is distributed across a categorical variable? We did this in the [previous lesson with a boxplot](https://mjfrigaard.github.io/data-viz-intro/Index.html#77).  
 
-We are going to create some labels so we know what to expect when we create our graph. We want to see the distribution of the directions request, filled by the levels of transportation type.
+Density plots come in handy here (so do `geom_boxplot()`s!). Read more about the density geom [here](https://ggplot2.tidyverse.org/reference/geom_density.html).
+
+We are going to create the graph labels so we know what to expect when we build our graph. 
+
+We want to see the distribution of the directions request, filled by the levels of transportation type.
 
 ```{r lab_density}
 lab_density <- labs(x = "Apple directions requests",
@@ -300,6 +322,8 @@ TidyApple %>%
   lab_density
 ```
 
+*One drawback to density plots is the `y` axis can be hard to interpret*
+
 ### exercise
 
 Adjust the overlapping densities by setting `alpha` to `1/3`. Assign this plot to `gg_density`.
@@ -327,9 +351,88 @@ TidyApple %>%
 gg_density
 ```
 
+
+## Violin Plots {.tabset}
+
+Another alternative to the density plot is the violin plot.
+
+### exercise 
+
+- assign `"Apple directions requests"` to the `x` axis 
+- assign `"Transit Type"` to the `y` axis 
+
+```{r lab_violin-ex, eval=FALSE}
+lab_violin <- labs(x = _________________________,
+                    y = _________________________,
+                   fill = "Transit Type",
+     title = "Distribution of Direction Requests vs. Transportation Type",
+     subtitle = "source: https://covid19.apple.com/mobility")
+```
+
+### solution
+
+```{r lab_violin-sol}
+lab_violin <- labs(x = "Apple directions requests",
+                   y = "Transit Type",
+                   fill = "Transit Type",
+     title = "Distribution of Direction Requests vs. Transportation Type",
+     subtitle = "source: https://covid19.apple.com/mobility")
+```
+
+### exercise 
+
+Add a `geom_violin()` to the code below:
+
+```{r geom_violin-ex, eval=FALSE}
+TidyApple %>% 
+  ggplot() +
+  ____________(aes(y = dir_request, x = trans_type, 
+                  fill = trans_type)) + 
+  lab_violin
+```
+
+### solution
+
+```{r geom_violin-sol, message=FALSE, warning=FALSE, fig.height=4, fig.width=6, out.height='100%', out.width='100%'}
+TidyApple %>% 
+  ggplot() +
+  geom_violin(aes(y = dir_request, x = trans_type, 
+                  fill = trans_type)) + 
+  lab_violin
+```
+
+### exercise 
+
+The great thing about `ggplot2`s layered syntax, is that we can add `geoms` with similar aesthetics to the same graph! For example, we can see how `geom_violin`s and `geom_boxplot`s are related by adding a `geom_boxplot()` layer to the graph above. 
+
+```{r geom_violin-boxplot-ex, eval=FALSE}
+TidyApple %>% 
+  ggplot() +
+  geom_violin(aes(y = dir_request, x = trans_type, 
+                  fill = trans_type), alpha = 1/5) + 
+  ___________(aes(y = dir_request, x = trans_type, 
+                   color = trans_type)) + 
+  lab_violin
+```
+
+### solution
+
+Note we set the `alpha` to `1/5` for the `geom_violin()`, and the `color` to `trans_type` for the `geom_boxplot()`.
+
+```{r geom_violin-boxplot-sol, message=FALSE, warning=FALSE, fig.height=4, fig.width=6, out.height='100%', out.width='100%'}
+TidyApple %>% 
+  ggplot() +
+  geom_violin(aes(y = dir_request, x = trans_type, 
+                  fill = trans_type), alpha = 1/5) + 
+  geom_boxplot(aes(y = dir_request, x = trans_type, 
+                   color = trans_type)) + 
+  lab_violin
+```
+
+
 # Visualizing Trends 
 
-Now we've seen the distribution of `dir_request`, and how it varies across `trans_type`. Next we'll look at how the relaitionship between these two variabels varies over `date`.
+Now we've seen the distribution of `dir_request`, and how it varies across `trans_type`. Next we'll look at how the relationship between these two variables varies over `date`.
 
 ## Focus on US Cities {.tabset}
 
@@ -1108,19 +1211,19 @@ TopUSCities %>%
   lab_line_min_walking
 ```
 
-# Advanced Facets 
-
-In the previous lesson, we introduced the `facet_wrap()` function for viewing the relationship between two variables across the levels of a categorical variable. In the next section, we're going to show how faceting can be used to explore 'small multiples' in a dataset with variation across multiple levels.
-
-## Top Cities  {.tabset}
+# Reference lines
 
 We're going to focus on the top 8 cites according to their [population](https://en.wikipedia.org/wiki/List_of_United_States_cities_by_population) (the date of this writing is `2020-11-26`).
 
-### exercise
+## Top Cities  {.tabset}
 
 **Top Cities**
 
-We'll store these eight cities in the `focus_on` vector and use it to filter the `TidyApple` dataset.
+We're going to introduce another `filter`ing method in this section to create the `TopCities` dataset.
+
+### exercise
+
+Store top eight cities in the `focus_on` vector and use it to filter the `TidyApple` dataset.
 
 ```{r focus_on-ex, eval=FALSE}
 focus_on <- c("New York City", "Los Angeles", 
@@ -1133,7 +1236,6 @@ TopCities <- TidyApple %>%
 
 TopCities %>% glimpse(60)
 ```
-
 
 ### solution
 
@@ -1151,15 +1253,11 @@ TopCities <- TidyApple %>%
 TopCities %>% glimpse(60)
 ```
 
-
-## Graph Labels  {.tabset}
-
-
-We're going to place `date` on the `x` axis, and `dir_request` on the `y`. The `tite` will reflect a general description of what we're expecting to see, and we'll list the cities in the `subtitle`. `color` will be used to give a better description than `trans_type`.
-
 ### exercise
 
-**Graph Labels** 
+**Graph Labels**
+
+We're going to place `date` on the `x` axis, and `dir_request` on the `y`. The `tite` will reflect a general description of what we're expecting to see, and we'll list the cities in the `subtitle`. `color` will be used to give a better description than `trans_type`.
 
 Fill in names for the `x`, `y`, and `color`.
 
@@ -1184,7 +1282,7 @@ lab_top_cities <- labs(x = "Date", y  = "Direction Requests",
 
 ## Set Global `aes()` {.tabset}
 
-We're going to set the global graph aesthetics inside `ggplot(aes())` using our labels as a guide. 
+We're going to set the global graph aesthetics inside `ggplot(aes())` using our labels as a guide. This will serve as a base layer for us to add our reference line to!
 
 ### exercise
 
@@ -1216,8 +1314,7 @@ TopCities %>%
   lab_top_cities
 ```
 
-
-## Add reference line {.tabset}
+## Reference Line Layer {.tabset}
 
 The documentation for the data tells us each `dir_request` has a baseline value of `100`. We're going to add this as a reference line on the graph using `ggplot2::geom_hline()`.
 
@@ -1254,6 +1351,11 @@ TopCities %>%
   lab_top_cities
 ```
 
+Reference lines are helpful when we want to examine trends in relation to a particular value.
+
+# Advanced Facets
+
+In the previous lesson, we introduced the `facet_wrap()` function for viewing the relationship between two variables across the levels of a categorical variable. In the next section, we're going to show how faceting can be used to explore 'small multiples' in a dataset with variation across multiple levels.
 
 ## `facet_wrap()` {.tabset}
 
@@ -1342,7 +1444,7 @@ Themes (accessible with the `theme` function) give up the ability to customize v
 
 ### exercise 
 
-We will start by moving the `legend.position` to `"top"` so it's not crowding the `x` axis on our graph. Notice we pass the `theme()` layer after the `theme_minimal()` layer (if we ordered these the other way around, `theme_minimal()` would overwrite any custom settings we made in `theme()`).
+We will start by moving the `legend.position` to `"top"` so it's not crowding the `x` axis on our graph. 
 
 ```{r theme-ex, eval=FALSE}
 TopCities %>% 
@@ -1374,6 +1476,7 @@ TopCities %>%
   lab_top_cities 
 ```
 
+Notice we pass the `theme()` layer after the `theme_minimal()` layer (if we ordered these the other way around, `theme_minimal()` would overwrite any custom settings we made in `theme()`).
 
 ## Small Multiples  {.tabset}
 
@@ -1386,7 +1489,7 @@ library(ggforce)
 library(jcolors)
 ```
 
-### Graph Data
+**Building the Graph Data**
 
 1. We will start by filtering the `TidyApple` to only the 50 US states (we've removed three US territories) and storing these data in `TidyAppleUS`. 
 
