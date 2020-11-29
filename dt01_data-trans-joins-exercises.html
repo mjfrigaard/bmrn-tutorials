@@ -441,11 +441,9 @@ library(tidyverse)</code></pre>
 ## ├── dt00_data-manipulations.html
 ## ├── dt01_data-trans-joins-exercises.Rmd
 ## ├── dt01_data-trans-joins-exercises.html
-## ├── dt01_data-trans-joins-exercises_files
 ## ├── footer.html
 ## ├── gg00_intro-to-data-viz.Rmd
 ## ├── gg00_intro-to-data-viz.html
-## ├── gg00_intro-to-data-viz_files
 ## ├── gg01_data-viz-as-comm.Rmd
 ## ├── gg01_data-viz-as-comm.html
 ## ├── gg02_adv-data-viz.Rmd
@@ -466,26 +464,25 @@ library(tidyverse)</code></pre>
 ## └── slides.html</code></pre>
 <p>We can also use <code>dir_ls</code> to get the paths to print to the screen so we can easily import.</p>
 <pre class="r"><code>fs::dir_ls(&quot;.&quot;, recurse = FALSE)</code></pre>
-<pre><code>## LICENSE                               README.html                           
-## README.md                             _site.yml                             
-## about.Rmd                             about.html                            
-## bk00_functions-and-objects.Rmd        bk00_functions-and-objects.html       
-## bk01_workflow-best-practices.Rmd      bk01_workflow-best-practices.html     
-## code                                  data                                  
-## docs                                  dt00_data-manipulations.Rmd           
-## dt00_data-manipulations.html          dt01_data-trans-joins-exercises.Rmd   
-## dt01_data-trans-joins-exercises.html  dt01_data-trans-joins-exercises_files 
-## footer.html                           gg00_intro-to-data-viz.Rmd            
-## gg00_intro-to-data-viz.html           gg00_intro-to-data-viz_files          
-## gg01_data-viz-as-comm.Rmd             gg01_data-viz-as-comm.html            
-## gg02_adv-data-viz.Rmd                 gg02_adv-data-viz.html                
-## img                                   index.Rmd                             
-## index.html                            mk00_rmarkdown-exercises.Rmd          
-## mk00_rmarkdown-exercises.html         mk00_rmarkdown-exercises_cache        
-## mk00_rmarkdown-exercises_files        more-resources.Rmd                    
-## more-resources.html                   pdfs                                  
-## r-meetup-tutorials.Rproj              site_libs                             
-## slides.Rmd                            slides.html</code></pre>
+<pre><code>## LICENSE                              README.html                          
+## README.md                            _site.yml                            
+## about.Rmd                            about.html                           
+## bk00_functions-and-objects.Rmd       bk00_functions-and-objects.html      
+## bk01_workflow-best-practices.Rmd     bk01_workflow-best-practices.html    
+## code                                 data                                 
+## docs                                 dt00_data-manipulations.Rmd          
+## dt00_data-manipulations.html         dt01_data-trans-joins-exercises.Rmd  
+## dt01_data-trans-joins-exercises.html footer.html                          
+## gg00_intro-to-data-viz.Rmd           gg00_intro-to-data-viz.html          
+## gg01_data-viz-as-comm.Rmd            gg01_data-viz-as-comm.html           
+## gg02_adv-data-viz.Rmd                gg02_adv-data-viz.html               
+## img                                  index.Rmd                            
+## index.html                           mk00_rmarkdown-exercises.Rmd         
+## mk00_rmarkdown-exercises.html        mk00_rmarkdown-exercises_cache       
+## mk00_rmarkdown-exercises_files       more-resources.Rmd                   
+## more-resources.html                  pdfs                                 
+## r-meetup-tutorials.Rproj             site_libs                            
+## slides.Rmd                           slides.html</code></pre>
 </div>
 <div id="metadata" class="section level3" number="1.2.2">
 <h3 number="1.2.2"><span class="header-section-number">1.2.2</span> Metadata</h3>
@@ -494,7 +491,7 @@ library(tidyverse)</code></pre>
     dplyr::arrange(desc(modification_time))</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["path"],"name":[1],"type":["fs_path"],"align":["right"]},{"label":["type"],"name":[2],"type":["fct"],"align":["left"]},{"label":["size"],"name":[3],"type":["fs_bytes"],"align":["right"]},{"label":["permissions"],"name":[4],"type":["fs_perms"],"align":["right"]},{"label":["modification_time"],"name":[5],"type":["dttm"],"align":["right"]},{"label":["user"],"name":[6],"type":["chr"],"align":["left"]},{"label":["group"],"name":[7],"type":["chr"],"align":["left"]},{"label":["device_id"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["hard_links"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["special_device_id"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["inode"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["block_size"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["blocks"],"name":[13],"type":["dbl"],"align":["right"]},{"label":["flags"],"name":[14],"type":["int"],"align":["right"]},{"label":["generation"],"name":[15],"type":["dbl"],"align":["right"]},{"label":["access_time"],"name":[16],"type":["dttm"],"align":["right"]},{"label":["change_time"],"name":[17],"type":["dttm"],"align":["right"]},{"label":["birth_time"],"name":[18],"type":["dttm"],"align":["right"]}],"data":[{"1":"data/2020-11-24-TopPharmCompRaw.csv","2":"file","3":"3.02K","4":"rw-r--r--","5":"2020-11-27 18:14:33","6":"mjfrigaard","7":"staff","8":"16777220","9":"1","10":"0","11":"12935092546","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-27 18:14:51","17":"2020-11-27 18:14:33","18":"2020-11-26 16:35:00"},{"1":"data/AppleMobRaw.csv","2":"file","3":"9.39M","4":"rw-r--r--","5":"2020-11-25 12:09:29","6":"mjfrigaard","7":"staff","8":"16777220","9":"1","10":"0","11":"12934910155","12":"4096","13":"19240","14":"0","15":"0","16":"2020-11-26 00:42:02","17":"2020-11-25 12:09:29","18":"2020-11-25 12:09:29"},{"1":"data/UsadaBadDates.csv","2":"file","3":"3.13K","4":"rw-rw-rw-","5":"2020-11-20 09:04:03","6":"mjfrigaard","7":"staff","8":"16777220","9":"1","10":"0","11":"12934674520","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-23 23:29:05","17":"2020-11-23 23:20:13","18":"2020-11-20 09:04:03"},{"1":"data/UsadaRaw.csv","2":"file","3":"81.61K","4":"rw-rw-rw-","5":"2020-11-20 09:04:03","6":"mjfrigaard","7":"staff","8":"16777220","9":"1","10":"0","11":"12934674521","12":"4096","13":"256","14":"0","15":"0","16":"2020-11-23 23:29:05","17":"2020-11-23 23:20:13","18":"2020-11-20 09:03:06"},{"1":"data/LabProc.csv","2":"file","3":"164","4":"rw-rw-rw-","5":"2020-11-20 08:19:03","6":"mjfrigaard","7":"staff","8":"16777220","9":"1","10":"0","11":"12934674518","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-27 18:14:18","17":"2020-11-23 23:20:13","18":"2020-11-20 08:13:56"},{"1":"data/SmallLabData.csv","2":"file","3":"93","4":"rw-rw-rw-","5":"2020-11-20 07:58:48","6":"mjfrigaard","7":"staff","8":"16777220","9":"1","10":"0","11":"12934674519","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-27 18:14:18","17":"2020-11-23 23:20:13","18":"2020-11-20 07:56:48"},{"1":"data/LabData.csv","2":"file","3":"139","4":"rw-rw-rw-","5":"2020-11-20 07:50:05","6":"mjfrigaard","7":"staff","8":"16777220","9":"1","10":"0","11":"12934674517","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-27 18:14:18","17":"2020-11-23 23:20:13","18":"2020-11-20 07:50:05"},{"1":"data/starwars.rds","2":"file","3":"19.42K","4":"rw-r--r--","5":"2020-11-08 12:09:17","6":"mjfrigaard","7":"staff","8":"16777220","9":"1","10":"0","11":"12934477936","12":"4096","13":"40","14":"0","15":"0","16":"2020-11-23 09:37:19","17":"2020-11-23 01:19:06","18":"2020-11-08 12:09:17"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["path"],"name":[1],"type":["fs_path"],"align":["right"]},{"label":["type"],"name":[2],"type":["fct"],"align":["left"]},{"label":["size"],"name":[3],"type":["fs_bytes"],"align":["right"]},{"label":["permissions"],"name":[4],"type":["fs_perms"],"align":["right"]},{"label":["modification_time"],"name":[5],"type":["dttm"],"align":["right"]},{"label":["user"],"name":[6],"type":["chr"],"align":["left"]},{"label":["group"],"name":[7],"type":["chr"],"align":["left"]},{"label":["device_id"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["hard_links"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["special_device_id"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["inode"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["block_size"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["blocks"],"name":[13],"type":["dbl"],"align":["right"]},{"label":["flags"],"name":[14],"type":["int"],"align":["right"]},{"label":["generation"],"name":[15],"type":["dbl"],"align":["right"]},{"label":["access_time"],"name":[16],"type":["dttm"],"align":["right"]},{"label":["change_time"],"name":[17],"type":["dttm"],"align":["right"]},{"label":["birth_time"],"name":[18],"type":["dttm"],"align":["right"]}],"data":[{"1":"data/2020-11-24-TopPharmCompRaw.csv","2":"file","3":"3.02K","4":"rw-r--r--","5":"2020-11-29 14:51:48","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12935092546","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-29 14:51:49","17":"2020-11-29 14:51:48","18":"2020-11-26 16:35:00"},{"1":"data/AppleMobRaw.csv","2":"file","3":"9.39M","4":"rw-r--r--","5":"2020-11-25 12:09:29","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934910155","12":"4096","13":"19240","14":"0","15":"0","16":"2020-11-26 00:42:02","17":"2020-11-25 12:09:29","18":"2020-11-25 12:09:29"},{"1":"data/UsadaBadDates.csv","2":"file","3":"3.13K","4":"rw-rw-rw-","5":"2020-11-20 09:04:03","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934674520","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-23 23:29:05","17":"2020-11-23 23:20:13","18":"2020-11-20 09:04:03"},{"1":"data/UsadaRaw.csv","2":"file","3":"81.61K","4":"rw-rw-rw-","5":"2020-11-20 09:04:03","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934674521","12":"4096","13":"256","14":"0","15":"0","16":"2020-11-23 23:29:05","17":"2020-11-23 23:20:13","18":"2020-11-20 09:03:06"},{"1":"data/LabProc.csv","2":"file","3":"164","4":"rw-rw-rw-","5":"2020-11-20 08:19:03","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934674518","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-29 14:51:35","17":"2020-11-23 23:20:13","18":"2020-11-20 08:13:56"},{"1":"data/SmallLabData.csv","2":"file","3":"93","4":"rw-rw-rw-","5":"2020-11-20 07:58:48","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934674519","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-29 14:51:35","17":"2020-11-23 23:20:13","18":"2020-11-20 07:56:48"},{"1":"data/LabData.csv","2":"file","3":"139","4":"rw-rw-rw-","5":"2020-11-20 07:50:05","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934674517","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-29 14:51:35","17":"2020-11-23 23:20:13","18":"2020-11-20 07:50:05"},{"1":"data/starwars.rds","2":"file","3":"19.42K","4":"rw-r--r--","5":"2020-11-08 12:09:17","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934477936","12":"4096","13":"40","14":"0","15":"0","16":"2020-11-23 09:37:19","17":"2020-11-23 01:19:06","18":"2020-11-08 12:09:17"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p>For example, lets look for the largest <code>file</code> in the <code>data</code> folder.</p>
@@ -705,8 +702,8 @@ UsadaBadDates %&gt;%
     # only return what we&#39;re interested in 
     dplyr::select(athlete, sanction_dates) %&gt;% 
     listviewer::jsonedit(mode = &quot;view&quot;)</code></pre>
-<div id="htmlwidget-4e33496f610f8982213c" style="width:672px;height:480px;" class="jsonedit html-widget"></div>
-<script type="application/json" data-for="htmlwidget-4e33496f610f8982213c">{"x":{"data":{"athlete":["fischbach, dylan","trafeh, mohamed","lea, robert","young, jerome","hay, amy","hunter, adam","tovar, oscar","dotti, juan pablo","murdock, vince","thomas, tammy","orbon, joane","bailey, ryan","garcia del moral, luis","jones, stirley","miyao, paulo","moffett, shaun","bruyneel, johan","celaya lazama, pedro","marti, jose","oliveira, flavia"],"sanction_dates":[["original: 12/18/2015; ",": 04/11/2016"],["original: 12/18/2014; ",": 08/25/2015"],["original: 12/17/2015; ",": 02/25/2016"],["original: 11/10/2004; ",": 06/17/2008"],["original: 10/31/2017; ",": 12/16/2019"],["original: 10/28/2016; ",": 09/26/2018"],["original: 10/28/2015; ",": 10/04/2016"],["original: 10/20/2011; ",": 06/05/2013"],["original: 09/05/2019; ",": 08/26/2020"],["original: 08/30/2002; ",": 02/13/2017"],["original: 08/12/2019; ",": 09/10/2019"],["original: 08/03/2017; ",": 12/01/2017"],["original: 07/10/2012;",": 10/26/2018"],["original: 06/17/2019; ",": 12/16/2019"],["original: 05/10/2017;",": 11/27/2018"],["original: 04/24/2018",": 10/19/2018"],["original: 04/22/2014;",": 10/24/2018"],["original: 04/22/2014;",": 10/24/2018"],["original: 04/22/2014;",": 10/24/2018"],["original: 04/13/2010; "," 12/10/2010"]]},"options":{"mode":"view","modes":["code","form","text","tree","view"]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-56e05a420b4abd0f90c8" style="width:672px;height:480px;" class="jsonedit html-widget"></div>
+<script type="application/json" data-for="htmlwidget-56e05a420b4abd0f90c8">{"x":{"data":{"athlete":["fischbach, dylan","trafeh, mohamed","lea, robert","young, jerome","hay, amy","hunter, adam","tovar, oscar","dotti, juan pablo","murdock, vince","thomas, tammy","orbon, joane","bailey, ryan","garcia del moral, luis","jones, stirley","miyao, paulo","moffett, shaun","bruyneel, johan","celaya lazama, pedro","marti, jose","oliveira, flavia"],"sanction_dates":[["original: 12/18/2015; ",": 04/11/2016"],["original: 12/18/2014; ",": 08/25/2015"],["original: 12/17/2015; ",": 02/25/2016"],["original: 11/10/2004; ",": 06/17/2008"],["original: 10/31/2017; ",": 12/16/2019"],["original: 10/28/2016; ",": 09/26/2018"],["original: 10/28/2015; ",": 10/04/2016"],["original: 10/20/2011; ",": 06/05/2013"],["original: 09/05/2019; ",": 08/26/2020"],["original: 08/30/2002; ",": 02/13/2017"],["original: 08/12/2019; ",": 09/10/2019"],["original: 08/03/2017; ",": 12/01/2017"],["original: 07/10/2012;",": 10/26/2018"],["original: 06/17/2019; ",": 12/16/2019"],["original: 05/10/2017;",": 11/27/2018"],["original: 04/24/2018",": 10/19/2018"],["original: 04/22/2014;",": 10/24/2018"],["original: 04/22/2014;",": 10/24/2018"],["original: 04/22/2014;",": 10/24/2018"],["original: 04/13/2010; "," 12/10/2010"]]},"options":{"mode":"view","modes":["code","form","text","tree","view"]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="unnest" class="section level3" number="1.6.3">
 <h3 number="1.6.3"><span class="header-section-number">1.6.3</span> <code>unnest</code></h3>
@@ -813,7 +810,7 @@ UsadaBadDates %&gt;%
     labs(x = &quot;Number of Sanctions&quot;, y = &quot;Sport&quot;, 
          title = &quot;Number of Sanctions with Bad Dates&quot;,
          caption = &quot;source: https://www.usada.org/news/sanctions/&quot;)</code></pre>
-<p><img src="dt01_data-trans-joins-exercises_files/figure-html/visualize-1.png" width="672" /></p>
+<p><img src="img/visualize-1.png" width="672" /></p>
 </div>
 </div>
 </div>
