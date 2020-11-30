@@ -32,6 +32,9 @@
 <link href="site_libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
 <script src="site_libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 <script src="site_libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<script src="site_libs/viz-1.8.2/viz.js"></script>
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="site_libs/grViz-binding-1.0.6.1/grViz.js"></script>
 <link href="site_libs/jsoneditor-5.25.6/jsoneditor.min.css" rel="stylesheet" />
 <script src="site_libs/jsoneditor-5.25.6/jsoneditor.min.js"></script>
 <script src="site_libs/jsonedit-binding-3.0.0/jsonedit.js"></script>
@@ -422,67 +425,22 @@ library(tidyverse)</code></pre>
 <div id="folder-trees-and-paths" class="section level3" number="1.2.1">
 <h3 number="1.2.1"><span class="header-section-number">1.2.1</span> Folder trees and paths</h3>
 <p>Check your files and folders with <code>dir_tree</code> or <code>dir_ls</code>.</p>
-<pre class="r"><code>fs::dir_tree(&quot;.&quot;, recurse = FALSE)</code></pre>
-<pre><code>## .
-## ├── LICENSE
-## ├── README.html
-## ├── README.md
-## ├── _site.yml
-## ├── about.Rmd
-## ├── about.html
-## ├── bk00_functions-and-objects.Rmd
-## ├── bk00_functions-and-objects.html
-## ├── bk01_workflow-best-practices.Rmd
-## ├── bk01_workflow-best-practices.html
-## ├── code
-## ├── data
-## ├── docs
-## ├── dt00_data-manipulations.Rmd
-## ├── dt00_data-manipulations.html
-## ├── dt01_data-trans-joins-exercises.Rmd
-## ├── dt01_data-trans-joins-exercises.html
-## ├── footer.html
-## ├── gg00_intro-to-data-viz.Rmd
-## ├── gg00_intro-to-data-viz.html
-## ├── gg01_data-viz-as-comm.Rmd
-## ├── gg01_data-viz-as-comm.html
-## ├── gg02_adv-data-viz.Rmd
-## ├── gg02_adv-data-viz.html
-## ├── img
-## ├── index.Rmd
-## ├── index.html
-## ├── mk00_rmarkdown-exercises.Rmd
-## ├── mk00_rmarkdown-exercises.html
-## ├── mk00_rmarkdown-exercises_cache
-## ├── mk00_rmarkdown-exercises_files
-## ├── more-resources.Rmd
-## ├── more-resources.html
-## ├── pdfs
-## ├── r-meetup-tutorials.Rproj
-## ├── site_libs
-## ├── slides.Rmd
-## └── slides.html</code></pre>
+<pre class="r"><code>fs::dir_tree(&quot;data&quot;, recurse = FALSE)</code></pre>
+<pre><code>## data
+## ├── 2020-11-24-TopPharmCompRaw.csv
+## ├── AppleMobRaw.csv
+## ├── LabData.csv
+## ├── LabProc.csv
+## ├── SmallLabData.csv
+## ├── UsadaBadDates.csv
+## ├── UsadaRaw.csv
+## └── starwars.rds</code></pre>
 <p>We can also use <code>dir_ls</code> to get the paths to print to the screen so we can easily import.</p>
-<pre class="r"><code>fs::dir_ls(&quot;.&quot;, recurse = FALSE)</code></pre>
-<pre><code>## LICENSE                              README.html                          
-## README.md                            _site.yml                            
-## about.Rmd                            about.html                           
-## bk00_functions-and-objects.Rmd       bk00_functions-and-objects.html      
-## bk01_workflow-best-practices.Rmd     bk01_workflow-best-practices.html    
-## code                                 data                                 
-## docs                                 dt00_data-manipulations.Rmd          
-## dt00_data-manipulations.html         dt01_data-trans-joins-exercises.Rmd  
-## dt01_data-trans-joins-exercises.html footer.html                          
-## gg00_intro-to-data-viz.Rmd           gg00_intro-to-data-viz.html          
-## gg01_data-viz-as-comm.Rmd            gg01_data-viz-as-comm.html           
-## gg02_adv-data-viz.Rmd                gg02_adv-data-viz.html               
-## img                                  index.Rmd                            
-## index.html                           mk00_rmarkdown-exercises.Rmd         
-## mk00_rmarkdown-exercises.html        mk00_rmarkdown-exercises_cache       
-## mk00_rmarkdown-exercises_files       more-resources.Rmd                   
-## more-resources.html                  pdfs                                 
-## r-meetup-tutorials.Rproj             site_libs                            
-## slides.Rmd                           slides.html</code></pre>
+<pre class="r"><code>fs::dir_ls(&quot;data&quot;, recurse = FALSE)</code></pre>
+<pre><code>## data/2020-11-24-TopPharmCompRaw.csv data/AppleMobRaw.csv                
+## data/LabData.csv                    data/LabProc.csv                    
+## data/SmallLabData.csv               data/UsadaBadDates.csv              
+## data/UsadaRaw.csv                   data/starwars.rds</code></pre>
 </div>
 <div id="metadata" class="section level3" number="1.2.2">
 <h3 number="1.2.2"><span class="header-section-number">1.2.2</span> Metadata</h3>
@@ -491,7 +449,7 @@ library(tidyverse)</code></pre>
     dplyr::arrange(desc(modification_time))</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["path"],"name":[1],"type":["fs_path"],"align":["right"]},{"label":["type"],"name":[2],"type":["fct"],"align":["left"]},{"label":["size"],"name":[3],"type":["fs_bytes"],"align":["right"]},{"label":["permissions"],"name":[4],"type":["fs_perms"],"align":["right"]},{"label":["modification_time"],"name":[5],"type":["dttm"],"align":["right"]},{"label":["user"],"name":[6],"type":["chr"],"align":["left"]},{"label":["group"],"name":[7],"type":["chr"],"align":["left"]},{"label":["device_id"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["hard_links"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["special_device_id"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["inode"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["block_size"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["blocks"],"name":[13],"type":["dbl"],"align":["right"]},{"label":["flags"],"name":[14],"type":["int"],"align":["right"]},{"label":["generation"],"name":[15],"type":["dbl"],"align":["right"]},{"label":["access_time"],"name":[16],"type":["dttm"],"align":["right"]},{"label":["change_time"],"name":[17],"type":["dttm"],"align":["right"]},{"label":["birth_time"],"name":[18],"type":["dttm"],"align":["right"]}],"data":[{"1":"data/2020-11-24-TopPharmCompRaw.csv","2":"file","3":"3.02K","4":"rw-r--r--","5":"2020-11-29 14:51:48","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12935092546","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-29 14:51:49","17":"2020-11-29 14:51:48","18":"2020-11-26 16:35:00"},{"1":"data/AppleMobRaw.csv","2":"file","3":"9.39M","4":"rw-r--r--","5":"2020-11-25 12:09:29","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934910155","12":"4096","13":"19240","14":"0","15":"0","16":"2020-11-26 00:42:02","17":"2020-11-25 12:09:29","18":"2020-11-25 12:09:29"},{"1":"data/UsadaBadDates.csv","2":"file","3":"3.13K","4":"rw-rw-rw-","5":"2020-11-20 09:04:03","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934674520","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-23 23:29:05","17":"2020-11-23 23:20:13","18":"2020-11-20 09:04:03"},{"1":"data/UsadaRaw.csv","2":"file","3":"81.61K","4":"rw-rw-rw-","5":"2020-11-20 09:04:03","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934674521","12":"4096","13":"256","14":"0","15":"0","16":"2020-11-23 23:29:05","17":"2020-11-23 23:20:13","18":"2020-11-20 09:03:06"},{"1":"data/LabProc.csv","2":"file","3":"164","4":"rw-rw-rw-","5":"2020-11-20 08:19:03","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934674518","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-29 14:51:35","17":"2020-11-23 23:20:13","18":"2020-11-20 08:13:56"},{"1":"data/SmallLabData.csv","2":"file","3":"93","4":"rw-rw-rw-","5":"2020-11-20 07:58:48","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934674519","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-29 14:51:35","17":"2020-11-23 23:20:13","18":"2020-11-20 07:56:48"},{"1":"data/LabData.csv","2":"file","3":"139","4":"rw-rw-rw-","5":"2020-11-20 07:50:05","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934674517","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-29 14:51:35","17":"2020-11-23 23:20:13","18":"2020-11-20 07:50:05"},{"1":"data/starwars.rds","2":"file","3":"19.42K","4":"rw-r--r--","5":"2020-11-08 12:09:17","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934477936","12":"4096","13":"40","14":"0","15":"0","16":"2020-11-23 09:37:19","17":"2020-11-23 01:19:06","18":"2020-11-08 12:09:17"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["path"],"name":[1],"type":["fs_path"],"align":["right"]},{"label":["type"],"name":[2],"type":["fct"],"align":["left"]},{"label":["size"],"name":[3],"type":["fs_bytes"],"align":["right"]},{"label":["permissions"],"name":[4],"type":["fs_perms"],"align":["right"]},{"label":["modification_time"],"name":[5],"type":["dttm"],"align":["right"]},{"label":["user"],"name":[6],"type":["chr"],"align":["left"]},{"label":["group"],"name":[7],"type":["chr"],"align":["left"]},{"label":["device_id"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["hard_links"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["special_device_id"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["inode"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["block_size"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["blocks"],"name":[13],"type":["dbl"],"align":["right"]},{"label":["flags"],"name":[14],"type":["int"],"align":["right"]},{"label":["generation"],"name":[15],"type":["dbl"],"align":["right"]},{"label":["access_time"],"name":[16],"type":["dttm"],"align":["right"]},{"label":["change_time"],"name":[17],"type":["dttm"],"align":["right"]},{"label":["birth_time"],"name":[18],"type":["dttm"],"align":["right"]}],"data":[{"1":"data/2020-11-24-TopPharmCompRaw.csv","2":"file","3":"3.02K","4":"rw-r--r--","5":"2020-11-29 15:20:20","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12935092546","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-29 15:20:20","17":"2020-11-29 15:20:20","18":"2020-11-26 16:35:00"},{"1":"data/AppleMobRaw.csv","2":"file","3":"9.39M","4":"rw-r--r--","5":"2020-11-25 12:09:29","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934910155","12":"4096","13":"19240","14":"0","15":"0","16":"2020-11-26 00:42:02","17":"2020-11-25 12:09:29","18":"2020-11-25 12:09:29"},{"1":"data/UsadaBadDates.csv","2":"file","3":"3.13K","4":"rw-rw-rw-","5":"2020-11-20 09:04:03","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934674520","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-23 23:29:05","17":"2020-11-23 23:20:13","18":"2020-11-20 09:04:03"},{"1":"data/UsadaRaw.csv","2":"file","3":"81.61K","4":"rw-rw-rw-","5":"2020-11-20 09:04:03","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934674521","12":"4096","13":"256","14":"0","15":"0","16":"2020-11-23 23:29:05","17":"2020-11-23 23:20:13","18":"2020-11-20 09:03:06"},{"1":"data/LabProc.csv","2":"file","3":"164","4":"rw-rw-rw-","5":"2020-11-20 08:19:03","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934674518","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-29 19:43:39","17":"2020-11-23 23:20:13","18":"2020-11-20 08:13:56"},{"1":"data/SmallLabData.csv","2":"file","3":"93","4":"rw-rw-rw-","5":"2020-11-20 07:58:48","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934674519","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-29 19:43:39","17":"2020-11-23 23:20:13","18":"2020-11-20 07:56:48"},{"1":"data/LabData.csv","2":"file","3":"139","4":"rw-rw-rw-","5":"2020-11-20 07:50:05","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934674517","12":"4096","13":"8","14":"0","15":"0","16":"2020-11-29 19:43:39","17":"2020-11-23 23:20:13","18":"2020-11-20 07:50:05"},{"1":"data/starwars.rds","2":"file","3":"19.42K","4":"rw-r--r--","5":"2020-11-08 12:09:17","6":"mjfrigaard","7":"staff","8":"16777223","9":"1","10":"0","11":"12934477936","12":"4096","13":"40","14":"0","15":"0","16":"2020-11-23 09:37:19","17":"2020-11-23 01:19:06","18":"2020-11-08 12:09:17"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p>For example, lets look for the largest <code>file</code> in the <code>data</code> folder.</p>
@@ -509,9 +467,7 @@ library(tidyverse)</code></pre>
 <div id="import-multiple-files" class="section level3" number="1.2.3">
 <h3 number="1.2.3"><span class="header-section-number">1.2.3</span> Import multiple files</h3>
 <p>Lets import all the <code>Lab</code> data files in <code>data</code> using <code>fs</code> and <code>purrr</code>.</p>
-<pre class="r"><code>fs::dir_ls(path = &quot;data&quot;, regexp = &quot;Lab&quot;) %&gt;% 
-    purrr::map_dfr(read_csv, .id = &quot;source&quot;) -&gt; AllLabs
-AllLabs</code></pre>
+<pre class="r"><code>AllLabs</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["source"],"name":[1],"type":["chr"],"align":["left"]},{"label":["lab"],"name":[2],"type":["chr"],"align":["left"]},{"label":["value"],"name":[3],"type":["chr"],"align":["left"]},{"label":["ref"],"name":[4],"type":["chr"],"align":["left"]},{"label":["visit"],"name":[5],"type":["date"],"align":["right"]},{"label":["lab_proc"],"name":[6],"type":["chr"],"align":["left"]}],"data":[{"1":"data/LabData.csv","2":"Albumin","3":"3.5, 4.2, 5.0","4":"3.4 - 5.4 g/dL","5":"<NA>","6":"NA"},{"1":"data/LabData.csv","2":"Potassium, Whole Blood","3":"1.7, 4.3","4":">6.5-7.0 mmol/L","5":"<NA>","6":"NA"},{"1":"data/LabData.csv","2":"% Hemoglobin A1c","3":"4.1, 4.8","4":"6.50%","5":"<NA>","6":"NA"},{"1":"data/LabProc.csv","2":"NA","3":"NA","4":"NA","5":"2020-10-01","6":"Albumin 3.4 g/dL; Potassium 3.8 mmol/L; A1c 4.8 %"},{"1":"data/LabProc.csv","2":"NA","3":"NA","4":"NA","5":"2020-10-10","6":"Albumin 41 g/dL; A1c 5.0 %"},{"1":"data/LabProc.csv","2":"NA","3":"NA","4":"NA","5":"2020-10-20","6":"Albumin 4.8 g/dL; Potassium 2.2 mmol/L"},{"1":"data/SmallLabData.csv","2":"Albumin","3":"NA","4":"3.4-5.4 g/dL","5":"<NA>","6":"NA"},{"1":"data/SmallLabData.csv","2":"Potassium, Whole Blood","3":"NA","4":"6.5-7.0 mmol/L","5":"<NA>","6":"NA"},{"1":"data/SmallLabData.csv","2":"% Hemoglobin A1c","3":"NA","4":"6.50 %","5":"<NA>","6":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
@@ -520,28 +476,27 @@ AllLabs</code></pre>
 <hr />
 </div>
 </div>
-<div id="separate" class="section level2 tabset" number="1.3">
-<h2 class="tabset" number="1.3"><span class="header-section-number">1.3</span> <code>separate()</code></h2>
+</div>
+<div id="reshaping-columns-and-rows" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Reshaping Columns and Rows</h1>
+<div id="separate" class="section level2 tabset" number="2.1">
+<h2 class="tabset" number="2.1"><span class="header-section-number">2.1</span> <code>separate()</code></h2>
 <p>This allows us to split columns apart into multiple variables.</p>
-<div id="separate-ex-1" class="section level3" number="1.3.1">
-<h3 number="1.3.1"><span class="header-section-number">1.3.1</span> <code>separate</code> ex 1</h3>
-<p>Take a look at <code>SmallLabData</code> below (we’ve used some <code>dplyr</code> and the <code>janitor::remove_empty()</code> function to get <code>SmallLabData</code> from <code>AllLabs</code>.</p>
-<pre class="r"><code>AllLabs %&gt;% 
-    filter(source == &quot;data/SmallLabData.csv&quot;) %&gt;% 
-    select(-source) %&gt;% 
-    janitor::remove_empty() -&gt; SmallLabData
-SmallLabData</code></pre>
+<p>Take a look at <code>SmallLabData</code> below (we’ve used some <code>dplyr</code> and the <code>janitor::remove_empty()</code> function to get <code>SmallLabData</code> from <code>AllLabs</code>).</p>
+<pre class="r"><code>SmallLabData</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["lab"],"name":[1],"type":["chr"],"align":["left"]},{"label":["ref"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"Albumin","2":"3.4-5.4 g/dL"},{"1":"Potassium, Whole Blood","2":"6.5-7.0 mmol/L"},{"1":"% Hemoglobin A1c","2":"6.50 %"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
+<div id="exercise" class="section level3" number="2.1.1">
+<h3 number="2.1.1"><span class="header-section-number">2.1.1</span> exercise</h3>
 <p>Separate <code>ref</code> into <code>ref_value</code> and <code>ref_units</code></p>
 <pre class="r"><code>SmallLabData %&gt;% 
     separate(col = ___, into = c(&quot;_______&quot;, &quot;_______&quot;), sep = &quot; &quot;)</code></pre>
 </div>
-<div id="separate-sol-1" class="section level3" number="1.3.2">
-<h3 number="1.3.2"><span class="header-section-number">1.3.2</span> <code>separate</code> sol 1</h3>
+<div id="solution" class="section level3" number="2.1.2">
+<h3 number="2.1.2"><span class="header-section-number">2.1.2</span> solution</h3>
 <pre class="r"><code>SmallLabData %&gt;% 
     separate(col = ref, into = c(&quot;ref_value&quot;, &quot;ref_units&quot;), sep = &quot; &quot;)</code></pre>
 <div data-pagedtable="false">
@@ -552,29 +507,24 @@ SmallLabData</code></pre>
 <hr />
 </div>
 </div>
-<div id="separate_rows" class="section level2 tabset" number="1.4">
-<h2 class="tabset" number="1.4"><span class="header-section-number">1.4</span> <code>separate_rows()</code></h2>
+<div id="separate_rows" class="section level2 tabset" number="2.2">
+<h2 class="tabset" number="2.2"><span class="header-section-number">2.2</span> <code>separate_rows()</code></h2>
 <p><code>separate_rows()</code> is similar to <code>separate()</code>, but drops the values down the rows. This is commonly used when we have more than one value in each column.</p>
 <p>Take a look at <code>LabData</code> below.</p>
-<pre class="r"><code>AllLabs %&gt;% 
-    filter(source == &quot;data/LabData.csv&quot;) %&gt;% 
-    select(-source) %&gt;% 
-    janitor::remove_empty() -&gt; LabData
-
- LabData</code></pre>
+<pre class="r"><code> LabData</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["lab"],"name":[1],"type":["chr"],"align":["left"]},{"label":["value"],"name":[2],"type":["chr"],"align":["left"]},{"label":["ref"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"Albumin","2":"3.5, 4.2, 5.0","3":"3.4 - 5.4 g/dL"},{"1":"Potassium, Whole Blood","2":"1.7, 4.3","3":">6.5-7.0 mmol/L"},{"1":"% Hemoglobin A1c","2":"4.1, 4.8","3":"6.50%"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<div id="separate_rows-ex-1" class="section level3" number="1.4.1">
-<h3 number="1.4.1"><span class="header-section-number">1.4.1</span> <code>separate_rows</code> ex 1</h3>
+<div id="exercise-1" class="section level3" number="2.2.1">
+<h3 number="2.2.1"><span class="header-section-number">2.2.1</span> exercise</h3>
 <p>Put all the <code>value</code>s into their own cell, and make sure the new variable is numeric.</p>
 <pre class="r"><code>LabData %&gt;% 
   separate_rows(_____, sep = _____, convert = TRUE)</code></pre>
 </div>
-<div id="separate_rows-sol-1" class="section level3" number="1.4.2">
-<h3 number="1.4.2"><span class="header-section-number">1.4.2</span> <code>separate_rows</code> sol 1</h3>
+<div id="separate_rows-sol-1" class="section level3" number="2.2.2">
+<h3 number="2.2.2"><span class="header-section-number">2.2.2</span> <code>separate_rows</code> sol 1</h3>
 <p>Note the <code>convert</code> argument to make <code>value</code> numeric.</p>
 <pre class="r"><code>LabData %&gt;% 
   separate_rows(value, sep = &quot;, &quot;, convert = TRUE)</code></pre>
@@ -586,45 +536,24 @@ SmallLabData</code></pre>
 <hr />
 </div>
 </div>
-<div id="unite" class="section level2 tabset" number="1.5">
-<h2 class="tabset" number="1.5"><span class="header-section-number">1.5</span> <code>unite()</code></h2>
+<div id="unite" class="section level2 tabset" number="2.3">
+<h2 class="tabset" number="2.3"><span class="header-section-number">2.3</span> <code>unite()</code></h2>
 <p>Just like <code>separate</code>/<code>separate_rows</code> allows us to split up columns, <code>unite()</code> lets us stick them back together!</p>
 <p>Take a look at <code>LabProc</code>.</p>
-<pre class="r"><code>AllLabs %&gt;% 
-    filter(source == &quot;data/LabProc.csv&quot;) %&gt;% 
-    select(-source) %&gt;% 
-    janitor::remove_empty() -&gt; LabProc
-LabProc</code></pre>
+<pre class="r"><code>LabProc</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["visit"],"name":[1],"type":["date"],"align":["right"]},{"label":["lab_proc"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"2020-10-01","2":"Albumin 3.4 g/dL; Potassium 3.8 mmol/L; A1c 4.8 %"},{"1":"2020-10-10","2":"Albumin 41 g/dL; A1c 5.0 %"},{"1":"2020-10-20","2":"Albumin 4.8 g/dL; Potassium 2.2 mmol/L"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<div id="unite-ex-1" class="section level3" number="1.5.1">
-<h3 number="1.5.1"><span class="header-section-number">1.5.1</span> <code>unite</code> ex 1</h3>
+<div id="exercise-2" class="section level3" number="2.3.1">
+<h3 number="2.3.1"><span class="header-section-number">2.3.1</span> exercise</h3>
 <p>Separate the labs from each other, and drop them down the rows.</p>
 <pre class="r"><code>LabProc %&gt;% 
     separate_rows(lab_proc, sep = &quot;___&quot;)</code></pre>
 </div>
-<div id="unite-ex-2" class="section level3" number="1.5.2">
-<h3 number="1.5.2"><span class="header-section-number">1.5.2</span> <code>unite</code> ex 2</h3>
-<p>Put <code>lab</code>, <code>value</code>, and <code>units</code> in to their own columns.</p>
-<pre class="r"><code>LabProc %&gt;% 
-    separate_rows(lab_proc, sep = &quot;___&quot;) %&gt;% 
-    separate(col = lab_proc,into = c(&#39;__&#39;, &#39;_____&#39;, &#39;_____&#39;), 
-           sep = &quot; &quot;, convert = ____)</code></pre>
-</div>
-<div id="unite-ex-3" class="section level3" number="1.5.3">
-<h3 number="1.5.3"><span class="header-section-number">1.5.3</span> <code>unite</code> ex 3</h3>
-<p>Unite <code>lab</code>, <code>value</code> and <code>units</code> into <code>lab_name</code> (don’t remove the previous columns with <code>remove = FALSE</code>).</p>
-<pre class="r"><code>LabProc %&gt;% 
-    separate_rows(lab_proc, sep = &quot;___&quot;) %&gt;% 
-    separate(col = lab_proc,into = c(&#39;__&#39;, &#39;_____&#39;, &#39;_____&#39;), 
-           sep = &quot; &quot;, convert = ____)
-    unite(col = &quot;_______&quot;, lab:units, sep = &quot; &quot;, remove = _____)</code></pre>
-</div>
-<div id="unite-sol-1" class="section level3" number="1.5.4">
-<h3 number="1.5.4"><span class="header-section-number">1.5.4</span> <code>unite</code> sol 1</h3>
+<div id="solution-1" class="section level3" number="2.3.2">
+<h3 number="2.3.2"><span class="header-section-number">2.3.2</span> solution</h3>
 <p>Separate the labs from each other, and drop them down the rows.</p>
 <pre class="r"><code>LabProc %&gt;% 
      separate_rows(lab_proc, sep = &quot;; &quot;) </code></pre>
@@ -634,8 +563,16 @@ LabProc</code></pre>
   </script>
 </div>
 </div>
-<div id="unite-sol-2" class="section level3" number="1.5.5">
-<h3 number="1.5.5"><span class="header-section-number">1.5.5</span> <code>unite</code> sol 2</h3>
+<div id="exercise-3" class="section level3" number="2.3.3">
+<h3 number="2.3.3"><span class="header-section-number">2.3.3</span> exercise</h3>
+<p>Put <code>lab</code>, <code>value</code>, and <code>units</code> in to their own columns.</p>
+<pre class="r"><code>LabProc %&gt;% 
+    separate_rows(lab_proc, sep = &quot;___&quot;) %&gt;% 
+    separate(col = lab_proc,into = c(&#39;__&#39;, &#39;_____&#39;, &#39;_____&#39;), 
+           sep = &quot; &quot;, convert = ____)</code></pre>
+</div>
+<div id="solution-2" class="section level3" number="2.3.4">
+<h3 number="2.3.4"><span class="header-section-number">2.3.4</span> solution</h3>
 <p>Put <code>lab</code>, <code>value</code>, and <code>units</code> in to their own columns.</p>
 <pre class="r"><code>LabProc %&gt;% 
      separate_rows(lab_proc, sep = &quot;; &quot;) %&gt;% 
@@ -647,8 +584,17 @@ LabProc</code></pre>
   </script>
 </div>
 </div>
-<div id="unite-sol-3" class="section level3" number="1.5.6">
-<h3 number="1.5.6"><span class="header-section-number">1.5.6</span> <code>unite</code> sol 3</h3>
+<div id="exercise-4" class="section level3" number="2.3.5">
+<h3 number="2.3.5"><span class="header-section-number">2.3.5</span> exercise</h3>
+<p>Unite <code>lab</code>, <code>value</code> and <code>units</code> into <code>lab_name</code> (don’t remove the previous columns with <code>remove = FALSE</code>).</p>
+<pre class="r"><code>LabProc %&gt;% 
+    separate_rows(lab_proc, sep = &quot;___&quot;) %&gt;% 
+    separate(col = lab_proc,into = c(&#39;__&#39;, &#39;_____&#39;, &#39;_____&#39;), 
+           sep = &quot; &quot;, convert = ____)
+    unite(col = &quot;_______&quot;, lab:units, sep = &quot; &quot;, remove = _____)</code></pre>
+</div>
+<div id="solution-3" class="section level3" number="2.3.6">
+<h3 number="2.3.6"><span class="header-section-number">2.3.6</span> solution</h3>
 <p>Unite <code>lab</code>, <code>value</code> and <code>units</code> into <code>lab_name</code> (don’t remove the previous columns with <code>remove = FALSE</code>).</p>
 <pre class="r"><code>LabProc %&gt;% 
      separate_rows(lab_proc, sep = &quot;; &quot;) %&gt;% 
@@ -663,8 +609,166 @@ LabProc</code></pre>
 <hr />
 </div>
 </div>
-<div id="unnest-use-case" class="section level2" number="1.6">
-<h2 number="1.6"><span class="header-section-number">1.6</span> <code>unnest()</code> use case</h2>
+</div>
+<div id="joins" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Joins</h1>
+<p>Joins give us the ability to combine multiple datasets on a common column. We’re going to be using the <a href="https://github.com/gadenbuie/starwarsdb"><code>starwarsdb</code> package</a>, which contains data from the <a href="https://swapi.dev/">Star Wars API</a>.</p>
+<p>We’ll load the data below:</p>
+<pre class="r"><code>library(starwarsdb)
+library(dm)</code></pre>
+<div id="starwarsdb" class="section level2 tabset" number="3.1">
+<h2 class="tabset" number="3.1"><span class="header-section-number">3.1</span> <code>starwarsdb</code></h2>
+<p>The code below creates and displays the data model for the tables in this package</p>
+<pre class="r"><code>StarWarsDataModel &lt;- dm_draw(dm = starwars_dm(), 
+                             graph_name = &quot;StarWarsDataModel&quot;)
+StarWarsDataModel</code></pre>
+<div id="htmlwidget-7d3ceed57a20db10219d" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7d3ceed57a20db10219d">{"x":{"diagram":"#data_model\ndigraph {\ngraph [rankdir=LR tooltip=\"StarWarsDataModel\" ]\n\nnode [margin=0 fontcolor = \"#444444\" ]\n\nedge [color = \"#555555\", arrowsize = 1, ]\n\npack=true\npackmode= \"node\"\n\n  \"films\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#818478AA\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#C2C7B5FF\" BORDER=\"0\"><FONT COLOR=\"#000000\">films<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F2F3F0FF\" PORT=\"title\"><U>title<\/U><\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"films_people\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#818478AA\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#C2C7B5FF\" BORDER=\"0\"><FONT COLOR=\"#000000\">films_people<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F2F3F0FF\" PORT=\"title\">title<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F2F3F0FF\" PORT=\"character\">character<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"films_planets\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#818478AA\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#C2C7B5FF\" BORDER=\"0\"><FONT COLOR=\"#000000\">films_planets<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F2F3F0FF\" PORT=\"title\">title<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F2F3F0FF\" PORT=\"planet\">planet<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"films_vehicles\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#818478AA\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#C2C7B5FF\" BORDER=\"0\"><FONT COLOR=\"#000000\">films_vehicles<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F2F3F0FF\" PORT=\"title\">title<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F2F3F0FF\" PORT=\"vehicle\">vehicle<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"people\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#496567AA\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#6E989BFF\" BORDER=\"0\"><FONT COLOR=\"#FFFFFF\">people<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#E2EAEBFF\" PORT=\"name\"><U>name<\/U><\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#E2EAEBFF\" PORT=\"homeworld\">homeworld<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#E2EAEBFF\" PORT=\"species\">species<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"pilots\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#496567AA\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#6E989BFF\" BORDER=\"0\"><FONT COLOR=\"#FFFFFF\">pilots<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#E2EAEBFF\" PORT=\"pilot\">pilot<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#E2EAEBFF\" PORT=\"vehicle\">vehicle<\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"planets\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#7D2E0AAA\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#BC4610FF\" BORDER=\"0\"><FONT COLOR=\"#FFFFFF\">planets<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F1DACFFF\" PORT=\"name\"><U>name<\/U><\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"species\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#7D563AAA\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#BC8258FF\" BORDER=\"0\"><FONT COLOR=\"#FFFFFF\">species<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#F1E6DDFF\" PORT=\"name\"><U>name<\/U><\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n  \"vehicles\" [label = <<TABLE ALIGN=\"LEFT\" BORDER=\"1\" CELLBORDER=\"0\" CELLSPACING=\"0\" COLOR=\"#4B3529AA\">\n    <TR>\n      <TD COLSPAN=\"1\" BGCOLOR=\"#71503EFF\" BORDER=\"0\"><FONT COLOR=\"#FFFFFF\">vehicles<\/FONT>\n<\/TD>\n    <\/TR>\n    <TR>\n      <TD ALIGN=\"LEFT\" BGCOLOR=\"#E2DCD8FF\" PORT=\"name\"><U>name<\/U><\/TD>\n    <\/TR>\n  <\/TABLE>>, shape = \"plaintext\"] \n\n\"films_people\":\"title\"->\"films\":\"title\"\n\"films_planets\":\"title\"->\"films\":\"title\"\n\"films_vehicles\":\"title\"->\"films\":\"title\"\n\"films_people\":\"character\"->\"people\":\"name\"\n\"pilots\":\"pilot\"->\"people\":\"name\"\n\"films_planets\":\"planet\"->\"planets\":\"name\"\n\"people\":\"homeworld\"->\"planets\":\"name\"\n\"people\":\"species\"->\"species\":\"name\"\n\"films_vehicles\":\"vehicle\"->\"vehicles\":\"name\"\n\"pilots\":\"vehicle\"->\"vehicles\":\"name\"\n}","config":{"engine":null,"options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="exercise-5" class="section level3" number="3.1.1">
+<h3 number="3.1.1"><span class="header-section-number">3.1.1</span> exercise</h3>
+<p>Load the <code>starwarsdb::films</code> dataset, removing the <code>opening_crawl</code> column, and filter to only episodes 4-6. Store these data in <code>StarWarsFilms</code></p>
+<pre class="r"><code>StarWarsFilms &lt;- starwarsdb::films %&gt;% 
+                    select(-____________) %&gt;% 
+                    filter(episode_id &gt;= ___ &amp; episode_id &lt;= ___)
+StarWarsFilms</code></pre>
+</div>
+<div id="solution-4" class="section level3" number="3.1.2">
+<h3 number="3.1.2"><span class="header-section-number">3.1.2</span> solution</h3>
+<pre class="r"><code>StarWarsFilms &lt;- starwarsdb::films %&gt;% 
+                    select(-c(opening_crawl, director, producer)) %&gt;% 
+                    filter(episode_id &gt;= 4 &amp; episode_id &lt;= 6)
+StarWarsFilms</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["title"],"name":[1],"type":["chr"],"align":["left"]},{"label":["episode_id"],"name":[2],"type":["int"],"align":["right"]},{"label":["release_date"],"name":[3],"type":["date"],"align":["right"]}],"data":[{"1":"A New Hope","2":"4","3":"1977-05-25"},{"1":"The Empire Strikes Back","2":"5","3":"1980-05-17"},{"1":"Return of the Jedi","2":"6","3":"1983-05-25"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>The first join we will cover is <code>dplyr::left_join()</code>.</p>
+</div>
+</div>
+<div id="left_join" class="section level2 tabset" number="3.2">
+<h2 class="tabset" number="3.2"><span class="header-section-number">3.2</span> <code>left_join</code></h2>
+<p>A <code>left_join</code> keeps all of <code>x</code>, and joins it to all matching rows from dataset <code>y</code></p>
+<div id="exercise-6" class="section level3" number="3.2.1">
+<h3 number="3.2.1"><span class="header-section-number">3.2.1</span> exercise</h3>
+<p>Left-join <code>StarWarsFilms</code> to <code>starwarsdb::films_vehicles</code> on <code>"title"</code>, then <code>select()</code> the <code>vehicle</code> column, then <code>everything()</code> else.</p>
+<p>Assign to <code>StarWarsFilmVeh</code></p>
+<pre class="r"><code>left_join(x = _____________, 
+          y = starwarsdb::films_vehicles, 
+          by = ______) %&gt;% 
+    select(_____________, 
+           everything()) -&gt; StarWarsFilmVeh
+StarWarsFilmVeh</code></pre>
+</div>
+<div id="solution-5" class="section level3" number="3.2.2">
+<h3 number="3.2.2"><span class="header-section-number">3.2.2</span> solution</h3>
+<p>See below:</p>
+<pre class="r"><code>left_join(x = StarWarsFilms, 
+          y = starwarsdb::films_vehicles, 
+          by = &quot;title&quot;) %&gt;% 
+  select(vehicle, 
+         everything()) -&gt; StarWarsFilmVeh
+StarWarsFilmVeh</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["vehicle"],"name":[1],"type":["chr"],"align":["left"]},{"label":["title"],"name":[2],"type":["chr"],"align":["left"]},{"label":["episode_id"],"name":[3],"type":["int"],"align":["right"]},{"label":["release_date"],"name":[4],"type":["date"],"align":["right"]}],"data":[{"1":"CR90 corvette","2":"A New Hope","3":"4","4":"1977-05-25"},{"1":"Star Destroyer","2":"A New Hope","3":"4","4":"1977-05-25"},{"1":"Sentinel-class landing craft","2":"A New Hope","3":"4","4":"1977-05-25"},{"1":"Death Star","2":"A New Hope","3":"4","4":"1977-05-25"},{"1":"Millennium Falcon","2":"A New Hope","3":"4","4":"1977-05-25"},{"1":"Y-wing","2":"A New Hope","3":"4","4":"1977-05-25"},{"1":"X-wing","2":"A New Hope","3":"4","4":"1977-05-25"},{"1":"TIE Advanced x1","2":"A New Hope","3":"4","4":"1977-05-25"},{"1":"Sand Crawler","2":"A New Hope","3":"4","4":"1977-05-25"},{"1":"T-16 skyhopper","2":"A New Hope","3":"4","4":"1977-05-25"},{"1":"X-34 landspeeder","2":"A New Hope","3":"4","4":"1977-05-25"},{"1":"TIE/LN starfighter","2":"A New Hope","3":"4","4":"1977-05-25"},{"1":"Star Destroyer","2":"The Empire Strikes Back","3":"5","4":"1980-05-17"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17"},{"1":"Y-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17"},{"1":"Executor","2":"The Empire Strikes Back","3":"5","4":"1980-05-17"},{"1":"Rebel transport","2":"The Empire Strikes Back","3":"5","4":"1980-05-17"},{"1":"Slave 1","2":"The Empire Strikes Back","3":"5","4":"1980-05-17"},{"1":"Imperial shuttle","2":"The Empire Strikes Back","3":"5","4":"1980-05-17"},{"1":"EF76 Nebulon-B escort frigate","2":"The Empire Strikes Back","3":"5","4":"1980-05-17"},{"1":"TIE/LN starfighter","2":"The Empire Strikes Back","3":"5","4":"1980-05-17"},{"1":"Snowspeeder","2":"The Empire Strikes Back","3":"5","4":"1980-05-17"},{"1":"TIE bomber","2":"The Empire Strikes Back","3":"5","4":"1980-05-17"},{"1":"AT-AT","2":"The Empire Strikes Back","3":"5","4":"1980-05-17"},{"1":"AT-ST","2":"The Empire Strikes Back","3":"5","4":"1980-05-17"},{"1":"Storm IV Twin-Pod cloud car","2":"The Empire Strikes Back","3":"5","4":"1980-05-17"},{"1":"CR90 corvette","2":"Return of the Jedi","3":"6","4":"1983-05-25"},{"1":"Star Destroyer","2":"Return of the Jedi","3":"6","4":"1983-05-25"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25"},{"1":"Y-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25"},{"1":"Executor","2":"Return of the Jedi","3":"6","4":"1983-05-25"},{"1":"Rebel transport","2":"Return of the Jedi","3":"6","4":"1983-05-25"},{"1":"Imperial shuttle","2":"Return of the Jedi","3":"6","4":"1983-05-25"},{"1":"EF76 Nebulon-B escort frigate","2":"Return of the Jedi","3":"6","4":"1983-05-25"},{"1":"Calamari Cruiser","2":"Return of the Jedi","3":"6","4":"1983-05-25"},{"1":"A-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25"},{"1":"B-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25"},{"1":"TIE/LN starfighter","2":"Return of the Jedi","3":"6","4":"1983-05-25"},{"1":"TIE bomber","2":"Return of the Jedi","3":"6","4":"1983-05-25"},{"1":"AT-AT","2":"Return of the Jedi","3":"6","4":"1983-05-25"},{"1":"AT-ST","2":"Return of the Jedi","3":"6","4":"1983-05-25"},{"1":"Sail barge","2":"Return of the Jedi","3":"6","4":"1983-05-25"},{"1":"Bantha-II cargo skiff","2":"Return of the Jedi","3":"6","4":"1983-05-25"},{"1":"TIE/IN interceptor","2":"Return of the Jedi","3":"6","4":"1983-05-25"},{"1":"Imperial Speeder Bike","2":"Return of the Jedi","3":"6","4":"1983-05-25"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div id="inner_join" class="section level2 tabset" number="3.3">
+<h2 class="tabset" number="3.3"><span class="header-section-number">3.3</span> <code>inner_join</code></h2>
+<p>The <code>inner_join()</code> joins dataset <code>x</code> and <code>y</code>, and keeps only matching rows from both.</p>
+<div id="exercise-7" class="section level3" number="3.3.1">
+<h3 number="3.3.1"><span class="header-section-number">3.3.1</span> exercise</h3>
+<p>Use an <code>inner_join</code> to join <code>StarWarsFilmVeh</code> to <code>starwarsdb::pilots</code> on <code>"vehicle"</code> and assign it to <code>StarWarsFilmVehPil</code>.</p>
+<pre class="r"><code>inner_join(x = StarWarsFilmVeh, 
+           y = _________, 
+           by = _________) -&gt; _____________
+StarWarsFilmVehPil</code></pre>
+</div>
+<div id="solution-6" class="section level3" number="3.3.2">
+<h3 number="3.3.2"><span class="header-section-number">3.3.2</span> solution</h3>
+<p>See below:</p>
+<pre class="r"><code>inner_join(x = StarWarsFilmVeh, 
+           y = starwarsdb::pilots, 
+           by = &quot;vehicle&quot;) -&gt; StarWarsFilmVehPil
+StarWarsFilmVehPil</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["vehicle"],"name":[1],"type":["chr"],"align":["left"]},{"label":["title"],"name":[2],"type":["chr"],"align":["left"]},{"label":["episode_id"],"name":[3],"type":["int"],"align":["right"]},{"label":["release_date"],"name":[4],"type":["date"],"align":["right"]},{"label":["pilot"],"name":[5],"type":["chr"],"align":["left"]}],"data":[{"1":"Millennium Falcon","2":"A New Hope","3":"4","4":"1977-05-25","5":"Chewbacca"},{"1":"Millennium Falcon","2":"A New Hope","3":"4","4":"1977-05-25","5":"Han Solo"},{"1":"Millennium Falcon","2":"A New Hope","3":"4","4":"1977-05-25","5":"Lando Calrissian"},{"1":"Millennium Falcon","2":"A New Hope","3":"4","4":"1977-05-25","5":"Nien Nunb"},{"1":"X-wing","2":"A New Hope","3":"4","4":"1977-05-25","5":"Luke Skywalker"},{"1":"X-wing","2":"A New Hope","3":"4","4":"1977-05-25","5":"Biggs Darklighter"},{"1":"X-wing","2":"A New Hope","3":"4","4":"1977-05-25","5":"Wedge Antilles"},{"1":"X-wing","2":"A New Hope","3":"4","4":"1977-05-25","5":"Jek Tono Porkins"},{"1":"TIE Advanced x1","2":"A New Hope","3":"4","4":"1977-05-25","5":"Darth Vader"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Chewbacca"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Han Solo"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Lando Calrissian"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Nien Nunb"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Luke Skywalker"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Biggs Darklighter"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Wedge Antilles"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Jek Tono Porkins"},{"1":"Slave 1","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Boba Fett"},{"1":"Imperial shuttle","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Luke Skywalker"},{"1":"Imperial shuttle","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Chewbacca"},{"1":"Imperial shuttle","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Han Solo"},{"1":"Snowspeeder","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Luke Skywalker"},{"1":"Snowspeeder","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Wedge Antilles"},{"1":"AT-ST","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Chewbacca"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Chewbacca"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Han Solo"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Lando Calrissian"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Nien Nunb"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Luke Skywalker"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Biggs Darklighter"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Wedge Antilles"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Jek Tono Porkins"},{"1":"Imperial shuttle","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Luke Skywalker"},{"1":"Imperial shuttle","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Chewbacca"},{"1":"Imperial shuttle","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Han Solo"},{"1":"A-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Arvel Crynyd"},{"1":"AT-ST","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Chewbacca"},{"1":"Imperial Speeder Bike","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Luke Skywalker"},{"1":"Imperial Speeder Bike","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Leia Organa"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div id="right_join" class="section level2 tabset" number="3.4">
+<h2 class="tabset" number="3.4"><span class="header-section-number">3.4</span> <code>right_join</code></h2>
+<p>The <code>right_join()</code> includes all the rows in dataset <code>y</code>, and joins it the matching rows in dataset <code>x</code>.</p>
+<div id="exercise-8" class="section level3" number="3.4.1">
+<h3 number="3.4.1"><span class="header-section-number">3.4.1</span> exercise</h3>
+<p>Use a <code>right_join()</code> to join <code>StarWarsFilmVehPlt</code> to <code>starwarsdb::films_planets</code> on <code>"title"</code>, keeping all the rows in <code>starwarsdb::films_planets</code>. Use <code>select()</code> to rename <code>planet</code> to <code>film_planet</code> and assign this to <code>StarWarsFilmVehPltPlnt</code></p>
+<pre class="r"><code>right_join(x = __________________, 
+             y = __________________, 
+             by = &quot;title&quot;) %&gt;% 
+  select(vehicle:release_date,
+         film_planet = _______,
+         pilot) -&gt; StarWarsFilmVehPltPlnt</code></pre>
+</div>
+<div id="solution-7" class="section level3" number="3.4.2">
+<h3 number="3.4.2"><span class="header-section-number">3.4.2</span> solution</h3>
+<p>See below:</p>
+<pre class="r"><code>right_join(x = StarWarsFilmVehPil, 
+           y = starwarsdb::films_planets, 
+           by = &quot;title&quot;) %&gt;% 
+  select(vehicle:release_date,
+         film_planet = planet, 
+         pilot) -&gt; StarWarsFilmVehPltPlnt
+StarWarsFilmVehPltPlnt</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["vehicle"],"name":[1],"type":["chr"],"align":["left"]},{"label":["title"],"name":[2],"type":["chr"],"align":["left"]},{"label":["episode_id"],"name":[3],"type":["int"],"align":["right"]},{"label":["release_date"],"name":[4],"type":["date"],"align":["right"]},{"label":["film_planet"],"name":[5],"type":["chr"],"align":["left"]},{"label":["pilot"],"name":[6],"type":["chr"],"align":["left"]}],"data":[{"1":"Millennium Falcon","2":"A New Hope","3":"4","4":"1977-05-25","5":"Tatooine","6":"Chewbacca"},{"1":"Millennium Falcon","2":"A New Hope","3":"4","4":"1977-05-25","5":"Alderaan","6":"Chewbacca"},{"1":"Millennium Falcon","2":"A New Hope","3":"4","4":"1977-05-25","5":"Yavin IV","6":"Chewbacca"},{"1":"Millennium Falcon","2":"A New Hope","3":"4","4":"1977-05-25","5":"Tatooine","6":"Han Solo"},{"1":"Millennium Falcon","2":"A New Hope","3":"4","4":"1977-05-25","5":"Alderaan","6":"Han Solo"},{"1":"Millennium Falcon","2":"A New Hope","3":"4","4":"1977-05-25","5":"Yavin IV","6":"Han Solo"},{"1":"Millennium Falcon","2":"A New Hope","3":"4","4":"1977-05-25","5":"Tatooine","6":"Lando Calrissian"},{"1":"Millennium Falcon","2":"A New Hope","3":"4","4":"1977-05-25","5":"Alderaan","6":"Lando Calrissian"},{"1":"Millennium Falcon","2":"A New Hope","3":"4","4":"1977-05-25","5":"Yavin IV","6":"Lando Calrissian"},{"1":"Millennium Falcon","2":"A New Hope","3":"4","4":"1977-05-25","5":"Tatooine","6":"Nien Nunb"},{"1":"Millennium Falcon","2":"A New Hope","3":"4","4":"1977-05-25","5":"Alderaan","6":"Nien Nunb"},{"1":"Millennium Falcon","2":"A New Hope","3":"4","4":"1977-05-25","5":"Yavin IV","6":"Nien Nunb"},{"1":"X-wing","2":"A New Hope","3":"4","4":"1977-05-25","5":"Tatooine","6":"Luke Skywalker"},{"1":"X-wing","2":"A New Hope","3":"4","4":"1977-05-25","5":"Alderaan","6":"Luke Skywalker"},{"1":"X-wing","2":"A New Hope","3":"4","4":"1977-05-25","5":"Yavin IV","6":"Luke Skywalker"},{"1":"X-wing","2":"A New Hope","3":"4","4":"1977-05-25","5":"Tatooine","6":"Biggs Darklighter"},{"1":"X-wing","2":"A New Hope","3":"4","4":"1977-05-25","5":"Alderaan","6":"Biggs Darklighter"},{"1":"X-wing","2":"A New Hope","3":"4","4":"1977-05-25","5":"Yavin IV","6":"Biggs Darklighter"},{"1":"X-wing","2":"A New Hope","3":"4","4":"1977-05-25","5":"Tatooine","6":"Wedge Antilles"},{"1":"X-wing","2":"A New Hope","3":"4","4":"1977-05-25","5":"Alderaan","6":"Wedge Antilles"},{"1":"X-wing","2":"A New Hope","3":"4","4":"1977-05-25","5":"Yavin IV","6":"Wedge Antilles"},{"1":"X-wing","2":"A New Hope","3":"4","4":"1977-05-25","5":"Tatooine","6":"Jek Tono Porkins"},{"1":"X-wing","2":"A New Hope","3":"4","4":"1977-05-25","5":"Alderaan","6":"Jek Tono Porkins"},{"1":"X-wing","2":"A New Hope","3":"4","4":"1977-05-25","5":"Yavin IV","6":"Jek Tono Porkins"},{"1":"TIE Advanced x1","2":"A New Hope","3":"4","4":"1977-05-25","5":"Tatooine","6":"Darth Vader"},{"1":"TIE Advanced x1","2":"A New Hope","3":"4","4":"1977-05-25","5":"Alderaan","6":"Darth Vader"},{"1":"TIE Advanced x1","2":"A New Hope","3":"4","4":"1977-05-25","5":"Yavin IV","6":"Darth Vader"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Hoth","6":"Chewbacca"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Dagobah","6":"Chewbacca"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Bespin","6":"Chewbacca"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Ord Mantell","6":"Chewbacca"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Hoth","6":"Han Solo"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Dagobah","6":"Han Solo"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Bespin","6":"Han Solo"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Ord Mantell","6":"Han Solo"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Hoth","6":"Lando Calrissian"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Dagobah","6":"Lando Calrissian"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Bespin","6":"Lando Calrissian"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Ord Mantell","6":"Lando Calrissian"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Hoth","6":"Nien Nunb"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Dagobah","6":"Nien Nunb"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Bespin","6":"Nien Nunb"},{"1":"Millennium Falcon","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Ord Mantell","6":"Nien Nunb"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Hoth","6":"Luke Skywalker"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Dagobah","6":"Luke Skywalker"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Bespin","6":"Luke Skywalker"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Ord Mantell","6":"Luke Skywalker"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Hoth","6":"Biggs Darklighter"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Dagobah","6":"Biggs Darklighter"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Bespin","6":"Biggs Darklighter"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Ord Mantell","6":"Biggs Darklighter"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Hoth","6":"Wedge Antilles"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Dagobah","6":"Wedge Antilles"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Bespin","6":"Wedge Antilles"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Ord Mantell","6":"Wedge Antilles"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Hoth","6":"Jek Tono Porkins"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Dagobah","6":"Jek Tono Porkins"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Bespin","6":"Jek Tono Porkins"},{"1":"X-wing","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Ord Mantell","6":"Jek Tono Porkins"},{"1":"Slave 1","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Hoth","6":"Boba Fett"},{"1":"Slave 1","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Dagobah","6":"Boba Fett"},{"1":"Slave 1","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Bespin","6":"Boba Fett"},{"1":"Slave 1","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Ord Mantell","6":"Boba Fett"},{"1":"Imperial shuttle","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Hoth","6":"Luke Skywalker"},{"1":"Imperial shuttle","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Dagobah","6":"Luke Skywalker"},{"1":"Imperial shuttle","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Bespin","6":"Luke Skywalker"},{"1":"Imperial shuttle","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Ord Mantell","6":"Luke Skywalker"},{"1":"Imperial shuttle","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Hoth","6":"Chewbacca"},{"1":"Imperial shuttle","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Dagobah","6":"Chewbacca"},{"1":"Imperial shuttle","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Bespin","6":"Chewbacca"},{"1":"Imperial shuttle","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Ord Mantell","6":"Chewbacca"},{"1":"Imperial shuttle","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Hoth","6":"Han Solo"},{"1":"Imperial shuttle","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Dagobah","6":"Han Solo"},{"1":"Imperial shuttle","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Bespin","6":"Han Solo"},{"1":"Imperial shuttle","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Ord Mantell","6":"Han Solo"},{"1":"Snowspeeder","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Hoth","6":"Luke Skywalker"},{"1":"Snowspeeder","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Dagobah","6":"Luke Skywalker"},{"1":"Snowspeeder","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Bespin","6":"Luke Skywalker"},{"1":"Snowspeeder","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Ord Mantell","6":"Luke Skywalker"},{"1":"Snowspeeder","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Hoth","6":"Wedge Antilles"},{"1":"Snowspeeder","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Dagobah","6":"Wedge Antilles"},{"1":"Snowspeeder","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Bespin","6":"Wedge Antilles"},{"1":"Snowspeeder","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Ord Mantell","6":"Wedge Antilles"},{"1":"AT-ST","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Hoth","6":"Chewbacca"},{"1":"AT-ST","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Dagobah","6":"Chewbacca"},{"1":"AT-ST","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Bespin","6":"Chewbacca"},{"1":"AT-ST","2":"The Empire Strikes Back","3":"5","4":"1980-05-17","5":"Ord Mantell","6":"Chewbacca"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Tatooine","6":"Chewbacca"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Dagobah","6":"Chewbacca"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Endor","6":"Chewbacca"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Naboo","6":"Chewbacca"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Coruscant","6":"Chewbacca"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Tatooine","6":"Han Solo"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Dagobah","6":"Han Solo"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Endor","6":"Han Solo"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Naboo","6":"Han Solo"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Coruscant","6":"Han Solo"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Tatooine","6":"Lando Calrissian"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Dagobah","6":"Lando Calrissian"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Endor","6":"Lando Calrissian"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Naboo","6":"Lando Calrissian"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Coruscant","6":"Lando Calrissian"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Tatooine","6":"Nien Nunb"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Dagobah","6":"Nien Nunb"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Endor","6":"Nien Nunb"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Naboo","6":"Nien Nunb"},{"1":"Millennium Falcon","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Coruscant","6":"Nien Nunb"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Tatooine","6":"Luke Skywalker"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Dagobah","6":"Luke Skywalker"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Endor","6":"Luke Skywalker"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Naboo","6":"Luke Skywalker"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Coruscant","6":"Luke Skywalker"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Tatooine","6":"Biggs Darklighter"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Dagobah","6":"Biggs Darklighter"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Endor","6":"Biggs Darklighter"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Naboo","6":"Biggs Darklighter"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Coruscant","6":"Biggs Darklighter"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Tatooine","6":"Wedge Antilles"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Dagobah","6":"Wedge Antilles"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Endor","6":"Wedge Antilles"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Naboo","6":"Wedge Antilles"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Coruscant","6":"Wedge Antilles"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Tatooine","6":"Jek Tono Porkins"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Dagobah","6":"Jek Tono Porkins"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Endor","6":"Jek Tono Porkins"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Naboo","6":"Jek Tono Porkins"},{"1":"X-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Coruscant","6":"Jek Tono Porkins"},{"1":"Imperial shuttle","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Tatooine","6":"Luke Skywalker"},{"1":"Imperial shuttle","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Dagobah","6":"Luke Skywalker"},{"1":"Imperial shuttle","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Endor","6":"Luke Skywalker"},{"1":"Imperial shuttle","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Naboo","6":"Luke Skywalker"},{"1":"Imperial shuttle","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Coruscant","6":"Luke Skywalker"},{"1":"Imperial shuttle","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Tatooine","6":"Chewbacca"},{"1":"Imperial shuttle","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Dagobah","6":"Chewbacca"},{"1":"Imperial shuttle","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Endor","6":"Chewbacca"},{"1":"Imperial shuttle","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Naboo","6":"Chewbacca"},{"1":"Imperial shuttle","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Coruscant","6":"Chewbacca"},{"1":"Imperial shuttle","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Tatooine","6":"Han Solo"},{"1":"Imperial shuttle","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Dagobah","6":"Han Solo"},{"1":"Imperial shuttle","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Endor","6":"Han Solo"},{"1":"Imperial shuttle","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Naboo","6":"Han Solo"},{"1":"Imperial shuttle","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Coruscant","6":"Han Solo"},{"1":"A-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Tatooine","6":"Arvel Crynyd"},{"1":"A-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Dagobah","6":"Arvel Crynyd"},{"1":"A-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Endor","6":"Arvel Crynyd"},{"1":"A-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Naboo","6":"Arvel Crynyd"},{"1":"A-wing","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Coruscant","6":"Arvel Crynyd"},{"1":"AT-ST","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Tatooine","6":"Chewbacca"},{"1":"AT-ST","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Dagobah","6":"Chewbacca"},{"1":"AT-ST","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Endor","6":"Chewbacca"},{"1":"AT-ST","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Naboo","6":"Chewbacca"},{"1":"AT-ST","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Coruscant","6":"Chewbacca"},{"1":"Imperial Speeder Bike","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Tatooine","6":"Luke Skywalker"},{"1":"Imperial Speeder Bike","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Dagobah","6":"Luke Skywalker"},{"1":"Imperial Speeder Bike","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Endor","6":"Luke Skywalker"},{"1":"Imperial Speeder Bike","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Naboo","6":"Luke Skywalker"},{"1":"Imperial Speeder Bike","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Coruscant","6":"Luke Skywalker"},{"1":"Imperial Speeder Bike","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Tatooine","6":"Leia Organa"},{"1":"Imperial Speeder Bike","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Dagobah","6":"Leia Organa"},{"1":"Imperial Speeder Bike","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Endor","6":"Leia Organa"},{"1":"Imperial Speeder Bike","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Naboo","6":"Leia Organa"},{"1":"Imperial Speeder Bike","2":"Return of the Jedi","3":"6","4":"1983-05-25","5":"Coruscant","6":"Leia Organa"},{"1":"NA","2":"The Phantom Menace","3":"NA","4":"<NA>","5":"Tatooine","6":"NA"},{"1":"NA","2":"The Phantom Menace","3":"NA","4":"<NA>","5":"Naboo","6":"NA"},{"1":"NA","2":"The Phantom Menace","3":"NA","4":"<NA>","5":"Coruscant","6":"NA"},{"1":"NA","2":"Attack of the Clones","3":"NA","4":"<NA>","5":"Tatooine","6":"NA"},{"1":"NA","2":"Attack of the Clones","3":"NA","4":"<NA>","5":"Naboo","6":"NA"},{"1":"NA","2":"Attack of the Clones","3":"NA","4":"<NA>","5":"Coruscant","6":"NA"},{"1":"NA","2":"Attack of the Clones","3":"NA","4":"<NA>","5":"Kamino","6":"NA"},{"1":"NA","2":"Attack of the Clones","3":"NA","4":"<NA>","5":"Geonosis","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Tatooine","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Alderaan","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Dagobah","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Naboo","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Coruscant","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Utapau","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Mustafar","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Kashyyyk","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Polis Massa","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Mygeeto","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Felucia","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Cato Neimoidia","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Saleucami","6":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div id="anti_join" class="section level2 tabset" number="3.5">
+<h2 class="tabset" number="3.5"><span class="header-section-number">3.5</span> <code>anti_join</code></h2>
+<p>The <code>anti_join()</code> keeps all rows in dataset <code>x</code> that <strong>do not</strong> have a match in dataset <code>y</code>. Note the last join created empty values for <code>vehicle</code>, <code>episode_id</code>, <code>release_date</code>, and <code>pilot</code>.</p>
+<pre class="r"><code>StarWarsFilmVehPltPlnt %&gt;% 
+  filter(is.na(episode_id))</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["vehicle"],"name":[1],"type":["chr"],"align":["left"]},{"label":["title"],"name":[2],"type":["chr"],"align":["left"]},{"label":["episode_id"],"name":[3],"type":["int"],"align":["right"]},{"label":["release_date"],"name":[4],"type":["date"],"align":["right"]},{"label":["film_planet"],"name":[5],"type":["chr"],"align":["left"]},{"label":["pilot"],"name":[6],"type":["chr"],"align":["left"]}],"data":[{"1":"NA","2":"The Phantom Menace","3":"NA","4":"<NA>","5":"Tatooine","6":"NA"},{"1":"NA","2":"The Phantom Menace","3":"NA","4":"<NA>","5":"Naboo","6":"NA"},{"1":"NA","2":"The Phantom Menace","3":"NA","4":"<NA>","5":"Coruscant","6":"NA"},{"1":"NA","2":"Attack of the Clones","3":"NA","4":"<NA>","5":"Tatooine","6":"NA"},{"1":"NA","2":"Attack of the Clones","3":"NA","4":"<NA>","5":"Naboo","6":"NA"},{"1":"NA","2":"Attack of the Clones","3":"NA","4":"<NA>","5":"Coruscant","6":"NA"},{"1":"NA","2":"Attack of the Clones","3":"NA","4":"<NA>","5":"Kamino","6":"NA"},{"1":"NA","2":"Attack of the Clones","3":"NA","4":"<NA>","5":"Geonosis","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Tatooine","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Alderaan","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Dagobah","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Naboo","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Coruscant","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Utapau","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Mustafar","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Kashyyyk","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Polis Massa","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Mygeeto","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Felucia","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Cato Neimoidia","6":"NA"},{"1":"NA","2":"Revenge of the Sith","3":"NA","4":"<NA>","5":"Saleucami","6":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div id="exercise-9" class="section level3" number="3.5.1">
+<h3 number="3.5.1"><span class="header-section-number">3.5.1</span> exercise</h3>
+<p>Use the <code>anti_join()</code> to join <code>StarWarsFilmVehPltPlnt</code> to <code>StarWarsFilms</code> and create a dataset with only <code>title</code> and <code>film_planet</code> (<em>these should only contain the <code>title</code>s not in <code>StarWarsFilms</code></em>).</p>
+<pre class="r"><code>anti_join(x = StarWarsFilmVehPltPlnt, 
+            y = ____________, 
+            by = c(&quot;title&quot;, &quot;episode_id&quot;, &quot;release_date&quot;)) %&gt;% 
+  select(________, ________)</code></pre>
+</div>
+<div id="solution-8" class="section level3" number="3.5.2">
+<h3 number="3.5.2"><span class="header-section-number">3.5.2</span> solution</h3>
+<pre class="r"><code>anti_join(x = StarWarsFilmVehPltPlnt, 
+            y = StarWarsFilms, 
+            by = c(&quot;title&quot;, &quot;episode_id&quot;, &quot;release_date&quot;)) %&gt;% 
+  select(title, film_planet)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["title"],"name":[1],"type":["chr"],"align":["left"]},{"label":["film_planet"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"The Phantom Menace","2":"Tatooine"},{"1":"The Phantom Menace","2":"Naboo"},{"1":"The Phantom Menace","2":"Coruscant"},{"1":"Attack of the Clones","2":"Tatooine"},{"1":"Attack of the Clones","2":"Naboo"},{"1":"Attack of the Clones","2":"Coruscant"},{"1":"Attack of the Clones","2":"Kamino"},{"1":"Attack of the Clones","2":"Geonosis"},{"1":"Revenge of the Sith","2":"Tatooine"},{"1":"Revenge of the Sith","2":"Alderaan"},{"1":"Revenge of the Sith","2":"Dagobah"},{"1":"Revenge of the Sith","2":"Naboo"},{"1":"Revenge of the Sith","2":"Coruscant"},{"1":"Revenge of the Sith","2":"Utapau"},{"1":"Revenge of the Sith","2":"Mustafar"},{"1":"Revenge of the Sith","2":"Kashyyyk"},{"1":"Revenge of the Sith","2":"Polis Massa"},{"1":"Revenge of the Sith","2":"Mygeeto"},{"1":"Revenge of the Sith","2":"Felucia"},{"1":"Revenge of the Sith","2":"Cato Neimoidia"},{"1":"Revenge of the Sith","2":"Saleucami"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<hr />
+</div>
+</div>
+</div>
+<div id="nested-data" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Nested data</h1>
+<p>Nested data refers to a dataset in which a column is holding a list of data frames (or <code>tibble</code>s). These can be useful for manipulating data, and we’re going to give an example of using nested data to reshape a column combining two sets of dates.</p>
+<div id="anti-doping-sanctions-database" class="section level2 tabset" number="4.1">
+<h2 class="tabset" number="4.1"><span class="header-section-number">4.1</span> Anti-Doping Sanctions Database</h2>
 <p><code>unnest()</code> deals with nested data, which can be complicated to explain, so we’ll use an example. Run the code below to download data from the <a href="https://www.usada.org/news/sanctions/">Anti-Doping Agency Sanction database</a>.</p>
 <pre class="r"><code>source(&quot;code/01-create-usada-data.R&quot;)</code></pre>
 <p>These data have two dates (<code>original</code> and <code>updated</code>) in a single column (<code>sanction_announced</code>). <strong>We only want <code>updated</code> dates in their own columns.</strong></p>
@@ -674,8 +778,8 @@ LabProc</code></pre>
 {"columns":[{"label":["athlete"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sanction_announced"],"name":[2],"type":["chr"],"align":["left"]},{"label":["sport"],"name":[3],"type":["chr"],"align":["left"]},{"label":["substance_reason"],"name":[4],"type":["chr"],"align":["left"]},{"label":["sanction_terms"],"name":[5],"type":["chr"],"align":["left"]}],"data":[{"1":"fischbach, dylan","2":"original: 12/18/2015; updated: 04/11/2016","3":"paralympic basketball","4":"non-analytical: refusal to submit to sample collection","5":"2-year suspension - loss of results - additional results disqualified"},{"1":"trafeh, mohamed","2":"original: 12/18/2014; updated: 08/25/2015","3":"track and field","4":"non-analytical: use and possession (epo), and evading sample collection","5":"4-year suspension - loss of results"},{"1":"lea, robert","2":"original: 12/17/2015; updated: 02/25/2016","3":"cycling","4":"noroxycodone","5":"6-month suspension - loss of results"},{"1":"young, jerome","2":"original: 11/10/2004; updated: 06/17/2008","3":"track and field","4":"erythropoietin (epo) and non-analytical: use (epo & hgh)","5":"lifetime suspension - loss of results"},{"1":"hay, amy","2":"original: 10/31/2017; updated: 12/16/2019","3":"weightlifting","4":"ostarine","5":"2-year suspension; loss of results; sanction reduced; unretired - eligible to compete starting 07/25/2020"},{"1":"hunter, adam","2":"original: 10/28/2016; updated: 09/26/2018","3":"mixed martial arts","4":"tamoxifen; boldenone, methandienone, drostanolone, and clenbuterol","5":"2-year suspension - loss of results - additional loss of results"},{"1":"tovar, oscar","2":"original: 10/28/2015; updated: 10/04/2016","3":"cycling","4":"androgenic anabolic steroid","5":"2-year suspension - loss of results - additional results disqualified"},{"1":"dotti, juan pablo","2":"original: 10/20/2011; updated: 06/05/2013","3":"cycling","4":"androgenic anabolic steroid & amphetamine","5":"2-year suspension - loss of results; \\n2-year suspension restarted - loss of results"},{"1":"murdock, vince","2":"original: 09/05/2019; updated: 08/26/2020","3":"mixed martial arts","4":"gw1516","5":"20-month suspension - sanction reduced"},{"1":"thomas, tammy","2":"original: 08/30/2002; updated: 02/13/2017","3":"cycling","4":"norbolethone","5":"lifetime ban - loss of results - sanction reduced"},{"1":"orbon, joane","2":"original: 08/12/2019; updated: 09/10/2019","3":"karate","4":"lgd-4033","5":"9-month suspension; loss of results"},{"1":"bailey, ryan","2":"original: 08/03/2017; updated: 12/01/2017","3":"bobsled and skeleton, track and field","4":"1,3-dimethylbutylamine (dmba)","5":"2-year suspension with 161 day credit - loss of results"},{"1":"garcia del moral, luis","2":"original: 07/10/2012;updated: 10/26/2018","3":"cycling - athlete support personnel","4":"non-analytical","5":"5-year suspension"},{"1":"jones, stirley","2":"original: 06/17/2019; updated: 12/16/2019","3":"paralympic track and field","4":"stanozolol","5":"4-year suspension; loss of results"},{"1":"miyao, paulo","2":"original: 05/10/2017;updated: 11/27/2018","3":"brazilian jiu-jitsu","4":"clomiphene","5":"2-year suspension - loss of results; additional 3 months of suspension - loss of results"},{"1":"moffett, shaun","2":"original: 04/24/2018updated: 10/19/2018","3":"cycling","4":"testosterone and clomiphene","5":"21-month suspension - loss of results; additional 3 months of suspension - loss of results"},{"1":"bruyneel, johan","2":"original: 04/22/2014;updated: 10/24/2018","3":"cycling - athlete support personnel","4":"non-analytical: administration and trafficking","5":"lifetime suspension"},{"1":"celaya lazama, pedro","2":"original: 04/22/2014;updated: 10/24/2018","3":"cycling - athlete support personnel","4":"non-analytical","5":"lifetime suspension"},{"1":"marti, jose","2":"original: 04/22/2014;updated: 10/24/2018","3":"cycling - athlete support personnel","4":"non-analytical","5":"15-year suspension"},{"1":"oliveira, flavia","2":"original: 04/13/2010; updated 12/10/2010","3":"cycling","4":"oxilofrine","5":"18-month suspension - loss of results"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<div id="str_split" class="section level3" number="1.6.1">
-<h3 number="1.6.1"><span class="header-section-number">1.6.1</span> <code>str_split</code></h3>
+<div id="str_split" class="section level3" number="4.1.1">
+<h3 number="4.1.1"><span class="header-section-number">4.1.1</span> <code>str_split</code></h3>
 <p>Use the <code>stringr</code> package’s <code>str_split</code> function to split the bad dates on the <code>"updated"</code> pattern.</p>
 <pre class="r"><code>UsadaBadDates %&gt;%
         dplyr::mutate(sanction_dates = 
@@ -689,9 +793,6 @@ LabProc</code></pre>
 {"columns":[{"label":["athlete"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sanction_announced"],"name":[2],"type":["chr"],"align":["left"]},{"label":["sanction_dates"],"name":[3],"type":["list"],"align":["right"]}],"data":[{"1":"fischbach, dylan","2":"original: 12/18/2015; updated: 04/11/2016","3":"<chr [2]>"},{"1":"trafeh, mohamed","2":"original: 12/18/2014; updated: 08/25/2015","3":"<chr [2]>"},{"1":"lea, robert","2":"original: 12/17/2015; updated: 02/25/2016","3":"<chr [2]>"},{"1":"young, jerome","2":"original: 11/10/2004; updated: 06/17/2008","3":"<chr [2]>"},{"1":"hay, amy","2":"original: 10/31/2017; updated: 12/16/2019","3":"<chr [2]>"},{"1":"hunter, adam","2":"original: 10/28/2016; updated: 09/26/2018","3":"<chr [2]>"},{"1":"tovar, oscar","2":"original: 10/28/2015; updated: 10/04/2016","3":"<chr [2]>"},{"1":"dotti, juan pablo","2":"original: 10/20/2011; updated: 06/05/2013","3":"<chr [2]>"},{"1":"murdock, vince","2":"original: 09/05/2019; updated: 08/26/2020","3":"<chr [2]>"},{"1":"thomas, tammy","2":"original: 08/30/2002; updated: 02/13/2017","3":"<chr [2]>"},{"1":"orbon, joane","2":"original: 08/12/2019; updated: 09/10/2019","3":"<chr [2]>"},{"1":"bailey, ryan","2":"original: 08/03/2017; updated: 12/01/2017","3":"<chr [2]>"},{"1":"garcia del moral, luis","2":"original: 07/10/2012;updated: 10/26/2018","3":"<chr [2]>"},{"1":"jones, stirley","2":"original: 06/17/2019; updated: 12/16/2019","3":"<chr [2]>"},{"1":"miyao, paulo","2":"original: 05/10/2017;updated: 11/27/2018","3":"<chr [2]>"},{"1":"moffett, shaun","2":"original: 04/24/2018updated: 10/19/2018","3":"<chr [2]>"},{"1":"bruyneel, johan","2":"original: 04/22/2014;updated: 10/24/2018","3":"<chr [2]>"},{"1":"celaya lazama, pedro","2":"original: 04/22/2014;updated: 10/24/2018","3":"<chr [2]>"},{"1":"marti, jose","2":"original: 04/22/2014;updated: 10/24/2018","3":"<chr [2]>"},{"1":"oliveira, flavia","2":"original: 04/13/2010; updated 12/10/2010","3":"<chr [2]>"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-</div>
-<div id="nested-data" class="section level3" number="1.6.2">
-<h3 number="1.6.2"><span class="header-section-number">1.6.2</span> Nested data</h3>
 <p>This creates a nested column (<code>sanction_dates</code>), which we can deal with by <code>unnest()</code>ing it. Let’s take a better look with <code>listviewer</code> (but only look at <code>athlete</code> and <code>sanction_dates</code>).</p>
 <pre class="r"><code>library(listviewer)
 UsadaBadDates %&gt;%
@@ -702,11 +803,11 @@ UsadaBadDates %&gt;%
     # only return what we&#39;re interested in 
     dplyr::select(athlete, sanction_dates) %&gt;% 
     listviewer::jsonedit(mode = &quot;view&quot;)</code></pre>
-<div id="htmlwidget-56e05a420b4abd0f90c8" style="width:672px;height:480px;" class="jsonedit html-widget"></div>
-<script type="application/json" data-for="htmlwidget-56e05a420b4abd0f90c8">{"x":{"data":{"athlete":["fischbach, dylan","trafeh, mohamed","lea, robert","young, jerome","hay, amy","hunter, adam","tovar, oscar","dotti, juan pablo","murdock, vince","thomas, tammy","orbon, joane","bailey, ryan","garcia del moral, luis","jones, stirley","miyao, paulo","moffett, shaun","bruyneel, johan","celaya lazama, pedro","marti, jose","oliveira, flavia"],"sanction_dates":[["original: 12/18/2015; ",": 04/11/2016"],["original: 12/18/2014; ",": 08/25/2015"],["original: 12/17/2015; ",": 02/25/2016"],["original: 11/10/2004; ",": 06/17/2008"],["original: 10/31/2017; ",": 12/16/2019"],["original: 10/28/2016; ",": 09/26/2018"],["original: 10/28/2015; ",": 10/04/2016"],["original: 10/20/2011; ",": 06/05/2013"],["original: 09/05/2019; ",": 08/26/2020"],["original: 08/30/2002; ",": 02/13/2017"],["original: 08/12/2019; ",": 09/10/2019"],["original: 08/03/2017; ",": 12/01/2017"],["original: 07/10/2012;",": 10/26/2018"],["original: 06/17/2019; ",": 12/16/2019"],["original: 05/10/2017;",": 11/27/2018"],["original: 04/24/2018",": 10/19/2018"],["original: 04/22/2014;",": 10/24/2018"],["original: 04/22/2014;",": 10/24/2018"],["original: 04/22/2014;",": 10/24/2018"],["original: 04/13/2010; "," 12/10/2010"]]},"options":{"mode":"view","modes":["code","form","text","tree","view"]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-18caab8eb1e60f76dea9" style="width:672px;height:480px;" class="jsonedit html-widget"></div>
+<script type="application/json" data-for="htmlwidget-18caab8eb1e60f76dea9">{"x":{"data":{"athlete":["fischbach, dylan","trafeh, mohamed","lea, robert","young, jerome","hay, amy","hunter, adam","tovar, oscar","dotti, juan pablo","murdock, vince","thomas, tammy","orbon, joane","bailey, ryan","garcia del moral, luis","jones, stirley","miyao, paulo","moffett, shaun","bruyneel, johan","celaya lazama, pedro","marti, jose","oliveira, flavia"],"sanction_dates":[["original: 12/18/2015; ",": 04/11/2016"],["original: 12/18/2014; ",": 08/25/2015"],["original: 12/17/2015; ",": 02/25/2016"],["original: 11/10/2004; ",": 06/17/2008"],["original: 10/31/2017; ",": 12/16/2019"],["original: 10/28/2016; ",": 09/26/2018"],["original: 10/28/2015; ",": 10/04/2016"],["original: 10/20/2011; ",": 06/05/2013"],["original: 09/05/2019; ",": 08/26/2020"],["original: 08/30/2002; ",": 02/13/2017"],["original: 08/12/2019; ",": 09/10/2019"],["original: 08/03/2017; ",": 12/01/2017"],["original: 07/10/2012;",": 10/26/2018"],["original: 06/17/2019; ",": 12/16/2019"],["original: 05/10/2017;",": 11/27/2018"],["original: 04/24/2018",": 10/19/2018"],["original: 04/22/2014;",": 10/24/2018"],["original: 04/22/2014;",": 10/24/2018"],["original: 04/22/2014;",": 10/24/2018"],["original: 04/13/2010; "," 12/10/2010"]]},"options":{"mode":"view","modes":["code","form","text","tree","view"]}},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="unnest" class="section level3" number="1.6.3">
-<h3 number="1.6.3"><span class="header-section-number">1.6.3</span> <code>unnest</code></h3>
+<div id="unnest" class="section level3" number="4.1.2">
+<h3 number="4.1.2"><span class="header-section-number">4.1.2</span> <code>unnest</code></h3>
 <p>After unnesting, we can see the dates have been repeated down the rows (like <code>separate_rows()</code>).</p>
 <pre class="r"><code>UsadaBadDates %&gt;%
         dplyr::mutate(sanction_dates = 
@@ -723,8 +824,8 @@ UsadaBadDates %&gt;%
   </script>
 </div>
 </div>
-<div id="filter" class="section level3" number="1.6.4">
-<h3 number="1.6.4"><span class="header-section-number">1.6.4</span> <code>filter</code></h3>
+<div id="filter" class="section level3" number="4.1.3">
+<h3 number="4.1.3"><span class="header-section-number">4.1.3</span> <code>filter</code></h3>
 <p>We can see all of the updated dates are on a new line, and the original dates still contain the text. Now I can filter out the rows with an original date (because I am only interested in the updated dates).</p>
 <pre class="r"><code>UsadaBadDates %&gt;%
         dplyr::mutate(sanction_dates = 
@@ -745,8 +846,8 @@ UsadaBadDates %&gt;%
   </script>
 </div>
 </div>
-<div id="str_remove_all" class="section level3" number="1.6.5">
-<h3 number="1.6.5"><span class="header-section-number">1.6.5</span> <code>str_remove_all</code></h3>
+<div id="str_remove_all" class="section level3" number="4.1.4">
+<h3 number="4.1.4"><span class="header-section-number">4.1.4</span> <code>str_remove_all</code></h3>
 <p>Now I can clean up the updated <code>sanction_dates</code> and format it.</p>
 <pre class="r"><code>UsadaBadDates %&gt;%
         dplyr::mutate(sanction_dates = 
@@ -775,8 +876,8 @@ UsadaBadDates %&gt;%
   </script>
 </div>
 </div>
-<div id="ggplot2" class="section level3" number="1.6.6">
-<h3 number="1.6.6"><span class="header-section-number">1.6.6</span> <code>ggplot2</code></h3>
+<div id="ggplot2" class="section level3" number="4.1.5">
+<h3 number="4.1.5"><span class="header-section-number">4.1.5</span> <code>ggplot2</code></h3>
 <p><strong><em>How far can this pipe go??</em></strong></p>
 <p>Well, when the data are arranged in the way we want, we can test it with a visualization to check the number of sanctions per sport with bad dates.</p>
 <pre class="r"><code>UsadaBadDates %&gt;%
@@ -809,7 +910,8 @@ UsadaBadDates %&gt;%
     geom_col(show.legend = FALSE) + 
     labs(x = &quot;Number of Sanctions&quot;, y = &quot;Sport&quot;, 
          title = &quot;Number of Sanctions with Bad Dates&quot;,
-         caption = &quot;source: https://www.usada.org/news/sanctions/&quot;)</code></pre>
+         caption = &quot;source: https://www.usada.org/news/sanctions/&quot;) + 
+    theme_bw()</code></pre>
 <p><img src="img/visualize-1.png" width="672" /></p>
 </div>
 </div>

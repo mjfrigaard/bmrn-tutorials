@@ -51,13 +51,13 @@ We're going to use some of the `fs` package functions for managing our files and
 Check your files and folders with `dir_tree` or `dir_ls`. 
 
 ```{r dir_tree}
-fs::dir_tree(".", recurse = FALSE)
+fs::dir_tree("data", recurse = FALSE)
 ```
 
 We can also use `dir_ls` to get the paths to print to the screen so we can easily import. 
 
 ```{r dir_ls}
-fs::dir_ls(".", recurse = FALSE)
+fs::dir_ls("data", recurse = FALSE)
 ```
 
 ### Metadata 
@@ -83,30 +83,37 @@ fs::dir_info("data", all = TRUE) %>%
 
 Lets import all the `Lab` data files in `data` using `fs` and `purrr`. 
 
-```{r import-labs}
+```{r import-labs, echo=FALSE}
 fs::dir_ls(path = "data", regexp = "Lab") %>% 
     purrr::map_dfr(read_csv, .id = "source") -> AllLabs
+```
+
+```{r AllLabs}
 AllLabs
 ```
 
 ***
 
+# Reshaping Columns and Rows 
+
 ## `separate()`  {.tabset}
 
 This allows us to split columns apart into multiple variables. 
 
-### `separate` ex 1
+Take a look at `SmallLabData` below (we've used some `dplyr` and the `janitor::remove_empty()` function to get `SmallLabData` from `AllLabs`).
 
-Take a look at `SmallLabData` below (we've used some `dplyr` and the `janitor::remove_empty()` function to get `SmallLabData` from `AllLabs`.
-
-```{r SmallLabData}
+```{r import-SmallLabData, echo=FALSE, message=FALSE, warning=FALSE}
 AllLabs %>% 
     filter(source == "data/SmallLabData.csv") %>% 
     select(-source) %>% 
     janitor::remove_empty() -> SmallLabData
+```
+
+```{r SmallLabData}
 SmallLabData
 ```
 
+### exercise 
 
 Separate `ref` into `ref_value` and `ref_units`
 
@@ -116,7 +123,7 @@ SmallLabData %>%
 ```
 
 
-### `separate` sol 1
+### solution 
 
 ```{r separate-sol}
 SmallLabData %>% 
@@ -131,16 +138,18 @@ SmallLabData %>%
 
 Take a look at `LabData` below. 
 
-```{r LabData}
+```{r import-LabData, echo=FALSE, message=FALSE, warning=FALSE}
 AllLabs %>% 
     filter(source == "data/LabData.csv") %>% 
     select(-source) %>% 
     janitor::remove_empty() -> LabData
+```
 
+```{r LabData}
  LabData
 ```
 
-### `separate_rows` ex 1
+### exercise 
 
 Put all the `value`s into their own cell, and make sure the new variable is numeric. 
 
@@ -167,15 +176,18 @@ Just like `separate`/`separate_rows` allows us to split up columns, `unite()` le
 
 Take a look at `LabProc`.
 
-```{r LabProc}
+```{r import-LabProc, message=FALSE, warning=FALSE, echo=FALSE}
 AllLabs %>% 
     filter(source == "data/LabProc.csv") %>% 
     select(-source) %>% 
     janitor::remove_empty() -> LabProc
+```
+
+```{r LabProc}
 LabProc
 ```
 
-### `unite` ex 1
+### exercise 
 
 Separate the labs from each other, and drop them down the rows. 
 
@@ -184,7 +196,16 @@ LabProc %>%
     separate_rows(lab_proc, sep = "___")
 ```
 
-### `unite` ex 2
+### solution
+
+Separate the labs from each other, and drop them down the rows.
+
+```{r unite-solution-1}
+LabProc %>% 
+     separate_rows(lab_proc, sep = "; ") 
+```
+
+### exercise 
 
 Put `lab`, `value`, and `units` in to their own columns.
 
@@ -195,7 +216,19 @@ LabProc %>%
            sep = " ", convert = ____)
 ```
 
-### `unite` ex 3
+### solution
+
+Put `lab`, `value`, and `units` in to their own columns.
+
+```{r unite-solution-2}
+LabProc %>% 
+     separate_rows(lab_proc, sep = "; ") %>% 
+     separate(col = lab_proc,into = c('lab', 'value', 'units'), 
+            sep = " ", convert = TRUE) 
+```
+
+
+### exercise 
 
 Unite `lab`, `value` and `units` into `lab_name` (don't remove the previous columns with `remove = FALSE`).
 
@@ -207,27 +240,7 @@ LabProc %>%
     unite(col = "_______", lab:units, sep = " ", remove = _____)
 ```
 
-### `unite` sol 1
-
-Separate the labs from each other, and drop them down the rows.
-
-```{r unite-solution-1}
-LabProc %>% 
-     separate_rows(lab_proc, sep = "; ") 
-```
-
-### `unite` sol 2
-
-Put `lab`, `value`, and `units` in to their own columns.
-
-```{r unite-solution-2}
-LabProc %>% 
-     separate_rows(lab_proc, sep = "; ") %>% 
-     separate(col = lab_proc,into = c('lab', 'value', 'units'), 
-            sep = " ", convert = TRUE) 
-```
-
-### `unite` sol 3
+### solution
 
 Unite `lab`, `value` and `units` into `lab_name` (don't remove the previous columns with `remove = FALSE`).
 
@@ -241,11 +254,183 @@ LabProc %>%
 
 ***
 
-## `unnest()` use case
+# Joins
+
+Joins give us the ability to combine multiple datasets on a common column. We're going to be using the [`starwarsdb` package](https://github.com/gadenbuie/starwarsdb), which contains data from the [Star Wars API](https://swapi.dev/). 
+
+We'll load the data below: 
+
+```{r starwarsdb-package, message=FALSE}
+library(starwarsdb)
+library(dm)
+```
+
+## `starwarsdb` {.tabset}
+
+The code below creates and displays the data model for the tables in this package 
+
+```{r StarWarsDataModel, message=FALSE, warning=FALSE}
+StarWarsDataModel <- dm_draw(dm = starwars_dm(), 
+                             graph_name = "StarWarsDataModel")
+StarWarsDataModel
+```
+
+
+
+### exercise
+
+Load the `starwarsdb::films` dataset, removing the `opening_crawl` column, and filter to only episodes 4-6. Store these data in `StarWarsFilms`
+
+```{r films-ex, eval=FALSE}
+StarWarsFilms <- starwarsdb::films %>% 
+                    select(-____________) %>% 
+                    filter(episode_id >= ___ & episode_id <= ___)
+StarWarsFilms
+```
+
+### solution 
+
+```{r films-sol}
+StarWarsFilms <- starwarsdb::films %>% 
+                    select(-c(opening_crawl, director, producer)) %>% 
+                    filter(episode_id >= 4 & episode_id <= 6)
+StarWarsFilms
+```
+
+The first join we will cover is `dplyr::left_join()`.
+
+
+## `left_join` {.tabset}
+
+A `left_join` keeps all of `x`, and joins it to all matching rows from dataset `y`
+
+### exercise
+
+Left-join `StarWarsFilms` to `starwarsdb::films_vehicles` on `"title"`, then `select()` the `vehicle` column, then `everything()` else. 
+
+Assign to `StarWarsFilmVeh`
+
+```{r StarWarsFilmsPeople-ex, eval=FALSE}
+left_join(x = _____________, 
+          y = starwarsdb::films_vehicles, 
+          by = ______) %>% 
+    select(_____________, 
+           everything()) -> StarWarsFilmVeh
+StarWarsFilmVeh
+```
+
+### solution
+
+See below:
+
+```{r StarWarsFilmsPeople}
+left_join(x = StarWarsFilms, 
+          y = starwarsdb::films_vehicles, 
+          by = "title") %>% 
+  select(vehicle, 
+         everything()) -> StarWarsFilmVeh
+StarWarsFilmVeh
+```
+
+## `inner_join` {.tabset}
+
+The `inner_join()` joins dataset `x` and `y`, and keeps only matching rows from both.
+
+### exercise 
+
+Use an `inner_join` to join `StarWarsFilmVeh` to `starwarsdb::pilots` on `"vehicle"` and assign it to `StarWarsFilmVehPil`.
+
+```{r StarWarsFilmVenPlt-ex, eval=FALSE}
+inner_join(x = StarWarsFilmVeh, 
+           y = _________, 
+           by = _________) -> _____________
+StarWarsFilmVehPil
+```
+
+### solution
+
+See below:
+
+```{r StarWarsFilmVehPil-sol}
+inner_join(x = StarWarsFilmVeh, 
+           y = starwarsdb::pilots, 
+           by = "vehicle") -> StarWarsFilmVehPil
+StarWarsFilmVehPil
+```
+
+## `right_join` {.tabset}
+
+The `right_join()` includes all the rows in dataset `y`, and joins it the matching rows in dataset `x`.
+
+### exercise
+
+Use a `right_join()` to join `StarWarsFilmVehPlt` to `starwarsdb::films_planets` on `"title"`, keeping all the rows in `starwarsdb::films_planets`. Use `select()` to rename `planet` to `film_planet` and assign this to `StarWarsFilmVehPltPlnt` 
+
+```{r right_join_ex, eval=FALSE}
+right_join(x = __________________, 
+             y = __________________, 
+             by = "title") %>% 
+  select(vehicle:release_date,
+         film_planet = _______,
+         pilot) -> StarWarsFilmVehPltPlnt
+```
+
+### solution
+
+See below:
+
+```{r right_join-sol}
+right_join(x = StarWarsFilmVehPil, 
+           y = starwarsdb::films_planets, 
+           by = "title") %>% 
+  select(vehicle:release_date,
+         film_planet = planet, 
+         pilot) -> StarWarsFilmVehPltPlnt
+StarWarsFilmVehPltPlnt
+```
+
+## `anti_join` {.tabset}
+
+The `anti_join()` keeps all rows in dataset `x` that **do not** have a match in dataset `y`. Note the last join created empty values for `vehicle`, `episode_id`, `release_date`, and `pilot`. 
+
+```{r filter-is.na}
+StarWarsFilmVehPltPlnt %>% 
+  filter(is.na(episode_id))
+```
+
+### exercise 
+
+Use the `anti_join()` to join `StarWarsFilmVehPltPlnt` to `StarWarsFilms` and create a dataset with only `title` and `film_planet` (*these should only contain the `title`s not in `StarWarsFilms`*).
+
+```{r anti_join-ex, eval=FALSE}
+anti_join(x = StarWarsFilmVehPltPlnt, 
+            y = ____________, 
+            by = c("title", "episode_id", "release_date")) %>% 
+  select(________, ________)
+```
+
+### solution 
+
+```{r anti_join-sol}
+anti_join(x = StarWarsFilmVehPltPlnt, 
+            y = StarWarsFilms, 
+            by = c("title", "episode_id", "release_date")) %>% 
+  select(title, film_planet)
+```
+
+
+
+***
+
+# Nested data
+
+Nested data refers to a dataset in which a column is holding a list of data frames (or `tibble`s). These can be useful for manipulating data, and we're going to give an example of using nested data to reshape a column combining two sets of dates.
+
+## Anti-Doping Sanctions Database {.tabset}
 
 `unnest()` deals with nested data, which can be complicated to explain, so we'll use an example. Run the code below to download data from the [Anti-Doping Agency Sanction database](https://www.usada.org/news/sanctions/). 
 
-```{r 01-create-usada-data}
+```{r 01-create-usada-data, message=FALSE, warning=FALSE}
 source("code/01-create-usada-data.R")
 ```
 
@@ -269,7 +454,7 @@ UsadaBadDates %>%
     dplyr::select(athlete, sanction_announced, sanction_dates)
 ```
 
-### Nested data
+
 
 This creates a nested column (`sanction_dates`), which we can deal with by `unnest()`ing it. Let's take a better look with `listviewer` (but only look at `athlete` and `sanction_dates`).
 
@@ -388,7 +573,8 @@ UsadaBadDates %>%
     geom_col(show.legend = FALSE) + 
     labs(x = "Number of Sanctions", y = "Sport", 
          title = "Number of Sanctions with Bad Dates",
-         caption = "source: https://www.usada.org/news/sanctions/")
+         caption = "source: https://www.usada.org/news/sanctions/") + 
+    theme_bw()
 ```
 
 

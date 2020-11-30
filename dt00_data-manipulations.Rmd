@@ -230,7 +230,7 @@ mutate(original_starwars,
        bmi = round(bmi, digits = 1))
 ```
 
-## Create function pipelines with %>% {.tabset}
+## Function pipelines {.tabset}
 
 The pipe (`%>%`) takes an object that comes before it, and it drops the object into the function that comes after it.
 
