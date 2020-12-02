@@ -83,7 +83,7 @@ fs::dir_info("data", all = TRUE) %>%
 
 Lets import all the `Lab` data files in `data` using `fs` and `purrr`. 
 
-```{r import-labs, echo=FALSE}
+```{r import-labs}
 fs::dir_ls(path = "data", regexp = "Lab") %>% 
     purrr::map_dfr(read_csv, .id = "source") -> AllLabs
 ```
@@ -102,12 +102,24 @@ This allows us to split columns apart into multiple variables.
 
 Take a look at `SmallLabData` below (we've used some `dplyr` and the `janitor::remove_empty()` function to get `SmallLabData` from `AllLabs`).
 
-```{r import-SmallLabData, echo=FALSE, message=FALSE, warning=FALSE}
+```{r import-SmallLabData, eval=FALSE, message=FALSE, warning=FALSE}
 AllLabs %>% 
     filter(source == "data/SmallLabData.csv") %>% 
     select(-source) %>% 
     janitor::remove_empty() -> SmallLabData
 ```
+
+```{r import-AllLabs-csv, echo=FALSE, message=FALSE, warning=FALSE}
+LabData <- read_csv("https://bit.ly/36rqow3")
+LabData %>% janitor::clean_names() -> LabData
+
+SmallLabData <- read_csv("https://bit.ly/37jHYBm")
+SmallLabData %>% janitor::clean_names() -> SmallLabData
+
+LabProc <- read_csv("https://bit.ly/2KZjAh6")
+LabProc %>% janitor::clean_names() -> LabProc
+```
+
 
 ```{r SmallLabData}
 SmallLabData
@@ -138,7 +150,7 @@ SmallLabData %>%
 
 Take a look at `LabData` below. 
 
-```{r import-LabData, echo=FALSE, message=FALSE, warning=FALSE}
+```{r import-LabData, eval=FALSE, message=FALSE, warning=FALSE}
 AllLabs %>% 
     filter(source == "data/LabData.csv") %>% 
     select(-source) %>% 
@@ -146,7 +158,7 @@ AllLabs %>%
 ```
 
 ```{r LabData}
- LabData
+LabData
 ```
 
 ### exercise 
@@ -176,7 +188,7 @@ Just like `separate`/`separate_rows` allows us to split up columns, `unite()` le
 
 Take a look at `LabProc`.
 
-```{r import-LabProc, message=FALSE, warning=FALSE, echo=FALSE}
+```{r import-LabProc, message=FALSE, warning=FALSE, eval=FALSE}
 AllLabs %>% 
     filter(source == "data/LabProc.csv") %>% 
     select(-source) %>% 

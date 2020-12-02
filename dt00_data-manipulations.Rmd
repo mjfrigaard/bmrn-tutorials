@@ -12,7 +12,7 @@ output:
     df_print: paged
 
 params: 
-  data_file: !r file.path("https://bit.ly/mini-strwrs")
+  data_file: !r file.path("https://bit.ly/3qgjqSC")
   
 always_allow_html: true
 ---
@@ -24,7 +24,7 @@ knitr::opts_chunk$set(collapse = TRUE,
 library(tidyverse)
 library(ipcwswitch)
 library(skimr)
-original_starwars <- read_csv("https://bit.ly/mini-strwrs")
+original_starwars <- read_csv("https://bit.ly/3qgjqSC")
 ```
 
 
@@ -54,7 +54,7 @@ We have the path to the `original_starwars` data stored in our `params`, but we 
 Below we import the `original_starwars` dataset from the slides using the url. This is similar to providing a local file path (`data/original-starwars.csv`).
 
 ```{r import-url}
-read_csv("https://bit.ly/mini-strwrs")
+read_csv("https://bit.ly/3qgjqSC")
 ```
 
 ### Import using `params`
@@ -63,7 +63,7 @@ We have the `params` list from our YAML header, which we can also use to import 
 
 ```{.yaml}
 params: 
-  data_file: !r file.path("https://bit.ly/mini-strwrs")
+  data_file: !r file.path("https://bit.ly/3qgjqSC")
 ```
 
 ```{r import-params}
@@ -85,7 +85,7 @@ dplyr::starwars %>%
 
 These are exercises to try on your own using the `select()` function.
 
-### Select exercise 1
+### exercise
 
 Alter the code below to select just the `name` and `homeoworld` column:
 
@@ -94,14 +94,14 @@ select(original_starwars, name, species, homeworld)
 ```
 
 
-### Select solution 1
+### solution
 
 ```{r select-sol-01}
 select(original_starwars, name, homeworld)
 ```
 
 
-### Select exercise 2
+### exercise 
 
 Select only the columns starting with the letter `h`. 
 
@@ -110,7 +110,7 @@ select(original_starwars, starts_with("_"))
 ```
 
 
-### Select solution 2
+### solution 
 
 ```{r select-sol-02}
 select(original_starwars, starts_with("h"))
@@ -120,7 +120,7 @@ select(original_starwars, starts_with("h"))
 
 These are some additional exercises for `filter()`ing data. 
 
-### Filtering exercise 1
+### exercise 
 
 Change the code below so `original_starwars` only includes the droids. 
 
@@ -129,13 +129,13 @@ filter(original_starwars, species == "____")
 ```
 
 
-### Filtering solution 1
+### solution 
 
 ```{r filter-sol-01}
 filter(original_starwars, species == "Droid")
 ```
 
-### Filtering exercise 2
+### exercise 
 
 Change the code below so `original_starwars` only includes data from the `homeworld`s of `Tatooine` and `Alderaan`
 
@@ -144,7 +144,7 @@ filter(original_starwars,
        homeworld %in% c("________", "________"))
 ```
 
-### Filtering solution 2
+### solution 
 
 ```{r filter-sol-02}
 filter(original_starwars, 
@@ -156,7 +156,7 @@ filter(original_starwars,
 
 `arrange()` sorts variables on their content, numeric or character. 
 
-### Arrange exercise 1 
+### exercise  
 
 Sort `original_starwars` according to the `hair_color`. 
 
@@ -165,7 +165,7 @@ arrange(original_starwars, "____ _____")
 ```
 
 
-### Arrange solution 1 
+### solution  
 
 Note that the missing values are sorted to the bottom. 
 
@@ -174,7 +174,7 @@ arrange(original_starwars, hair_color)
 ```
 
 
-### Arrange exercise 2
+### exercise 
 
 Sort `original_starwars` by `height` and `mass`, descending. 
 
@@ -182,7 +182,7 @@ Sort `original_starwars` by `height` and `mass`, descending.
 arrange(original_starwars, desc(______, ____))
 ```
 
-### Arrange solution 2
+### solution 
 
 ```{r arrange-sol-02}
 arrange(original_starwars, desc(height, mass))
@@ -194,7 +194,7 @@ Including two variables is helpful if some of the values 'tie'.
 
 `mutate()` can create new columns, or change existing columns.  
 
-### Mutate exercise 1 
+### exercise 
 
 Alter the code below to create a `bmi` column for `starwars` characters in `original_starwars`.
 
@@ -203,7 +203,7 @@ mutate(original_starwars,
        bmi = ____ / ((______ / 100) ^ 2))
 ```
 
-### Mutate solution 1
+### solution 
 
 Note the use of parentheses here. 
 
@@ -212,7 +212,7 @@ mutate(original_starwars,
        bmi = mass / ((height / 100) ^ 2))
 ```
 
-### Mutate exercise 2
+### exercise 
 
 Round the new `bmi` variable to 1 digit. 
 
@@ -222,7 +222,7 @@ mutate(original_starwars,
        bmi = _____(___, digits = _))
 ```
 
-### Mutate solution 2
+### solution 
 
 ```{r mutate-sol-02}
 mutate(original_starwars, 
@@ -234,7 +234,7 @@ mutate(original_starwars,
 
 The pipe (`%>%`) takes an object that comes before it, and it drops the object into the function that comes after it.
 
-### Pipe exercise 1 
+### exercise 
 
 Rewrite the code below to use the pipe 
 
@@ -244,7 +244,7 @@ select(filter(
               ____, hair_color, _______, homeworld)
 ```
 
-### Pipe solutons 1
+### solution
 
 This actually wouldn't matter what order it was in--both would return the same result. 
 
@@ -255,7 +255,7 @@ original_starwars %>%
 ```
 
 
-### Pipe exercise 2
+### exercise 
 
 Perform the following operations *without* using the pipe. 
 
@@ -272,7 +272,7 @@ mean_x <- ____(x)
 sqrt(______)
 ```
 
-### Pipe soluton 2
+### soluton 
 
 This returns a vector, not a `tibble`.
 
@@ -285,7 +285,7 @@ mean_x <- mean(x)
 sqrt(mean_x)
 ```
 
-### Pipe exercise 3
+### exercise 
 
 Perform the following operations *with* the pipe. 
 
@@ -300,7 +300,7 @@ c(_, _, __) %>%
 ```
 
 
-### Pipe solutons 3
+### solution 
 
 Note that we can create a pipeline without even creating an object. 
 
