@@ -1,5 +1,5 @@
 ---
-title: "Data Manipulation"
+title: "Introduction to Data Manipulation"
 comment: "*introduction to wrangling data*"
 output: 
   html_document: 

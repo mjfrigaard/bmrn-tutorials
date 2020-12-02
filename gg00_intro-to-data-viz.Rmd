@@ -1102,3 +1102,9 @@ These exercises have covered:
 2. Tidying data with `tidyr`   
 3. Graphing data using positions, aesthetics, and geoms   
 4. Using `facet`s to explore graphs across different scales for the `x` and `y` axes   
+
+```{r chrome_print, eval=FALSE, include=FALSE, echo=FALSE}
+fs::dir_create("pdfs")
+pagedown::chrome_print(input = "gg00_intro-to-data-viz.html", 
+                       output = "pdfs/gg00_intro-to-data-viz.pdf")
+```

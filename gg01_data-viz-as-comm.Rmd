@@ -965,6 +965,36 @@ USCitiesMarJun %>%
    lab_annotate 
 ```
 
+## Plotting area {.tabset}
+
+Another option is to use `geom_rect()` to black out the missing data. 
+
+```{r geom_rectsol, fig.height=8, fig.width=10, out.height='100%', out.width='100%', message=FALSE, warning=FALSE}
+# plot
+USCitiesMarJun %>% 
+    ggplot() +
+    geom_line(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type), 
+             # make these slightly larger...
+             size = 0.30) + 
+   # coordinate system
+   coord_cartesian(xlim = c(min(USCitiesMarJun$date), 
+                            max(USCitiesMarJun$date)), 
+                   
+                   ylim = c(min(USCitiesMarJun$dir_request, na.rm = TRUE), 
+                            max(USCitiesMarJun$dir_request, na.rm = TRUE))) +
+  geom_rect(xmin = lubridate::as_date("2020-05-10"), 
+            xmax = lubridate::as_date("2020-05-12"), 
+            ymin = -Inf, 
+            ymax = Inf, 
+            color = NA) + 
+  geom_text(x = as.Date("2020-05-11"), 
+            y = 100, label = "Data Not Available", 
+            angle = 90, color = "white") +
+  lab_annotate
+```
+
+
 
 ## Labeling Values {.tabset}
 

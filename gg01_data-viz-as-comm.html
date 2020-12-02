@@ -89,6 +89,7 @@ h6 {
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -1504,8 +1505,35 @@ USCitiesMarJun %&gt;%
 <p><img src="img/coord_cartesian-annotate-comp-sol-1.png" width="100%" height="100%" /></p>
 </div>
 </div>
-<div id="labeling-values" class="section level2 tabset" number="8.2">
-<h2 class="tabset" number="8.2"><span class="header-section-number">8.2</span> Labeling Values</h2>
+<div id="plotting-area" class="section level2 tabset" number="8.2">
+<h2 class="tabset" number="8.2"><span class="header-section-number">8.2</span> Plotting area</h2>
+<p>Another option is to use <code>geom_rect()</code> to black out the missing data.</p>
+<pre class="r"><code># plot
+USCitiesMarJun %&gt;% 
+    ggplot() +
+    geom_line(aes(x = date, y = dir_request, 
+             group = trans_type, color = trans_type), 
+             # make these slightly larger...
+             size = 0.30) + 
+   # coordinate system
+   coord_cartesian(xlim = c(min(USCitiesMarJun$date), 
+                            max(USCitiesMarJun$date)), 
+                   
+                   ylim = c(min(USCitiesMarJun$dir_request, na.rm = TRUE), 
+                            max(USCitiesMarJun$dir_request, na.rm = TRUE))) +
+  geom_rect(xmin = lubridate::as_date(&quot;2020-05-10&quot;), 
+            xmax = lubridate::as_date(&quot;2020-05-12&quot;), 
+            ymin = -Inf, 
+            ymax = Inf, 
+            color = NA) + 
+  geom_text(x = as.Date(&quot;2020-05-11&quot;), 
+            y = 100, label = &quot;Data Not Available&quot;, 
+            angle = 90, color = &quot;white&quot;) +
+  lab_annotate</code></pre>
+<p><img src="img/geom_rectsol-1.png" width="100%" height="100%" /></p>
+</div>
+<div id="labeling-values" class="section level2 tabset" number="8.3">
+<h2 class="tabset" number="8.3"><span class="header-section-number">8.3</span> Labeling Values</h2>
 <p><strong>Max Driving Requests</strong></p>
 <p>The code below creates a subset of the data (<code>TopUSCities</code>). We will use this to add the labels.</p>
 <pre class="r"><code>TopUSCities &lt;- TidyApple %&gt;% 
@@ -1518,8 +1546,8 @@ TopUSCities</code></pre>
 {"columns":[{"label":["geo_type"],"name":[1],"type":["chr"],"align":["left"]},{"label":["region"],"name":[2],"type":["chr"],"align":["left"]},{"label":["trans_type"],"name":[3],"type":["chr"],"align":["left"]},{"label":["sub_region"],"name":[4],"type":["chr"],"align":["left"]},{"label":["country"],"name":[5],"type":["chr"],"align":["left"]},{"label":["date"],"name":[6],"type":["date"],"align":["right"]},{"label":["dir_request"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-13","7":"100.00"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-14","7":"103.68"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-15","7":"104.45"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-16","7":"108.72"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-17","7":"132.80"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-18","7":"113.44"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-19","7":"87.48"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-20","7":"100.24"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-21","7":"101.30"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-22","7":"100.51"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-23","7":"104.47"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-24","7":"121.92"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-25","7":"118.55"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-26","7":"85.17"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-27","7":"93.81"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-28","7":"97.36"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-29","7":"98.96"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-30","7":"103.79"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-01-31","7":"124.37"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-01","7":"122.53"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-02","7":"85.96"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-03","7":"94.62"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-04","7":"97.39"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-05","7":"102.86"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-06","7":"103.66"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-07","7":"117.63"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-08","7":"124.27"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-09","7":"88.41"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-10","7":"98.78"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-11","7":"105.64"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-12","7":"108.54"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-13","7":"115.99"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-14","7":"147.32"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-15","7":"141.24"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-16","7":"111.31"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-17","7":"111.07"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-18","7":"104.69"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-19","7":"105.82"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-20","7":"110.84"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-21","7":"132.55"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-22","7":"138.50"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-23","7":"100.83"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-24","7":"99.41"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-25","7":"100.35"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-26","7":"103.39"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-27","7":"114.33"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-28","7":"139.02"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-02-29","7":"142.31"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-01","7":"105.39"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-02","7":"105.25"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-03","7":"108.28"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-04","7":"110.71"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-05","7":"116.43"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-06","7":"137.62"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-07","7":"144.91"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-08","7":"107.11"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-09","7":"105.68"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-10","7":"109.76"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-11","7":"107.34"},{"1":"city","2":"Chicago","3":"driving","4":"Illinois","5":"United States","6":"2020-03-12","7":"105.61"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<div id="exercise-18" class="section level3" number="8.2.1">
-<h3 number="8.2.1"><span class="header-section-number">8.2.1</span> exercise</h3>
+<div id="exercise-18" class="section level3" number="8.3.1">
+<h3 number="8.3.1"><span class="header-section-number">8.3.1</span> exercise</h3>
 <p>Create <code>MaxUSCitiesDriving</code> by filtering <code>trans_type</code>, grouping on the <code>region</code> variable, and using <code>dplyr::slice_max()</code> to get the top value in <code>dir_request</code>.</p>
 <pre class="r"><code>TopUSCities %&gt;% 
   filter(trans_type == __________) %&gt;% 
@@ -1528,8 +1556,8 @@ TopUSCities</code></pre>
   ungroup() -&gt; MaxUSCitiesDriving
 MaxUSCitiesDriving</code></pre>
 </div>
-<div id="solution-19" class="section level3" number="8.2.2">
-<h3 number="8.2.2"><span class="header-section-number">8.2.2</span> solution</h3>
+<div id="solution-19" class="section level3" number="8.3.2">
+<h3 number="8.3.2"><span class="header-section-number">8.3.2</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>TopUSCities %&gt;% 
   filter(trans_type == &quot;driving&quot;) %&gt;% 
@@ -1543,8 +1571,8 @@ MaxUSCitiesDriving</code></pre>
   </script>
 </div>
 </div>
-<div id="exercise-19" class="section level3" number="8.2.3">
-<h3 number="8.2.3"><span class="header-section-number">8.2.3</span> exercise</h3>
+<div id="exercise-19" class="section level3" number="8.3.3">
+<h3 number="8.3.3"><span class="header-section-number">8.3.3</span> exercise</h3>
 <p>Create graph labels:</p>
 <ul>
 <li><p>assign <code>"Peak Driving Direction Requests in Largest US Cities"</code> to <code>title</code></p></li>
@@ -1560,8 +1588,8 @@ MaxUSCitiesDriving</code></pre>
                  caption = &quot;source: https://covid19.apple.com/mobility&quot;, 
                  color = &quot;Transit Type&quot;)</code></pre>
 </div>
-<div id="solution-20" class="section level3" number="8.2.4">
-<h3 number="8.2.4"><span class="header-section-number">8.2.4</span> solution</h3>
+<div id="solution-20" class="section level3" number="8.3.4">
+<h3 number="8.3.4"><span class="header-section-number">8.3.4</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>lab_line_max_drivers &lt;- labs(
                  x = &quot;Date&quot;,
@@ -1573,8 +1601,8 @@ MaxUSCitiesDriving</code></pre>
                  caption = &quot;source: https://covid19.apple.com/mobility&quot;, 
                  color = &quot;Transit Type&quot;)</code></pre>
 </div>
-<div id="exercise-20" class="section level3" number="8.2.5">
-<h3 number="8.2.5"><span class="header-section-number">8.2.5</span> exercise</h3>
+<div id="exercise-20" class="section level3" number="8.3.5">
+<h3 number="8.3.5"><span class="header-section-number">8.3.5</span> exercise</h3>
 <p>Create <code>max_driving_labels</code> using <code>paste0()</code> with <code>region</code> and <code>date</code>.</p>
 <pre class="r"><code>MaxUSCitiesDriving %&gt;% 
   mutate(
@@ -1582,8 +1610,8 @@ MaxUSCitiesDriving</code></pre>
 MaxUSCitiesDriving %&gt;% 
   select(max_driving_labels)</code></pre>
 </div>
-<div id="solution-21" class="section level3" number="8.2.6">
-<h3 number="8.2.6"><span class="header-section-number">8.2.6</span> solution</h3>
+<div id="solution-21" class="section level3" number="8.3.6">
+<h3 number="8.3.6"><span class="header-section-number">8.3.6</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>MaxUSCitiesDriving %&gt;% 
   mutate(max_driving_labels = paste0(region, &quot;, &quot;, date)) -&gt; MaxUSCitiesDriving
@@ -1595,8 +1623,8 @@ MaxUSCitiesDriving %&gt;%
   </script>
 </div>
 </div>
-<div id="exercise-21" class="section level3" number="8.2.7">
-<h3 number="8.2.7"><span class="header-section-number">8.2.7</span> exercise</h3>
+<div id="exercise-21" class="section level3" number="8.3.7">
+<h3 number="8.3.7"><span class="header-section-number">8.3.7</span> exercise</h3>
 <p>Create a line plot, assigning the following values in <code>geom_label_repel()</code>:</p>
 <ul>
 <li>set the <code>data</code> argument to <code>MaxUSCitiesDriving</code></li>
@@ -1626,8 +1654,8 @@ MaxUSCitiesDriving %&gt;%
                   size = _) + 
   lab_line_max_drivers</code></pre>
 </div>
-<div id="solution-22" class="section level3" number="8.2.8">
-<h3 number="8.2.8"><span class="header-section-number">8.2.8</span> solution</h3>
+<div id="solution-22" class="section level3" number="8.3.8">
+<h3 number="8.3.8"><span class="header-section-number">8.3.8</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>TopUSCities %&gt;% 
     ggplot() + 
@@ -1646,12 +1674,12 @@ MaxUSCitiesDriving %&gt;%
 <p><img src="img/label-plot-sol-01-1.png" width="100%" height="100%" /></p>
 </div>
 </div>
-<div id="labeling-values-2" class="section level2 tabset" number="8.3">
-<h2 class="tabset" number="8.3"><span class="header-section-number">8.3</span> Labeling Values 2</h2>
+<div id="labeling-values-2" class="section level2 tabset" number="8.4">
+<h2 class="tabset" number="8.4"><span class="header-section-number">8.4</span> Labeling Values 2</h2>
 <p><strong>Min Walking Requests</strong></p>
 <p>We are going to repeat the process above, but use the minimum value for walking direction requests.</p>
-<div id="exercise-22" class="section level3" number="8.3.1">
-<h3 number="8.3.1"><span class="header-section-number">8.3.1</span> exercise</h3>
+<div id="exercise-22" class="section level3" number="8.4.1">
+<h3 number="8.4.1"><span class="header-section-number">8.4.1</span> exercise</h3>
 <ul>
 <li><code>filter()</code> the <code>trans_type</code> to <code>"walking"</code><br />
 </li>
@@ -1667,8 +1695,8 @@ MaxUSCitiesDriving %&gt;%
   ungroup() -&gt; MinUSCitiesWalking
 MinUSCitiesWalking</code></pre>
 </div>
-<div id="solution-23" class="section level3" number="8.3.2">
-<h3 number="8.3.2"><span class="header-section-number">8.3.2</span> solution</h3>
+<div id="solution-23" class="section level3" number="8.4.2">
+<h3 number="8.4.2"><span class="header-section-number">8.4.2</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>TopUSCities %&gt;% 
   filter(trans_type == &quot;walking&quot;) %&gt;% 
@@ -1682,8 +1710,8 @@ MinUSCitiesWalking</code></pre>
   </script>
 </div>
 </div>
-<div id="exercise-23" class="section level3" number="8.3.3">
-<h3 number="8.3.3"><span class="header-section-number">8.3.3</span> exercise</h3>
+<div id="exercise-23" class="section level3" number="8.4.3">
+<h3 number="8.4.3"><span class="header-section-number">8.4.3</span> exercise</h3>
 <ul>
 <li>assign <code>"Lowest Walking Direction Requests in Largest US Cities"</code> to <code>title</code></li>
 </ul>
@@ -1697,8 +1725,8 @@ MinUSCitiesWalking</code></pre>
                caption = &quot;source: https://covid19.apple.com/mobility&quot;, 
                color = &quot;Transit Type&quot;)</code></pre>
 </div>
-<div id="solution-24" class="section level3" number="8.3.4">
-<h3 number="8.3.4"><span class="header-section-number">8.3.4</span> solution</h3>
+<div id="solution-24" class="section level3" number="8.4.4">
+<h3 number="8.4.4"><span class="header-section-number">8.4.4</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>lab_line_min_walking &lt;- labs(
                x = &quot;Date&quot;,
@@ -1710,15 +1738,15 @@ MinUSCitiesWalking</code></pre>
                caption = &quot;source: https://covid19.apple.com/mobility&quot;, 
                color = &quot;Transit Type&quot;)</code></pre>
 </div>
-<div id="exercise-24" class="section level3" number="8.3.5">
-<h3 number="8.3.5"><span class="header-section-number">8.3.5</span> exercise</h3>
+<div id="exercise-24" class="section level3" number="8.4.5">
+<h3 number="8.4.5"><span class="header-section-number">8.4.5</span> exercise</h3>
 <p>Create <code>min_walking_labels</code> using <code>paste0()</code> with <code>region</code> and <code>date</code></p>
 <pre class="r"><code>MinUSCitiesWalking %&gt;% 
   mutate(min_walking_labels = paste0(_____, &quot;, &quot;, _____)) -&gt; MinUSCitiesWalking
 MinUSCitiesWalking</code></pre>
 </div>
-<div id="solution-25" class="section level3" number="8.3.6">
-<h3 number="8.3.6"><span class="header-section-number">8.3.6</span> solution</h3>
+<div id="solution-25" class="section level3" number="8.4.6">
+<h3 number="8.4.6"><span class="header-section-number">8.4.6</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>MinUSCitiesWalking %&gt;% 
   mutate(min_walking_labels = paste0(region, &quot;, &quot;, date)) -&gt; MinUSCitiesWalking
@@ -1729,8 +1757,8 @@ MinUSCitiesWalking</code></pre>
   </script>
 </div>
 </div>
-<div id="exercise-25" class="section level3" number="8.3.7">
-<h3 number="8.3.7"><span class="header-section-number">8.3.7</span> exercise</h3>
+<div id="exercise-25" class="section level3" number="8.4.7">
+<h3 number="8.4.7"><span class="header-section-number">8.4.7</span> exercise</h3>
 <p>Create a line plot, assigning the following values in <code>geom_label_repel()</code>:</p>
 <ul>
 <li>set <code>data</code> to <code>MinUSCitiesWalking</code></li>
@@ -1760,8 +1788,8 @@ MinUSCitiesWalking</code></pre>
                   size = _) + 
   lab_line_min_walking</code></pre>
 </div>
-<div id="solution-26" class="section level3" number="8.3.8">
-<h3 number="8.3.8"><span class="header-section-number">8.3.8</span> solution</h3>
+<div id="solution-26" class="section level3" number="8.4.8">
+<h3 number="8.4.8"><span class="header-section-number">8.4.8</span> solution</h3>
 <p>See below:</p>
 <pre class="r"><code>TopUSCities %&gt;% 
     ggplot() + 
