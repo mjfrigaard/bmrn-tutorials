@@ -491,7 +491,7 @@ jun_dates</code></pre>
 <div id="identify-missing-values" class="section level1" number="3">
 <h1 number="3"><span class="header-section-number">3</span> Identify Missing Values</h1>
 <p>We’re going to use <code>expand_grid()</code> and <code>anti_join()</code> to find the missing values in the <code>VisitNAData</code> data frame.</p>
-<pre class="r"><code>VisitNAData &lt;- readr::read_csv(file = &quot;data/VisitNAData.csv&quot;)
+<pre class="r"><code>VisitNAData &lt;- readr::read_csv(file = &quot;https://bit.ly/36tnN55&quot;)
 VisitNAData</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
@@ -647,8 +647,8 @@ labs_list</code></pre>
 <p>We’re going to combine the use of <code>pivot_longer()</code>, <code>complete()</code>, and <code>full_seq()</code>.</p>
 <div id="difftime" class="section level2 tabset" number="5.1">
 <h2 class="tabset" number="5.1"><span class="header-section-number">5.1</span> <code>difftime</code></h2>
-<p>Assume we have a dataset (<code>Infected</code>) that contains information on 20 patients (<code>patient</code>), the date they became <code>infected_date</code>, and the date they infection cleared (<code>recovered_date</code>.</p>
-<pre class="r"><code>Infected &lt;- read_csv(&quot;data/Infected.csv&quot;)
+<p>Assume we have a dataset (<code>Infected</code>) that contains information on 20 patients (<code>patient</code>), the date they became <code>infected_date</code>, and the date they infection cleared (<code>recovered_date</code>).</p>
+<pre class="r"><code>Infected &lt;- read_csv(&quot;https://bit.ly/33zp4Fw&quot;)
 Infected</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">

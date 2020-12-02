@@ -99,7 +99,7 @@ We're going to use the following data to answer the stakeholder's questions:
 Import the data below
 
 ```{r import-AppleMobRaw, message=FALSE, warning=FALSE}
-AppleMobRaw <- readr::read_csv("https://bit.ly/apple-mob-raw")
+AppleMobRaw <- readr::read_csv("https://bit.ly/36tTVpe")
 ```
 
 ### Tidy `AppleMobRaw`

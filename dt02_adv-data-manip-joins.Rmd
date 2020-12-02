@@ -136,8 +136,8 @@ head(
 
 We're going to use `expand_grid()` and `anti_join()` to find the missing values in the `VisitNAData` data frame. 
 
-```{r load-VisitNAData}
-VisitNAData <- readr::read_csv(file = "data/VisitNAData.csv")
+```{r load-VisitNAData, message=FALSE, warning=FALSE}
+VisitNAData <- readr::read_csv(file = "https://bit.ly/36tnN55")
 VisitNAData
 ```
 
@@ -298,10 +298,10 @@ We're going to combine the use of `pivot_longer()`, `complete()`, and `full_seq(
 
 ## `difftime` {.tabset}
 
-Assume we have a dataset (`Infected`) that contains information on 20 patients (`patient`), the date they became `infected_date`, and the date they infection cleared (`recovered_date`. 
+Assume we have a dataset (`Infected`) that contains information on 20 patients (`patient`), the date they became `infected_date`, and the date they infection cleared (`recovered_date`). 
 
 ```{r Infected, message=FALSE, warning=FALSE}
-Infected <- read_csv("data/Infected.csv")
+Infected <- read_csv("https://bit.ly/33zp4Fw")
 Infected
 ```
 

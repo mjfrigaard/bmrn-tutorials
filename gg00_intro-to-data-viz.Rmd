@@ -129,9 +129,9 @@ TopPharmCompRaw <- rvest::html_table(relevant_tables[[1]],
 ```{r export-TopPharmCompRaw, echo=FALSE, error=TRUE, message=FALSE, warning=FALSE}
 library(readr)
 # little fail-safe here to export the current data as-is and read it back in just in case the data change in the future... 
-write_csv(x = TopPharmCompRaw, path = "data/2020-11-24-TopPharmCompRaw.csv")
+# write_csv(x = TopPharmCompRaw, path = "data/2020-11-24-TopPharmCompRaw.csv")
 # read back in
-TopPharmCompRaw <- read_csv(file = "data/2020-11-24-TopPharmCompRaw.csv")
+TopPharmCompRaw <- read_csv(file = "https://bit.ly/3orq1YT")
 ```
 
 
