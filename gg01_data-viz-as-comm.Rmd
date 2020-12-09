@@ -55,7 +55,7 @@ In order to use graphs and figures to effectively communicate with our audience,
 
 - Slides: https://mjfrigaard.github.io/data-viz-as-comm/Index.html
 
-- RStudio Project: <TBD>
+- RStudio Project: https://rstudio.cloud/project/1983257
 
 # Previous lessons
 
@@ -141,12 +141,38 @@ AppleMobRaw %>%
   janitor::clean_names() -> TidyApple
 ```
 
-### Bonus (counting!)
+## Counting {.tabset}
 
-One of the most important jobs of analytic work is counting things :)
+One of the most important jobs of analytic work is [counting things](https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html). There are many ways to accomplish this in R, but we'll stick with the `dplyr` package because it's part of the `tidyverse`. 
 
-Below is an example of using the `map()` function from the `purrr` package to pass the `count()` function from `dplyr` to the character variables in `TidyApple`. 
+The `dplyr` function for counting responses of a categorical or factor variable is `count()`, and it works like this: 
 
+```{r count, eval=FALSE}
+Data %>% 
+  count(variable)
+```
+
+### Count
+
+So, if we wanted to count the number of different transportation types in the `TidyApple` data frame, it would look like this,
+
+```{r count-trans_type}
+TidyApple %>% 
+  dplyr::count(trans_type)
+```
+
+### Count & sort
+
+We can also sort the responses using the `sort = TRUE` argument. 
+
+```{r count-sort}
+TidyApple %>% 
+  dplyr::count(trans_type, sort = TRUE)
+```
+
+### Iterate with count
+
+We can also combine `dplyr::select_if()` and `purrr::map()` to pass the `count()` function to all the character variables in `TidyApple`. 
 
 ```{r tidy_apple_counts}
 TidyApple %>% 
@@ -157,14 +183,13 @@ TidyApple %>%
 We can example the counts of each value by using the `$` to subset the `tidy_apple_counts` list.
 
 ```{r tidy_apple_counts-country}
-tidy_apple_counts$country
+tidy_apple_counts$sub_region
+tidy_apple_counts$region
 ```
 
 # Visualizing Distributions
 
-Before we start looking at relationships *between* variables, we should examine each variable's underlying distribution. 
-
-We're going to cover two graphs that display variable distributions: histograms and density plots. 
+Before we start looking at relationships *between* variables, we should examine each variable's underlying distribution. In the next section, we're going to cover a few graphs that display variable distributions: histograms, density, violin, and ridgeline plots, 
 
 ## Histograms {.tabset} 
 
@@ -283,7 +308,7 @@ gg_hist45
 
 ## Density Plots {.tabset}
 
-What if we want to see how a continuous variable is distributed across a categorical variable? We did this in the [previous lesson with a boxplot](https://mjfrigaard.github.io/data-viz-intro/Index.html#77).  
+What if we want to see how a continuous variable is distributed across a categorical variable? We did this in the [previous lesson with a boxplot](https://mjfrigaard.github.io/data-viz-intro/Index.html#87).  
 
 Density plots come in handy here (so do `geom_boxplot()`s!). Read more about the density geom [here](https://ggplot2.tidyverse.org/reference/geom_density.html).
 
@@ -349,6 +374,28 @@ TidyApple %>%
   lab_density -> gg_density
 
 gg_density
+```
+
+## Ridgeline Plots {.tabset}
+
+Another option is a ridgeline plot (from the `ggridges` package). These display multiple densities. 
+
+```{r lab_ridges}
+lab_ridges <- labs(x = "Apple directions requests",
+                   y = "Transportation Types",
+     title = "Direction Requests by Transportation Type",
+     subtitle = "source: https://covid19.apple.com/mobility")
+```
+
+```{r geom_density_ridges-sol, message=FALSE, warning=FALSE, fig.height=4, fig.width=6, out.height='100%', out.width='100%'}
+library(ggridges)
+TidyApple %>%  
+  ggplot() + 
+  geom_density_ridges(aes(x = dir_request, 
+                          y = trans_type, 
+                          fill = trans_type), 
+                      alpha = 1/5) + 
+  lab_ridges
 ```
 
 

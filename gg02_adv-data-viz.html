@@ -409,8 +409,8 @@ div.tocify {
 <div id="materials" class="section level1" number="2">
 <h1 number="2"><span class="header-section-number">2</span> Materials</h1>
 <ul>
-<li><p>Slides:</p></li>
-<li><p>RStudio Project:</p></li>
+<li><p>Slides: <em>this lesson does not slides.</em></p></li>
+<li><p>RStudio Project: <em>this lesson does not have an RStudio.Cloud project.</em></p></li>
 </ul>
 </div>
 <div id="previous-lessons" class="section level1" number="3">
@@ -425,10 +425,55 @@ library(tidyverse)</code></pre>
 </div>
 <div id="ggplot2-extension-packages" class="section level1" number="5">
 <h1 number="5"><span class="header-section-number">5</span> <code>ggplot2</code> extension packages</h1>
-<pre class="r"><code>library(ggforce)
-library(ggbeeswarm)
+<p><code>ggplot2</code> has an extensive list of user-written packages for just about any data visualization you can think of, and we’re only going to cover a few in this lesson. Check out more <a href="https://exts.ggplot2.tidyverse.org/gallery/">here</a>.</p>
+<pre class="r"><code>library(ggtext)
 library(ggfittext)
-library(ggthemes)</code></pre>
+library(ggdist)
+library(ggbeeswarm)
+library(plotly)
+library(ggthemes)
+library(wesanderson)
+library(gganimate)</code></pre>
+</div>
+<div id="data" class="section level1" number="6">
+<h1 number="6"><span class="header-section-number">6</span> Data</h1>
+<p>We’re going to be using data from the following packages:</p>
+<pre class="r"><code>library(tidytuesdayR)
+library(Lahman)
+library(starwarsdb)
+library(dplyr)</code></pre>
+<div id="advanced-text-annotations" class="section level2" number="6.1">
+<h2 number="6.1"><span class="header-section-number">6.1</span> Advanced Text Annotations</h2>
+<p>In the <a href="https://mjfrigaard.github.io/r-meetup-tutorials/gg01_data-viz-as-comm.html#8_Adding_Text_to_Graphs">previous lesson</a>, we covered how to annotate your graphs with <code>ggplot2::annotate()</code>, and how to label data points with <code>ggrepel</code>.</p>
+<p>In this section, we’re going to cover additional text options with <code>ggtext</code> and <code>ggfittext</code>.</p>
+<pre class="r"><code>library(ggtext)
+library(ggfittext)</code></pre>
+<p>We’re going to be visualizing the relationship between height and weight for the various species in the <code>starwars</code> dataset from <code>dplyr</code>.</p>
+<pre class="r"><code>SWData &lt;- dplyr::starwars %&gt;% 
+  dplyr::select(name, height, mass, species)
+SWData</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["height"],"name":[2],"type":["int"],"align":["right"]},{"label":["mass"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["species"],"name":[4],"type":["chr"],"align":["left"]}],"data":[{"1":"Luke Skywalker","2":"172","3":"77.0","4":"Human"},{"1":"C-3PO","2":"167","3":"75.0","4":"Droid"},{"1":"R2-D2","2":"96","3":"32.0","4":"Droid"},{"1":"Darth Vader","2":"202","3":"136.0","4":"Human"},{"1":"Leia Organa","2":"150","3":"49.0","4":"Human"},{"1":"Owen Lars","2":"178","3":"120.0","4":"Human"},{"1":"Beru Whitesun lars","2":"165","3":"75.0","4":"Human"},{"1":"R5-D4","2":"97","3":"32.0","4":"Droid"},{"1":"Biggs Darklighter","2":"183","3":"84.0","4":"Human"},{"1":"Obi-Wan Kenobi","2":"182","3":"77.0","4":"Human"},{"1":"Anakin Skywalker","2":"188","3":"84.0","4":"Human"},{"1":"Wilhuff Tarkin","2":"180","3":"NA","4":"Human"},{"1":"Chewbacca","2":"228","3":"112.0","4":"Wookiee"},{"1":"Han Solo","2":"180","3":"80.0","4":"Human"},{"1":"Greedo","2":"173","3":"74.0","4":"Rodian"},{"1":"Jabba Desilijic Tiure","2":"175","3":"1358.0","4":"Hutt"},{"1":"Wedge Antilles","2":"170","3":"77.0","4":"Human"},{"1":"Jek Tono Porkins","2":"180","3":"110.0","4":"Human"},{"1":"Yoda","2":"66","3":"17.0","4":"Yoda's species"},{"1":"Palpatine","2":"170","3":"75.0","4":"Human"},{"1":"Boba Fett","2":"183","3":"78.2","4":"Human"},{"1":"IG-88","2":"200","3":"140.0","4":"Droid"},{"1":"Bossk","2":"190","3":"113.0","4":"Trandoshan"},{"1":"Lando Calrissian","2":"177","3":"79.0","4":"Human"},{"1":"Lobot","2":"175","3":"79.0","4":"Human"},{"1":"Ackbar","2":"180","3":"83.0","4":"Mon Calamari"},{"1":"Mon Mothma","2":"150","3":"NA","4":"Human"},{"1":"Arvel Crynyd","2":"NA","3":"NA","4":"Human"},{"1":"Wicket Systri Warrick","2":"88","3":"20.0","4":"Ewok"},{"1":"Nien Nunb","2":"160","3":"68.0","4":"Sullustan"},{"1":"Qui-Gon Jinn","2":"193","3":"89.0","4":"Human"},{"1":"Nute Gunray","2":"191","3":"90.0","4":"Neimodian"},{"1":"Finis Valorum","2":"170","3":"NA","4":"Human"},{"1":"Jar Jar Binks","2":"196","3":"66.0","4":"Gungan"},{"1":"Roos Tarpals","2":"224","3":"82.0","4":"Gungan"},{"1":"Rugor Nass","2":"206","3":"NA","4":"Gungan"},{"1":"Ric Olié","2":"183","3":"NA","4":"NA"},{"1":"Watto","2":"137","3":"NA","4":"Toydarian"},{"1":"Sebulba","2":"112","3":"40.0","4":"Dug"},{"1":"Quarsh Panaka","2":"183","3":"NA","4":"NA"},{"1":"Shmi Skywalker","2":"163","3":"NA","4":"Human"},{"1":"Darth Maul","2":"175","3":"80.0","4":"Zabrak"},{"1":"Bib Fortuna","2":"180","3":"NA","4":"Twi'lek"},{"1":"Ayla Secura","2":"178","3":"55.0","4":"Twi'lek"},{"1":"Dud Bolt","2":"94","3":"45.0","4":"Vulptereen"},{"1":"Gasgano","2":"122","3":"NA","4":"Xexto"},{"1":"Ben Quadinaros","2":"163","3":"65.0","4":"Toong"},{"1":"Mace Windu","2":"188","3":"84.0","4":"Human"},{"1":"Ki-Adi-Mundi","2":"198","3":"82.0","4":"Cerean"},{"1":"Kit Fisto","2":"196","3":"87.0","4":"Nautolan"},{"1":"Eeth Koth","2":"171","3":"NA","4":"Zabrak"},{"1":"Adi Gallia","2":"184","3":"50.0","4":"Tholothian"},{"1":"Saesee Tiin","2":"188","3":"NA","4":"Iktotchi"},{"1":"Yarael Poof","2":"264","3":"NA","4":"Quermian"},{"1":"Plo Koon","2":"188","3":"80.0","4":"Kel Dor"},{"1":"Mas Amedda","2":"196","3":"NA","4":"Chagrian"},{"1":"Gregar Typho","2":"185","3":"85.0","4":"Human"},{"1":"Cordé","2":"157","3":"NA","4":"Human"},{"1":"Cliegg Lars","2":"183","3":"NA","4":"Human"},{"1":"Poggle the Lesser","2":"183","3":"80.0","4":"Geonosian"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="advanced-distributions" class="section level2" number="6.2">
+<h2 number="6.2"><span class="header-section-number">6.2</span> Advanced Distributions</h2>
+<p><code>ggdist</code></p>
+</div>
+<div id="advanced-colors" class="section level2" number="6.3">
+<h2 number="6.3"><span class="header-section-number">6.3</span> Advanced Colors</h2>
+<p><code>wesanderson</code></p>
+</div>
+<div id="advanced-interactivity" class="section level2" number="6.4">
+<h2 number="6.4"><span class="header-section-number">6.4</span> Advanced Interactivity</h2>
+<p><code>plotly</code></p>
+</div>
+<div id="advanced-animations" class="section level2" number="6.5">
+<h2 number="6.5"><span class="header-section-number">6.5</span> Advanced Animations</h2>
+<p><code>gganimate</code></p>
+</div>
 </div>
 
 <i class="fab fa-creative-commons fa-2x"></i><i class="fab fa-creative-commons-by fa-2x"></i><i class="fab fa-creative-commons-sa fa-2x"></i>

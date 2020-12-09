@@ -428,7 +428,7 @@ div.tocify {
 <h1 number="2"><span class="header-section-number">2</span> Materials</h1>
 <ul>
 <li><p>Slides: <a href="https://mjfrigaard.github.io/data-viz-as-comm/Index.html" class="uri">https://mjfrigaard.github.io/data-viz-as-comm/Index.html</a></p></li>
-<li><p>RStudio Project: <TBD></p></li>
+<li><p>RStudio Project: <a href="https://rstudio.cloud/project/1983257" class="uri">https://rstudio.cloud/project/1983257</a></p></li>
 </ul>
 </div>
 <div id="previous-lessons" class="section level1" number="3">
@@ -507,18 +507,52 @@ library(tidyverse)</code></pre>
   # clean names 
   janitor::clean_names() -&gt; TidyApple</code></pre>
 </div>
-<div id="bonus-counting" class="section level3" number="5.1.3">
-<h3 number="5.1.3"><span class="header-section-number">5.1.3</span> Bonus (counting!)</h3>
-<p>One of the most important jobs of analytic work is counting things :)</p>
-<p>Below is an example of using the <code>map()</code> function from the <code>purrr</code> package to pass the <code>count()</code> function from <code>dplyr</code> to the character variables in <code>TidyApple</code>.</p>
+</div>
+<div id="counting" class="section level2 tabset" number="5.2">
+<h2 class="tabset" number="5.2"><span class="header-section-number">5.2</span> Counting</h2>
+<p>One of the most important jobs of analytic work is <a href="https://cran.r-project.org/web/packages/janitor/vignettes/tabyls.html">counting things</a>. There are many ways to accomplish this in R, but we’ll stick with the <code>dplyr</code> package because it’s part of the <code>tidyverse</code>.</p>
+<p>The <code>dplyr</code> function for counting responses of a categorical or factor variable is <code>count()</code>, and it works like this:</p>
+<pre class="r"><code>Data %&gt;% 
+  count(variable)</code></pre>
+<div id="count" class="section level3" number="5.2.1">
+<h3 number="5.2.1"><span class="header-section-number">5.2.1</span> Count</h3>
+<p>So, if we wanted to count the number of different transportation types in the <code>TidyApple</code> data frame, it would look like this,</p>
+<pre class="r"><code>TidyApple %&gt;% 
+  dplyr::count(trans_type)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["trans_type"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"driving","2":"743682"},{"1":"transit","2":"106512"},{"1":"walking","2":"205099"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="count-sort" class="section level3" number="5.2.2">
+<h3 number="5.2.2"><span class="header-section-number">5.2.2</span> Count &amp; sort</h3>
+<p>We can also sort the responses using the <code>sort = TRUE</code> argument.</p>
+<pre class="r"><code>TidyApple %&gt;% 
+  dplyr::count(trans_type, sort = TRUE)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["trans_type"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"driving","2":"743682"},{"1":"walking","2":"205099"},{"1":"transit","2":"106512"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="iterate-with-count" class="section level3" number="5.2.3">
+<h3 number="5.2.3"><span class="header-section-number">5.2.3</span> Iterate with count</h3>
+<p>We can also combine <code>dplyr::select_if()</code> and <code>purrr::map()</code> to pass the <code>count()</code> function to all the character variables in <code>TidyApple</code>.</p>
 <pre class="r"><code>TidyApple %&gt;% 
   select_if(is.character) %&gt;% 
   map(~count(data.frame(x = .x), x, sort = TRUE)) -&gt; tidy_apple_counts</code></pre>
 <p>We can example the counts of each value by using the <code>$</code> to subset the <code>tidy_apple_counts</code> list.</p>
-<pre class="r"><code>tidy_apple_counts$country</code></pre>
+<pre class="r"><code>tidy_apple_counts$sub_region</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["x"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"United States","2":"935784"},{"1":"Japan","2":"25360"},{"1":"United Kingdom","2":"15216"},{"1":"Germany","2":"13631"},{"1":"France","2":"10778"},{"1":"Canada","2":"6657"},{"1":"Italy","2":"6657"},{"1":"Brazil","2":"5072"},{"1":"Australia","2":"4755"},{"1":"Switzerland","2":"4755"},{"1":"Mexico","2":"3804"},{"1":"Spain","2":"3804"},{"1":"Netherlands","2":"3487"},{"1":"Sweden","2":"2853"},{"1":"Poland","2":"2536"},{"1":"Belgium","2":"1902"},{"1":"Russia","2":"1268"},{"1":"South Africa","2":"1268"},{"1":"Denmark","2":"951"},{"1":"Finland","2":"951"},{"1":"New Zealand","2":"951"},{"1":"Austria","2":"634"},{"1":"Chile","2":"634"},{"1":"Greece","2":"634"},{"1":"Israel","2":"634"},{"1":"Malaysia","2":"317"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["x"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"Texas","2":"76397"},{"1":"California","2":"52622"},{"1":"Georgia","2":"41527"},{"1":"Virginia","2":"38991"},{"1":"Florida","2":"38357"},{"1":"Ohio","2":"38357"},{"1":"North Carolina","2":"35821"},{"1":"New York","2":"33602"},{"1":"Pennsylvania","2":"32651"},{"1":"Indiana","2":"29481"},{"1":"Michigan","2":"28530"},{"1":"Tennessee","2":"27262"},{"1":"Illinois","2":"26945"},{"1":"Missouri","2":"24409"},{"1":"Kentucky","2":"23458"},{"1":"Alabama","2":"20922"},{"1":"Wisconsin","2":"19971"},{"1":"Colorado","2":"19654"},{"1":"Minnesota","2":"19654"},{"1":"Mississippi","2":"19654"},{"1":"Oklahoma","2":"19654"},{"1":"Louisiana","2":"19337"},{"1":"South Carolina","2":"18069"},{"1":"Iowa","2":"17752"},{"1":"Washington","2":"17118"},{"1":"Arkansas","2":"15850"},{"1":"New Jersey","2":"14582"},{"1":"Oregon","2":"14265"},{"1":"Maryland","2":"13631"},{"1":"Kansas","2":"12363"},{"1":"England","2":"11412"},{"1":"Massachusetts","2":"11412"},{"1":"New Mexico","2":"10144"},{"1":"Arizona","2":"9193"},{"1":"Nebraska","2":"8876"},{"1":"Utah","2":"8876"},{"1":"West Virginia","2":"8876"},{"1":"Connecticut","2":"7608"},{"1":"Idaho","2":"6974"},{"1":"Nevada","2":"6023"},{"1":"Puerto Rico","2":"5706"},{"1":"Hawaii","2":"4755"},{"1":"Maine","2":"4755"},{"1":"North Rhine-Westphalia","2":"4755"},{"1":"Vermont","2":"4121"},{"1":"Montana","2":"3804"},{"1":"New Hampshire","2":"3804"},{"1":"North Dakota","2":"3804"},{"1":"Wyoming","2":"3804"},{"1":"Rhode Island","2":"3487"},{"1":"South Dakota","2":"3487"},{"1":"Shizuoka Prefecture","2":"2853"},{"1":"Alaska","2":"2536"},{"1":"Baden-Württemberg","2":"2536"},{"1":"Provence-Alpes-Côte d'Azur Region","2":"2536"},{"1":"Bavaria","2":"2219"},{"1":"Aichi Prefecture","2":"1902"},{"1":"Alberta","2":"1902"},{"1":"Delaware","2":"1902"},{"1":"Fukuoka Prefecture","2":"1902"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>tidy_apple_counts$region</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["x"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]}],"data":[{"1":"Washington County","2":"8559"},{"1":"Jefferson County","2":"7925"},{"1":"Montgomery County","2":"7608"},{"1":"Franklin County","2":"6974"},{"1":"Madison County","2":"6657"},{"1":"Jackson County","2":"6023"},{"1":"Marion County","2":"5389"},{"1":"Monroe County","2":"5072"},{"1":"Greene County","2":"4121"},{"1":"Lincoln County","2":"4121"},{"1":"Orange County","2":"4121"},{"1":"Union County","2":"4121"},{"1":"Clark County","2":"3804"},{"1":"Douglas County","2":"3804"},{"1":"Lee County","2":"3804"},{"1":"Warren County","2":"3804"},{"1":"Adams County","2":"3487"},{"1":"Polk County","2":"3487"},{"1":"Wayne County","2":"3487"},{"1":"Carroll County","2":"3170"},{"1":"Hamilton County","2":"3170"},{"1":"Henry County","2":"3170"},{"1":"Lake County","2":"3170"},{"1":"Shelby County","2":"3170"},{"1":"Benton County","2":"2853"},{"1":"Cass County","2":"2853"},{"1":"Clay County","2":"2853"},{"1":"Cumberland County","2":"2853"},{"1":"Delaware County","2":"2853"},{"1":"Fayette County","2":"2853"},{"1":"Cherokee County","2":"2536"},{"1":"Clinton County","2":"2536"},{"1":"Fulton County","2":"2536"},{"1":"Johnson County","2":"2536"},{"1":"Lawrence County","2":"2536"},{"1":"Marshall County","2":"2536"},{"1":"Boone County","2":"2219"},{"1":"Brown County","2":"2219"},{"1":"Columbia County","2":"2219"},{"1":"DeKalb County","2":"2219"},{"1":"Essex County","2":"2219"},{"1":"Jasper County","2":"2219"},{"1":"Kent County","2":"2219"},{"1":"Knox County","2":"2219"},{"1":"Mercer County","2":"2219"},{"1":"Middlesex County","2":"2219"},{"1":"Pike County","2":"2219"},{"1":"Putnam County","2":"2219"},{"1":"Summit County","2":"2219"},{"1":"York County","2":"2219"},{"1":"Birmingham","2":"1902"},{"1":"Butler County","2":"1902"},{"1":"Crawford County","2":"1902"},{"1":"El Paso County","2":"1902"},{"1":"Erie County","2":"1902"},{"1":"Grant County","2":"1902"},{"1":"Harrison County","2":"1902"},{"1":"Logan County","2":"1902"},{"1":"Randolph County","2":"1902"},{"1":"Richmond County","2":"1902"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -526,8 +560,7 @@ library(tidyverse)</code></pre>
 </div>
 <div id="visualizing-distributions" class="section level1" number="6">
 <h1 number="6"><span class="header-section-number">6</span> Visualizing Distributions</h1>
-<p>Before we start looking at relationships <em>between</em> variables, we should examine each variable’s underlying distribution.</p>
-<p>We’re going to cover two graphs that display variable distributions: histograms and density plots.</p>
+<p>Before we start looking at relationships <em>between</em> variables, we should examine each variable’s underlying distribution. In the next section, we’re going to cover a few graphs that display variable distributions: histograms, density, violin, and ridgeline plots,</p>
 <div id="histograms" class="section level2 tabset" number="6.1">
 <h2 class="tabset" number="6.1"><span class="header-section-number">6.1</span> Histograms</h2>
 <p>A histogram is a special kind of bar graph–it only takes a single continuous variable (in this case, <code>dir_request</code>), and it displays a relative breakdown of the values.</p>
@@ -615,7 +648,7 @@ TidyApple %&gt;% ggplot() +
 </div>
 <div id="density-plots" class="section level2 tabset" number="6.4">
 <h2 class="tabset" number="6.4"><span class="header-section-number">6.4</span> Density Plots</h2>
-<p>What if we want to see how a continuous variable is distributed across a categorical variable? We did this in the <a href="https://mjfrigaard.github.io/data-viz-intro/Index.html#77">previous lesson with a boxplot</a>.</p>
+<p>What if we want to see how a continuous variable is distributed across a categorical variable? We did this in the <a href="https://mjfrigaard.github.io/data-viz-intro/Index.html#87">previous lesson with a boxplot</a>.</p>
 <p>Density plots come in handy here (so do <code>geom_boxplot()</code>s!). Read more about the density geom <a href="https://ggplot2.tidyverse.org/reference/geom_density.html">here</a>.</p>
 <p>We are going to create the graph labels so we know what to expect when we build our graph.</p>
 <p>We want to see the distribution of the directions request, filled by the levels of transportation type.</p>
@@ -665,11 +698,28 @@ gg_density</code></pre>
 <p><img src="img/density-alpha-1.png" width="100%" height="100%" /></p>
 </div>
 </div>
-<div id="violin-plots" class="section level2 tabset" number="6.5">
-<h2 class="tabset" number="6.5"><span class="header-section-number">6.5</span> Violin Plots</h2>
+<div id="ridgeline-plots" class="section level2 tabset" number="6.5">
+<h2 class="tabset" number="6.5"><span class="header-section-number">6.5</span> Ridgeline Plots</h2>
+<p>Another option is a ridgeline plot (from the <code>ggridges</code> package). These display multiple densities.</p>
+<pre class="r"><code>lab_ridges &lt;- labs(x = &quot;Apple directions requests&quot;,
+                   y = &quot;Transportation Types&quot;,
+     title = &quot;Direction Requests by Transportation Type&quot;,
+     subtitle = &quot;source: https://covid19.apple.com/mobility&quot;)</code></pre>
+<pre class="r"><code>library(ggridges)
+TidyApple %&gt;%  
+  ggplot() + 
+  geom_density_ridges(aes(x = dir_request, 
+                          y = trans_type, 
+                          fill = trans_type), 
+                      alpha = 1/5) + 
+  lab_ridges</code></pre>
+<p><img src="img/geom_density_ridges-sol-1.png" width="100%" height="100%" /></p>
+</div>
+<div id="violin-plots" class="section level2 tabset" number="6.6">
+<h2 class="tabset" number="6.6"><span class="header-section-number">6.6</span> Violin Plots</h2>
 <p>Another alternative to the density plot is the violin plot.</p>
-<div id="exercise-5" class="section level3" number="6.5.1">
-<h3 number="6.5.1"><span class="header-section-number">6.5.1</span> exercise</h3>
+<div id="exercise-5" class="section level3" number="6.6.1">
+<h3 number="6.6.1"><span class="header-section-number">6.6.1</span> exercise</h3>
 <ul>
 <li>assign <code>"Apple directions requests"</code> to the <code>x</code> axis</li>
 <li>assign <code>"Transit Type"</code> to the <code>y</code> axis</li>
@@ -680,16 +730,16 @@ gg_density</code></pre>
      title = &quot;Distribution of Direction Requests vs. Transportation Type&quot;,
      subtitle = &quot;source: https://covid19.apple.com/mobility&quot;)</code></pre>
 </div>
-<div id="solution-6" class="section level3" number="6.5.2">
-<h3 number="6.5.2"><span class="header-section-number">6.5.2</span> solution</h3>
+<div id="solution-6" class="section level3" number="6.6.2">
+<h3 number="6.6.2"><span class="header-section-number">6.6.2</span> solution</h3>
 <pre class="r"><code>lab_violin &lt;- labs(x = &quot;Apple directions requests&quot;,
                    y = &quot;Transit Type&quot;,
                    fill = &quot;Transit Type&quot;,
      title = &quot;Distribution of Direction Requests vs. Transportation Type&quot;,
      subtitle = &quot;source: https://covid19.apple.com/mobility&quot;)</code></pre>
 </div>
-<div id="exercise-6" class="section level3" number="6.5.3">
-<h3 number="6.5.3"><span class="header-section-number">6.5.3</span> exercise</h3>
+<div id="exercise-6" class="section level3" number="6.6.3">
+<h3 number="6.6.3"><span class="header-section-number">6.6.3</span> exercise</h3>
 <p>Add a <code>geom_violin()</code> to the code below:</p>
 <pre class="r"><code>TidyApple %&gt;% 
   ggplot() +
@@ -697,8 +747,8 @@ gg_density</code></pre>
                   fill = trans_type)) + 
   lab_violin</code></pre>
 </div>
-<div id="solution-7" class="section level3" number="6.5.4">
-<h3 number="6.5.4"><span class="header-section-number">6.5.4</span> solution</h3>
+<div id="solution-7" class="section level3" number="6.6.4">
+<h3 number="6.6.4"><span class="header-section-number">6.6.4</span> solution</h3>
 <pre class="r"><code>TidyApple %&gt;% 
   ggplot() +
   geom_violin(aes(y = dir_request, x = trans_type, 
@@ -706,8 +756,8 @@ gg_density</code></pre>
   lab_violin</code></pre>
 <p><img src="img/geom_violin-sol-1.png" width="100%" height="100%" /></p>
 </div>
-<div id="exercise-7" class="section level3" number="6.5.5">
-<h3 number="6.5.5"><span class="header-section-number">6.5.5</span> exercise</h3>
+<div id="exercise-7" class="section level3" number="6.6.5">
+<h3 number="6.6.5"><span class="header-section-number">6.6.5</span> exercise</h3>
 <p>The great thing about <code>ggplot2</code>s layered syntax, is that we can add <code>geoms</code> with similar aesthetics to the same graph! For example, we can see how <code>geom_violin</code>s and <code>geom_boxplot</code>s are related by adding a <code>geom_boxplot()</code> layer to the graph above.</p>
 <pre class="r"><code>TidyApple %&gt;% 
   ggplot() +
@@ -717,8 +767,8 @@ gg_density</code></pre>
                    color = trans_type)) + 
   lab_violin</code></pre>
 </div>
-<div id="solution-8" class="section level3" number="6.5.6">
-<h3 number="6.5.6"><span class="header-section-number">6.5.6</span> solution</h3>
+<div id="solution-8" class="section level3" number="6.6.6">
+<h3 number="6.6.6"><span class="header-section-number">6.6.6</span> solution</h3>
 <p>Note we set the <code>alpha</code> to <code>1/5</code> for the <code>geom_violin()</code>, and the <code>color</code> to <code>trans_type</code> for the <code>geom_boxplot()</code>.</p>
 <pre class="r"><code>TidyApple %&gt;% 
   ggplot() +

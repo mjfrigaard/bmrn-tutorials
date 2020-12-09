@@ -1,0 +1,62 @@
+---
+title: "R Programming: Subsetting and Flow Control Statements"
+comment: "*change the flow of your code*"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+    toc_depth: 5
+    number_sections: yes
+    theme: flatly
+    df_print: paged
+
+always_allow_html: true
+---
+
+```{r, echo = FALSE}
+# don't name this setup!
+knitr::opts_chunk$set(collapse = TRUE,
+                      comment = "#>",
+                      message = FALSE,
+                      warning = FALSE)
+```
+
+# Objectives
+
+This section contains a basic overview of R's subsetting syntax (`[[`, `[`, and `$`) and flow control functions (`if`, `ifelse`, and `switch`), and how they can be used to control data workflows. 
+
+## Subset vectors {.tabset}
+
+Vectors are the fundamental data type in R. Below we assign five numbers to the vector `vec`. 
+
+```{r num_vec}
+num_vec <- c(2, 9, 4, 3, 7)
+num_vec
+```
+
+These five numbers exist in five different positions within the vector, and we can subset them using a bracket with the numerical 
+
+### subset using `[`
+
+Here are the numbers located at positions `[1]` and position `[5]`
+
+```{r subset-by-position}
+num_vec[1]
+num_vec[5]
+```
+
+### subset using `$`
+
+We can subset using the `$` when we're 
+
+## Subset data frames/tibbes {.tabset}
+
+## Subset {.tabset}
+
+## `if` {.tabset}
+
+The `if` statement can be used to 
+
+```{r}
+
+```

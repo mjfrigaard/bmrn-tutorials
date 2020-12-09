@@ -26,6 +26,10 @@ library(ggrepel)
 library(covdata)
 library(showtext)
 library(hrbrthemes)
+library(tidytuesdayR)
+library(Lahman)
+library(starwarsdb)
+library(dplyr)
 # create data folder
 knitr::opts_chunk$set(warning = FALSE,
                       message = FALSE,
@@ -41,9 +45,9 @@ Give your graphs a custom look using `ggplot` extension packages.
 
 # Materials
 
-- Slides:
+- Slides: *this lesson does not slides.*
 
-- RStudio Project:
+- RStudio Project: *this lesson does not have an RStudio.Cloud project.*
 
 # Previous lessons
 
@@ -60,10 +64,66 @@ library(tidyverse)
 
 # `ggplot2` extension packages
 
+`ggplot2` has an extensive list of user-written packages for just about any data visualization you can think of, and we're only going to cover a few in this lesson. Check out more [here](https://exts.ggplot2.tidyverse.org/gallery/). 
+
 ```{r ggpl2-packages, message=FALSE, warning=FALSE}
-library(ggforce)
-library(ggbeeswarm)
+library(ggtext)
 library(ggfittext)
+library(ggdist)
+library(ggbeeswarm)
+library(plotly)
 library(ggthemes)
+library(wesanderson)
+library(gganimate)
 ```
+
+# Data 
+
+We're going to be using data from the following packages: 
+
+```{r data-packages, eval=FALSE}
+library(tidytuesdayR)
+library(Lahman)
+library(starwarsdb)
+library(dplyr)
+```
+
+
+## Advanced Text Annotations
+
+In the [previous lesson](https://mjfrigaard.github.io/r-meetup-tutorials/gg01_data-viz-as-comm.html#8_Adding_Text_to_Graphs), we covered how to annotate your graphs with `ggplot2::annotate()`, and how to label data points with `ggrepel`.
+
+In this section, we're going to cover additional text options with `ggtext` and `ggfittext`.
+
+```{r text-packages}
+library(ggtext)
+library(ggfittext)
+```
+
+We're going to be visualizing the relationship between height and weight for the various species in the `People` dataset from the `Lahman` package.  
+
+
+
+```{r BBPData}
+BBPData <- Lahman::People %>% 
+  dplyr::select(nameGiven, height, weight)
+BBPData
+```
+
+
+## Advanced Distributions
+
+`ggdist`
+
+## Advanced Colors
+
+`wesanderson`
+
+## Advanced Interactivity 
+
+`plotly`
+
+## Advanced Animations
+
+`gganimate`
 
