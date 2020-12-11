@@ -2,8 +2,9 @@
 title: "About This Website"
 ---
 
-This is an [R Markdown website](http://rmarkdown.rstudio.com/rmarkdown_websites.html). The source can be found [on GitHub](https://github.com/mjfrigaard/r-meetup-tutorials) and its home on the web is here:
+This is an [R Markdown website](http://rmarkdown.rstudio.com/rmarkdown_websites.html), inspired by the **amazing** tutorials built by [Alison Hill](hhttps://apreshill.github.io/data-vis-labs-2018/) and [Jenny Bryan](https://jennybc.github.io/purrr-tutorial/). 
 
+The source can be found [on GitHub](https://github.com/mjfrigaard/r-meetup-tutorials) and its home on the web is here:
 <https://mjfrigaard.github.io/r-meetup-tutorials/>
 
 Who am I?

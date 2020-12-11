@@ -49,6 +49,16 @@ An introduction to dashboard development in R with `flexdashboard`s.
 
 All of the exercises and lessons are available [here](https://mjfrigaard.github.io/r-meetup-tutorials/), but you can also read more about [`ggplot2`](https://ggplot2.tidyverse.org/index.html) on the tidyverse website, and in the [Data Visualisation](https://r4ds.had.co.nz/data-visualisation.html) chapter of R for Data Science.
 
-# Load the `tidyverse`
+# Load the `tidyverse` and `flexdashboard`
 
-The main packages we're going to use are `dplyr`, `tidyr`, and `ggplot2`. These are all part of the `tidyverse`, so we'll import this package below:
+The main packages we're going to use are `dplyr`, `tidyr`, `ggplot2`, and `flexdashboard`. 
+
+
+```{r packages, eval=FALSE}
+library(tidyverse)
+library(skimr)
+library(janitor)
+library(flexdashboard)
+```
+
+# What should go into a dashboard?

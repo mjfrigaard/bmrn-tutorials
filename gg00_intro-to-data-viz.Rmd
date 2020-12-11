@@ -52,7 +52,7 @@ install.packages("tidyverse")
 library(tidyverse)
 ```
 
-# Largest Pharmaceutical Companies
+# Pharmaceutical Companies
 
 In the slides we had well-formatted dataset. In these exercises, we're going to import some data from the wild (Wikipedia), because most data aren't ready to visualize and model when we first get them.
 
