@@ -1,0 +1,32 @@
+---
+title: "Displaying Tables With R Markdown (under construction)"
+comment: "*table packages for reproducible reports*"
+output:
+  html_document:
+    toc: yes
+    toc_float: yes
+    toc_depth: 5
+    number_sections: yes
+    theme: flatly
+    df_print: paged
+
+always_allow_html: true
+---
+
+```{r , include=FALSE}
+library(tidyverse)
+library(ipcwswitch)
+library(skimr)
+# create data folder
+# folders
+folders <- c("code", "data", "img", "docs", "pdfs")
+purrr::map(.x = folders, .f = fs::dir_create)
+knitr::opts_chunk$set(warning = FALSE,
+                      message = FALSE,
+                      tidy = FALSE,
+                      size = "Huge")
+```
+
+# Objectives
+
+This section covers some packages for displaying data in tables in your R Markdown reports. 

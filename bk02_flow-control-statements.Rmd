@@ -1,5 +1,5 @@
 ---
-title: "R Programming: Subsetting and Flow Control Statements"
+title: "Subsetting and Flow Control Statements (under construction)"
 comment: "*change the flow of your code*"
 output:
   html_document:
@@ -47,16 +47,14 @@ num_vec[5]
 
 ### subset using `$`
 
-We can subset using the `$` when we're 
-
 ## Subset data frames/tibbes {.tabset}
 
-## Subset {.tabset}
+## Subset lists {.tabset}
 
 ## `if` {.tabset}
 
 The `if` statement can be used to 
 
-```{r}
+```{r if-statement}
 
 ```
