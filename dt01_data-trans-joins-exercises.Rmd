@@ -554,15 +554,17 @@ UsadaBadDates %>%
 
 Well, when the data are arranged in the way we want, we can test it with a visualization to check the number of sanctions per sport with bad dates. 
 
-```{r visualize}
+```{r visualize, out.height='100%', out.width='100%', fig.height=5, fig.width=7}
 UsadaBadDates %>%
         dplyr::mutate(sanction_dates = 
+                        
     # 1) split this on the "updated" pattern
              stringr::str_split(string = sanction_announced, 
                                 pattern = "updated")) %>% 
+  
     # 2) convert the output from split into multiple rows
         tidyr::unnest(sanction_dates) %>% 
-    
+  
     # 3) remove the "original" dates 
         dplyr::filter(!str_detect(string = sanction_dates, 
                                   pattern = "original")) %>% 
@@ -570,12 +572,16 @@ UsadaBadDates %>%
         dplyr::mutate(sanction_dates = stringr::str_remove_all(
                                                       string = sanction_dates,
                                                       pattern = ":"),
+                      
                       # 5) remove any whitespace
                       sanction_dates = stringr::str_trim(sanction_dates),
+                      
                       # 6) format as date
                       sanction_dates = lubridate::mdy(sanction_dates)) %>% 
+  
     # count by sport
     dplyr::count(sport, sort = TRUE) %>% 
+  
     # rename n 
     rename(`Sport Count` = n,
             Sport = sport) %>% 
@@ -583,10 +589,11 @@ UsadaBadDates %>%
                         y = forcats::fct_reorder(as.factor(Sport), `Sport Count`), 
                         fill = as.character(`Sport Count`))) + 
     geom_col(show.legend = FALSE) + 
-    labs(x = "Number of Sanctions", y = "Sport", 
+    labs(x = "Number of Sanctions", y = "Sport",
          title = "Number of Sanctions with Bad Dates",
          caption = "source: https://www.usada.org/news/sanctions/") + 
-    theme_bw()
+    ggthemes::theme_fivethirtyeight() + 
+    ggthemes::scale_fill_few()
 ```
 
 

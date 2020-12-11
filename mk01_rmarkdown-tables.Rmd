@@ -30,3 +30,42 @@ knitr::opts_chunk$set(warning = FALSE,
 # Objectives
 
 This section covers some packages for displaying data in tables in your R Markdown reports. 
+
+# Resources 
+
+Slides: this is an extra lesson, so there aren't currently slides available (yet!)
+
+RStudio.Cloud: this is an extra lesson, so there isn't an RStudio.Cloud project (yet!)
+
+# Packages
+
+We'll be covering a few different packages to use for displaying data in tables: 
+
++ [`gt`](https://gt.rstudio.com/)   
++ [`reactable`](https://glin.github.io/reactable/)  
++ [`DT`](https://rstudio.github.io/DT/)  
+
+```{r packages, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(gt)
+library(reactable)
+library(DT)
+```
+
+
+# Data
+
+The data for this section comes from the `fivethirtyeight` and `tidytuesdayR` packages. 
+
+```{r data-package, message=FALSE, warning=FALSE}
+library(fivethirtyeight)
+library(tidytuesdayR)
+```
+
+## 
+
+
+```{r}
+tuesdata <- tidytuesdayR::tt_load('2018-07-03')
+```
+
