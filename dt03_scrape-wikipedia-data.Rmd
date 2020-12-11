@@ -1,5 +1,5 @@
 ---
-title: "Scraping wikipedia tables"
+title: "Scraping Wikipedia Tables"
 comment: "*advanced wrangling example*"
 output:
   html_document:
@@ -127,11 +127,11 @@ TopPharmCompRaw <- read_csv(file = "https://bit.ly/3orq1YT")
 ```
 
 
-## Data wrangling (outline) 
+## Outline before you start 
 
 We have a raw dataset now, and we should make a 'to-do' list of what we want the data to look like. I start with data tidying, then move into changes for the individual variables. 
 
-# Tidy Data 
+# Wrangle Data 
 
 These data are in a wide format, with each `market_cap_in_` spread across columns. 
 
@@ -166,7 +166,7 @@ TidyTopPharmComp <- TopPharmCompRaw %>%
                       values_to = "market_cap_us_bil")
 ```
 
-## Wrangle Columns {.tabset}
+## Format Columns {.tabset}
 
 Follow along on each tab for the steps to wrangle the column names:
 
@@ -293,7 +293,7 @@ TopPharmComp
 
 ### `stock_exch` & `stock_id`
 
-We will use the `company_etc` column to create `stock_exch` and `stock_id`.
+We will use the `company_etc` column to create `stock_exch` and `stock_id`. We need to make sure we trim the whitespace from `stock_id` (after the )
 
 ```{r check-stock_exch-stock_id}
 TopPharmComp %>% 
@@ -540,7 +540,7 @@ TopPharmComp <- TopPharmComp %>%
 TopPharmComp %>% arrange(ranking)
 ```
 
-## Export data 
+# Export data 
 
 We now have a dataset we can use for modeling or visualizations! We'll export this to the `data` folder and use it in the data visualization section. 
 

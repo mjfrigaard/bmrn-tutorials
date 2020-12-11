@@ -701,10 +701,12 @@ gg_density</code></pre>
 <div id="ridgeline-plots" class="section level2 tabset" number="6.5">
 <h2 class="tabset" number="6.5"><span class="header-section-number">6.5</span> Ridgeline Plots</h2>
 <p>Another option is a ridgeline plot (from the <code>ggridges</code> package). These display multiple densities.</p>
-<pre class="r"><code>lab_ridges &lt;- labs(x = &quot;Apple directions requests&quot;,
-                   y = &quot;Transportation Types&quot;,
+<pre class="r"><code>lab_ridges &lt;- labs(
      title = &quot;Direction Requests by Transportation Type&quot;,
-     subtitle = &quot;source: https://covid19.apple.com/mobility&quot;)</code></pre>
+     subtitle = &quot;source: https://covid19.apple.com/mobility&quot;,
+     fill = &quot;Transit type&quot;,
+     x = &quot;Apple directions requests&quot;,
+     y = &quot;Transportation Types&quot;)</code></pre>
 <pre class="r"><code>library(ggridges)
 TidyApple %&gt;%  
   ggplot() + 
