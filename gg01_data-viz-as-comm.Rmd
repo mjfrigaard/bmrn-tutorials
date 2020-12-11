@@ -381,10 +381,12 @@ gg_density
 Another option is a ridgeline plot (from the `ggridges` package). These display multiple densities. 
 
 ```{r lab_ridges}
-lab_ridges <- labs(x = "Apple directions requests",
-                   y = "Transportation Types",
+lab_ridges <- labs(
      title = "Direction Requests by Transportation Type",
-     subtitle = "source: https://covid19.apple.com/mobility")
+     subtitle = "source: https://covid19.apple.com/mobility",
+     fill = "Transit type",
+     x = "Apple directions requests",
+     y = "Transportation Types")
 ```
 
 ```{r geom_density_ridges-sol, message=FALSE, warning=FALSE, fig.height=4, fig.width=6, out.height='100%', out.width='100%'}
