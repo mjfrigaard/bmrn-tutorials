@@ -23,19 +23,21 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 # Objectives
 
-This document contains a basic exposure to R functions and data objects. Check out the slides [here]()
+This document contains a basic exposure to R functions and data objects. 
 
-## R Syntax {.tabset}
+# R Syntax 
 
 Two major elements in R programming: functions and objects.
 
-### Functions 
+## Functions & Objects 
 
-Functions perform operations (calculate a mean, build a table, create a graph, etc.)
++ Functions perform operations (calculate a mean, build a table, create a graph, etc.)
 
-### Objects 
++ Objects hold information (a collection of numbers, dates, words, models results, etc.)
 
-Objects hold information (a collection of numbers, dates, words, models results, etc.)
+# Vectors 
+
+Vectors are the fundamental data type in R. Most R functions are 'vectorized', meaning they're optimized to work on vectors. 
 
 ## Atomic vectors {.tabset}
 
@@ -164,8 +166,6 @@ levels(vec_factor)
 unclass(vec_factor)
 ```
 
-
-
 ### Dates 
 
 Dates are stored as `double` vectors with a class attribute set to `Date`.
@@ -214,6 +214,10 @@ These have `class` and `units` attributes.
 ```{r attributes-vec_difftime}
 attributes(vec_difftime)
 ```
+
+# Multidimensional objects
+
+In the next sections we'll cover matrices and arrays, two of R's multidimensional objects.
 
 ## Matrices {.tabset}
 
@@ -278,6 +282,14 @@ class(dat_array)
 class(mat_data)
 ```
 
+# Rectangular data in R
+
+If you're importing spreadsheets, most of the work you'll do in R will be with rectangular data objects (i.e. `data.frame`s and `tibble`s).
+
+```{r data-frame-tibble, echo=FALSE, out.width='40%', out.height='40%', fig.align='center'}
+knitr::include_graphics(path = "img/data-frame-tibble.png")
+```
+
 ## Data Frames {.tabset}
 
 Rectangular data with rows and columns. 
@@ -295,7 +307,6 @@ DataFrame
 ```
 
 *NOTE: `stringsAsFactors = FALSE` is not required as of R version 4.0.0.*
-
 
 ### Inspect `data.frame`s
 
@@ -331,20 +342,13 @@ Tibble
 str(Tibble)
 ```
 
+# The 'catch-all' 
 
-### Rectangular data recap
-
-If you're importing spreadsheets, most of the work you'll do in R will be with rectangular data objects (i.e. `data.frame`s and `tibble`s).
-
-```{r data-frame-tibble, echo=FALSE, out.width='40%', out.height='40%', fig.align='center'}
-knitr::include_graphics(path = "img/data-frame-tibble.png")
-```
-
-Think of `data.frame`s and `tibble`s as special kinds of rectangular `lists`, made with different types of vectors, with each vector being of equal length.
+Lists are unique objects in R because they are *recursive vectors*. We've pointed out that atomic vectors can't be broken down into smaller components, but a list can store objects of multiple types (character, numeric, logical, etc.), `data.frame`s, `tibble`s, and even other lists. 
 
 ## Lists {.tabset}
 
-Lists can contain all other objects (including other lists).
+Unlike `data.frame`s, `tibble`s (which require each vector to be of equal length), lists can store objects of different types *and* sizes.
 
 ### Create lists 
 
@@ -367,4 +371,6 @@ And we can see all of these elements are stored (with the appropriate name).
 ```{r attributes-dat_list}
 attributes(dat_list)
 ```
+
+Think of `data.frame`s and `tibble`s as special kinds of rectangular `lists`, made with different types of vectors, with each vector being of equal length.
 

@@ -21,9 +21,11 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 # Objectives 
 
-This document covers managing your code, data, and files with RStudio. The sections below give a tour of the IDE, and some of the custom settings that you can do to increase your productivity. 
+This section covers some tips on managing your code, data, and files with RStudio. The sections below give a tour of the RStudio IDE, and some of the customizations that you can do to increase your productivity. 
 
-## Global Settings 
+I've included some comments in *italics*--these are just my personal observations, feel free to set up the IDE in the way that works best for you!
+
+# Global Settings 
 
 These can be found under **Tools > Global Options...** 
 
@@ -40,7 +42,7 @@ Un-check the option for "*Restore .RData into workspace at startup*"
 
 We also don't want the workspace to `.RData` on exit, so we will set this to **Never**
 
-### General Settings
+### General settings
 
 How your **General** settings should look:
 
@@ -52,7 +54,7 @@ knitr::include_graphics(path = "img/settings.png")
 
 Under **Tools > Global Options...** click on **Code** 
 
-### Code Editing
+### Code editing
 
 - Auto indent? *not recommended if you regularly paste lots of text*
 - Continue comment lines? *very handy if you write a lot of comments*
@@ -62,7 +64,7 @@ Under **Tools > Global Options...** click on **Code**
 knitr::include_graphics(path = "img/code-settings.png")
 ```
 
-### Code Display
+### Code display
 
 - Margins? *this is handy for knowing when to wrap code*
 - Scrolling? *not sure why this is even an option?*
@@ -72,7 +74,7 @@ knitr::include_graphics(path = "img/code-settings.png")
 knitr::include_graphics(path = "img/code-display.png")
 ```
 
-### Code Saving
+### Code saving
 
 - Cursor position? *this is nice when you want to remember where you left off*
 - Line endings? *'platform native' seems the safest*
@@ -82,7 +84,7 @@ knitr::include_graphics(path = "img/code-display.png")
 knitr::include_graphics(path = "img/code-savings.png")
 ```
 
-### Code Completion
+### Code completion
 
 - Insert parentheses? *one less things to think about/type*
 - Insert spaces? *reduces the keystroke/neuron load*
@@ -93,7 +95,7 @@ knitr::include_graphics(path = "img/code-completion.png")
 ```
 
 
-### Code Diagnostics 
+### Code diagnostics 
 
 - Check your R Code? *just about all of these help me write better code*
 - Check other languages? *I write other languages, so this is a great feature*
@@ -161,7 +163,7 @@ knitr::include_graphics("img/default-layout.png")
 knitr::include_graphics("img/add-column-switch-panes.png")
 ```
 
-### Three Column View
+### Three column view
 
 Now you see **Source**, **Tutorial**, and **Console** panes on a single screen!
 
@@ -169,11 +171,11 @@ Now you see **Source**, **Tutorial**, and **Console** panes on a single screen!
 knitr::include_graphics("img/three-column-layout.png")
 ```
 
-## RStudio Projects {.tabset}
-
-***Why RStudio Projects?***
+# RStudio projects
 
 Keep track of all your files with RStudio project files (`.Rproj`).
+
+## Why RStudio Projects? {.tabset}
 
 - Self contained
 *Using R projects keeps track or your current working directory!*
@@ -192,7 +194,7 @@ Keep track of all your files with RStudio project files (`.Rproj`).
 > `rm(list = ls())`  
 > I will come into your office and SET YOUR COMPUTER ON FIRE 🔥  
 
-### RStudio Project (existing folder) 
+### RStudio project (existing folder) 
 
 Click on '***Project: (New)***' > '***New Project***'
 
@@ -207,7 +209,7 @@ knitr::include_graphics("img/proj-existing-dir-create.png")
 ```
 
 
-### RStudio Project (new folder)
+### RStudio project (new folder)
 
 Click on '***Project: (New)***' > '***New Project***'
 
@@ -239,11 +241,15 @@ Use Git (if installed)
 knitr::include_graphics("img/proj-new-dir-version-crtl.png")
 ```
 
-## Folder Structure {.tabset}
+# Folders and files
 
-Good folder and file organization saves time and headaches. See the tabs below for some basic guidelines. 
+Good folder and file organization saves time and headaches. 
 
-### General Advice 
+## Folder structure {.tabset}
+
+See the tabs below for some basic guidelines on folder structure and file naming.
+
+### General advice 
 
 - separate raw and cleaned data  
 
@@ -255,7 +261,7 @@ Good folder and file organization saves time and headaches. See the tabs below f
 
 - structure is reusable and easy to understand
 
-### Example Folder Structure
+### Example folder structure
 
 Adapted from from '[Good enough practices in scientific computing](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1005510)' 
 
@@ -285,7 +291,7 @@ project-name/
                   |-- runall.R
 ```
 
-## Naming Things {.tabset}
+## Naming files {.tabset}
 
 Basic rules to follow: 
 
@@ -295,7 +301,7 @@ Basic rules to follow:
 
 3. sort/order well -> (ISO 8601 date)
 
-### Example File Names
+### Example file names
 
 *These are handy names:*
 
@@ -312,7 +318,7 @@ Basic rules to follow:
 
 > *Adapted from [Jenny Byran's slides](https://speakerdeck.com/jennybc/how-to-name-files)
 
-### Locating Files
+### Locating files
 
 *We can use regular expressions to find '270-301' files!!*
 
@@ -323,7 +329,7 @@ grepl(pattern = "270-301",
 
 > *Adapted from [Jenny Byran's slides](https://speakerdeck.com/jennybc/how-to-name-files)
 
-### Other Examples 
+### Other examples 
 
 *Logical order and underscores `_` also make it easier to sort files*
 
@@ -346,7 +352,7 @@ stringr::str_split_fixed(string = files, pattern = "_", 3)
 > *Adapted from [Jenny Byran's slides](https://speakerdeck.com/jennybc/how-to-name-files)
 
 
-## File Paths {.tabset}  
+## File paths {.tabset}  
 
 Use relative rather than absolute file paths
 
@@ -366,7 +372,11 @@ These are specific to a *folder*
 
 `project-name\\data` -> relative path in Windows
 
-## The `here` Package {.tabset}  
+# Useful packages 
+
+This section covers some packages to help manage files and folders. 
+
+## The `here` package {.tabset}  
 
 The `here::set_here()` function solves a lot of file path problems (*especially if you're not using R projects*)
 
@@ -389,44 +399,31 @@ list.files(all.files = TRUE, pattern = "here")
 #> [1] ".here"
 ```
 
-## Terminal Pane {.tabset}  
+## The `fs` package {.tabset} 
 
-Learn a handful of command-line tools to make life easier
+The `fs` package stands for **file system** and is great for locating and accessing files. 
 
-### Command Line Basics 
+### Folder trees 
 
-Know how to use `cd`, `pwd`, `mkdir`, `rm`, `ls`, etc.
+View a tree layout of your files with `fs::dir_tree()`.
 
-### Terminal in RStudio
-
-RStudio comes with a Terminal pane for quick access to the command-line
-
-```{r terminal-pane.png, echo=FALSE, out.width="60%", out.height="60%", fig.align='center'}
-knitr::include_graphics("img/terminal-pane.png")
+```{r dir_tree}
+fs::dir_tree("data")
 ```
 
+### List files 
 
-## Getting Help {.tabset}
+Get the complete path to files using `fs::dir_ls()`.
 
-R comes with a *ton* of accessible help files 
-
-### Accessing Help Files 
-
-```{r help-files, eval=FALSE}
-?read.csv
+```{r dir_ls}
+fs::dir_ls("data")
 ```
 
-### The ***Help*** Pane
-
-```{r help-pane, echo=FALSE, out.width="60%", out.height="60%", fig.align='center'}
-knitr::include_graphics("img/help-pane.png")
-```
-
-## Reproducible Examples {.tabset}
+## Reproducible examples {.tabset}
 
 The [`reprex` package](https://github.com/tidyverse/reprex) was designed to help you create a reproducible example
 
-### Reprex Addin 1
+### Reprex addin 1
 
 1. Copy code
 2. Select *Addin* > *Render selection*  
@@ -435,7 +432,7 @@ The [`reprex` package](https://github.com/tidyverse/reprex) was designed to help
 knitr::include_graphics("img/copy-render-reprex.png")
 ```
 
-### Reprex Addin 2
+### Reprex addin 2
 
 1. Copy code
 2. Select *Addin* > *Render selection*  
@@ -454,7 +451,45 @@ To copy + paste actual data in a reproducible example, try [`datapasta`](https:/
 knitr::include_graphics("https://raw.githubusercontent.com/tidyverse/reprex/master/img/datapasta_w_reprex_sheet_to_tribble.gif")
 ```
 
-## Learn more about R best practices
+# More RStudio panes
+
+RStudio also comes with access to a **Terminal** and **Help** pane.
+
+## Terminal pane {.tabset}  
+
+Learn a handful of command-line tools to make life easier
+
+### Command line basics 
+
+Know how to use `cd`, `pwd`, `mkdir`, `rm`, `ls`, etc.
+
+### Terminal in RStudio
+
+RStudio comes with a Terminal pane for quick access to the command-line
+
+```{r terminal-pane.png, echo=FALSE, out.width="60%", out.height="60%", fig.align='center'}
+knitr::include_graphics("img/terminal-pane.png")
+```
+
+
+## Getting help {.tabset}
+
+R comes with a *ton* of accessible help files 
+
+### Accessing help files 
+
+```{r help-files, eval=FALSE}
+?read.csv
+```
+
+### The ***Help*** pane
+
+```{r help-pane, echo=FALSE, out.width="60%", out.height="60%", fig.align='center'}
+knitr::include_graphics("img/help-pane.png")
+```
+
+
+# Learn more about R best practices
 
 1. [R for Data Science](https://r4ds.had.co.nz/) 
 
@@ -462,7 +497,7 @@ knitr::include_graphics("https://raw.githubusercontent.com/tidyverse/reprex/mast
 
 3. [RViews Community Blog](https://rviews.rstudio.com/)
 
-## Feedback
+# Feedback
 
 @mjfrigaard on Twitter and Github
 
