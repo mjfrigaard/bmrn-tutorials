@@ -24,12 +24,17 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
-<link href="site_libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="site_libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="site_libs/core-js-2.5.3/shim.min.js"></script>
+<script src="site_libs/react-16.12.0/react.min.js"></script>
+<script src="site_libs/react-16.12.0/react-dom.min.js"></script>
+<script src="site_libs/reactwidget-1.0.0/react-tools.js"></script>
+<script src="site_libs/htmlwidgets-1.5.2/htmlwidgets.js"></script>
+<script src="site_libs/reactable-binding-0.2.3/reactable.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -263,6 +268,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -383,6 +391,14 @@ div.tocify {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Displaying Tables With R Markdown (under construction)</h1>
@@ -414,10 +430,187 @@ library(gt)
 library(reactable)
 library(DT)</code></pre>
 </div>
-<div id="data" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Data</h1>
-<p>The data for this section comes from the <code>fivethirtyeight</code> package.</p>
-<pre class="r"><code>library(fivethirtyeight)</code></pre>
+<div id="yahoo-finance-data" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Yahoo finance data</h1>
+<p>We’re going to be returning to stock data for this section. Stock (or quant) data is typically presented on the web or in a dashboard, so it’s great for demonstrating the capabilities of R table packages.</p>
+<p>Here is the source for the dataset below: <a href="https://finance.yahoo.com/u/yahoo-finance/watchlists/biotech-and-drug-stocks" class="uri">https://finance.yahoo.com/u/yahoo-finance/watchlists/biotech-and-drug-stocks</a></p>
+<div id="example-summary-table" class="section level2 tabset" number="4.1">
+<h2 class="tabset" number="4.1"><span class="header-section-number">4.1</span> Example summary table</h2>
+<p>These data have already been formatted in a way that is great for a table, but would pose problems if we tried to visualize them. For example, the <code>percent_change</code>-<code>market_cap</code> columns have symbols that cause them to be read into R as characters. We would need to wrangle these data quite a bit to get them into a format we could use.</p>
+<pre class="r"><code>BioTechDrugStocks &lt;- read_csv(&quot;data/2020-12-11-BioTechDrugStocks.csv&quot;)
+BioTechDrugStocks</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["symbol"],"name":[1],"type":["chr"],"align":["left"]},{"label":["company_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["last_price"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["change"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["percent_change"],"name":[5],"type":["chr"],"align":["left"]},{"label":["market_time"],"name":[6],"type":["chr"],"align":["left"]},{"label":["volume"],"name":[7],"type":["chr"],"align":["left"]},{"label":["avg_vol_3_month"],"name":[8],"type":["chr"],"align":["left"]},{"label":["market_cap"],"name":[9],"type":["chr"],"align":["left"]}],"data":[{"1":"JNJ","2":"Johnson & Johnson","3":"152.950","4":"0.70","5":"+0.46%","6":"4:00 PM EST","7":"5.97M","8":"6.89M","9":"402.65B"},{"1":"RHHBY","2":"Roche Holding AG","3":"43.210","4":"0.03","5":"+0.07%","6":"4:00 PM EST","7":"1.42M","8":"1.17M","9":"294.49B"},{"1":"PFE","2":"Pfizer Inc.","3":"41.120","4":"-0.61","5":"-1.46%","6":"4:02 PM EST","7":"58.90M","8":"38.86M","9":"228.56B"},{"1":"NVS","2":"Novartis AG","3":"92.620","4":"0.94","5":"+1.03%","6":"4:00 PM EST","7":"1.89M","8":"1.91M","9":"209.99B"},{"1":"MRK","2":"Merck & Co., Inc.","3":"82.960","4":"-0.03","5":"-0.04%","6":"4:02 PM EST","7":"7.23M","8":"8.37M","9":"209.89B"},{"1":"ABBV","2":"AbbVie Inc.","3":"106.340","4":"-1.15","5":"-1.07%","6":"4:02 PM EST","7":"4.99M","8":"8.19M","9":"187.74B"},{"1":"NVO","2":"Novo Nordisk A/S","3":"69.540","4":"0.26","5":"+0.38%","6":"4:00 PM EST","7":"615.27k","8":"1.10M","9":"160.30B"},{"1":"LLY","2":"Eli Lilly and Company","3":"160.040","4":"-0.96","5":"-0.60%","6":"4:03 PM EST","7":"3.44M","8":"4.20M","9":"153.09B"},{"1":"AZN","2":"AstraZeneca PLC","3":"54.270","4":"0.38","5":"+0.71%","6":"4:00 PM EST","7":"3.82M","8":"5.45M","9":"143.11B"},{"1":"BMY","2":"Bristol-Myers Squibb Company","3":"60.720","4":"0.52","5":"+0.86%","6":"4:00 PM EST","7":"8.50M","8":"10.35M","9":"137.21B"},{"1":"AMGN","2":"Amgen Inc.","3":"227.400","4":"-0.76","5":"-0.33%","6":"4:00 PM EST","7":"1.90M","8":"2.59M","9":"132.39B"},{"1":"SNY","2":"Sanofi","3":"47.830","4":"-1.91","5":"-3.84%","6":"4:00 PM EST","7":"3.16M","8":"1.14M","9":"119.21B"},{"1":"GSK","2":"GlaxoSmithKline plc","3":"37.590","4":"-0.38","5":"-1.00%","6":"4:00 PM EST","7":"4.23M","8":"4.73M","9":"94.09B"},{"1":"GLAXF","2":"GlaxoSmithKline plc","3":"18.460","4":"-0.42","5":"-2.21%","6":"3:06 PM EST","7":"677.36k","8":"206.02k","9":"92.94B"},{"1":"GILD","2":"Gilead Sciences, Inc.","3":"60.760","4":"0.31","5":"+0.51%","6":"4:00 PM EST","7":"7.45M","8":"9.30M","9":"76.16B"},{"1":"ZTS","2":"Zoetis Inc.","3":"159.530","4":"1.41","5":"+0.89%","6":"4:03 PM EST","7":"1.26M","8":"1.72M","9":"75.82B"},{"1":"MRNA","2":"Moderna, Inc.","3":"156.930","4":"1.24","5":"+0.80%","6":"4:00 PM EST","7":"21.12M","8":"16.59M","9":"62.10B"},{"1":"VRTX","2":"Vertex Pharmaceuticals Incorporated","3":"224.170","4":"0.13","5":"+0.06%","6":"4:00 PM EST","7":"1.33M","8":"2.08M","9":"58.29B"},{"1":"TAK","2":"Takeda Pharmaceutical Company Limited","3":"18.790","4":"0.01","5":"+0.05%","6":"4:00 PM EST","7":"2.11M","8":"1.24M","9":"58.15B"},{"1":"BAYRY","2":"Bayer Aktiengesellschaft","3":"14.120","4":"-0.27","5":"-1.88%","6":"3:59 PM EST","7":"549.99k","8":"772.07k","9":"55.21B"},{"1":"REGN","2":"Regeneron Pharmaceuticals, Inc.","3":"479.770","4":"0.79","5":"+0.16%","6":"4:00 PM EST","7":"923.01k","8":"998.15k","9":"51.19B"},{"1":"BIIB","2":"Biogen Inc.","3":"241.430","4":"-1.55","5":"-0.64%","6":"4:00 PM EST","7":"1.02M","8":"1.65M","9":"37.15B"},{"1":"SGEN","2":"Seagen Inc.","3":"191.175","4":"4.63","5":"+2.48%","6":"4:00 PM EST","7":"724.62k","8":"988.26k","9":"34.22B"},{"1":"BNTX","2":"BioNTech SE","3":"127.300","4":"-2.24","5":"-1.73%","6":"4:00 PM EST","7":"4.16M","8":"3.60M","9":"30.65B"},{"1":"RPRX","2":"Royalty Pharma plc","3":"42.410","4":"-2.79","5":"-6.17%","6":"4:00 PM EST","7":"2.09M","8":"1.67M","9":"26.52B"},{"1":"ALXN","2":"Alexion Pharmaceuticals, Inc.","3":"120.980","4":"2.11","5":"+1.78%","6":"4:00 PM EST","7":"1.32M","8":"1.84M","9":"26.48B"},{"1":"GMAB","2":"Genmab A/S","3":"39.100","4":"0.26","5":"+0.67%","6":"4:00 PM EST","7":"322.13k","8":"535.68k","9":"25.63B"},{"1":"CVAC","2":"CureVac N.V.","3":"118.080","4":"-10.87","5":"-8.43%","6":"4:00 PM EST","7":"824.44k","8":"576.38k","9":"21.01B"},{"1":"VTRS","2":"Viatris Inc.","3":"17.340","4":"-0.35","5":"-1.98%","6":"4:00 PM EST","7":"15.46M","8":"10.43M","9":"20.85B"},{"1":"BGNE","2":"BeiGene, Ltd.","3":"228.250","4":"0.30","5":"+0.13%","6":"4:00 PM EST","7":"486.66k","8":"377.09k","9":"20.23B"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="stock-data-from-quantmod" class="section level2 tabset" number="4.2">
+<h2 class="tabset" number="4.2"><span class="header-section-number">4.2</span> Stock data from <code>quantmod</code></h2>
+<p>We will also import some actual stock data using <code>quantmod</code> and <code>xts</code> packages.</p>
+<pre class="r"><code>source(&quot;code/quant-packages.R&quot;)
+biotech_symbols &lt;- c(&quot;BMRN&quot;, &quot;MRK&quot;, &quot;AZN&quot;, &quot;GSK&quot;, &quot;BNTX&quot;, &quot;MRNA&quot;)
+biotech_prices &lt;- quantmod::getSymbols(biotech_symbols, 
+                  # returns an object with the opening price, closing price, 
+                  # adjusted price, daily high, daily low and daily volume
+                  # for each ticker.
+                     src = &#39;yahoo&#39;, 
+                     from = &quot;2019-12-31&quot;, to = &quot;2020-12-11&quot;, 
+                     auto.assign = TRUE, 
+                     warnings = FALSE) %&gt;% 
+          # Ad() and get() is used to isolate the adjusted price
+          purrr::map(~Ad(get(.))) %&gt;% 
+          # merge() looks for the date index shared by our objects and 
+          # uses that index to align the data.
+          purrr::reduce(merge) %&gt;% 
+          # use colnames&lt;- to rename the columns according to the 
+          # symbols object.
+          `colnames&lt;-`(biotech_symbols)</code></pre>
+<div id="convert-adjusted-prices-to-wide" class="section level3" number="4.2.1">
+<h3 number="4.2.1"><span class="header-section-number">4.2.1</span> Convert adjusted prices to wide</h3>
+<p>Here is the wide version of the prices.</p>
+<pre class="r"><code>biotech_prices %&gt;%
+  xts::to.monthly(indexAt = &quot;lastof&quot;, 
+             OHLC = FALSE) %&gt;%
+  # convert the index to a date
+  base::data.frame(date = index(.)) %&gt;%
+  # now remove the index because it got converted to row names 
+  tibble::remove_rownames() %&gt;% 
+  dplyr::select(date, 
+                dplyr::everything()) -&gt; PricesWide
+PricesWide</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["date"],"name":[1],"type":["date"],"align":["right"]},{"label":["BMRN"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["MRK"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["AZN"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["GSK"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["BNTX"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["MRNA"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"2019-12-31","2":"84.55","3":"88.84722","4":"48.47673","5":"44.72367","6":"33.88","7":"19.56"},{"1":"2020-01-31","2":"83.50","3":"83.46463","4":"47.34891","5":"44.54283","6":"29.21","7":"20.51"},{"1":"2020-02-29","2":"90.37","3":"74.78992","4":"43.45262","5":"39.11396","6":"35.10","7":"25.93"},{"1":"2020-03-31","2":"84.50","3":"75.78207","4":"44.30580","5":"36.56619","6":"58.40","7":"29.95"},{"1":"2020-04-30","2":"92.02","3":"78.14593","4":"51.86537","5":"40.60016","6":"47.48","7":"45.99"},{"1":"2020-05-31","2":"106.55","3":"79.50517","4":"54.16697","5":"40.90715","6":"49.53","7":"61.50"},{"1":"2020-06-30","2":"123.34","3":"76.77163","4":"52.47053","5":"39.80446","6":"66.74","7":"64.21"},{"1":"2020-07-31","2":"119.81","3":"79.66061","4":"55.33761","5":"39.34581","6":"82.11","7":"74.10"},{"1":"2020-08-31","2":"78.03","3":"84.65430","4":"56.00000","5":"39.09855","6":"61.25","7":"64.89"},{"1":"2020-09-30","2":"76.08","3":"82.95000","4":"54.80000","5":"37.16337","6":"69.23","7":"70.75"},{"1":"2020-10-31","2":"74.43","3":"75.21000","4":"50.16000","5":"32.99681","6":"85.36","7":"67.47"},{"1":"2020-11-30","2":"78.70","3":"80.39000","4":"52.94000","5":"36.79000","6":"124.24","7":"152.74"},{"1":"2020-12-31","2":"77.76","3":"82.99000","4":"53.89000","5":"37.97000","6":"129.54","7":"155.69"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="calculate-log-returns-wide" class="section level3" number="4.2.2">
+<h3 number="4.2.2"><span class="header-section-number">4.2.2</span> Calculate log returns wide</h3>
+<p>Below we create a wide dataset of log returns.</p>
+<pre class="r"><code>PricesWide %&gt;%
+  tidyr::pivot_longer(names_to = &quot;asset&quot;, 
+                      values_to = &quot;prices&quot;, 
+                      cols = -date) %&gt;% 
+  dplyr::group_by(asset) %&gt;% 
+  # calculate log returns and add those returns to the data frame
+  dplyr::mutate(returns = (log(prices) - log(lag(prices)))) %&gt;% 
+  dplyr::select(-prices) %&gt;% 
+  tidyr::pivot_wider(names_from = asset, 
+                     values_from = returns) %&gt;% 
+  dplyr::filter(!is.na(BMRN)) -&gt; ReturnsWide
+ReturnsWide</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["date"],"name":[1],"type":["date"],"align":["right"]},{"label":["BMRN"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["MRK"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["AZN"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["GSK"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["BNTX"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["MRNA"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"2020-01-31","2":"-0.01249648","3":"-0.06249533","4":"-0.02354009","5":"-0.004051604","6":"-0.14831382","7":"0.04742596"},{"1":"2020-02-29","2":"0.07906576","3":"-0.10973977","4":"-0.08587247","5":"-0.129971886","6":"0.18368999","7":"0.23448803"},{"1":"2020-03-31","2":"-0.06716085","3":"0.01317848","4":"0.01944444","5":"-0.067355209","6":"0.50911485","7":"0.14412876"},{"1":"2020-04-30","2":"0.08525438","3":"0.03071637","4":"0.15753558","5":"0.104647759","6":"-0.20700735","7":"0.42889467"},{"1":"2020-05-31","2":"0.14660847","3":"0.01724405","4":"0.04342001","5":"0.007532980","6":"0.04226996","7":"0.29061315"},{"1":"2020-06-30","2":"0.14633035","3":"-0.03498693","4":"-0.03181960","5":"-0.027325923","6":"0.29822592","7":"0.04312177"},{"1":"2020-07-31","2":"-0.02903760","3":"0.03694013","4":"0.05320112","5":"-0.011589351","6":"0.20725538","7":"0.14325656"},{"1":"2020-08-31","2":"-0.42881378","3":"0.06080058","4":"0.01189887","5":"-0.006304132","6":"-0.29309597","7":"-0.13272199"},{"1":"2020-09-30","2":"-0.02530791","3":"-0.02033789","4":"-0.02166152","5":"-0.050761806","6":"0.12247049","7":"0.08645902"},{"1":"2020-10-31","2":"-0.02192636","3":"-0.09795379","4":"-0.08847228","5":"-0.118912853","6":"0.20944328","7":"-0.04746947"},{"1":"2020-11-30","2":"0.05578403","3":"0.06660559","4":"0.05394128","5":"0.108815297","6":"0.37533754","7":"0.81705409"},{"1":"2020-12-31","2":"-0.01201593","3":"0.03183032","4":"0.01778574","5":"0.031570304","6":"0.04177450","7":"0.01912970"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div id="tidy-adjusted-prices-log-returns" class="section level2 tabset" number="4.3">
+<h2 class="tabset" number="4.3"><span class="header-section-number">4.3</span> Tidy adjusted prices &amp; log returns</h2>
+<p>Below we filter both wide datasets to <code>2020-12-31</code>, pivot them into a long format, and join them into a single dataset with <code>Symbols</code>, <code>Adj Prices</code>, and <code>Log Returns</code>.</p>
+<div id="prices-2020-12" class="section level3" number="4.3.1">
+<h3 number="4.3.1"><span class="header-section-number">4.3.1</span> Prices 2020-12</h3>
+<pre class="r"><code>bt_prices_12_2020 &lt;- PricesWide %&gt;% 
+  filter(date == &quot;2020-12-31&quot;) %&gt;% 
+  pivot_longer(names_to = &quot;symbols&quot;, 
+               values_to = &quot;prices&quot;, cols = -date)
+bt_prices_12_2020</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["date"],"name":[1],"type":["date"],"align":["right"]},{"label":["symbols"],"name":[2],"type":["chr"],"align":["left"]},{"label":["prices"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"2020-12-31","2":"BMRN","3":"77.76"},{"1":"2020-12-31","2":"MRK","3":"82.99"},{"1":"2020-12-31","2":"AZN","3":"53.89"},{"1":"2020-12-31","2":"GSK","3":"37.97"},{"1":"2020-12-31","2":"BNTX","3":"129.54"},{"1":"2020-12-31","2":"MRNA","3":"155.69"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="returns-2020-12" class="section level3" number="4.3.2">
+<h3 number="4.3.2"><span class="header-section-number">4.3.2</span> Returns 2020-12</h3>
+<pre class="r"><code>bt_returns_12_2020 &lt;- ReturnsWide %&gt;% 
+  filter(date == &quot;2020-12-31&quot;) %&gt;% 
+  pivot_longer(names_to = &quot;symbols&quot;, 
+               values_to = &quot;returns&quot;, cols = -date)
+bt_returns_12_2020</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["date"],"name":[1],"type":["date"],"align":["right"]},{"label":["symbols"],"name":[2],"type":["chr"],"align":["left"]},{"label":["returns"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"2020-12-31","2":"BMRN","3":"-0.01201593"},{"1":"2020-12-31","2":"MRK","3":"0.03183032"},{"1":"2020-12-31","2":"AZN","3":"0.01778574"},{"1":"2020-12-31","2":"GSK","3":"0.03157030"},{"1":"2020-12-31","2":"BNTX","3":"0.04177450"},{"1":"2020-12-31","2":"MRNA","3":"0.01912970"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="adj-prices-log-returns" class="section level3" number="4.3.3">
+<h3 number="4.3.3"><span class="header-section-number">4.3.3</span> Adj Prices &amp; Log Returns</h3>
+<pre class="r"><code>bt_stocks_12_2020 &lt;- bt_prices_12_2020 %&gt;% 
+  inner_join(x = ., 
+           y = bt_returns_12_2020, 
+           by = c(&quot;date&quot;, &quot;symbols&quot;)) %&gt;% 
+  select(-date) %&gt;% 
+  mutate(returns = round(returns, digits = 4),
+         prices = round(prices, digits = 4)) %&gt;% 
+  rename(`Adj Prices` = prices,
+         `Log Returns` = returns, 
+         Symbols = symbols)
+bt_stocks_12_2020</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Symbols"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Adj Prices"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Log Returns"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"BMRN","2":"77.76","3":"-0.0120"},{"1":"MRK","2":"82.99","3":"0.0318"},{"1":"AZN","2":"53.89","3":"0.0178"},{"1":"GSK","2":"37.97","3":"0.0316"},{"1":"BNTX","2":"129.54","3":"0.0418"},{"1":"MRNA","2":"155.69","3":"0.0191"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</div>
+<div id="gt-package" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> <code>gt</code> package</h1>
+<div id="dealing-with-merged-columns" class="section level2 tabset" number="5.1">
+<h2 class="tabset" number="5.1"><span class="header-section-number">5.1</span> Dealing with merged columns</h2>
+<div id="merging-columns" class="section level3" number="5.1.1">
+<h3 number="5.1.1"><span class="header-section-number">5.1.1</span> merging columns</h3>
+<p>Merge columns using…</p>
+</div>
+<div id="column-headers" class="section level3" number="5.1.2">
+<h3 number="5.1.2"><span class="header-section-number">5.1.2</span> column headers</h3>
+<p>Add column headers using…</p>
+</div>
+</div>
+</div>
+<div id="reactable-package" class="section level1" number="6">
+<h1 number="6"><span class="header-section-number">6</span> <code>reactable</code> package</h1>
+<p>The <code>reactable</code> package provides a comprehensive library of data display features.</p>
+<div id="dealing-with-symbols" class="section level2 tabset" number="6.1">
+<h2 class="tabset" number="6.1"><span class="header-section-number">6.1</span> Dealing with symbols</h2>
+<p>Adding <code>+</code> and <code>-</code></p>
+<div id="adding-symbols" class="section level3" number="6.1.1">
+<h3 number="6.1.1"><span class="header-section-number">6.1.1</span> adding symbols</h3>
+<pre class="r"><code>reactable(bt_stocks_12_2020, columns = list(
+  # add + or - for returns
+  `Log Returns` = colDef(
+    cell = function(value) {
+      # here we use paste0() to combine the value with +
+      if (value &gt;= 0) paste0(&quot;+&quot;, value) else value
+    },
+    # add color for values above or below 0
+    style = function(value) {
+      color &lt;- if (value &gt; 0) {
+        # green if above
+        &quot;#008000&quot;
+        # red if below
+      } else if (value &lt; 0) {
+        &quot;#e00000&quot;
+      }
+      list(fontWeight = 600, color = color)
+    }
+  )
+))</code></pre>
+<div id="htmlwidget-1e4b7da591ee4d8c65cc" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-1e4b7da591ee4d8c65cc">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Symbols":["BMRN","MRK","AZN","GSK","BNTX","MRNA"],"Adj Prices":[77.76,82.99,53.89,37.97,129.54,155.69],"Log Returns":[-0.012,0.0318,0.0178,0.0316,0.0418,0.0191]},"columns":[{"accessor":"Symbols","name":"Symbols","type":"character"},{"accessor":"Adj Prices","name":"Adj Prices","type":"numeric"},{"accessor":"Log Returns","name":"Log Returns","type":"numeric","cell":["-0.012","+0.0318","+0.0178","+0.0316","+0.0418","+0.0191"],"style":[{"fontWeight":600,"color":"#e00000"},{"fontWeight":600,"color":"#008000"},{"fontWeight":600,"color":"#008000"},{"fontWeight":600,"color":"#008000"},{"fontWeight":600,"color":"#008000"},{"fontWeight":600,"color":"#008000"}]}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"ec5545a9d0932d06b35e70f3e7fd451a","key":"ec5545a9d0932d06b35e70f3e7fd451a"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+<div id="dt-package" class="section level1" number="7">
+<h1 number="7"><span class="header-section-number">7</span> <code>DT</code> package</h1>
+<p>The <code>DT</code> package…</p>
+<div id="filering-data" class="section level2 tabset" number="7.1">
+<h2 class="tabset" number="7.1"><span class="header-section-number">7.1</span> Filering data</h2>
+<p>To allow users to filter the data in your table, use the…</p>
+</div>
 </div>
 
 <i class="fab fa-creative-commons fa-2x"></i><i class="fab fa-creative-commons-by fa-2x"></i><i class="fab fa-creative-commons-sa fa-2x"></i>
@@ -456,6 +649,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {
