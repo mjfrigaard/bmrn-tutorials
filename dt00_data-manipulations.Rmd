@@ -17,12 +17,11 @@ params:
 always_allow_html: true
 ---
 
-```{r, echo = FALSE, include=FALSE}
+```{r , echo = FALSE, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE, 
                       comment = "#>", 
                       error = TRUE)
 library(tidyverse)
-library(ipcwswitch)
 library(skimr)
 original_starwars <- read_csv("https://bit.ly/3qgjqSC")
 ```
@@ -35,7 +34,7 @@ This document outlines some common data manipulation tasks with `dplyr`. The sli
 
 Read more about `dplyr` [here](https://dplyr.tidyverse.org/index.html) on the tidyverse website, or in the [Data Transformation](https://r4ds.had.co.nz/transform.html) chapter of R for Data Science. 
 
-## Load packages 
+# Load packages 
 
 `dplyr` is part of the core `tidyverse` packages, so we install and load this meta-package below. 
 
@@ -44,6 +43,9 @@ install.packages("tidyverse")
 library(tidyverse)
 ```
 
+# Import data
+
+We'll cover two methods for importing data into RStudio. 
 
 ## Import data {.tabset}
 
@@ -70,16 +72,14 @@ params:
 readr::read_csv(params$data_file)
 ```
 
-### Create from `dplyr`
+# `dplyr` verbs 
 
-We can also manually create `original_starwars` using the code below (which we cover in this training). 
+This section covers four common `dplyr` verbs for data manipulation: 
 
-```{r manually-create-original_starwars}
-dplyr::starwars %>% 
-    dplyr::select(name, height, mass, hair_color, species, homeworld) %>% 
-    filter(name %in% c("Luke Skywalker", "C-3PO", "R2-D2", 
-                       "Leia Organa", "Chewbacca", "Han Solo"))
-```
+- `select`  
+- `filter`  
+- `arrange`  
+- `mutate`  
 
 ## Selecting columns {.tabset}
 
@@ -229,6 +229,10 @@ mutate(original_starwars,
        bmi = mass / ((height / 100) ^ 2),
        bmi = round(bmi, digits = 1))
 ```
+
+# The pipe 
+
+Clearly written code makes it easier for machines *and* humans to read. The pipe (`%>%`) from `magrittr` package allows us to chain together multiple operations into functional 'pipelines'. 
 
 ## Function pipelines {.tabset}
 

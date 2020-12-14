@@ -1,5 +1,5 @@
 ---
-title: "Reshaping, Transforming, and Joining Data in R"
+title: "Reshaping and Joining Data in R"
 comment: "*transpose, pivot, split, and combine data*"
 output: 
   html_document: 

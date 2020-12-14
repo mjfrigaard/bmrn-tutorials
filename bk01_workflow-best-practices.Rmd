@@ -1,6 +1,6 @@
 ---
 title: "R Workflow Best Practices"
-comment: "*managing code, data, and files*"
+comment: "*tips for managing your code, data, and files*"
 output: 
   html_document: 
     toc: yes
@@ -21,9 +21,13 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 # Objectives 
 
-This section covers some tips on managing your code, data, and files with RStudio. The sections below give a tour of the RStudio IDE, and some of the customizations that you can do to increase your productivity. 
+This lesson covers some tips on managing your code, datasets, and other files with RStudio. The sections below give a tour of the IDE, and some of the customizations that you can do to increase your productivity. 
 
-I've included some comments in *italics*--these are just my personal observations, feel free to set up the IDE in the way that works best for you!
+I've included some comments in *italics*--these are just my personal observations, feel free to set up the IDE in a way that works best for you!
+
+# Materials 
+
+Check out the slides for this section [here](https://mjfrigaard.github.io/r-workflow-best-practices/Index.html#1).
 
 # Global Settings 
 

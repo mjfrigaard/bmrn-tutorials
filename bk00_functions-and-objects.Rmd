@@ -1,6 +1,6 @@
 ---
 title: "Introduction to R Programming"
-comment: "*functions and objects*"
+comment: "*an introduction to functions and objects*"
 output: 
   html_document: 
     toc: yes
@@ -23,7 +23,11 @@ knitr::opts_chunk$set(collapse = TRUE,
 
 # Objectives
 
-This document contains a basic exposure to R functions and data objects. 
+This lesson covers some basic exposure to R functions and data objects. 
+
+# Materials 
+
+The slides for this section are available [here](https://mjfrigaard.github.io/intro-to-r-programming/Index.html#1).
 
 # R Syntax 
 
@@ -31,9 +35,9 @@ Two major elements in R programming: functions and objects.
 
 ## Functions & Objects 
 
-+ Functions perform operations (calculate a mean, build a table, create a graph, etc.)
++ **Functions** perform operations (calculate a mean, build a table, create a graph, etc.)
 
-+ Objects hold information (a collection of numbers, dates, words, models results, etc.)
++ **Objects** hold information (a collection of numbers, dates, words, models results, etc.)
 
 # Vectors 
 
