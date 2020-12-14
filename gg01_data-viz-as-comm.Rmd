@@ -53,9 +53,9 @@ In order to use graphs and figures to effectively communicate with our audience,
 
 # Materials
 
-- Slides: https://mjfrigaard.github.io/data-viz-as-comm/Index.html
+- The slides for this lesson are [here](https://mjfrigaard.github.io/data-viz-as-comm/Index.html)
 
-- RStudio Project: https://rstudio.cloud/project/1983257
+- [RStudio.Cloud Project](https://rstudio.cloud/project/1983257)
 
 # Previous lessons
 
@@ -1018,7 +1018,7 @@ USCitiesMarJun %>%
 
 Another option is to use `geom_rect()` to black out the missing data. 
 
-```{r geom_rectsol, fig.height=8, fig.width=10, out.height='100%', out.width='100%', message=FALSE, warning=FALSE}
+```{r geom_rect-sol, fig.height=8, fig.width=10, out.height='100%', out.width='100%', message=FALSE, warning=FALSE}
 # plot
 USCitiesMarJun %>% 
     ggplot() +
