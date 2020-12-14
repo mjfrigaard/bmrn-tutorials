@@ -45,15 +45,6 @@ x <- x %>%
     bullet = map2_chr(href, comment, ~ paste("*", .x, .y, "\n")))
 ```
 
-### Roadmap
-
-Below is a roadmap for the lessons and materials: 
-
-```{r img-r-trainings-roadmapsvg, echo=FALSE}
-# knitr::include_graphics("https://raw.githubusercontent.com/mjfrigaard/r-meetup-tutorials/gh-pages/r-trainings-roadmap.svg")
-```
-
-
 ### Introduction to R & RStudio
 
 ```{r bk-files, results='asis', echo=FALSE, eval=TRUE}
