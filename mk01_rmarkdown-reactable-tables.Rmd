@@ -60,9 +60,72 @@ Here is the source for the dataset below: https://finance.yahoo.com/u/yahoo-fina
 
 These data have already been formatted in a way that is great for a table, but would pose problems if we tried to visualize them. For example, the `percent_change`-`market_cap` columns have symbols that cause them to be read into R as characters. We would need to wrangle these data quite a bit to get them into a format we could use.
 
-```{r biotech-and-drug-stocks}
-BioTechDrugStocks <- read_csv("data/2020-12-11-BioTechDrugStocks.csv")
-BioTechDrugStocks
+```{r biotech-and-drug-stocks, message=FALSE, warning=FALSE}
+BioTechStocksRaw <- read_csv("data/2020-12-20-BioTechStocks.csv")
+BioTechStocksRaw
+```
+
+```{r BioTechStocksAll, message=FALSE, warning=FALSE}
+BioTechStocksRaw %>%
+  mutate(
+    # change numeric
+    change_num = str_remove_all(string = change, pattern = "^\\+"),
+    change_num = as.numeric(change_num, na.rm = TRUE),
+    # percent change
+    perc_change_num = str_remove_all(string = percent_change, pattern = "^\\+"),
+    perc_change_num = str_remove_all(string = perc_change_num, pattern = "\\%"),
+    perc_change_num = as.numeric(perc_change_num, na.rm = TRUE),
+    # market cap
+    market_cap_b = str_remove_all(string = market_cap, pattern = "B"), 
+    market_cap_b = as.numeric(market_cap_b, na.rm = TRUE)) %>% 
+  select(symbol:last_price,
+         change_chr = change,
+         change_num, 
+         perc_change_chr = percent_change,
+         perc_change_num,
+         volume,
+         avg_vol_3_month,
+         market_cap_chr = market_cap, 
+         market_cap_b,
+         market_time) -> BioTechStocksChngeMrktCap
+BioTechStocksChngeMrktCap
+```
+
+Now we'll reformat the volume and average 3-month volume variables and store the clean variables in `BioTechStocksClean`.
+
+```{r BioTechStocksClean}
+BioTechStocksChngeMrktCap %>% 
+  mutate(volume_key = 
+           case_when(
+    str_detect(string = volume, pattern = "k") ~ "volume ($K)", 
+    str_detect(string = volume, pattern = "M") ~ "volume ($M)"),
+    avg_vol_3mo_key = 
+      case_when(
+    str_detect(string = avg_vol_3_month, pattern = "k") ~ "volume ($K)", 
+    str_detect(string = avg_vol_3_month, pattern = "M") ~ "volume ($M)"),
+    # volume
+    volume_chr = str_remove_all(string = volume, pattern = "M|k"), 
+    volume_chr = as.numeric(volume_chr, na.rm = TRUE),
+    # average vol 3-month
+    avg_vol_3mo_chr = str_remove_all(string = avg_vol_3_month, pattern = "M|k"), 
+    avg_vol_3mo_chr = as.numeric(avg_vol_3mo_chr, na.rm = TRUE),
+    # format volume
+    volume_num = case_when(
+      volume_key == "volume ($K)" ~ round(volume_chr*0.001, digits = 2),
+      volume_key == "volume ($M)" ~ round(volume_chr, digits = 2)),
+    avg_vol_3mo_num = case_when(
+      avg_vol_3mo_key == "volume ($K)" ~ round(avg_vol_3mo_chr*0.001, digits = 2),
+      avg_vol_3mo_key == "volume ($M)" ~ round(avg_vol_3mo_chr, digits = 2))) %>% 
+  dplyr::select(Symbol = symbol, 
+                Company = company_name, 
+                `Last Price` = last_price, 
+                Change = change_num, 
+                `Percent Change` = perc_change_num, 
+                `Market Time` = market_time,
+                `Volume (Mil)` = volume_num,
+                `Avg 3month Volume (Mil)` = avg_vol_3mo_num, 
+                `Market Cap (Bil)` = market_cap_b) -> BioTechStocksClean
+BioTechStocksClean
 ```
 
 ## Stock data from `quantmod` {.tabset}
@@ -71,13 +134,13 @@ We will also import some actual stock data using `quantmod` and `xts` packages.
 
 ```{r biotech_symbols, message=FALSE, warning=FALSE}
 source("code/quant-packages.R")
-biotech_symbols <- c("BMRN", "MRK", "AZN", "GSK", "BNTX", "MRNA")
+biotech_symbols <- c("BMRN", "NVO", "SGEN", "SNY", "BMY")
 biotech_prices <- quantmod::getSymbols(biotech_symbols, 
                   # returns an object with the opening price, closing price, 
                   # adjusted price, daily high, daily low and daily volume
                   # for each ticker.
                      src = 'yahoo', 
-                     from = "2019-12-31", to = "2020-12-11", 
+                     from = "2019-12-31", to = "2020-12-20", 
                      auto.assign = TRUE, 
                      warnings = FALSE) %>% 
           # Ad() and get() is used to isolate the adjusted price
@@ -113,6 +176,7 @@ Below we create a wide dataset of log returns.
 
 ```{r ReturnsWide}
 PricesWide %>%
+  # shift to long 
   tidyr::pivot_longer(names_to = "asset", 
                       values_to = "prices", 
                       cols = -date) %>% 
@@ -157,12 +221,12 @@ bt_stocks_12_2020 <- bt_prices_12_2020 %>%
   inner_join(x = ., 
            y = bt_returns_12_2020, 
            by = c("date", "symbols")) %>% 
-  select(-date) %>% 
   mutate(returns = round(returns, digits = 4),
          prices = round(prices, digits = 4)) %>% 
   rename(`Adj Prices` = prices,
          `Log Returns` = returns, 
-         Symbols = symbols)
+         Symbols = symbols,
+         Date = date)
 bt_stocks_12_2020
 ```
 
@@ -172,33 +236,34 @@ The `reactable` package provides a comprehensive library of data display feature
 
 ## Dealing with symbols {.tabset}
 
-Adding `+` and `-` 
+Adding `+` and `-` to a table (like the )
 
 ### adding symbols 
 
 ```{r reactable-colDef}
-reactable(bt_stocks_12_2020, columns = list(
-  # add + or - for returns
-  `Log Returns` = colDef(
-    cell = function(value) {
-      # here we use paste0() to combine the value with +
-      if (value >= 0) paste0("+", value) else value
-    },
-    # add color for values above or below 0
-    style = function(value) {
-      color <- if (value > 0) {
-        # green if above
-        "#008000"
-        # red if below
-      } else if (value < 0) {
-        "#e00000"
-      }
-      list(fontWeight = 600, color = color)
-    }
-  )
-))
+reactable(bt_stocks_12_2020, 
+          columns = list( # add + or - for returns
+            `Log Returns` = colDef( # define cell function
+                      cell = function(value) { 
+                      # here we use paste0() to combine the value with +
+                      # for all values greater than 0
+                       if (value >= 0) paste0("+", value) 
+                       else value
+                      }, # add color for values above or below 0
+                      style = function(value) {
+                              color <- if (value > 0) { 
+                              # green if above 
+                              "#008000"
+                              # red if below
+                              } else if (value < 0) {
+                              "#e00000"
+                              } # adjust the font weight and color
+                  list(fontWeight = 600, color = color)
+                  }
+                )
+            )
+          )
 ```
-
 
 
 
