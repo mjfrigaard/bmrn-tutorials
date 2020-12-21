@@ -39,4 +39,16 @@ RStudio.Cloud: this is an extra lesson, so there isn't an RStudio.Cloud project 
 
 # Packages
 
-We'll be covering the [`gt`](https://gt.rstudio.com/) package for displaying tables in R Markdown:
+We'll be covering the [`gt`](https://gt.rstudio.com/) package for displaying tables in R Markdown.
+
+# `gt` package
+
+## Dealing with merged columns {.tabset}
+
+### merging columns 
+
+Merge columns using...
+
+### column headers 
+
+Add column headers using...

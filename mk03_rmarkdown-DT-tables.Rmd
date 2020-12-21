@@ -40,3 +40,12 @@ RStudio.Cloud: this is an extra lesson, so there isn't an RStudio.Cloud project 
 # Packages
 
 We'll be covering the [`DT`](https://rstudio.github.io/DT/) package for displaying tables in R Markdown.
+
+
+# `DT` package 
+
+The `DT` package...
+
+## Filering data {.tabset}
+
+To allow users to filter the data in your table, use the...

@@ -166,18 +166,6 @@ bt_stocks_12_2020 <- bt_prices_12_2020 %>%
 bt_stocks_12_2020
 ```
 
-# `gt` package
-
-## Dealing with merged columns {.tabset}
-
-### merging columns 
-
-Merge columns using...
-
-### column headers 
-
-Add column headers using...
-
 # `reactable` package
 
 The `reactable` package provides a comprehensive library of data display features. 
@@ -211,13 +199,6 @@ reactable(bt_stocks_12_2020, columns = list(
 ))
 ```
 
-# `DT` package 
-
-The `DT` package...
-
-## Filering data {.tabset}
-
-To allow users to filter the data in your table, use the...
 
 
 
