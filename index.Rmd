@@ -59,6 +59,15 @@ cat_bullet(x, "^bk")
 cat_bullet(x, "^mk")
 ```
 
+### Simulate Data 
+
+*Coming soon!*
+
+```{r dg-files, eval=FALSE, results = 'asis', echo = FALSE}
+# here we see the 'dg' for data generation lessons
+cat_bullet(x, "^dg")
+```
+
 ### Data Manipulation and Transformation
 
 ```{r dt-files, results = 'asis', echo = FALSE}

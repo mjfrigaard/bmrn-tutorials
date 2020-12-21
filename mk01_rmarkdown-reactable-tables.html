@@ -11,9 +11,9 @@
 
 
 
-<title>Displaying Tables With R Markdown (under construction)</title>
+<title>Displaying Tables With reactable (under construction)</title>
 
-<script src="site_libs/header-attrs-2.5.3/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -401,7 +401,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Displaying Tables With R Markdown (under construction)</h1>
+<h1 class="title toc-ignore">Displaying Tables With reactable (under construction)</h1>
 
 </div>
 
@@ -417,14 +417,8 @@ div.tocify {
 </div>
 <div id="packages" class="section level1" number="3">
 <h1 number="3"><span class="header-section-number">3</span> Packages</h1>
-<p>We’ll be covering a few different packages to use for displaying data in tables:</p>
-<ul>
-<li><a href="https://gt.rstudio.com/"><code>gt</code></a><br />
-</li>
-<li><a href="https://glin.github.io/reactable/"><code>reactable</code></a><br />
-</li>
-<li><a href="https://rstudio.github.io/DT/"><code>DT</code></a></li>
-</ul>
+<p>We’ll be covering the <a href="https://glin.github.io/reactable/"><code>reactable</code></a> package for displaying tables in R Markdown. +<br />
++ <a href="https://rstudio.github.io/DT/"><code>DT</code></a></p>
 <pre class="r"><code>library(tidyverse)
 library(gt)
 library(reactable)
@@ -599,8 +593,8 @@ bt_stocks_12_2020</code></pre>
     }
   )
 ))</code></pre>
-<div id="htmlwidget-c8c9a7ab931cfaa3c9ee" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-c8c9a7ab931cfaa3c9ee">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Symbols":["BMRN","MRK","AZN","GSK","BNTX","MRNA"],"Adj Prices":[77.76,82.3398,53.89,37.97,129.54,155.69],"Log Returns":[-0.012,0.0318,0.0178,0.0316,0.0418,0.0191]},"columns":[{"accessor":"Symbols","name":"Symbols","type":"character"},{"accessor":"Adj Prices","name":"Adj Prices","type":"numeric"},{"accessor":"Log Returns","name":"Log Returns","type":"numeric","cell":["-0.012","+0.0318","+0.0178","+0.0316","+0.0418","+0.0191"],"style":[{"fontWeight":600,"color":"#e00000"},{"fontWeight":600,"color":"#008000"},{"fontWeight":600,"color":"#008000"},{"fontWeight":600,"color":"#008000"},{"fontWeight":600,"color":"#008000"},{"fontWeight":600,"color":"#008000"}]}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"075316b224493ee4cb3b83c66b136bbf","key":"075316b224493ee4cb3b83c66b136bbf"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-eec8acdf3cccd819406d" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-eec8acdf3cccd819406d">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Symbols":["BMRN","MRK","AZN","GSK","BNTX","MRNA"],"Adj Prices":[77.76,82.3398,53.89,37.97,129.54,155.69],"Log Returns":[-0.012,0.0318,0.0178,0.0316,0.0418,0.0191]},"columns":[{"accessor":"Symbols","name":"Symbols","type":"character"},{"accessor":"Adj Prices","name":"Adj Prices","type":"numeric"},{"accessor":"Log Returns","name":"Log Returns","type":"numeric","cell":["-0.012","+0.0318","+0.0178","+0.0316","+0.0418","+0.0191"],"style":[{"fontWeight":600,"color":"#e00000"},{"fontWeight":600,"color":"#008000"},{"fontWeight":600,"color":"#008000"},{"fontWeight":600,"color":"#008000"},{"fontWeight":600,"color":"#008000"},{"fontWeight":600,"color":"#008000"}]}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"075316b224493ee4cb3b83c66b136bbf","key":"075316b224493ee4cb3b83c66b136bbf"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </div>

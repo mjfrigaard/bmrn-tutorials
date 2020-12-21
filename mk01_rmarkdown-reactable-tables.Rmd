@@ -1,6 +1,6 @@
 ---
-title: "Displaying Tables With R Markdown (under construction)"
-comment: "*table packages for reproducible reports*"
+title: "Displaying Tables With reactable (under construction)"
+comment: "*interactive tables in reproducible reports*"
 output:
   html_document:
     toc: yes
@@ -16,7 +16,6 @@ always_allow_html: true
 
 ```{r , include=FALSE}
 library(tidyverse)
-library(ipcwswitch)
 library(skimr)
 # create data folder
 # folders
@@ -40,10 +39,8 @@ RStudio.Cloud: this is an extra lesson, so there isn't an RStudio.Cloud project 
 
 # Packages
 
-We'll be covering a few different packages to use for displaying data in tables: 
-
-+ [`gt`](https://gt.rstudio.com/)   
-+ [`reactable`](https://glin.github.io/reactable/)  
+We'll be covering the [`reactable`](https://glin.github.io/reactable/) package for displaying tables in R Markdown.
++   
 + [`DT`](https://rstudio.github.io/DT/)  
 
 ```{r packages, message=FALSE, warning=FALSE}
