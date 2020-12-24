@@ -413,16 +413,133 @@ div.tocify {
 <h1 number="3"><span class="header-section-number">3</span> Packages</h1>
 <p>We’ll be covering the <a href="https://gt.rstudio.com/"><code>gt</code></a> package for displaying tables in R Markdown.</p>
 </div>
-<div id="gt-package" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> <code>gt</code> package</h1>
-<div id="dealing-with-merged-columns" class="section level2 tabset" number="4.1">
-<h2 class="tabset" number="4.1"><span class="header-section-number">4.1</span> Dealing with merged columns</h2>
-<div id="merging-columns" class="section level3" number="4.1.1">
-<h3 number="4.1.1"><span class="header-section-number">4.1.1</span> merging columns</h3>
+<div id="stock-data-from-quantmod" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Stock data from <code>quantmod</code></h1>
+<p>We will also import some actual stock data using <code>quantmod</code> and <code>xts</code> packages.</p>
+<pre class="r"><code>source(&quot;code/quant-packages.R&quot;)
+biotech_symbols &lt;- c(&quot;BMRN&quot;, &quot;NVO&quot;, &quot;SGEN&quot;, &quot;SNY&quot;, &quot;BMY&quot;)
+biotech_prices &lt;- quantmod::getSymbols(biotech_symbols, 
+                  # returns an object with the opening price, closing price, 
+                  # adjusted price, daily high, daily low and daily volume
+                  # for each ticker.
+                     src = &#39;yahoo&#39;, 
+                     from = &quot;2019-12-31&quot;, to = &quot;2020-12-31&quot;, 
+                     auto.assign = TRUE, 
+                     warnings = FALSE) %&gt;% 
+          # Ad() and get() is used to isolate the adjusted price
+          purrr::map(~Ad(get(.))) %&gt;% 
+          # merge() looks for the date index shared by our objects and 
+          # uses that index to align the data.
+          purrr::reduce(merge) %&gt;% 
+          # use colnames&lt;- to rename the columns according to the 
+          # symbols object.
+          `colnames&lt;-`(biotech_symbols)</code></pre>
+<div id="convert-adjusted-prices-to-wide" class="section level2 tabset" number="4.1">
+<h2 class="tabset" number="4.1"><span class="header-section-number">4.1</span> Convert adjusted prices to wide</h2>
+<p>Here is the wide version of the prices.</p>
+<div id="priceswide" class="section level3" number="4.1.1">
+<h3 number="4.1.1"><span class="header-section-number">4.1.1</span> <code>PricesWide</code></h3>
+<pre class="r"><code>biotech_prices %&gt;%
+  xts::to.monthly(indexAt = &quot;lastof&quot;, 
+             OHLC = FALSE) %&gt;%
+  # convert the index to a date
+  base::data.frame(date = index(.)) %&gt;%
+  # now remove the index because it got converted to row names 
+  tibble::remove_rownames() %&gt;% 
+  dplyr::select(date, 
+                dplyr::everything()) -&gt; PricesWide
+PricesWide</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["date"],"name":[1],"type":["date"],"align":["right"]},{"label":["BMRN"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["NVO"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["SGEN"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["SNY"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["BMY"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"2019-12-31","2":"84.55","3":"56.63990","4":"114.26","5":"48.40407","6":"62.26983"},{"1":"2020-01-31","2":"83.50","3":"59.52669","4":"108.39","5":"46.54311","6":"61.49805"},{"1":"2020-02-29","2":"90.37","3":"56.88454","4":"113.86","5":"44.59538","6":"57.69778"},{"1":"2020-03-31","2":"84.50","3":"59.73380","4":"115.38","5":"42.15590","6":"54.45436"},{"1":"2020-04-30","2":"92.02","3":"62.83956","4":"137.23","5":"46.83000","6":"59.89911"},{"1":"2020-05-31","2":"106.55","3":"65.42935","4":"157.21","5":"49.11000","6":"58.82544"},{"1":"2020-06-30","2":"123.34","3":"64.97292","4":"169.92","5":"51.05000","6":"57.91922"},{"1":"2020-07-31","2":"119.81","3":"64.82407","4":"166.27","5":"52.45000","6":"58.22216"},{"1":"2020-08-31","2":"78.03","3":"66.04000","4":"158.34","5":"50.58000","6":"61.73574"},{"1":"2020-09-30","2":"76.08","3":"69.43000","4":"195.69","5":"50.17000","6":"59.84000"},{"1":"2020-10-31","2":"74.43","3":"63.89000","4":"166.80","5":"45.30000","6":"58.45000"},{"1":"2020-11-30","2":"78.70","3":"67.13000","4":"170.31","5":"50.20000","6":"62.40000"},{"1":"2020-12-31","2":"88.66","3":"69.43000","4":"190.61","5":"47.45000","6":"61.15000"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="returnswide" class="section level3" number="4.1.2">
+<h3 number="4.1.2"><span class="header-section-number">4.1.2</span> <code>ReturnsWide</code></h3>
+<p>Below we create a wide dataset of log returns.</p>
+<pre class="r"><code>PricesWide %&gt;%
+  # shift to long 
+  tidyr::pivot_longer(names_to = &quot;asset&quot;, 
+                      values_to = &quot;prices&quot;, 
+                      cols = -date) %&gt;% 
+  # 
+  dplyr::group_by(asset) %&gt;% 
+  # calculate log returns and add those returns to the data frame
+  dplyr::mutate(returns = (log(prices) - log(lag(prices)))) %&gt;% 
+  dplyr::select(-prices) %&gt;% 
+  tidyr::pivot_wider(names_from = asset, 
+                     values_from = returns) %&gt;% 
+  dplyr::filter(!is.na(BMRN)) -&gt; ReturnsWide
+ReturnsWide</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["date"],"name":[1],"type":["date"],"align":["right"]},{"label":["BMRN"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["NVO"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["SGEN"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["SNY"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["BMY"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"2020-01-31","2":"-0.01249648","3":"0.049711254","4":"-0.05274075","5":"-0.039204794","6":"-0.012471604"},{"1":"2020-02-29","2":"0.07906576","3":"-0.045401198","4":"0.04923381","5":"-0.042748732","6":"-0.063786837"},{"1":"2020-03-31","2":"-0.06716085","3":"0.048874338","4":"0.01326137","5":"-0.056255801","6":"-0.057855781"},{"1":"2020-04-30","2":"0.08525438","3":"0.050686820","4":"0.17342732","5":"0.105149534","6":"0.095298766"},{"1":"2020-05-31","2":"0.14660847","3":"0.040386138","4":"0.13592421","5":"0.047538635","6":"-0.018087284"},{"1":"2020-06-30","2":"0.14633035","3":"-0.007000459","4":"0.07774519","5":"0.038742825","6":"-0.015525134"},{"1":"2020-07-31","2":"-0.02903760","3":"-0.002293459","4":"-0.02171473","5":"0.027054829","6":"0.005216895"},{"1":"2020-08-31","2":"-0.42881378","3":"0.018583587","4":"-0.04886840","5":"-0.036304073","6":"0.058596975"},{"1":"2020-09-30","2":"-0.02530791","3":"0.050058417","4":"0.21178719","5":"-0.008139082","6":"-0.031188749"},{"1":"2020-10-31","2":"-0.02192636","3":"-0.083156212","4":"-0.15973628","5":"-0.102110188","6":"-0.023502629"},{"1":"2020-11-30","2":"0.05578403","3":"0.049468154","4":"0.02082479","5":"0.102708036","6":"0.065393602"},{"1":"2020-12-31","2":"0.11916576","3":"0.033688058","4":"0.11260917","5":"-0.056338500","6":"-0.020235413"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div id="tidy-adjusted-prices-log-returns" class="section level2 tabset" number="4.2">
+<h2 class="tabset" number="4.2"><span class="header-section-number">4.2</span> Tidy adjusted prices &amp; log returns</h2>
+<p>Below we filter both wide datasets to <code>2020-12-31</code>, pivot them into a long format, and join them into a single dataset with <code>Symbols</code>, <code>Adj Prices</code>, and <code>Log Returns</code>.</p>
+<div id="prices-2020-12" class="section level3" number="4.2.1">
+<h3 number="4.2.1"><span class="header-section-number">4.2.1</span> Prices 2020-12</h3>
+<pre class="r"><code>bt_prices_12_2020 &lt;- PricesWide %&gt;% 
+  filter(date == &quot;2020-12-31&quot;) %&gt;% 
+  pivot_longer(cols = -date, 
+               names_to = &quot;symbols&quot;, 
+               values_to = &quot;prices&quot;)
+bt_prices_12_2020</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["date"],"name":[1],"type":["date"],"align":["right"]},{"label":["symbols"],"name":[2],"type":["chr"],"align":["left"]},{"label":["prices"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"2020-12-31","2":"BMRN","3":"88.66"},{"1":"2020-12-31","2":"NVO","3":"69.43"},{"1":"2020-12-31","2":"SGEN","3":"190.61"},{"1":"2020-12-31","2":"SNY","3":"47.45"},{"1":"2020-12-31","2":"BMY","3":"61.15"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="returns-2020-12" class="section level3" number="4.2.2">
+<h3 number="4.2.2"><span class="header-section-number">4.2.2</span> Returns 2020-12</h3>
+<pre class="r"><code>bt_returns_12_2020 &lt;- ReturnsWide %&gt;% 
+  filter(date == &quot;2020-12-31&quot;) %&gt;% 
+  pivot_longer(names_to = &quot;symbols&quot;, 
+               values_to = &quot;returns&quot;, cols = -date)
+bt_returns_12_2020</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["date"],"name":[1],"type":["date"],"align":["right"]},{"label":["symbols"],"name":[2],"type":["chr"],"align":["left"]},{"label":["returns"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"2020-12-31","2":"BMRN","3":"0.11916576"},{"1":"2020-12-31","2":"NVO","3":"0.03368806"},{"1":"2020-12-31","2":"SGEN","3":"0.11260917"},{"1":"2020-12-31","2":"SNY","3":"-0.05633850"},{"1":"2020-12-31","2":"BMY","3":"-0.02023541"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="adj-prices-log-returns" class="section level3" number="4.2.3">
+<h3 number="4.2.3"><span class="header-section-number">4.2.3</span> Adj Prices &amp; Log Returns</h3>
+<pre class="r"><code>bt_stocks_12_2020 &lt;- bt_prices_12_2020 %&gt;% 
+  inner_join(x = ., 
+           y = bt_returns_12_2020, 
+           by = c(&quot;date&quot;, &quot;symbols&quot;)) %&gt;% 
+  mutate(returns = round(returns, digits = 4),
+         prices = round(prices, digits = 4)) %&gt;% 
+  rename(`Adj Prices` = prices,
+         `Log Returns` = returns, 
+         Symbols = symbols,
+         Date = date)
+bt_stocks_12_2020</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Date"],"name":[1],"type":["date"],"align":["right"]},{"label":["Symbols"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Adj Prices"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Log Returns"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"2020-12-31","2":"BMRN","3":"88.66","4":"0.1192"},{"1":"2020-12-31","2":"NVO","3":"69.43","4":"0.0337"},{"1":"2020-12-31","2":"SGEN","3":"190.61","4":"0.1126"},{"1":"2020-12-31","2":"SNY","3":"47.45","4":"-0.0563"},{"1":"2020-12-31","2":"BMY","3":"61.15","4":"-0.0202"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+</div>
+<div id="gt-package" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> <code>gt</code> package</h1>
+<div id="dealing-with-merged-columns" class="section level2 tabset" number="5.1">
+<h2 class="tabset" number="5.1"><span class="header-section-number">5.1</span> Dealing with merged columns</h2>
+<div id="merging-columns" class="section level3" number="5.1.1">
+<h3 number="5.1.1"><span class="header-section-number">5.1.1</span> merging columns</h3>
 <p>Merge columns using…</p>
 </div>
-<div id="column-headers" class="section level3" number="4.1.2">
-<h3 number="4.1.2"><span class="header-section-number">4.1.2</span> column headers</h3>
+<div id="column-headers" class="section level3" number="5.1.2">
+<h3 number="5.1.2"><span class="header-section-number">5.1.2</span> column headers</h3>
 <p>Add column headers using…</p>
 </div>
 </div>

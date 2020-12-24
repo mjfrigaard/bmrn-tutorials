@@ -41,6 +41,112 @@ RStudio.Cloud: this is an extra lesson, so there isn't an RStudio.Cloud project 
 
 We'll be covering the [`gt`](https://gt.rstudio.com/) package for displaying tables in R Markdown.
 
+# Stock data from `quantmod` 
+
+We will also import some actual stock data using `quantmod` and `xts` packages.
+
+```{r biotech_symbols, message=FALSE, warning=FALSE}
+source("code/quant-packages.R")
+biotech_symbols <- c("BMRN", "NVO", "SGEN", "SNY", "BMY")
+biotech_prices <- quantmod::getSymbols(biotech_symbols, 
+                  # returns an object with the opening price, closing price, 
+                  # adjusted price, daily high, daily low and daily volume
+                  # for each ticker.
+                     src = 'yahoo', 
+                     from = "2019-12-31", to = "2020-12-31", 
+                     auto.assign = TRUE, 
+                     warnings = FALSE) %>% 
+          # Ad() and get() is used to isolate the adjusted price
+          purrr::map(~Ad(get(.))) %>% 
+          # merge() looks for the date index shared by our objects and 
+          # uses that index to align the data.
+          purrr::reduce(merge) %>% 
+          # use colnames<- to rename the columns according to the 
+          # symbols object.
+          `colnames<-`(biotech_symbols)
+```
+
+## Convert adjusted prices to wide {.tabset}
+
+Here is the wide version of the prices.
+
+### `PricesWide`
+
+```{r PricesWide}
+biotech_prices %>%
+  xts::to.monthly(indexAt = "lastof", 
+             OHLC = FALSE) %>%
+  # convert the index to a date
+  base::data.frame(date = index(.)) %>%
+  # now remove the index because it got converted to row names 
+  tibble::remove_rownames() %>% 
+  dplyr::select(date, 
+                dplyr::everything()) -> PricesWide
+PricesWide
+```
+
+### `ReturnsWide`
+
+Below we create a wide dataset of log returns. 
+
+```{r ReturnsWide}
+PricesWide %>%
+  # shift to long 
+  tidyr::pivot_longer(names_to = "asset", 
+                      values_to = "prices", 
+                      cols = -date) %>% 
+  # 
+  dplyr::group_by(asset) %>% 
+  # calculate log returns and add those returns to the data frame
+  dplyr::mutate(returns = (log(prices) - log(lag(prices)))) %>% 
+  dplyr::select(-prices) %>% 
+  tidyr::pivot_wider(names_from = asset, 
+                     values_from = returns) %>% 
+  dplyr::filter(!is.na(BMRN)) -> ReturnsWide
+ReturnsWide
+```
+
+## Tidy adjusted prices & log returns {.tabset}
+
+Below we filter both wide datasets to `2020-12-31`, pivot them into a long format, and join them into a single dataset with `Symbols`, `Adj Prices`, and `Log Returns`.
+
+### Prices 2020-12
+
+```{r bt_price_12_2020}
+bt_prices_12_2020 <- PricesWide %>% 
+  filter(date == "2020-12-31") %>% 
+  pivot_longer(cols = -date, 
+               names_to = "symbols", 
+               values_to = "prices")
+bt_prices_12_2020
+```
+
+### Returns 2020-12
+
+```{r bt_returns_12_2020}
+bt_returns_12_2020 <- ReturnsWide %>% 
+  filter(date == "2020-12-31") %>% 
+  pivot_longer(names_to = "symbols", 
+               values_to = "returns", cols = -date)
+bt_returns_12_2020
+```
+
+### Adj Prices & Log Returns
+
+```{r bt_stocks_12_2020}
+bt_stocks_12_2020 <- bt_prices_12_2020 %>% 
+  inner_join(x = ., 
+           y = bt_returns_12_2020, 
+           by = c("date", "symbols")) %>% 
+  mutate(returns = round(returns, digits = 4),
+         prices = round(prices, digits = 4)) %>% 
+  rename(`Adj Prices` = prices,
+         `Log Returns` = returns, 
+         Symbols = symbols,
+         Date = date)
+bt_stocks_12_2020
+```
+
 # `gt` package
 
 ## Dealing with merged columns {.tabset}

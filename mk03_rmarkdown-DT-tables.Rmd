@@ -1,5 +1,5 @@
 ---
-title: "Displaying Tables With reactable (under construction)"
+title: "Displaying Tables With DT (under construction)"
 comment: "*interactive tables in reproducible reports*"
 output:
   html_document:

@@ -417,8 +417,7 @@ div.tocify {
 </div>
 <div id="packages" class="section level1" number="3">
 <h1 number="3"><span class="header-section-number">3</span> Packages</h1>
-<p>We’ll be covering the <a href="https://glin.github.io/reactable/"><code>reactable</code></a> package for displaying tables in R Markdown. +<br />
-+ <a href="https://rstudio.github.io/DT/"><code>DT</code></a></p>
+<p>We’ll be covering the <a href="https://glin.github.io/reactable/"><code>reactable</code></a> package for displaying tables in R Markdown.</p>
 <pre class="r"><code>library(tidyverse)
 library(gt)
 library(reactable)
@@ -428,124 +427,272 @@ library(DT)</code></pre>
 <h1 number="4"><span class="header-section-number">4</span> Yahoo finance data</h1>
 <p>We’re going to be returning to stock data for this section. Stock (or quant) data is typically presented on the web or in a dashboard, so it’s great for demonstrating the capabilities of R table packages.</p>
 <p>Here is the source for the dataset below: <a href="https://finance.yahoo.com/u/yahoo-finance/watchlists/biotech-and-drug-stocks" class="uri">https://finance.yahoo.com/u/yahoo-finance/watchlists/biotech-and-drug-stocks</a></p>
+<p>These data are from 2020-12-24.</p>
 <div id="example-summary-table" class="section level2 tabset" number="4.1">
 <h2 class="tabset" number="4.1"><span class="header-section-number">4.1</span> Example summary table</h2>
-<p>These data have already been formatted in a way that is great for a table, but would pose problems if we tried to visualize them. For example, the <code>percent_change</code>-<code>market_cap</code> columns have symbols that cause them to be read into R as characters. We would need to wrangle these data quite a bit to get them into a format we could use.</p>
-<pre class="r"><code>BioTechDrugStocks &lt;- read_csv(&quot;data/2020-12-11-BioTechDrugStocks.csv&quot;)
-BioTechDrugStocks</code></pre>
+<p>These data have already been formatted in a way that is great for displaying in a table, but would pose problems if we tried to visualize them in R. For example, the <code>percent_change</code>-<code>market_cap</code> columns have symbols that cause them to be read into R as characters. We would need to wrangle these data quite a bit to get them into a format we could use.</p>
+<pre class="r"><code>BioTechStocksRaw &lt;- read_csv(&quot;data/2020-12-24-BioTechStocks.csv&quot;)
+BioTechStocksRaw</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["symbol"],"name":[1],"type":["chr"],"align":["left"]},{"label":["company_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["last_price"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["change"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["percent_change"],"name":[5],"type":["chr"],"align":["left"]},{"label":["market_time"],"name":[6],"type":["chr"],"align":["left"]},{"label":["volume"],"name":[7],"type":["chr"],"align":["left"]},{"label":["avg_vol_3_month"],"name":[8],"type":["chr"],"align":["left"]},{"label":["market_cap"],"name":[9],"type":["chr"],"align":["left"]}],"data":[{"1":"JNJ","2":"Johnson & Johnson","3":"152.950","4":"0.70","5":"+0.46%","6":"4:00 PM EST","7":"5.97M","8":"6.89M","9":"402.65B"},{"1":"RHHBY","2":"Roche Holding AG","3":"43.210","4":"0.03","5":"+0.07%","6":"4:00 PM EST","7":"1.42M","8":"1.17M","9":"294.49B"},{"1":"PFE","2":"Pfizer Inc.","3":"41.120","4":"-0.61","5":"-1.46%","6":"4:02 PM EST","7":"58.90M","8":"38.86M","9":"228.56B"},{"1":"NVS","2":"Novartis AG","3":"92.620","4":"0.94","5":"+1.03%","6":"4:00 PM EST","7":"1.89M","8":"1.91M","9":"209.99B"},{"1":"MRK","2":"Merck & Co., Inc.","3":"82.960","4":"-0.03","5":"-0.04%","6":"4:02 PM EST","7":"7.23M","8":"8.37M","9":"209.89B"},{"1":"ABBV","2":"AbbVie Inc.","3":"106.340","4":"-1.15","5":"-1.07%","6":"4:02 PM EST","7":"4.99M","8":"8.19M","9":"187.74B"},{"1":"NVO","2":"Novo Nordisk A/S","3":"69.540","4":"0.26","5":"+0.38%","6":"4:00 PM EST","7":"615.27k","8":"1.10M","9":"160.30B"},{"1":"LLY","2":"Eli Lilly and Company","3":"160.040","4":"-0.96","5":"-0.60%","6":"4:03 PM EST","7":"3.44M","8":"4.20M","9":"153.09B"},{"1":"AZN","2":"AstraZeneca PLC","3":"54.270","4":"0.38","5":"+0.71%","6":"4:00 PM EST","7":"3.82M","8":"5.45M","9":"143.11B"},{"1":"BMY","2":"Bristol-Myers Squibb Company","3":"60.720","4":"0.52","5":"+0.86%","6":"4:00 PM EST","7":"8.50M","8":"10.35M","9":"137.21B"},{"1":"AMGN","2":"Amgen Inc.","3":"227.400","4":"-0.76","5":"-0.33%","6":"4:00 PM EST","7":"1.90M","8":"2.59M","9":"132.39B"},{"1":"SNY","2":"Sanofi","3":"47.830","4":"-1.91","5":"-3.84%","6":"4:00 PM EST","7":"3.16M","8":"1.14M","9":"119.21B"},{"1":"GSK","2":"GlaxoSmithKline plc","3":"37.590","4":"-0.38","5":"-1.00%","6":"4:00 PM EST","7":"4.23M","8":"4.73M","9":"94.09B"},{"1":"GLAXF","2":"GlaxoSmithKline plc","3":"18.460","4":"-0.42","5":"-2.21%","6":"3:06 PM EST","7":"677.36k","8":"206.02k","9":"92.94B"},{"1":"GILD","2":"Gilead Sciences, Inc.","3":"60.760","4":"0.31","5":"+0.51%","6":"4:00 PM EST","7":"7.45M","8":"9.30M","9":"76.16B"},{"1":"ZTS","2":"Zoetis Inc.","3":"159.530","4":"1.41","5":"+0.89%","6":"4:03 PM EST","7":"1.26M","8":"1.72M","9":"75.82B"},{"1":"MRNA","2":"Moderna, Inc.","3":"156.930","4":"1.24","5":"+0.80%","6":"4:00 PM EST","7":"21.12M","8":"16.59M","9":"62.10B"},{"1":"VRTX","2":"Vertex Pharmaceuticals Incorporated","3":"224.170","4":"0.13","5":"+0.06%","6":"4:00 PM EST","7":"1.33M","8":"2.08M","9":"58.29B"},{"1":"TAK","2":"Takeda Pharmaceutical Company Limited","3":"18.790","4":"0.01","5":"+0.05%","6":"4:00 PM EST","7":"2.11M","8":"1.24M","9":"58.15B"},{"1":"BAYRY","2":"Bayer Aktiengesellschaft","3":"14.120","4":"-0.27","5":"-1.88%","6":"3:59 PM EST","7":"549.99k","8":"772.07k","9":"55.21B"},{"1":"REGN","2":"Regeneron Pharmaceuticals, Inc.","3":"479.770","4":"0.79","5":"+0.16%","6":"4:00 PM EST","7":"923.01k","8":"998.15k","9":"51.19B"},{"1":"BIIB","2":"Biogen Inc.","3":"241.430","4":"-1.55","5":"-0.64%","6":"4:00 PM EST","7":"1.02M","8":"1.65M","9":"37.15B"},{"1":"SGEN","2":"Seagen Inc.","3":"191.175","4":"4.63","5":"+2.48%","6":"4:00 PM EST","7":"724.62k","8":"988.26k","9":"34.22B"},{"1":"BNTX","2":"BioNTech SE","3":"127.300","4":"-2.24","5":"-1.73%","6":"4:00 PM EST","7":"4.16M","8":"3.60M","9":"30.65B"},{"1":"RPRX","2":"Royalty Pharma plc","3":"42.410","4":"-2.79","5":"-6.17%","6":"4:00 PM EST","7":"2.09M","8":"1.67M","9":"26.52B"},{"1":"ALXN","2":"Alexion Pharmaceuticals, Inc.","3":"120.980","4":"2.11","5":"+1.78%","6":"4:00 PM EST","7":"1.32M","8":"1.84M","9":"26.48B"},{"1":"GMAB","2":"Genmab A/S","3":"39.100","4":"0.26","5":"+0.67%","6":"4:00 PM EST","7":"322.13k","8":"535.68k","9":"25.63B"},{"1":"CVAC","2":"CureVac N.V.","3":"118.080","4":"-10.87","5":"-8.43%","6":"4:00 PM EST","7":"824.44k","8":"576.38k","9":"21.01B"},{"1":"VTRS","2":"Viatris Inc.","3":"17.340","4":"-0.35","5":"-1.98%","6":"4:00 PM EST","7":"15.46M","8":"10.43M","9":"20.85B"},{"1":"BGNE","2":"BeiGene, Ltd.","3":"228.250","4":"0.30","5":"+0.13%","6":"4:00 PM EST","7":"486.66k","8":"377.09k","9":"20.23B"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["symbol"],"name":[1],"type":["chr"],"align":["left"]},{"label":["company_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["last_price"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["change"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["percent_change"],"name":[5],"type":["chr"],"align":["left"]},{"label":["market_time"],"name":[6],"type":["chr"],"align":["left"]},{"label":["volume"],"name":[7],"type":["chr"],"align":["left"]},{"label":["avg_vol_3_month"],"name":[8],"type":["chr"],"align":["left"]},{"label":["market_cap"],"name":[9],"type":["chr"],"align":["left"]}],"data":[{"1":"JNJ","2":"Johnson & Johnson","3":"152.47","4":"0.53","5":"+0.35%","6":"1:00 PM EST","7":"2.09M","8":"7.19M","9":"401.38B"},{"1":"RHHBY","2":"Roche Holding AG","3":"42.55","4":"0.06","5":"+0.14%","6":"1:00 PM EST","7":"721.67k","8":"1.33M","9":"290.62B"},{"1":"PFE","2":"Pfizer Inc.","3":"37.27","4":"-0.17","5":"-0.45%","6":"1:02 PM EST","7":"14.64M","8":"43.28M","9":"207.16B"},{"1":"MRK","2":"Merck & Co., Inc.","3":"80.14","4":"0.38","5":"+0.48%","6":"1:02 PM EST","7":"2.80M","8":"8.80M","9":"202.76B"},{"1":"NVS","2":"Novartis AG","3":"88.55","4":"0.17","5":"+0.19%","6":"1:00 PM EST","7":"557.24k","8":"1.90M","9":"201.65B"},{"1":"ABBV","2":"AbbVie Inc.","3":"103.26","4":"-0.02","5":"-0.02%","6":"1:02 PM EST","7":"1.37M","8":"8.36M","9":"182.30B"},{"1":"NVO","2":"Novo Nordisk A/S","3":"69.43","4":"-0.19","5":"-0.27%","6":"1:00 PM EST","7":"277.20k","8":"1.14M","9":"160.92B"},{"1":"LLY","2":"Eli Lilly and Company","3":"166.66","4":"1.18","5":"+0.71%","6":"1:02 PM EST","7":"619.48k","8":"4.20M","9":"159.42B"},{"1":"BMY","2":"Bristol-Myers Squibb Company","3":"61.15","4":"0.15","5":"+0.25%","6":"1:00 PM EST","7":"3.07M","8":"10.59M","9":"138.18B"},{"1":"AMGN","2":"Amgen Inc.","3":"222.93","4":"-0.01","5":"-0.00%","6":"1:00 PM EST","7":"912.39k","8":"2.62M","9":"129.78B"},{"1":"AZN","2":"AstraZeneca PLC","3":"48.52","4":"-0.25","5":"-0.51%","6":"1:00 PM EST","7":"4.91M","8":"7.64M","9":"126.37B"},{"1":"SNY","2":"Sanofi","3":"47.45","4":"-0.13","5":"-0.27%","6":"1:00 PM EST","7":"477.62k","8":"1.33M","9":"119.44B"},{"1":"GSK","2":"GlaxoSmithKline plc","3":"36.14","4":"-0.09","5":"-0.25%","6":"1:00 PM EST","7":"1.29M","8":"4.95M","9":"91.21B"},{"1":"GLAXF","2":"GlaxoSmithKline plc","3":"17.79","4":"-0.46","5":"-2.52%","6":"12:07 PM EST","7":"1.34k","8":"253.49k","9":"88.83B"},{"1":"ZTS","2":"Zoetis Inc.","3":"160.72","4":"0.87","5":"+0.54%","6":"1:03 PM EST","7":"414.69k","8":"1.75M","9":"76.39B"},{"1":"GILD","2":"Gilead Sciences, Inc.","3":"57.07","4":"-0.31","5":"-0.54%","6":"1:00 PM EST","7":"3.26M","8":"9.49M","9":"71.54B"},{"1":"VRTX","2":"Vertex Pharmaceuticals Incorporated","3":"234.46","4":"-1.38","5":"-0.59%","6":"1:00 PM EST","7":"446.67k","8":"2.13M","9":"60.97B"},{"1":"BAYRY","2":"Bayer Aktiengesellschaft","3":"14.59","4":"-0.09","5":"-0.61%","6":"12:59 PM EST","7":"366.53k","8":"797.87k","9":"57.33B"},{"1":"TAK","2":"Takeda Pharmaceutical Company Limited","3":"18.11","4":"-0.17","5":"-0.93%","6":"1:00 PM EST","7":"1.88M","8":"1.34M","9":"56.34B"},{"1":"REGN","2":"Regeneron Pharmaceuticals, Inc.","3":"488.93","4":"-3.26","5":"-0.66%","6":"1:00 PM EST","7":"286.59k","8":"1.03M","9":"52.17B"},{"1":"MRNA","2":"Moderna, Inc.","3":"123.39","4":"-6.95","5":"-5.33%","6":"1:00 PM EST","7":"12.51M","8":"19.64M","9":"48.83B"},{"1":"BIIB","2":"Biogen Inc.","3":"248.89","4":"-2.31","5":"-0.92%","6":"1:00 PM EST","7":"444.89k","8":"1.65M","9":"38.30B"},{"1":"SGEN","2":"Seagen Inc.","3":"190.61","4":"-0.58","5":"-0.30%","6":"1:00 PM EST","7":"246.96k","8":"921.99k","9":"34.12B"},{"1":"ALXN","2":"Alexion Pharmaceuticals, Inc.","3":"152.63","4":"-0.61","5":"-0.40%","6":"1:00 PM EST","7":"1.07M","8":"2.38M","9":"33.38B"},{"1":"RPRX","2":"Royalty Pharma plc","3":"48.90","4":"0.29","5":"+0.60%","6":"1:00 PM EST","7":"1.58M","8":"2.12M","9":"30.57B"},{"1":"GMAB","2":"Genmab A/S","3":"39.11","4":"0.02","5":"+0.05%","6":"1:00 PM EST","7":"96.45k","8":"504.87k","9":"25.61B"},{"1":"BGNE","2":"BeiGene, Ltd.","3":"263.72","4":"-0.14","5":"-0.05%","6":"1:00 PM EST","7":"77.94k","8":"399.97k","9":"23.74B"},{"1":"BNTX","2":"BioNTech SE","3":"96.96","4":"-3.10","5":"-3.10%","6":"1:00 PM EST","7":"1.03M","8":"3.94M","9":"23.35B"},{"1":"VTRS","2":"Viatris Inc.","3":"17.77","4":"-0.11","5":"-0.62%","6":"1:00 PM EST","7":"1.93M","8":"11.64M","9":"21.36B"},{"1":"INCY","2":"Incyte Corporation","3":"87.37","4":"-0.56","5":"-0.64%","6":"1:00 PM EST","7":"177.61k","8":"1.15M","9":"19.13B"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div id="str_remove_all" class="section level3" number="4.1.1">
+<h3 number="4.1.1"><span class="header-section-number">4.1.1</span> <code>str_remove_all()</code></h3>
+<p>The first step to get these data into a format we can use is to remove the <code>+</code> symbol from the <code>change</code> variable, then convert it to a numerical value (this will result in some missing values).</p>
+<pre class="r"><code>BioTechStocksRaw %&gt;%
+  mutate(
+    # change numeric
+    change = str_remove_all(string = change, pattern = &quot;^\\+&quot;),
+    change = as.numeric(change, na.rm = TRUE)
+  )</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["symbol"],"name":[1],"type":["chr"],"align":["left"]},{"label":["company_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["last_price"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["change"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["percent_change"],"name":[5],"type":["chr"],"align":["left"]},{"label":["market_time"],"name":[6],"type":["chr"],"align":["left"]},{"label":["volume"],"name":[7],"type":["chr"],"align":["left"]},{"label":["avg_vol_3_month"],"name":[8],"type":["chr"],"align":["left"]},{"label":["market_cap"],"name":[9],"type":["chr"],"align":["left"]}],"data":[{"1":"JNJ","2":"Johnson & Johnson","3":"152.47","4":"0.53","5":"+0.35%","6":"1:00 PM EST","7":"2.09M","8":"7.19M","9":"401.38B"},{"1":"RHHBY","2":"Roche Holding AG","3":"42.55","4":"0.06","5":"+0.14%","6":"1:00 PM EST","7":"721.67k","8":"1.33M","9":"290.62B"},{"1":"PFE","2":"Pfizer Inc.","3":"37.27","4":"-0.17","5":"-0.45%","6":"1:02 PM EST","7":"14.64M","8":"43.28M","9":"207.16B"},{"1":"MRK","2":"Merck & Co., Inc.","3":"80.14","4":"0.38","5":"+0.48%","6":"1:02 PM EST","7":"2.80M","8":"8.80M","9":"202.76B"},{"1":"NVS","2":"Novartis AG","3":"88.55","4":"0.17","5":"+0.19%","6":"1:00 PM EST","7":"557.24k","8":"1.90M","9":"201.65B"},{"1":"ABBV","2":"AbbVie Inc.","3":"103.26","4":"-0.02","5":"-0.02%","6":"1:02 PM EST","7":"1.37M","8":"8.36M","9":"182.30B"},{"1":"NVO","2":"Novo Nordisk A/S","3":"69.43","4":"-0.19","5":"-0.27%","6":"1:00 PM EST","7":"277.20k","8":"1.14M","9":"160.92B"},{"1":"LLY","2":"Eli Lilly and Company","3":"166.66","4":"1.18","5":"+0.71%","6":"1:02 PM EST","7":"619.48k","8":"4.20M","9":"159.42B"},{"1":"BMY","2":"Bristol-Myers Squibb Company","3":"61.15","4":"0.15","5":"+0.25%","6":"1:00 PM EST","7":"3.07M","8":"10.59M","9":"138.18B"},{"1":"AMGN","2":"Amgen Inc.","3":"222.93","4":"-0.01","5":"-0.00%","6":"1:00 PM EST","7":"912.39k","8":"2.62M","9":"129.78B"},{"1":"AZN","2":"AstraZeneca PLC","3":"48.52","4":"-0.25","5":"-0.51%","6":"1:00 PM EST","7":"4.91M","8":"7.64M","9":"126.37B"},{"1":"SNY","2":"Sanofi","3":"47.45","4":"-0.13","5":"-0.27%","6":"1:00 PM EST","7":"477.62k","8":"1.33M","9":"119.44B"},{"1":"GSK","2":"GlaxoSmithKline plc","3":"36.14","4":"-0.09","5":"-0.25%","6":"1:00 PM EST","7":"1.29M","8":"4.95M","9":"91.21B"},{"1":"GLAXF","2":"GlaxoSmithKline plc","3":"17.79","4":"-0.46","5":"-2.52%","6":"12:07 PM EST","7":"1.34k","8":"253.49k","9":"88.83B"},{"1":"ZTS","2":"Zoetis Inc.","3":"160.72","4":"0.87","5":"+0.54%","6":"1:03 PM EST","7":"414.69k","8":"1.75M","9":"76.39B"},{"1":"GILD","2":"Gilead Sciences, Inc.","3":"57.07","4":"-0.31","5":"-0.54%","6":"1:00 PM EST","7":"3.26M","8":"9.49M","9":"71.54B"},{"1":"VRTX","2":"Vertex Pharmaceuticals Incorporated","3":"234.46","4":"-1.38","5":"-0.59%","6":"1:00 PM EST","7":"446.67k","8":"2.13M","9":"60.97B"},{"1":"BAYRY","2":"Bayer Aktiengesellschaft","3":"14.59","4":"-0.09","5":"-0.61%","6":"12:59 PM EST","7":"366.53k","8":"797.87k","9":"57.33B"},{"1":"TAK","2":"Takeda Pharmaceutical Company Limited","3":"18.11","4":"-0.17","5":"-0.93%","6":"1:00 PM EST","7":"1.88M","8":"1.34M","9":"56.34B"},{"1":"REGN","2":"Regeneron Pharmaceuticals, Inc.","3":"488.93","4":"-3.26","5":"-0.66%","6":"1:00 PM EST","7":"286.59k","8":"1.03M","9":"52.17B"},{"1":"MRNA","2":"Moderna, Inc.","3":"123.39","4":"-6.95","5":"-5.33%","6":"1:00 PM EST","7":"12.51M","8":"19.64M","9":"48.83B"},{"1":"BIIB","2":"Biogen Inc.","3":"248.89","4":"-2.31","5":"-0.92%","6":"1:00 PM EST","7":"444.89k","8":"1.65M","9":"38.30B"},{"1":"SGEN","2":"Seagen Inc.","3":"190.61","4":"-0.58","5":"-0.30%","6":"1:00 PM EST","7":"246.96k","8":"921.99k","9":"34.12B"},{"1":"ALXN","2":"Alexion Pharmaceuticals, Inc.","3":"152.63","4":"-0.61","5":"-0.40%","6":"1:00 PM EST","7":"1.07M","8":"2.38M","9":"33.38B"},{"1":"RPRX","2":"Royalty Pharma plc","3":"48.90","4":"0.29","5":"+0.60%","6":"1:00 PM EST","7":"1.58M","8":"2.12M","9":"30.57B"},{"1":"GMAB","2":"Genmab A/S","3":"39.11","4":"0.02","5":"+0.05%","6":"1:00 PM EST","7":"96.45k","8":"504.87k","9":"25.61B"},{"1":"BGNE","2":"BeiGene, Ltd.","3":"263.72","4":"-0.14","5":"-0.05%","6":"1:00 PM EST","7":"77.94k","8":"399.97k","9":"23.74B"},{"1":"BNTX","2":"BioNTech SE","3":"96.96","4":"-3.10","5":"-3.10%","6":"1:00 PM EST","7":"1.03M","8":"3.94M","9":"23.35B"},{"1":"VTRS","2":"Viatris Inc.","3":"17.77","4":"-0.11","5":"-0.62%","6":"1:00 PM EST","7":"1.93M","8":"11.64M","9":"21.36B"},{"1":"INCY","2":"Incyte Corporation","3":"87.37","4":"-0.56","5":"-0.64%","6":"1:00 PM EST","7":"177.61k","8":"1.15M","9":"19.13B"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Next we want to remove the <code>+</code> and <code>%</code> from the <code>percent_change</code> column, and convert this to a numerical value.</p>
+<pre class="r"><code>BioTechStocksRaw %&gt;%
+  mutate(
+    # change numeric
+    change = str_remove_all(string = change, pattern = &quot;^\\+&quot;),
+    change = as.numeric(change, na.rm = TRUE),
+    # percent change
+    percent_change = str_remove_all(string = percent_change, pattern = &quot;^\\+&quot;),
+    percent_change = str_remove_all(string = percent_change, pattern = &quot;\\%&quot;),
+    percent_change = as.numeric(percent_change, na.rm = TRUE)
+  )</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["symbol"],"name":[1],"type":["chr"],"align":["left"]},{"label":["company_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["last_price"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["change"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["percent_change"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["market_time"],"name":[6],"type":["chr"],"align":["left"]},{"label":["volume"],"name":[7],"type":["chr"],"align":["left"]},{"label":["avg_vol_3_month"],"name":[8],"type":["chr"],"align":["left"]},{"label":["market_cap"],"name":[9],"type":["chr"],"align":["left"]}],"data":[{"1":"JNJ","2":"Johnson & Johnson","3":"152.47","4":"0.53","5":"0.35","6":"1:00 PM EST","7":"2.09M","8":"7.19M","9":"401.38B"},{"1":"RHHBY","2":"Roche Holding AG","3":"42.55","4":"0.06","5":"0.14","6":"1:00 PM EST","7":"721.67k","8":"1.33M","9":"290.62B"},{"1":"PFE","2":"Pfizer Inc.","3":"37.27","4":"-0.17","5":"-0.45","6":"1:02 PM EST","7":"14.64M","8":"43.28M","9":"207.16B"},{"1":"MRK","2":"Merck & Co., Inc.","3":"80.14","4":"0.38","5":"0.48","6":"1:02 PM EST","7":"2.80M","8":"8.80M","9":"202.76B"},{"1":"NVS","2":"Novartis AG","3":"88.55","4":"0.17","5":"0.19","6":"1:00 PM EST","7":"557.24k","8":"1.90M","9":"201.65B"},{"1":"ABBV","2":"AbbVie Inc.","3":"103.26","4":"-0.02","5":"-0.02","6":"1:02 PM EST","7":"1.37M","8":"8.36M","9":"182.30B"},{"1":"NVO","2":"Novo Nordisk A/S","3":"69.43","4":"-0.19","5":"-0.27","6":"1:00 PM EST","7":"277.20k","8":"1.14M","9":"160.92B"},{"1":"LLY","2":"Eli Lilly and Company","3":"166.66","4":"1.18","5":"0.71","6":"1:02 PM EST","7":"619.48k","8":"4.20M","9":"159.42B"},{"1":"BMY","2":"Bristol-Myers Squibb Company","3":"61.15","4":"0.15","5":"0.25","6":"1:00 PM EST","7":"3.07M","8":"10.59M","9":"138.18B"},{"1":"AMGN","2":"Amgen Inc.","3":"222.93","4":"-0.01","5":"0.00","6":"1:00 PM EST","7":"912.39k","8":"2.62M","9":"129.78B"},{"1":"AZN","2":"AstraZeneca PLC","3":"48.52","4":"-0.25","5":"-0.51","6":"1:00 PM EST","7":"4.91M","8":"7.64M","9":"126.37B"},{"1":"SNY","2":"Sanofi","3":"47.45","4":"-0.13","5":"-0.27","6":"1:00 PM EST","7":"477.62k","8":"1.33M","9":"119.44B"},{"1":"GSK","2":"GlaxoSmithKline plc","3":"36.14","4":"-0.09","5":"-0.25","6":"1:00 PM EST","7":"1.29M","8":"4.95M","9":"91.21B"},{"1":"GLAXF","2":"GlaxoSmithKline plc","3":"17.79","4":"-0.46","5":"-2.52","6":"12:07 PM EST","7":"1.34k","8":"253.49k","9":"88.83B"},{"1":"ZTS","2":"Zoetis Inc.","3":"160.72","4":"0.87","5":"0.54","6":"1:03 PM EST","7":"414.69k","8":"1.75M","9":"76.39B"},{"1":"GILD","2":"Gilead Sciences, Inc.","3":"57.07","4":"-0.31","5":"-0.54","6":"1:00 PM EST","7":"3.26M","8":"9.49M","9":"71.54B"},{"1":"VRTX","2":"Vertex Pharmaceuticals Incorporated","3":"234.46","4":"-1.38","5":"-0.59","6":"1:00 PM EST","7":"446.67k","8":"2.13M","9":"60.97B"},{"1":"BAYRY","2":"Bayer Aktiengesellschaft","3":"14.59","4":"-0.09","5":"-0.61","6":"12:59 PM EST","7":"366.53k","8":"797.87k","9":"57.33B"},{"1":"TAK","2":"Takeda Pharmaceutical Company Limited","3":"18.11","4":"-0.17","5":"-0.93","6":"1:00 PM EST","7":"1.88M","8":"1.34M","9":"56.34B"},{"1":"REGN","2":"Regeneron Pharmaceuticals, Inc.","3":"488.93","4":"-3.26","5":"-0.66","6":"1:00 PM EST","7":"286.59k","8":"1.03M","9":"52.17B"},{"1":"MRNA","2":"Moderna, Inc.","3":"123.39","4":"-6.95","5":"-5.33","6":"1:00 PM EST","7":"12.51M","8":"19.64M","9":"48.83B"},{"1":"BIIB","2":"Biogen Inc.","3":"248.89","4":"-2.31","5":"-0.92","6":"1:00 PM EST","7":"444.89k","8":"1.65M","9":"38.30B"},{"1":"SGEN","2":"Seagen Inc.","3":"190.61","4":"-0.58","5":"-0.30","6":"1:00 PM EST","7":"246.96k","8":"921.99k","9":"34.12B"},{"1":"ALXN","2":"Alexion Pharmaceuticals, Inc.","3":"152.63","4":"-0.61","5":"-0.40","6":"1:00 PM EST","7":"1.07M","8":"2.38M","9":"33.38B"},{"1":"RPRX","2":"Royalty Pharma plc","3":"48.90","4":"0.29","5":"0.60","6":"1:00 PM EST","7":"1.58M","8":"2.12M","9":"30.57B"},{"1":"GMAB","2":"Genmab A/S","3":"39.11","4":"0.02","5":"0.05","6":"1:00 PM EST","7":"96.45k","8":"504.87k","9":"25.61B"},{"1":"BGNE","2":"BeiGene, Ltd.","3":"263.72","4":"-0.14","5":"-0.05","6":"1:00 PM EST","7":"77.94k","8":"399.97k","9":"23.74B"},{"1":"BNTX","2":"BioNTech SE","3":"96.96","4":"-3.10","5":"-3.10","6":"1:00 PM EST","7":"1.03M","8":"3.94M","9":"23.35B"},{"1":"VTRS","2":"Viatris Inc.","3":"17.77","4":"-0.11","5":"-0.62","6":"1:00 PM EST","7":"1.93M","8":"11.64M","9":"21.36B"},{"1":"INCY","2":"Incyte Corporation","3":"87.37","4":"-0.56","5":"-0.64","6":"1:00 PM EST","7":"177.61k","8":"1.15M","9":"19.13B"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>The <code>volume</code> and <code>avg_vol_3_month</code> columns have two different characters <code>k</code> and <code>M</code> that will take some more advanced steps, so we’ll remove the <code>B</code> from <code>market_cap</code> first.</p>
+<pre class="r"><code>BioTechStocksRaw %&gt;%
+  mutate(
+    # change numeric
+    change = str_remove_all(string = change, pattern = &quot;^\\+&quot;),
+    change = as.numeric(change, na.rm = TRUE),
+    # percent change
+    percent_change = str_remove_all(string = percent_change, pattern = &quot;^\\+&quot;),
+    percent_change = str_remove_all(string = percent_change, pattern = &quot;\\%&quot;),
+    percent_change = as.numeric(percent_change, na.rm = TRUE),
+    # market cap
+    market_cap = str_remove_all(string = market_cap, pattern = &quot;B&quot;),
+    market_cap = as.numeric(market_cap, na.rm = TRUE)
+  )</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["symbol"],"name":[1],"type":["chr"],"align":["left"]},{"label":["company_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["last_price"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["change"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["percent_change"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["market_time"],"name":[6],"type":["chr"],"align":["left"]},{"label":["volume"],"name":[7],"type":["chr"],"align":["left"]},{"label":["avg_vol_3_month"],"name":[8],"type":["chr"],"align":["left"]},{"label":["market_cap"],"name":[9],"type":["dbl"],"align":["right"]}],"data":[{"1":"JNJ","2":"Johnson & Johnson","3":"152.47","4":"0.53","5":"0.35","6":"1:00 PM EST","7":"2.09M","8":"7.19M","9":"401.38"},{"1":"RHHBY","2":"Roche Holding AG","3":"42.55","4":"0.06","5":"0.14","6":"1:00 PM EST","7":"721.67k","8":"1.33M","9":"290.62"},{"1":"PFE","2":"Pfizer Inc.","3":"37.27","4":"-0.17","5":"-0.45","6":"1:02 PM EST","7":"14.64M","8":"43.28M","9":"207.16"},{"1":"MRK","2":"Merck & Co., Inc.","3":"80.14","4":"0.38","5":"0.48","6":"1:02 PM EST","7":"2.80M","8":"8.80M","9":"202.76"},{"1":"NVS","2":"Novartis AG","3":"88.55","4":"0.17","5":"0.19","6":"1:00 PM EST","7":"557.24k","8":"1.90M","9":"201.65"},{"1":"ABBV","2":"AbbVie Inc.","3":"103.26","4":"-0.02","5":"-0.02","6":"1:02 PM EST","7":"1.37M","8":"8.36M","9":"182.30"},{"1":"NVO","2":"Novo Nordisk A/S","3":"69.43","4":"-0.19","5":"-0.27","6":"1:00 PM EST","7":"277.20k","8":"1.14M","9":"160.92"},{"1":"LLY","2":"Eli Lilly and Company","3":"166.66","4":"1.18","5":"0.71","6":"1:02 PM EST","7":"619.48k","8":"4.20M","9":"159.42"},{"1":"BMY","2":"Bristol-Myers Squibb Company","3":"61.15","4":"0.15","5":"0.25","6":"1:00 PM EST","7":"3.07M","8":"10.59M","9":"138.18"},{"1":"AMGN","2":"Amgen Inc.","3":"222.93","4":"-0.01","5":"0.00","6":"1:00 PM EST","7":"912.39k","8":"2.62M","9":"129.78"},{"1":"AZN","2":"AstraZeneca PLC","3":"48.52","4":"-0.25","5":"-0.51","6":"1:00 PM EST","7":"4.91M","8":"7.64M","9":"126.37"},{"1":"SNY","2":"Sanofi","3":"47.45","4":"-0.13","5":"-0.27","6":"1:00 PM EST","7":"477.62k","8":"1.33M","9":"119.44"},{"1":"GSK","2":"GlaxoSmithKline plc","3":"36.14","4":"-0.09","5":"-0.25","6":"1:00 PM EST","7":"1.29M","8":"4.95M","9":"91.21"},{"1":"GLAXF","2":"GlaxoSmithKline plc","3":"17.79","4":"-0.46","5":"-2.52","6":"12:07 PM EST","7":"1.34k","8":"253.49k","9":"88.83"},{"1":"ZTS","2":"Zoetis Inc.","3":"160.72","4":"0.87","5":"0.54","6":"1:03 PM EST","7":"414.69k","8":"1.75M","9":"76.39"},{"1":"GILD","2":"Gilead Sciences, Inc.","3":"57.07","4":"-0.31","5":"-0.54","6":"1:00 PM EST","7":"3.26M","8":"9.49M","9":"71.54"},{"1":"VRTX","2":"Vertex Pharmaceuticals Incorporated","3":"234.46","4":"-1.38","5":"-0.59","6":"1:00 PM EST","7":"446.67k","8":"2.13M","9":"60.97"},{"1":"BAYRY","2":"Bayer Aktiengesellschaft","3":"14.59","4":"-0.09","5":"-0.61","6":"12:59 PM EST","7":"366.53k","8":"797.87k","9":"57.33"},{"1":"TAK","2":"Takeda Pharmaceutical Company Limited","3":"18.11","4":"-0.17","5":"-0.93","6":"1:00 PM EST","7":"1.88M","8":"1.34M","9":"56.34"},{"1":"REGN","2":"Regeneron Pharmaceuticals, Inc.","3":"488.93","4":"-3.26","5":"-0.66","6":"1:00 PM EST","7":"286.59k","8":"1.03M","9":"52.17"},{"1":"MRNA","2":"Moderna, Inc.","3":"123.39","4":"-6.95","5":"-5.33","6":"1:00 PM EST","7":"12.51M","8":"19.64M","9":"48.83"},{"1":"BIIB","2":"Biogen Inc.","3":"248.89","4":"-2.31","5":"-0.92","6":"1:00 PM EST","7":"444.89k","8":"1.65M","9":"38.30"},{"1":"SGEN","2":"Seagen Inc.","3":"190.61","4":"-0.58","5":"-0.30","6":"1:00 PM EST","7":"246.96k","8":"921.99k","9":"34.12"},{"1":"ALXN","2":"Alexion Pharmaceuticals, Inc.","3":"152.63","4":"-0.61","5":"-0.40","6":"1:00 PM EST","7":"1.07M","8":"2.38M","9":"33.38"},{"1":"RPRX","2":"Royalty Pharma plc","3":"48.90","4":"0.29","5":"0.60","6":"1:00 PM EST","7":"1.58M","8":"2.12M","9":"30.57"},{"1":"GMAB","2":"Genmab A/S","3":"39.11","4":"0.02","5":"0.05","6":"1:00 PM EST","7":"96.45k","8":"504.87k","9":"25.61"},{"1":"BGNE","2":"BeiGene, Ltd.","3":"263.72","4":"-0.14","5":"-0.05","6":"1:00 PM EST","7":"77.94k","8":"399.97k","9":"23.74"},{"1":"BNTX","2":"BioNTech SE","3":"96.96","4":"-3.10","5":"-3.10","6":"1:00 PM EST","7":"1.03M","8":"3.94M","9":"23.35"},{"1":"VTRS","2":"Viatris Inc.","3":"17.77","4":"-0.11","5":"-0.62","6":"1:00 PM EST","7":"1.93M","8":"11.64M","9":"21.36"},{"1":"INCY","2":"Incyte Corporation","3":"87.37","4":"-0.56","5":"-0.64","6":"1:00 PM EST","7":"177.61k","8":"1.15M","9":"19.13"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
-<div id="stock-data-from-quantmod" class="section level2 tabset" number="4.2">
-<h2 class="tabset" number="4.2"><span class="header-section-number">4.2</span> Stock data from <code>quantmod</code></h2>
-<p>We will also import some actual stock data using <code>quantmod</code> and <code>xts</code> packages.</p>
-<pre class="r"><code>source(&quot;code/quant-packages.R&quot;)
-biotech_symbols &lt;- c(&quot;BMRN&quot;, &quot;MRK&quot;, &quot;AZN&quot;, &quot;GSK&quot;, &quot;BNTX&quot;, &quot;MRNA&quot;)
-biotech_prices &lt;- quantmod::getSymbols(biotech_symbols, 
-                  # returns an object with the opening price, closing price, 
-                  # adjusted price, daily high, daily low and daily volume
-                  # for each ticker.
-                     src = &#39;yahoo&#39;, 
-                     from = &quot;2019-12-31&quot;, to = &quot;2020-12-11&quot;, 
-                     auto.assign = TRUE, 
-                     warnings = FALSE) %&gt;% 
-          # Ad() and get() is used to isolate the adjusted price
-          purrr::map(~Ad(get(.))) %&gt;% 
-          # merge() looks for the date index shared by our objects and 
-          # uses that index to align the data.
-          purrr::reduce(merge) %&gt;% 
-          # use colnames&lt;- to rename the columns according to the 
-          # symbols object.
-          `colnames&lt;-`(biotech_symbols)</code></pre>
-<div id="convert-adjusted-prices-to-wide" class="section level3" number="4.2.1">
-<h3 number="4.2.1"><span class="header-section-number">4.2.1</span> Convert adjusted prices to wide</h3>
-<p>Here is the wide version of the prices.</p>
-<pre class="r"><code>biotech_prices %&gt;%
-  xts::to.monthly(indexAt = &quot;lastof&quot;, 
-             OHLC = FALSE) %&gt;%
-  # convert the index to a date
-  base::data.frame(date = index(.)) %&gt;%
-  # now remove the index because it got converted to row names 
-  tibble::remove_rownames() %&gt;% 
-  dplyr::select(date, 
-                dplyr::everything()) -&gt; PricesWide
-PricesWide</code></pre>
+<div id="case_when" class="section level3" number="4.1.2">
+<h3 number="4.1.2"><span class="header-section-number">4.1.2</span> <code>case_when()</code></h3>
+<p>Now, to get the correct value in the <code>volume</code> and <code>avg_vol_3_month</code> columns, we’ll need to create a <code>key</code> variable for <code>k</code> and <code>M</code>, then we can use the <code>key</code>s to conditionally transform the values.</p>
+<pre class="r"><code>BioTechStocksRaw %&gt;%
+  mutate(
+    # change numeric
+    change = str_remove_all(string = change, pattern = &quot;^\\+&quot;),
+    change = as.numeric(change, na.rm = TRUE),
+    # percent change
+    percent_change = str_remove_all(string = percent_change, pattern = &quot;^\\+&quot;),
+    percent_change = str_remove_all(string = percent_change, pattern = &quot;\\%&quot;),
+    percent_change = as.numeric(percent_change, na.rm = TRUE),
+    # market cap
+    market_cap = str_remove_all(string = market_cap, pattern = &quot;B&quot;),
+    market_cap = as.numeric(market_cap, na.rm = TRUE),
+    # volume key
+    volume_key =
+      case_when(
+        str_detect(string = volume, pattern = &quot;k&quot;) ~ &quot;volume ($K)&quot;,
+        str_detect(string = volume, pattern = &quot;M&quot;) ~ &quot;volume ($M)&quot;
+      ),
+    # identify k vs M in avg_vol_3_month
+    avg_vol_3mo_key =
+      case_when(
+        str_detect(string = avg_vol_3_month, pattern = &quot;k&quot;) ~ &quot;volume ($K)&quot;,
+        str_detect(string = avg_vol_3_month, pattern = &quot;M&quot;) ~ &quot;volume ($M)&quot;
+      )
+  )</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["date"],"name":[1],"type":["date"],"align":["right"]},{"label":["BMRN"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["MRK"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["AZN"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["GSK"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["BNTX"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["MRNA"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"2019-12-31","2":"84.55","3":"88.15111","4":"48.47673","5":"44.72367","6":"33.88","7":"19.56"},{"1":"2020-01-31","2":"83.50","3":"82.81067","4":"47.34891","5":"44.54283","6":"29.21","7":"20.51"},{"1":"2020-02-29","2":"90.37","3":"74.20394","4":"43.45262","5":"39.11396","6":"35.10","7":"25.93"},{"1":"2020-03-31","2":"84.50","3":"75.18831","4":"44.30580","5":"36.56619","6":"58.40","7":"29.95"},{"1":"2020-04-30","2":"92.02","3":"77.53366","4":"51.86537","5":"40.60016","6":"47.48","7":"45.99"},{"1":"2020-05-31","2":"106.55","3":"78.88224","4":"54.16697","5":"40.90715","6":"49.53","7":"61.50"},{"1":"2020-06-30","2":"123.34","3":"76.17012","4":"52.47053","5":"39.80446","6":"66.74","7":"64.21"},{"1":"2020-07-31","2":"119.81","3":"79.03647","4":"55.33761","5":"39.34581","6":"82.11","7":"74.10"},{"1":"2020-08-31","2":"78.03","3":"83.99102","4":"56.00000","5":"39.09855","6":"61.25","7":"64.89"},{"1":"2020-09-30","2":"76.08","3":"82.30008","4":"54.80000","5":"37.16337","6":"69.23","7":"70.75"},{"1":"2020-10-31","2":"74.43","3":"74.62072","4":"50.16000","5":"32.99681","6":"85.36","7":"67.47"},{"1":"2020-11-30","2":"78.70","3":"79.76014","4":"52.94000","5":"36.79000","6":"124.24","7":"152.74"},{"1":"2020-12-31","2":"77.76","3":"82.33977","4":"53.89000","5":"37.97000","6":"129.54","7":"155.69"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["symbol"],"name":[1],"type":["chr"],"align":["left"]},{"label":["company_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["last_price"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["change"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["percent_change"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["market_time"],"name":[6],"type":["chr"],"align":["left"]},{"label":["volume"],"name":[7],"type":["chr"],"align":["left"]},{"label":["avg_vol_3_month"],"name":[8],"type":["chr"],"align":["left"]},{"label":["market_cap"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["volume_key"],"name":[10],"type":["chr"],"align":["left"]},{"label":["avg_vol_3mo_key"],"name":[11],"type":["chr"],"align":["left"]}],"data":[{"1":"JNJ","2":"Johnson & Johnson","3":"152.47","4":"0.53","5":"0.35","6":"1:00 PM EST","7":"2.09M","8":"7.19M","9":"401.38","10":"volume ($M)","11":"volume ($M)"},{"1":"RHHBY","2":"Roche Holding AG","3":"42.55","4":"0.06","5":"0.14","6":"1:00 PM EST","7":"721.67k","8":"1.33M","9":"290.62","10":"volume ($K)","11":"volume ($M)"},{"1":"PFE","2":"Pfizer Inc.","3":"37.27","4":"-0.17","5":"-0.45","6":"1:02 PM EST","7":"14.64M","8":"43.28M","9":"207.16","10":"volume ($M)","11":"volume ($M)"},{"1":"MRK","2":"Merck & Co., Inc.","3":"80.14","4":"0.38","5":"0.48","6":"1:02 PM EST","7":"2.80M","8":"8.80M","9":"202.76","10":"volume ($M)","11":"volume ($M)"},{"1":"NVS","2":"Novartis AG","3":"88.55","4":"0.17","5":"0.19","6":"1:00 PM EST","7":"557.24k","8":"1.90M","9":"201.65","10":"volume ($K)","11":"volume ($M)"},{"1":"ABBV","2":"AbbVie Inc.","3":"103.26","4":"-0.02","5":"-0.02","6":"1:02 PM EST","7":"1.37M","8":"8.36M","9":"182.30","10":"volume ($M)","11":"volume ($M)"},{"1":"NVO","2":"Novo Nordisk A/S","3":"69.43","4":"-0.19","5":"-0.27","6":"1:00 PM EST","7":"277.20k","8":"1.14M","9":"160.92","10":"volume ($K)","11":"volume ($M)"},{"1":"LLY","2":"Eli Lilly and Company","3":"166.66","4":"1.18","5":"0.71","6":"1:02 PM EST","7":"619.48k","8":"4.20M","9":"159.42","10":"volume ($K)","11":"volume ($M)"},{"1":"BMY","2":"Bristol-Myers Squibb Company","3":"61.15","4":"0.15","5":"0.25","6":"1:00 PM EST","7":"3.07M","8":"10.59M","9":"138.18","10":"volume ($M)","11":"volume ($M)"},{"1":"AMGN","2":"Amgen Inc.","3":"222.93","4":"-0.01","5":"0.00","6":"1:00 PM EST","7":"912.39k","8":"2.62M","9":"129.78","10":"volume ($K)","11":"volume ($M)"},{"1":"AZN","2":"AstraZeneca PLC","3":"48.52","4":"-0.25","5":"-0.51","6":"1:00 PM EST","7":"4.91M","8":"7.64M","9":"126.37","10":"volume ($M)","11":"volume ($M)"},{"1":"SNY","2":"Sanofi","3":"47.45","4":"-0.13","5":"-0.27","6":"1:00 PM EST","7":"477.62k","8":"1.33M","9":"119.44","10":"volume ($K)","11":"volume ($M)"},{"1":"GSK","2":"GlaxoSmithKline plc","3":"36.14","4":"-0.09","5":"-0.25","6":"1:00 PM EST","7":"1.29M","8":"4.95M","9":"91.21","10":"volume ($M)","11":"volume ($M)"},{"1":"GLAXF","2":"GlaxoSmithKline plc","3":"17.79","4":"-0.46","5":"-2.52","6":"12:07 PM EST","7":"1.34k","8":"253.49k","9":"88.83","10":"volume ($K)","11":"volume ($K)"},{"1":"ZTS","2":"Zoetis Inc.","3":"160.72","4":"0.87","5":"0.54","6":"1:03 PM EST","7":"414.69k","8":"1.75M","9":"76.39","10":"volume ($K)","11":"volume ($M)"},{"1":"GILD","2":"Gilead Sciences, Inc.","3":"57.07","4":"-0.31","5":"-0.54","6":"1:00 PM EST","7":"3.26M","8":"9.49M","9":"71.54","10":"volume ($M)","11":"volume ($M)"},{"1":"VRTX","2":"Vertex Pharmaceuticals Incorporated","3":"234.46","4":"-1.38","5":"-0.59","6":"1:00 PM EST","7":"446.67k","8":"2.13M","9":"60.97","10":"volume ($K)","11":"volume ($M)"},{"1":"BAYRY","2":"Bayer Aktiengesellschaft","3":"14.59","4":"-0.09","5":"-0.61","6":"12:59 PM EST","7":"366.53k","8":"797.87k","9":"57.33","10":"volume ($K)","11":"volume ($K)"},{"1":"TAK","2":"Takeda Pharmaceutical Company Limited","3":"18.11","4":"-0.17","5":"-0.93","6":"1:00 PM EST","7":"1.88M","8":"1.34M","9":"56.34","10":"volume ($M)","11":"volume ($M)"},{"1":"REGN","2":"Regeneron Pharmaceuticals, Inc.","3":"488.93","4":"-3.26","5":"-0.66","6":"1:00 PM EST","7":"286.59k","8":"1.03M","9":"52.17","10":"volume ($K)","11":"volume ($M)"},{"1":"MRNA","2":"Moderna, Inc.","3":"123.39","4":"-6.95","5":"-5.33","6":"1:00 PM EST","7":"12.51M","8":"19.64M","9":"48.83","10":"volume ($M)","11":"volume ($M)"},{"1":"BIIB","2":"Biogen Inc.","3":"248.89","4":"-2.31","5":"-0.92","6":"1:00 PM EST","7":"444.89k","8":"1.65M","9":"38.30","10":"volume ($K)","11":"volume ($M)"},{"1":"SGEN","2":"Seagen Inc.","3":"190.61","4":"-0.58","5":"-0.30","6":"1:00 PM EST","7":"246.96k","8":"921.99k","9":"34.12","10":"volume ($K)","11":"volume ($K)"},{"1":"ALXN","2":"Alexion Pharmaceuticals, Inc.","3":"152.63","4":"-0.61","5":"-0.40","6":"1:00 PM EST","7":"1.07M","8":"2.38M","9":"33.38","10":"volume ($M)","11":"volume ($M)"},{"1":"RPRX","2":"Royalty Pharma plc","3":"48.90","4":"0.29","5":"0.60","6":"1:00 PM EST","7":"1.58M","8":"2.12M","9":"30.57","10":"volume ($M)","11":"volume ($M)"},{"1":"GMAB","2":"Genmab A/S","3":"39.11","4":"0.02","5":"0.05","6":"1:00 PM EST","7":"96.45k","8":"504.87k","9":"25.61","10":"volume ($K)","11":"volume ($K)"},{"1":"BGNE","2":"BeiGene, Ltd.","3":"263.72","4":"-0.14","5":"-0.05","6":"1:00 PM EST","7":"77.94k","8":"399.97k","9":"23.74","10":"volume ($K)","11":"volume ($K)"},{"1":"BNTX","2":"BioNTech SE","3":"96.96","4":"-3.10","5":"-3.10","6":"1:00 PM EST","7":"1.03M","8":"3.94M","9":"23.35","10":"volume ($M)","11":"volume ($M)"},{"1":"VTRS","2":"Viatris Inc.","3":"17.77","4":"-0.11","5":"-0.62","6":"1:00 PM EST","7":"1.93M","8":"11.64M","9":"21.36","10":"volume ($M)","11":"volume ($M)"},{"1":"INCY","2":"Incyte Corporation","3":"87.37","4":"-0.56","5":"-0.64","6":"1:00 PM EST","7":"177.61k","8":"1.15M","9":"19.13","10":"volume ($K)","11":"volume ($M)"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Now we want to remove both the <code>M</code> and the <code>k</code> from <code>volume</code> and <code>avg_vol_3_month</code>.</p>
+<pre class="r"><code>BioTechStocksRaw %&gt;%
+  mutate(
+    # change numeric
+    change = str_remove_all(string = change, pattern = &quot;^\\+&quot;),
+    change = as.numeric(change, na.rm = TRUE),
+    # percent change
+    percent_change = str_remove_all(string = percent_change, pattern = &quot;^\\+&quot;),
+    percent_change = str_remove_all(string = percent_change, pattern = &quot;\\%&quot;),
+    percent_change = as.numeric(percent_change, na.rm = TRUE),
+    # market cap
+    market_cap = str_remove_all(string = market_cap, pattern = &quot;B&quot;),
+    market_cap = as.numeric(market_cap, na.rm = TRUE),
+    # volume key
+    volume_key =
+      case_when(
+        str_detect(string = volume, pattern = &quot;k&quot;) ~ &quot;volume ($K)&quot;,
+        str_detect(string = volume, pattern = &quot;M&quot;) ~ &quot;volume ($M)&quot;
+      ),
+    # identify k vs M in avg_vol_3_month
+    avg_vol_3mo_key =
+      case_when(
+        str_detect(string = avg_vol_3_month, pattern = &quot;k&quot;) ~ &quot;volume ($K)&quot;,
+        str_detect(string = avg_vol_3_month, pattern = &quot;M&quot;) ~ &quot;volume ($M)&quot;
+      ),
+    # remove string from volume
+    volume = str_remove_all(string = volume, pattern = &quot;M|k&quot;),
+    # volume as numeric
+    volume = as.numeric(volume, na.rm = TRUE),
+    # remove string from avg_vol_3_month
+    avg_vol_3_month = str_remove_all(string = avg_vol_3_month, pattern = &quot;M|k&quot;),
+    # average vol 3-month as numeric
+    avg_vol_3_month = as.numeric(avg_vol_3_month, na.rm = TRUE)
+  )</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["symbol"],"name":[1],"type":["chr"],"align":["left"]},{"label":["company_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["last_price"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["change"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["percent_change"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["market_time"],"name":[6],"type":["chr"],"align":["left"]},{"label":["volume"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["avg_vol_3_month"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["market_cap"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["volume_key"],"name":[10],"type":["chr"],"align":["left"]},{"label":["avg_vol_3mo_key"],"name":[11],"type":["chr"],"align":["left"]}],"data":[{"1":"JNJ","2":"Johnson & Johnson","3":"152.47","4":"0.53","5":"0.35","6":"1:00 PM EST","7":"2.09","8":"7.19","9":"401.38","10":"volume ($M)","11":"volume ($M)"},{"1":"RHHBY","2":"Roche Holding AG","3":"42.55","4":"0.06","5":"0.14","6":"1:00 PM EST","7":"721.67","8":"1.33","9":"290.62","10":"volume ($K)","11":"volume ($M)"},{"1":"PFE","2":"Pfizer Inc.","3":"37.27","4":"-0.17","5":"-0.45","6":"1:02 PM EST","7":"14.64","8":"43.28","9":"207.16","10":"volume ($M)","11":"volume ($M)"},{"1":"MRK","2":"Merck & Co., Inc.","3":"80.14","4":"0.38","5":"0.48","6":"1:02 PM EST","7":"2.80","8":"8.80","9":"202.76","10":"volume ($M)","11":"volume ($M)"},{"1":"NVS","2":"Novartis AG","3":"88.55","4":"0.17","5":"0.19","6":"1:00 PM EST","7":"557.24","8":"1.90","9":"201.65","10":"volume ($K)","11":"volume ($M)"},{"1":"ABBV","2":"AbbVie Inc.","3":"103.26","4":"-0.02","5":"-0.02","6":"1:02 PM EST","7":"1.37","8":"8.36","9":"182.30","10":"volume ($M)","11":"volume ($M)"},{"1":"NVO","2":"Novo Nordisk A/S","3":"69.43","4":"-0.19","5":"-0.27","6":"1:00 PM EST","7":"277.20","8":"1.14","9":"160.92","10":"volume ($K)","11":"volume ($M)"},{"1":"LLY","2":"Eli Lilly and Company","3":"166.66","4":"1.18","5":"0.71","6":"1:02 PM EST","7":"619.48","8":"4.20","9":"159.42","10":"volume ($K)","11":"volume ($M)"},{"1":"BMY","2":"Bristol-Myers Squibb Company","3":"61.15","4":"0.15","5":"0.25","6":"1:00 PM EST","7":"3.07","8":"10.59","9":"138.18","10":"volume ($M)","11":"volume ($M)"},{"1":"AMGN","2":"Amgen Inc.","3":"222.93","4":"-0.01","5":"0.00","6":"1:00 PM EST","7":"912.39","8":"2.62","9":"129.78","10":"volume ($K)","11":"volume ($M)"},{"1":"AZN","2":"AstraZeneca PLC","3":"48.52","4":"-0.25","5":"-0.51","6":"1:00 PM EST","7":"4.91","8":"7.64","9":"126.37","10":"volume ($M)","11":"volume ($M)"},{"1":"SNY","2":"Sanofi","3":"47.45","4":"-0.13","5":"-0.27","6":"1:00 PM EST","7":"477.62","8":"1.33","9":"119.44","10":"volume ($K)","11":"volume ($M)"},{"1":"GSK","2":"GlaxoSmithKline plc","3":"36.14","4":"-0.09","5":"-0.25","6":"1:00 PM EST","7":"1.29","8":"4.95","9":"91.21","10":"volume ($M)","11":"volume ($M)"},{"1":"GLAXF","2":"GlaxoSmithKline plc","3":"17.79","4":"-0.46","5":"-2.52","6":"12:07 PM EST","7":"1.34","8":"253.49","9":"88.83","10":"volume ($K)","11":"volume ($K)"},{"1":"ZTS","2":"Zoetis Inc.","3":"160.72","4":"0.87","5":"0.54","6":"1:03 PM EST","7":"414.69","8":"1.75","9":"76.39","10":"volume ($K)","11":"volume ($M)"},{"1":"GILD","2":"Gilead Sciences, Inc.","3":"57.07","4":"-0.31","5":"-0.54","6":"1:00 PM EST","7":"3.26","8":"9.49","9":"71.54","10":"volume ($M)","11":"volume ($M)"},{"1":"VRTX","2":"Vertex Pharmaceuticals Incorporated","3":"234.46","4":"-1.38","5":"-0.59","6":"1:00 PM EST","7":"446.67","8":"2.13","9":"60.97","10":"volume ($K)","11":"volume ($M)"},{"1":"BAYRY","2":"Bayer Aktiengesellschaft","3":"14.59","4":"-0.09","5":"-0.61","6":"12:59 PM EST","7":"366.53","8":"797.87","9":"57.33","10":"volume ($K)","11":"volume ($K)"},{"1":"TAK","2":"Takeda Pharmaceutical Company Limited","3":"18.11","4":"-0.17","5":"-0.93","6":"1:00 PM EST","7":"1.88","8":"1.34","9":"56.34","10":"volume ($M)","11":"volume ($M)"},{"1":"REGN","2":"Regeneron Pharmaceuticals, Inc.","3":"488.93","4":"-3.26","5":"-0.66","6":"1:00 PM EST","7":"286.59","8":"1.03","9":"52.17","10":"volume ($K)","11":"volume ($M)"},{"1":"MRNA","2":"Moderna, Inc.","3":"123.39","4":"-6.95","5":"-5.33","6":"1:00 PM EST","7":"12.51","8":"19.64","9":"48.83","10":"volume ($M)","11":"volume ($M)"},{"1":"BIIB","2":"Biogen Inc.","3":"248.89","4":"-2.31","5":"-0.92","6":"1:00 PM EST","7":"444.89","8":"1.65","9":"38.30","10":"volume ($K)","11":"volume ($M)"},{"1":"SGEN","2":"Seagen Inc.","3":"190.61","4":"-0.58","5":"-0.30","6":"1:00 PM EST","7":"246.96","8":"921.99","9":"34.12","10":"volume ($K)","11":"volume ($K)"},{"1":"ALXN","2":"Alexion Pharmaceuticals, Inc.","3":"152.63","4":"-0.61","5":"-0.40","6":"1:00 PM EST","7":"1.07","8":"2.38","9":"33.38","10":"volume ($M)","11":"volume ($M)"},{"1":"RPRX","2":"Royalty Pharma plc","3":"48.90","4":"0.29","5":"0.60","6":"1:00 PM EST","7":"1.58","8":"2.12","9":"30.57","10":"volume ($M)","11":"volume ($M)"},{"1":"GMAB","2":"Genmab A/S","3":"39.11","4":"0.02","5":"0.05","6":"1:00 PM EST","7":"96.45","8":"504.87","9":"25.61","10":"volume ($K)","11":"volume ($K)"},{"1":"BGNE","2":"BeiGene, Ltd.","3":"263.72","4":"-0.14","5":"-0.05","6":"1:00 PM EST","7":"77.94","8":"399.97","9":"23.74","10":"volume ($K)","11":"volume ($K)"},{"1":"BNTX","2":"BioNTech SE","3":"96.96","4":"-3.10","5":"-3.10","6":"1:00 PM EST","7":"1.03","8":"3.94","9":"23.35","10":"volume ($M)","11":"volume ($M)"},{"1":"VTRS","2":"Viatris Inc.","3":"17.77","4":"-0.11","5":"-0.62","6":"1:00 PM EST","7":"1.93","8":"11.64","9":"21.36","10":"volume ($M)","11":"volume ($M)"},{"1":"INCY","2":"Incyte Corporation","3":"87.37","4":"-0.56","5":"-0.64","6":"1:00 PM EST","7":"177.61","8":"1.15","9":"19.13","10":"volume ($K)","11":"volume ($M)"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>And now we can use the <code>key</code> variables to transform the values so they are all in millions.</p>
+<pre class="r"><code>BioTechStocksRaw %&gt;%
+  mutate(
+    # change numeric
+    change = str_remove_all(string = change, pattern = &quot;^\\+&quot;),
+    change = as.numeric(change, na.rm = TRUE),
+    # percent change
+    percent_change = str_remove_all(string = percent_change, pattern = &quot;^\\+&quot;),
+    percent_change = str_remove_all(string = percent_change, pattern = &quot;\\%&quot;),
+    percent_change = as.numeric(percent_change, na.rm = TRUE),
+    # market cap
+    market_cap = str_remove_all(string = market_cap, pattern = &quot;B&quot;),
+    market_cap = as.numeric(market_cap, na.rm = TRUE),
+    # volume key
+    volume_key =
+      case_when(
+        str_detect(string = volume, pattern = &quot;k&quot;) ~ &quot;volume ($K)&quot;,
+        str_detect(string = volume, pattern = &quot;M&quot;) ~ &quot;volume ($M)&quot;
+      ),
+    # identify k vs M in avg_vol_3_month
+    avg_vol_3mo_key =
+      case_when(
+        str_detect(string = avg_vol_3_month, pattern = &quot;k&quot;) ~ &quot;volume ($K)&quot;,
+        str_detect(string = avg_vol_3_month, pattern = &quot;M&quot;) ~ &quot;volume ($M)&quot;
+      ),
+    # remove string from volume
+    volume = str_remove_all(string = volume, pattern = &quot;M|k&quot;),
+    # volume as numeric
+    volume = as.numeric(volume, na.rm = TRUE),
+    # remove string from avg_vol_3_month
+    avg_vol_3_month = str_remove_all(string = avg_vol_3_month, pattern = &quot;M|k&quot;),
+    # average vol 3-month as numeric
+    avg_vol_3_month = as.numeric(avg_vol_3_month, na.rm = TRUE),
+    # format volume
+    volume = case_when(
+      # convert k to mil
+      volume_key == &quot;volume ($K)&quot; ~ round(volume * 0.001, digits = 2),
+      # round mil
+      volume_key == &quot;volume ($M)&quot; ~ round(volume, digits = 2)
+    ),
+    # convert k to mil
+    avg_vol_3_month = case_when(
+      avg_vol_3mo_key == &quot;volume ($K)&quot; ~ round(avg_vol_3_month * 0.001, digits = 2),
+      # round mil
+      avg_vol_3mo_key == &quot;volume ($M)&quot; ~ round(avg_vol_3_month, digits = 2)
+    )
+  )</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["symbol"],"name":[1],"type":["chr"],"align":["left"]},{"label":["company_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["last_price"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["change"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["percent_change"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["market_time"],"name":[6],"type":["chr"],"align":["left"]},{"label":["volume"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["avg_vol_3_month"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["market_cap"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["volume_key"],"name":[10],"type":["chr"],"align":["left"]},{"label":["avg_vol_3mo_key"],"name":[11],"type":["chr"],"align":["left"]}],"data":[{"1":"JNJ","2":"Johnson & Johnson","3":"152.47","4":"0.53","5":"0.35","6":"1:00 PM EST","7":"2.09","8":"7.19","9":"401.38","10":"volume ($M)","11":"volume ($M)"},{"1":"RHHBY","2":"Roche Holding AG","3":"42.55","4":"0.06","5":"0.14","6":"1:00 PM EST","7":"0.72","8":"1.33","9":"290.62","10":"volume ($K)","11":"volume ($M)"},{"1":"PFE","2":"Pfizer Inc.","3":"37.27","4":"-0.17","5":"-0.45","6":"1:02 PM EST","7":"14.64","8":"43.28","9":"207.16","10":"volume ($M)","11":"volume ($M)"},{"1":"MRK","2":"Merck & Co., Inc.","3":"80.14","4":"0.38","5":"0.48","6":"1:02 PM EST","7":"2.80","8":"8.80","9":"202.76","10":"volume ($M)","11":"volume ($M)"},{"1":"NVS","2":"Novartis AG","3":"88.55","4":"0.17","5":"0.19","6":"1:00 PM EST","7":"0.56","8":"1.90","9":"201.65","10":"volume ($K)","11":"volume ($M)"},{"1":"ABBV","2":"AbbVie Inc.","3":"103.26","4":"-0.02","5":"-0.02","6":"1:02 PM EST","7":"1.37","8":"8.36","9":"182.30","10":"volume ($M)","11":"volume ($M)"},{"1":"NVO","2":"Novo Nordisk A/S","3":"69.43","4":"-0.19","5":"-0.27","6":"1:00 PM EST","7":"0.28","8":"1.14","9":"160.92","10":"volume ($K)","11":"volume ($M)"},{"1":"LLY","2":"Eli Lilly and Company","3":"166.66","4":"1.18","5":"0.71","6":"1:02 PM EST","7":"0.62","8":"4.20","9":"159.42","10":"volume ($K)","11":"volume ($M)"},{"1":"BMY","2":"Bristol-Myers Squibb Company","3":"61.15","4":"0.15","5":"0.25","6":"1:00 PM EST","7":"3.07","8":"10.59","9":"138.18","10":"volume ($M)","11":"volume ($M)"},{"1":"AMGN","2":"Amgen Inc.","3":"222.93","4":"-0.01","5":"0.00","6":"1:00 PM EST","7":"0.91","8":"2.62","9":"129.78","10":"volume ($K)","11":"volume ($M)"},{"1":"AZN","2":"AstraZeneca PLC","3":"48.52","4":"-0.25","5":"-0.51","6":"1:00 PM EST","7":"4.91","8":"7.64","9":"126.37","10":"volume ($M)","11":"volume ($M)"},{"1":"SNY","2":"Sanofi","3":"47.45","4":"-0.13","5":"-0.27","6":"1:00 PM EST","7":"0.48","8":"1.33","9":"119.44","10":"volume ($K)","11":"volume ($M)"},{"1":"GSK","2":"GlaxoSmithKline plc","3":"36.14","4":"-0.09","5":"-0.25","6":"1:00 PM EST","7":"1.29","8":"4.95","9":"91.21","10":"volume ($M)","11":"volume ($M)"},{"1":"GLAXF","2":"GlaxoSmithKline plc","3":"17.79","4":"-0.46","5":"-2.52","6":"12:07 PM EST","7":"0.00","8":"0.25","9":"88.83","10":"volume ($K)","11":"volume ($K)"},{"1":"ZTS","2":"Zoetis Inc.","3":"160.72","4":"0.87","5":"0.54","6":"1:03 PM EST","7":"0.41","8":"1.75","9":"76.39","10":"volume ($K)","11":"volume ($M)"},{"1":"GILD","2":"Gilead Sciences, Inc.","3":"57.07","4":"-0.31","5":"-0.54","6":"1:00 PM EST","7":"3.26","8":"9.49","9":"71.54","10":"volume ($M)","11":"volume ($M)"},{"1":"VRTX","2":"Vertex Pharmaceuticals Incorporated","3":"234.46","4":"-1.38","5":"-0.59","6":"1:00 PM EST","7":"0.45","8":"2.13","9":"60.97","10":"volume ($K)","11":"volume ($M)"},{"1":"BAYRY","2":"Bayer Aktiengesellschaft","3":"14.59","4":"-0.09","5":"-0.61","6":"12:59 PM EST","7":"0.37","8":"0.80","9":"57.33","10":"volume ($K)","11":"volume ($K)"},{"1":"TAK","2":"Takeda Pharmaceutical Company Limited","3":"18.11","4":"-0.17","5":"-0.93","6":"1:00 PM EST","7":"1.88","8":"1.34","9":"56.34","10":"volume ($M)","11":"volume ($M)"},{"1":"REGN","2":"Regeneron Pharmaceuticals, Inc.","3":"488.93","4":"-3.26","5":"-0.66","6":"1:00 PM EST","7":"0.29","8":"1.03","9":"52.17","10":"volume ($K)","11":"volume ($M)"},{"1":"MRNA","2":"Moderna, Inc.","3":"123.39","4":"-6.95","5":"-5.33","6":"1:00 PM EST","7":"12.51","8":"19.64","9":"48.83","10":"volume ($M)","11":"volume ($M)"},{"1":"BIIB","2":"Biogen Inc.","3":"248.89","4":"-2.31","5":"-0.92","6":"1:00 PM EST","7":"0.44","8":"1.65","9":"38.30","10":"volume ($K)","11":"volume ($M)"},{"1":"SGEN","2":"Seagen Inc.","3":"190.61","4":"-0.58","5":"-0.30","6":"1:00 PM EST","7":"0.25","8":"0.92","9":"34.12","10":"volume ($K)","11":"volume ($K)"},{"1":"ALXN","2":"Alexion Pharmaceuticals, Inc.","3":"152.63","4":"-0.61","5":"-0.40","6":"1:00 PM EST","7":"1.07","8":"2.38","9":"33.38","10":"volume ($M)","11":"volume ($M)"},{"1":"RPRX","2":"Royalty Pharma plc","3":"48.90","4":"0.29","5":"0.60","6":"1:00 PM EST","7":"1.58","8":"2.12","9":"30.57","10":"volume ($M)","11":"volume ($M)"},{"1":"GMAB","2":"Genmab A/S","3":"39.11","4":"0.02","5":"0.05","6":"1:00 PM EST","7":"0.10","8":"0.50","9":"25.61","10":"volume ($K)","11":"volume ($K)"},{"1":"BGNE","2":"BeiGene, Ltd.","3":"263.72","4":"-0.14","5":"-0.05","6":"1:00 PM EST","7":"0.08","8":"0.40","9":"23.74","10":"volume ($K)","11":"volume ($K)"},{"1":"BNTX","2":"BioNTech SE","3":"96.96","4":"-3.10","5":"-3.10","6":"1:00 PM EST","7":"1.03","8":"3.94","9":"23.35","10":"volume ($M)","11":"volume ($M)"},{"1":"VTRS","2":"Viatris Inc.","3":"17.77","4":"-0.11","5":"-0.62","6":"1:00 PM EST","7":"1.93","8":"11.64","9":"21.36","10":"volume ($M)","11":"volume ($M)"},{"1":"INCY","2":"Incyte Corporation","3":"87.37","4":"-0.56","5":"-0.64","6":"1:00 PM EST","7":"0.18","8":"1.15","9":"19.13","10":"volume ($K)","11":"volume ($M)"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
-<div id="calculate-log-returns-wide" class="section level3" number="4.2.2">
-<h3 number="4.2.2"><span class="header-section-number">4.2.2</span> Calculate log returns wide</h3>
-<p>Below we create a wide dataset of log returns.</p>
-<pre class="r"><code>PricesWide %&gt;%
-  tidyr::pivot_longer(names_to = &quot;asset&quot;, 
-                      values_to = &quot;prices&quot;, 
-                      cols = -date) %&gt;% 
-  dplyr::group_by(asset) %&gt;% 
-  # calculate log returns and add those returns to the data frame
-  dplyr::mutate(returns = (log(prices) - log(lag(prices)))) %&gt;% 
-  dplyr::select(-prices) %&gt;% 
-  tidyr::pivot_wider(names_from = asset, 
-                     values_from = returns) %&gt;% 
-  dplyr::filter(!is.na(BMRN)) -&gt; ReturnsWide
-ReturnsWide</code></pre>
+<div id="biotechstocksclean" class="section level3" number="4.1.3">
+<h3 number="4.1.3"><span class="header-section-number">4.1.3</span> <code>BioTechStocksClean</code></h3>
+<p>Now we’ll remove the <code>key</code> columns for volume and average 3-month volume and store the clean variables in <code>BioTechStocksClean</code>.</p>
+<pre class="r"><code>BioTechStocksRaw %&gt;%
+  mutate(
+    # change numeric
+    change = str_remove_all(string = change, pattern = &quot;^\\+&quot;),
+    change = as.numeric(change, na.rm = TRUE),
+    # percent change
+    percent_change = str_remove_all(string = percent_change, pattern = &quot;^\\+&quot;),
+    percent_change = str_remove_all(string = percent_change, pattern = &quot;\\%&quot;),
+    percent_change = as.numeric(percent_change, na.rm = TRUE),
+    # market cap
+    market_cap = str_remove_all(string = market_cap, pattern = &quot;B&quot;),
+    market_cap = as.numeric(market_cap, na.rm = TRUE),
+    # volume key
+    volume_key =
+      case_when(
+        str_detect(string = volume, pattern = &quot;k&quot;) ~ &quot;volume ($K)&quot;,
+        str_detect(string = volume, pattern = &quot;M&quot;) ~ &quot;volume ($M)&quot;
+      ),
+    # identify k vs M in avg_vol_3_month
+    avg_vol_3mo_key =
+      case_when(
+        str_detect(string = avg_vol_3_month, pattern = &quot;k&quot;) ~ &quot;volume ($K)&quot;,
+        str_detect(string = avg_vol_3_month, pattern = &quot;M&quot;) ~ &quot;volume ($M)&quot;
+      ),
+    # remove string from volume
+    volume = str_remove_all(string = volume, pattern = &quot;M|k&quot;),
+    # volume as numeric
+    volume = as.numeric(volume, na.rm = TRUE),
+    # remove string from avg_vol_3_month
+    avg_vol_3_month = str_remove_all(string = avg_vol_3_month, pattern = &quot;M|k&quot;),
+    # average vol 3-month as numeric
+    avg_vol_3_month = as.numeric(avg_vol_3_month, na.rm = TRUE),
+    # format volume
+    volume = case_when(
+      # convert k to mil
+      volume_key == &quot;volume ($K)&quot; ~ round(volume * 0.001, digits = 2),
+      # round mil
+      volume_key == &quot;volume ($M)&quot; ~ round(volume, digits = 2)
+    ),
+    # convert k to mil
+    avg_vol_3_month = case_when(
+      avg_vol_3mo_key == &quot;volume ($K)&quot; ~ round(avg_vol_3_month * 0.001, digits = 2),
+      # round mil
+      avg_vol_3mo_key == &quot;volume ($M)&quot; ~ round(avg_vol_3_month, digits = 2)
+    )
+  ) %&gt;%
+  # reduce dataset to original columns
+  dplyr::select(
+    symbol,
+    company_name,
+    last_price,
+    change,
+    percent_change,
+    market_time,
+    volume,
+    avg_vol_3_month,
+    market_cap
+  ) -&gt; BioTechStocksClean
+BioTechStocksClean</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["date"],"name":[1],"type":["date"],"align":["right"]},{"label":["BMRN"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["MRK"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["AZN"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["GSK"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["BNTX"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["MRNA"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"2020-01-31","2":"-0.01249648","3":"-0.06249557","4":"-0.02354009","5":"-0.004051604","6":"-0.14831382","7":"0.04742596"},{"1":"2020-02-29","2":"0.07906576","3":"-0.10973964","4":"-0.08587247","5":"-0.129971886","6":"0.18368999","7":"0.23448803"},{"1":"2020-03-31","2":"-0.06716085","3":"0.01317849","4":"0.01944444","5":"-0.067355209","6":"0.50911485","7":"0.14412876"},{"1":"2020-04-30","2":"0.08525438","3":"0.03071642","4":"0.15753558","5":"0.104647759","6":"-0.20700735","7":"0.42889467"},{"1":"2020-05-31","2":"0.14660847","3":"0.01724393","4":"0.04342001","5":"0.007532980","6":"0.04226996","7":"0.29061315"},{"1":"2020-06-30","2":"0.14633035","3":"-0.03498685","4":"-0.03181960","5":"-0.027325923","6":"0.29822592","7":"0.04312177"},{"1":"2020-07-31","2":"-0.02903760","3":"0.03694012","4":"0.05320112","5":"-0.011589351","6":"0.20725538","7":"0.14325656"},{"1":"2020-08-31","2":"-0.42881378","3":"0.06080051","4":"0.01189887","5":"-0.006304132","6":"-0.29309597","7":"-0.13272199"},{"1":"2020-09-30","2":"-0.02530791","3":"-0.02033782","4":"-0.02166152","5":"-0.050761806","6":"0.12247049","7":"0.08645902"},{"1":"2020-10-31","2":"-0.02192636","3":"-0.09795385","4":"-0.08847228","5":"-0.118912853","6":"0.20944328","7":"-0.04746947"},{"1":"2020-11-30","2":"0.05578403","3":"0.06660565","4":"0.05394128","5":"0.108815297","6":"0.37533754","7":"0.81705409"},{"1":"2020-12-31","2":"-0.01201593","3":"0.03183032","4":"0.01778574","5":"0.031570304","6":"0.04177450","7":"0.01912970"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["symbol"],"name":[1],"type":["chr"],"align":["left"]},{"label":["company_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["last_price"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["change"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["percent_change"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["market_time"],"name":[6],"type":["chr"],"align":["left"]},{"label":["volume"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["avg_vol_3_month"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["market_cap"],"name":[9],"type":["dbl"],"align":["right"]}],"data":[{"1":"JNJ","2":"Johnson & Johnson","3":"152.47","4":"0.53","5":"0.35","6":"1:00 PM EST","7":"2.09","8":"7.19","9":"401.38"},{"1":"RHHBY","2":"Roche Holding AG","3":"42.55","4":"0.06","5":"0.14","6":"1:00 PM EST","7":"0.72","8":"1.33","9":"290.62"},{"1":"PFE","2":"Pfizer Inc.","3":"37.27","4":"-0.17","5":"-0.45","6":"1:02 PM EST","7":"14.64","8":"43.28","9":"207.16"},{"1":"MRK","2":"Merck & Co., Inc.","3":"80.14","4":"0.38","5":"0.48","6":"1:02 PM EST","7":"2.80","8":"8.80","9":"202.76"},{"1":"NVS","2":"Novartis AG","3":"88.55","4":"0.17","5":"0.19","6":"1:00 PM EST","7":"0.56","8":"1.90","9":"201.65"},{"1":"ABBV","2":"AbbVie Inc.","3":"103.26","4":"-0.02","5":"-0.02","6":"1:02 PM EST","7":"1.37","8":"8.36","9":"182.30"},{"1":"NVO","2":"Novo Nordisk A/S","3":"69.43","4":"-0.19","5":"-0.27","6":"1:00 PM EST","7":"0.28","8":"1.14","9":"160.92"},{"1":"LLY","2":"Eli Lilly and Company","3":"166.66","4":"1.18","5":"0.71","6":"1:02 PM EST","7":"0.62","8":"4.20","9":"159.42"},{"1":"BMY","2":"Bristol-Myers Squibb Company","3":"61.15","4":"0.15","5":"0.25","6":"1:00 PM EST","7":"3.07","8":"10.59","9":"138.18"},{"1":"AMGN","2":"Amgen Inc.","3":"222.93","4":"-0.01","5":"0.00","6":"1:00 PM EST","7":"0.91","8":"2.62","9":"129.78"},{"1":"AZN","2":"AstraZeneca PLC","3":"48.52","4":"-0.25","5":"-0.51","6":"1:00 PM EST","7":"4.91","8":"7.64","9":"126.37"},{"1":"SNY","2":"Sanofi","3":"47.45","4":"-0.13","5":"-0.27","6":"1:00 PM EST","7":"0.48","8":"1.33","9":"119.44"},{"1":"GSK","2":"GlaxoSmithKline plc","3":"36.14","4":"-0.09","5":"-0.25","6":"1:00 PM EST","7":"1.29","8":"4.95","9":"91.21"},{"1":"GLAXF","2":"GlaxoSmithKline plc","3":"17.79","4":"-0.46","5":"-2.52","6":"12:07 PM EST","7":"0.00","8":"0.25","9":"88.83"},{"1":"ZTS","2":"Zoetis Inc.","3":"160.72","4":"0.87","5":"0.54","6":"1:03 PM EST","7":"0.41","8":"1.75","9":"76.39"},{"1":"GILD","2":"Gilead Sciences, Inc.","3":"57.07","4":"-0.31","5":"-0.54","6":"1:00 PM EST","7":"3.26","8":"9.49","9":"71.54"},{"1":"VRTX","2":"Vertex Pharmaceuticals Incorporated","3":"234.46","4":"-1.38","5":"-0.59","6":"1:00 PM EST","7":"0.45","8":"2.13","9":"60.97"},{"1":"BAYRY","2":"Bayer Aktiengesellschaft","3":"14.59","4":"-0.09","5":"-0.61","6":"12:59 PM EST","7":"0.37","8":"0.80","9":"57.33"},{"1":"TAK","2":"Takeda Pharmaceutical Company Limited","3":"18.11","4":"-0.17","5":"-0.93","6":"1:00 PM EST","7":"1.88","8":"1.34","9":"56.34"},{"1":"REGN","2":"Regeneron Pharmaceuticals, Inc.","3":"488.93","4":"-3.26","5":"-0.66","6":"1:00 PM EST","7":"0.29","8":"1.03","9":"52.17"},{"1":"MRNA","2":"Moderna, Inc.","3":"123.39","4":"-6.95","5":"-5.33","6":"1:00 PM EST","7":"12.51","8":"19.64","9":"48.83"},{"1":"BIIB","2":"Biogen Inc.","3":"248.89","4":"-2.31","5":"-0.92","6":"1:00 PM EST","7":"0.44","8":"1.65","9":"38.30"},{"1":"SGEN","2":"Seagen Inc.","3":"190.61","4":"-0.58","5":"-0.30","6":"1:00 PM EST","7":"0.25","8":"0.92","9":"34.12"},{"1":"ALXN","2":"Alexion Pharmaceuticals, Inc.","3":"152.63","4":"-0.61","5":"-0.40","6":"1:00 PM EST","7":"1.07","8":"2.38","9":"33.38"},{"1":"RPRX","2":"Royalty Pharma plc","3":"48.90","4":"0.29","5":"0.60","6":"1:00 PM EST","7":"1.58","8":"2.12","9":"30.57"},{"1":"GMAB","2":"Genmab A/S","3":"39.11","4":"0.02","5":"0.05","6":"1:00 PM EST","7":"0.10","8":"0.50","9":"25.61"},{"1":"BGNE","2":"BeiGene, Ltd.","3":"263.72","4":"-0.14","5":"-0.05","6":"1:00 PM EST","7":"0.08","8":"0.40","9":"23.74"},{"1":"BNTX","2":"BioNTech SE","3":"96.96","4":"-3.10","5":"-3.10","6":"1:00 PM EST","7":"1.03","8":"3.94","9":"23.35"},{"1":"VTRS","2":"Viatris Inc.","3":"17.77","4":"-0.11","5":"-0.62","6":"1:00 PM EST","7":"1.93","8":"11.64","9":"21.36"},{"1":"INCY","2":"Incyte Corporation","3":"87.37","4":"-0.56","5":"-0.64","6":"1:00 PM EST","7":"0.18","8":"1.15","9":"19.13"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-</div>
-</div>
-<div id="tidy-adjusted-prices-log-returns" class="section level2 tabset" number="4.3">
-<h2 class="tabset" number="4.3"><span class="header-section-number">4.3</span> Tidy adjusted prices &amp; log returns</h2>
-<p>Below we filter both wide datasets to <code>2020-12-31</code>, pivot them into a long format, and join them into a single dataset with <code>Symbols</code>, <code>Adj Prices</code>, and <code>Log Returns</code>.</p>
-<div id="prices-2020-12" class="section level3" number="4.3.1">
-<h3 number="4.3.1"><span class="header-section-number">4.3.1</span> Prices 2020-12</h3>
-<pre class="r"><code>bt_prices_12_2020 &lt;- PricesWide %&gt;% 
-  filter(date == &quot;2020-12-31&quot;) %&gt;% 
-  pivot_longer(names_to = &quot;symbols&quot;, 
-               values_to = &quot;prices&quot;, cols = -date)
-bt_prices_12_2020</code></pre>
+<p>If we compare this to <code>BioTechStocksRaw</code> we can see we’ve kept all the numerical information, but removed the character symbols. See the examples we’ve filtered for below:</p>
+<pre class="r"><code>BioTechStocksRaw %&gt;%
+  dplyr::filter(symbol %in% c(&quot;SGEN&quot;, &quot;BAYRY&quot;, &quot;GLAXF&quot;, &quot;BGNE&quot;))</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["date"],"name":[1],"type":["date"],"align":["right"]},{"label":["symbols"],"name":[2],"type":["chr"],"align":["left"]},{"label":["prices"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"2020-12-31","2":"BMRN","3":"77.76000"},{"1":"2020-12-31","2":"MRK","3":"82.33977"},{"1":"2020-12-31","2":"AZN","3":"53.89000"},{"1":"2020-12-31","2":"GSK","3":"37.97000"},{"1":"2020-12-31","2":"BNTX","3":"129.53999"},{"1":"2020-12-31","2":"MRNA","3":"155.69000"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["symbol"],"name":[1],"type":["chr"],"align":["left"]},{"label":["company_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["last_price"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["change"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["percent_change"],"name":[5],"type":["chr"],"align":["left"]},{"label":["market_time"],"name":[6],"type":["chr"],"align":["left"]},{"label":["volume"],"name":[7],"type":["chr"],"align":["left"]},{"label":["avg_vol_3_month"],"name":[8],"type":["chr"],"align":["left"]},{"label":["market_cap"],"name":[9],"type":["chr"],"align":["left"]}],"data":[{"1":"GLAXF","2":"GlaxoSmithKline plc","3":"17.79","4":"-0.46","5":"-2.52%","6":"12:07 PM EST","7":"1.34k","8":"253.49k","9":"88.83B"},{"1":"BAYRY","2":"Bayer Aktiengesellschaft","3":"14.59","4":"-0.09","5":"-0.61%","6":"12:59 PM EST","7":"366.53k","8":"797.87k","9":"57.33B"},{"1":"SGEN","2":"Seagen Inc.","3":"190.61","4":"-0.58","5":"-0.30%","6":"1:00 PM EST","7":"246.96k","8":"921.99k","9":"34.12B"},{"1":"BGNE","2":"BeiGene, Ltd.","3":"263.72","4":"-0.14","5":"-0.05%","6":"1:00 PM EST","7":"77.94k","8":"399.97k","9":"23.74B"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-</div>
-<div id="returns-2020-12" class="section level3" number="4.3.2">
-<h3 number="4.3.2"><span class="header-section-number">4.3.2</span> Returns 2020-12</h3>
-<pre class="r"><code>bt_returns_12_2020 &lt;- ReturnsWide %&gt;% 
-  filter(date == &quot;2020-12-31&quot;) %&gt;% 
-  pivot_longer(names_to = &quot;symbols&quot;, 
-               values_to = &quot;returns&quot;, cols = -date)
-bt_returns_12_2020</code></pre>
+<pre class="r"><code>BioTechStocksClean %&gt;%
+  dplyr::filter(symbol %in% c(&quot;SGEN&quot;, &quot;BAYRY&quot;, &quot;GLAXF&quot;, &quot;BGNE&quot;))</code></pre>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["date"],"name":[1],"type":["date"],"align":["right"]},{"label":["symbols"],"name":[2],"type":["chr"],"align":["left"]},{"label":["returns"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"2020-12-31","2":"BMRN","3":"-0.01201593"},{"1":"2020-12-31","2":"MRK","3":"0.03183032"},{"1":"2020-12-31","2":"AZN","3":"0.01778574"},{"1":"2020-12-31","2":"GSK","3":"0.03157030"},{"1":"2020-12-31","2":"BNTX","3":"0.04177450"},{"1":"2020-12-31","2":"MRNA","3":"0.01912970"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-</div>
-<div id="adj-prices-log-returns" class="section level3" number="4.3.3">
-<h3 number="4.3.3"><span class="header-section-number">4.3.3</span> Adj Prices &amp; Log Returns</h3>
-<pre class="r"><code>bt_stocks_12_2020 &lt;- bt_prices_12_2020 %&gt;% 
-  inner_join(x = ., 
-           y = bt_returns_12_2020, 
-           by = c(&quot;date&quot;, &quot;symbols&quot;)) %&gt;% 
-  select(-date) %&gt;% 
-  mutate(returns = round(returns, digits = 4),
-         prices = round(prices, digits = 4)) %&gt;% 
-  rename(`Adj Prices` = prices,
-         `Log Returns` = returns, 
-         Symbols = symbols)
-bt_stocks_12_2020</code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["Symbols"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Adj Prices"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Log Returns"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"BMRN","2":"77.7600","3":"-0.0120"},{"1":"MRK","2":"82.3398","3":"0.0318"},{"1":"AZN","2":"53.8900","3":"0.0178"},{"1":"GSK","2":"37.9700","3":"0.0316"},{"1":"BNTX","2":"129.5400","3":"0.0418"},{"1":"MRNA","2":"155.6900","3":"0.0191"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["symbol"],"name":[1],"type":["chr"],"align":["left"]},{"label":["company_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["last_price"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["change"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["percent_change"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["market_time"],"name":[6],"type":["chr"],"align":["left"]},{"label":["volume"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["avg_vol_3_month"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["market_cap"],"name":[9],"type":["dbl"],"align":["right"]}],"data":[{"1":"GLAXF","2":"GlaxoSmithKline plc","3":"17.79","4":"-0.46","5":"-2.52","6":"12:07 PM EST","7":"0.00","8":"0.25","9":"88.83"},{"1":"BAYRY","2":"Bayer Aktiengesellschaft","3":"14.59","4":"-0.09","5":"-0.61","6":"12:59 PM EST","7":"0.37","8":"0.80","9":"57.33"},{"1":"SGEN","2":"Seagen Inc.","3":"190.61","4":"-0.58","5":"-0.30","6":"1:00 PM EST","7":"0.25","8":"0.92","9":"34.12"},{"1":"BGNE","2":"BeiGene, Ltd.","3":"263.72","4":"-0.14","5":"-0.05","6":"1:00 PM EST","7":"0.08","8":"0.40","9":"23.74"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
@@ -554,33 +701,776 @@ bt_stocks_12_2020</code></pre>
 <div id="reactable-package" class="section level1" number="5">
 <h1 number="5"><span class="header-section-number">5</span> <code>reactable</code> package</h1>
 <p>The <code>reactable</code> package provides a comprehensive library of data display features.</p>
-<div id="dealing-with-symbols" class="section level2 tabset" number="5.1">
-<h2 class="tabset" number="5.1"><span class="header-section-number">5.1</span> Dealing with symbols</h2>
-<p>Adding <code>+</code> and <code>-</code></p>
-<div id="adding-symbols" class="section level3" number="5.1.1">
-<h3 number="5.1.1"><span class="header-section-number">5.1.1</span> adding symbols</h3>
-<pre class="r"><code>reactable(bt_stocks_12_2020, columns = list(
-  # add + or - for returns
-  `Log Returns` = colDef(
-    cell = function(value) {
-      # here we use paste0() to combine the value with +
-      if (value &gt;= 0) paste0(&quot;+&quot;, value) else value
-    },
-    # add color for values above or below 0
-    style = function(value) {
-      color &lt;- if (value &gt; 0) {
-        # green if above
-        &quot;#008000&quot;
-        # red if below
-      } else if (value &lt; 0) {
-        &quot;#e00000&quot;
-      }
-      list(fontWeight = 600, color = color)
+<p>We’re going to work through a few examples of how to use this package for displaying a subset of the <code>BioTechStocksClean</code> data (created below):</p>
+<pre class="r"><code>BioTechStocksClean %&gt;%
+  dplyr::filter(percent_change &lt; -0.90 | percent_change &gt; 0.30) %&gt;%
+  dplyr::arrange(desc(percent_change)) %&gt;% 
+  dplyr::select(symbol:percent_change) -&gt; TopBottomBioTechChange
+TopBottomBioTechChange</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["symbol"],"name":[1],"type":["chr"],"align":["left"]},{"label":["company_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["last_price"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["change"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["percent_change"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"LLY","2":"Eli Lilly and Company","3":"166.66","4":"1.18","5":"0.71"},{"1":"RPRX","2":"Royalty Pharma plc","3":"48.90","4":"0.29","5":"0.60"},{"1":"ZTS","2":"Zoetis Inc.","3":"160.72","4":"0.87","5":"0.54"},{"1":"MRK","2":"Merck & Co., Inc.","3":"80.14","4":"0.38","5":"0.48"},{"1":"JNJ","2":"Johnson & Johnson","3":"152.47","4":"0.53","5":"0.35"},{"1":"BIIB","2":"Biogen Inc.","3":"248.89","4":"-2.31","5":"-0.92"},{"1":"TAK","2":"Takeda Pharmaceutical Company Limited","3":"18.11","4":"-0.17","5":"-0.93"},{"1":"GLAXF","2":"GlaxoSmithKline plc","3":"17.79","4":"-0.46","5":"-2.52"},{"1":"BNTX","2":"BioNTech SE","3":"96.96","4":"-3.10","5":"-3.10"},{"1":"MRNA","2":"Moderna, Inc.","3":"123.39","4":"-6.95","5":"-5.33"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div id="the-basics" class="section level2 tabset" number="5.1">
+<h2 class="tabset" number="5.1"><span class="header-section-number">5.1</span> The basics</h2>
+<p>The simplest use of reactive is by passing a <code>tibble</code> or <code>data.frame</code> directly to it.</p>
+<pre class="r"><code>reactable(TopBottomBioTechChange)</code></pre>
+<div id="htmlwidget-5abec0716ca0f18f93a8" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-5abec0716ca0f18f93a8">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"symbol":["LLY","RPRX","ZTS","MRK","JNJ","BIIB","TAK","GLAXF","BNTX","MRNA"],"company_name":["Eli Lilly and Company","Royalty Pharma plc","Zoetis Inc.","Merck & Co., Inc.","Johnson & Johnson","Biogen Inc.","Takeda Pharmaceutical Company Limited","GlaxoSmithKline plc","BioNTech SE","Moderna, Inc."],"last_price":[166.66,48.9,160.72,80.14,152.47,248.89,18.11,17.79,96.96,123.39],"change":[1.18,0.29,0.87,0.38,0.53,-2.31,-0.17,-0.46,-3.1,-6.95],"percent_change":[0.71,0.6,0.54,0.48,0.35,-0.92,-0.93,-2.52,-3.1,-5.33]},"columns":[{"accessor":"symbol","name":"symbol","type":"character"},{"accessor":"company_name","name":"company_name","type":"character"},{"accessor":"last_price","name":"last_price","type":"numeric"},{"accessor":"change","name":"change","type":"numeric"},{"accessor":"percent_change","name":"percent_change","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"e6cead491e04cc6562944f22a0653646","key":"e6cead491e04cc6562944f22a0653646"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div id="listing-columns" class="section level3" number="5.1.1">
+<h3 number="5.1.1"><span class="header-section-number">5.1.1</span> Listing <code>columns</code></h3>
+<p>The <code>columns</code> argument in <code>reactable</code> addresses any formatting we want to make the columns in our table. It takes the <a href="https://glin.github.io/reactable/reference/colDef.html"><code>colDef()</code> function</a>, which has many options for customizing and styling the table columns.</p>
+<p>For example, we can pass a <code>list()</code> of columns with <code>colDef()</code> to change the names of the columns.</p>
+<pre class="r"><code>reactable(
+  data = TopBottomBioTechChange,
+  columns = list(
+    symbol = colDef(name = &quot;Symbol&quot;),
+    company_name = colDef(name = &quot;Company Name&quot;),
+    last_price = colDef(name = &quot;Last Price&quot;),
+    change = colDef(name = &quot;Change&quot;),
+    percent_change = colDef(name = &quot;Percent Change&quot;)
+  )
+)</code></pre>
+<div id="htmlwidget-2f0e072c65ad2f98a017" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-2f0e072c65ad2f98a017">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"symbol":["LLY","RPRX","ZTS","MRK","JNJ","BIIB","TAK","GLAXF","BNTX","MRNA"],"company_name":["Eli Lilly and Company","Royalty Pharma plc","Zoetis Inc.","Merck & Co., Inc.","Johnson & Johnson","Biogen Inc.","Takeda Pharmaceutical Company Limited","GlaxoSmithKline plc","BioNTech SE","Moderna, Inc."],"last_price":[166.66,48.9,160.72,80.14,152.47,248.89,18.11,17.79,96.96,123.39],"change":[1.18,0.29,0.87,0.38,0.53,-2.31,-0.17,-0.46,-3.1,-6.95],"percent_change":[0.71,0.6,0.54,0.48,0.35,-0.92,-0.93,-2.52,-3.1,-5.33]},"columns":[{"accessor":"symbol","name":"Symbol","type":"character"},{"accessor":"company_name","name":"Company Name","type":"character"},{"accessor":"last_price","name":"Last Price","type":"numeric"},{"accessor":"change","name":"Change","type":"numeric"},{"accessor":"percent_change","name":"Percent Change","type":"numeric"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"80ce2ab17336cefc333a445018f06eb2","key":"80ce2ab17336cefc333a445018f06eb2"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="the-defaultcoldef" class="section level3" number="5.1.2">
+<h3 number="5.1.2"><span class="header-section-number">5.1.2</span> The <code>defaultColDef</code></h3>
+<p>There is also a <code>defaultColDef</code> argument we can use to set all the columns in the <code>tibble</code> or <code>data.frame</code>.</p>
+<p>We use <code>defaultColDef</code> to write some custom functions for how we want the columns to be formatted. Take the <code>header</code> argument example below:</p>
+<pre class="r"><code>colDef(header = )
+# Custom header renderer. An R function that takes the header value and column
+# name as arguments, or a JS() function that takes a column info object as an
+# argument.</code></pre>
+</div>
+</div>
+<div id="custom-functions" class="section level2 tabset" number="5.2">
+<h2 class="tabset" number="5.2"><span class="header-section-number">5.2</span> Custom <code>function</code>s</h2>
+<p>The function we define takes a <code>value</code>, removes the underscores and converts the column name to title case.</p>
+<div id="test-functions" class="section level3" number="5.2.1">
+<h3 number="5.2.1"><span class="header-section-number">5.2.1</span> Test <code>function</code>s</h3>
+<p>These should be able to stand alone as functions.</p>
+<pre class="r"><code>header &lt;- function(value) {
+  hdr &lt;- str_replace_all(value, &quot;_&quot;, &quot; &quot;)
+  str_to_title(hdr)
+}
+header(value = names(TopBottomBioTechChange))</code></pre>
+<pre><code>## [1] &quot;Symbol&quot;         &quot;Company Name&quot;   &quot;Last Price&quot;     &quot;Change&quot;        
+## [5] &quot;Percent Change&quot;</code></pre>
+</div>
+<div id="coldef-header" class="section level3" number="5.2.2">
+<h3 number="5.2.2"><span class="header-section-number">5.2.2</span> <code>colDef()</code> + <code>header</code></h3>
+<p>But when we pass to <code>colDef()</code>, they get applied to the <code>tibble</code> or <code>data.frame</code>.</p>
+<pre class="r"><code>reactable(
+  data = TopBottomBioTechChange,
+  defaultColDef = colDef(
+    header = function(value) {
+      hdr &lt;- str_replace_all(value, &quot;_&quot;, &quot; &quot;)
+      str_to_title(hdr)
     }
   )
-))</code></pre>
-<div id="htmlwidget-0e9d69bcb6eeb26a8ba8" class="reactable html-widget" style="width:auto;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-0e9d69bcb6eeb26a8ba8">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Symbols":["BMRN","MRK","AZN","GSK","BNTX","MRNA"],"Adj Prices":[77.76,82.3398,53.89,37.97,129.54,155.69],"Log Returns":[-0.012,0.0318,0.0178,0.0316,0.0418,0.0191]},"columns":[{"accessor":"Symbols","name":"Symbols","type":"character"},{"accessor":"Adj Prices","name":"Adj Prices","type":"numeric"},{"accessor":"Log Returns","name":"Log Returns","type":"numeric","cell":["-0.012","+0.0318","+0.0178","+0.0316","+0.0418","+0.0191"],"style":[{"fontWeight":600,"color":"#e00000"},{"fontWeight":600,"color":"#008000"},{"fontWeight":600,"color":"#008000"},{"fontWeight":600,"color":"#008000"},{"fontWeight":600,"color":"#008000"},{"fontWeight":600,"color":"#008000"}]}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"075316b224493ee4cb3b83c66b136bbf","key":"075316b224493ee4cb3b83c66b136bbf"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+)</code></pre>
+<div id="htmlwidget-3f16dc6f9fd76d0238be" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-3f16dc6f9fd76d0238be">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"symbol":["LLY","RPRX","ZTS","MRK","JNJ","BIIB","TAK","GLAXF","BNTX","MRNA"],"company_name":["Eli Lilly and Company","Royalty Pharma plc","Zoetis Inc.","Merck & Co., Inc.","Johnson & Johnson","Biogen Inc.","Takeda Pharmaceutical Company Limited","GlaxoSmithKline plc","BioNTech SE","Moderna, Inc."],"last_price":[166.66,48.9,160.72,80.14,152.47,248.89,18.11,17.79,96.96,123.39],"change":[1.18,0.29,0.87,0.38,0.53,-2.31,-0.17,-0.46,-3.1,-6.95],"percent_change":[0.71,0.6,0.54,0.48,0.35,-0.92,-0.93,-2.52,-3.1,-5.33]},"columns":[{"accessor":"symbol","name":"symbol","type":"character","header":"Symbol"},{"accessor":"company_name","name":"company_name","type":"character","header":"Company Name"},{"accessor":"last_price","name":"last_price","type":"numeric","header":"Last Price"},{"accessor":"change","name":"change","type":"numeric","header":"Change"},{"accessor":"percent_change","name":"percent_change","type":"numeric","header":"Percent Change"}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"9f3197813ea7f3d3c0c600f7fb45cad8","key":"9f3197813ea7f3d3c0c600f7fb45cad8"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="argument-values-as-lists" class="section level2 tabset" number="5.3">
+<h2 class="tabset" number="5.3"><span class="header-section-number">5.3</span> Argument values as <code>list()</code>s</h2>
+<p>We can also pass a <code>list</code> of values to <code>colDef()</code> arguments.</p>
+<div id="headerstyle" class="section level3" number="5.3.1">
+<h3 number="5.3.1"><span class="header-section-number">5.3.1</span> <code>headerStyle</code></h3>
+<p>See the <code>headerStyle</code> example below:</p>
+<pre class="r"><code>reactable(
+  data = TopBottomBioTechChange,
+  defaultColDef = colDef(
+    # header formatting
+    header = function(value) {
+      hdr &lt;- str_replace_all(value, &quot;_&quot;, &quot; &quot;)
+      str_to_title(hdr)
+    },
+    # headerStyle
+    headerStyle = list(
+      fontWeight = 500,
+      fontSize = &quot;13px&quot;,
+      letterSpacing = &quot;1px&quot;
+    ), 
+    format = colFormat(digits = 2)
+  )
+)</code></pre>
+<div id="htmlwidget-3731d11dced99f5895c5" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-3731d11dced99f5895c5">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"symbol":["LLY","RPRX","ZTS","MRK","JNJ","BIIB","TAK","GLAXF","BNTX","MRNA"],"company_name":["Eli Lilly and Company","Royalty Pharma plc","Zoetis Inc.","Merck & Co., Inc.","Johnson & Johnson","Biogen Inc.","Takeda Pharmaceutical Company Limited","GlaxoSmithKline plc","BioNTech SE","Moderna, Inc."],"last_price":[166.66,48.9,160.72,80.14,152.47,248.89,18.11,17.79,96.96,123.39],"change":[1.18,0.29,0.87,0.38,0.53,-2.31,-0.17,-0.46,-3.1,-6.95],"percent_change":[0.71,0.6,0.54,0.48,0.35,-0.92,-0.93,-2.52,-3.1,-5.33]},"columns":[{"accessor":"symbol","name":"symbol","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Symbol","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"}},{"accessor":"company_name","name":"company_name","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Company Name","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"}},{"accessor":"last_price","name":"last_price","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Last Price","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"}},{"accessor":"change","name":"change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"}},{"accessor":"percent_change","name":"percent_change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Percent Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"}}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"7958613c6801f400ca201d579a8979f2","key":"7958613c6801f400ca201d579a8979f2"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="override-defaultcoldef" class="section level3" number="5.3.2">
+<h3 number="5.3.2"><span class="header-section-number">5.3.2</span> Override <code>defaultColDef</code></h3>
+<p>We can also override the default column settings in <code>defaultColDef</code> by supplying an additional <code>colDef()</code> function.</p>
+<pre class="r"><code>reactable(
+  data = TopBottomBioTechChange,
+  defaultColDef = colDef(
+    header = function(value) {
+      hdr &lt;- str_replace_all(value, &quot;_&quot;, &quot; &quot;)
+      str_to_title(hdr)
+    },
+    headerStyle = list(
+      fontWeight = 500,
+      fontSize = &quot;13px&quot;,
+      letterSpacing = &quot;1px&quot;
+    ),
+    format = colFormat(digits = 2)
+  ),
+  columns = list(
+    company_name = colDef(minWidth = 240)
+  )
+)</code></pre>
+<div id="htmlwidget-b253b74bd1e05554de16" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-b253b74bd1e05554de16">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"symbol":["LLY","RPRX","ZTS","MRK","JNJ","BIIB","TAK","GLAXF","BNTX","MRNA"],"company_name":["Eli Lilly and Company","Royalty Pharma plc","Zoetis Inc.","Merck & Co., Inc.","Johnson & Johnson","Biogen Inc.","Takeda Pharmaceutical Company Limited","GlaxoSmithKline plc","BioNTech SE","Moderna, Inc."],"last_price":[166.66,48.9,160.72,80.14,152.47,248.89,18.11,17.79,96.96,123.39],"change":[1.18,0.29,0.87,0.38,0.53,-2.31,-0.17,-0.46,-3.1,-6.95],"percent_change":[0.71,0.6,0.54,0.48,0.35,-0.92,-0.93,-2.52,-3.1,-5.33]},"columns":[{"accessor":"symbol","name":"symbol","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Symbol","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"}},{"accessor":"company_name","name":"company_name","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Company Name","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"minWidth":240},{"accessor":"last_price","name":"last_price","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Last Price","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"}},{"accessor":"change","name":"change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"}},{"accessor":"percent_change","name":"percent_change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Percent Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"}}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"1d38f0189807d75f5a0921e18124f27f","key":"1d38f0189807d75f5a0921e18124f27f"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="add-symbols" class="section level2 tabset" number="5.4">
+<h2 class="tabset" number="5.4"><span class="header-section-number">5.4</span> Add symbols</h2>
+<p>Let’s add the symbols to <code>change</code> and <code>percent_change</code> we removed from the previous table (<code>+</code> and <code>-</code>).</p>
+<div id="custom-cell-function" class="section level3" number="5.4.1">
+<h3 number="5.4.1"><span class="header-section-number">5.4.1</span> Custom <code>cell</code> function</h3>
+<p>To do this, we’ll write a custom function for adding the cell formatting.</p>
+<pre class="r"><code>cell &lt;- function(value) {
+  # here we use paste0() to combine the value with +
+  # for all values greater than 0
+  if (value &gt; 0.00) paste0(&quot;+&quot;, value) else value
+}
+cell(TopBottomBioTechChange$percent_change[1])</code></pre>
+<pre><code>## [1] &quot;+0.71&quot;</code></pre>
+<pre class="r"><code>cell(TopBottomBioTechChange$change[6])</code></pre>
+<pre><code>## [1] -2.31</code></pre>
+</div>
+<div id="coldef-cell" class="section level3" number="5.4.2">
+<h3 number="5.4.2"><span class="header-section-number">5.4.2</span> <code>colDef()</code> + <code>cell</code></h3>
+<p>This is working, so we’ll add this to the <code>colDef()</code> function for <code>change</code> and <code>percent_change</code>.</p>
+<pre class="r"><code>reactable(
+  data = TopBottomBioTechChange,
+  defaultColDef = colDef(
+    header = function(value) {
+      hdr &lt;- str_replace_all(value, &quot;_&quot;, &quot; &quot;)
+      str_to_title(hdr)
+    },
+    headerStyle = list(
+      fontWeight = 500,
+      fontSize = &quot;13px&quot;,
+      letterSpacing = &quot;1px&quot;
+    ),
+    format = colFormat(digits = 2)
+  ),
+  columns = list(
+    company_name = colDef(minWidth = 240),
+    change = colDef(
+      cell = function(value) {
+        if (value &gt;= 0) {
+          paste0(&quot;+&quot;, value)
+        } else {
+          value
+        }
+      },
+    ),
+    percent_change = colDef(
+      cell = function(value) {
+        if (value &gt;= 0) {
+          paste0(&quot;+&quot;, value)
+        } else {
+          value
+        }
+      }
+    )
+  )
+)</code></pre>
+<div id="htmlwidget-394f731628eb1881278a" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-394f731628eb1881278a">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"symbol":["LLY","RPRX","ZTS","MRK","JNJ","BIIB","TAK","GLAXF","BNTX","MRNA"],"company_name":["Eli Lilly and Company","Royalty Pharma plc","Zoetis Inc.","Merck & Co., Inc.","Johnson & Johnson","Biogen Inc.","Takeda Pharmaceutical Company Limited","GlaxoSmithKline plc","BioNTech SE","Moderna, Inc."],"last_price":[166.66,48.9,160.72,80.14,152.47,248.89,18.11,17.79,96.96,123.39],"change":[1.18,0.29,0.87,0.38,0.53,-2.31,-0.17,-0.46,-3.1,-6.95],"percent_change":[0.71,0.6,0.54,0.48,0.35,-0.92,-0.93,-2.52,-3.1,-5.33]},"columns":[{"accessor":"symbol","name":"symbol","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Symbol","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"}},{"accessor":"company_name","name":"company_name","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Company Name","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"minWidth":240},{"accessor":"last_price","name":"last_price","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Last Price","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"}},{"accessor":"change","name":"change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"cell":["+1.18","+0.29","+0.87","+0.38","+0.53","-2.31","-0.17","-0.46","-3.1","-6.95"]},{"accessor":"percent_change","name":"percent_change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Percent Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"cell":["+0.71","+0.6","+0.54","+0.48","+0.35","-0.92","-0.93","-2.52","-3.1","-5.33"]}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"1fd5b86361ddb3ac7daeb3fccc88073b","key":"1fd5b86361ddb3ac7daeb3fccc88073b"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="add-color-with-style" class="section level2 tabset" number="5.5">
+<h2 class="tabset" number="5.5"><span class="header-section-number">5.5</span> Add <code>color</code> with <code>style</code></h2>
+<p>We want to make the positive <code>change</code> and <code>percent_change</code> values green, and the negative values red.</p>
+<div id="custom-style-function" class="section level3" number="5.5.1">
+<h3 number="5.5.1"><span class="header-section-number">5.5.1</span> Custom <code>style</code> function</h3>
+<p>First we define a function with the color values.</p>
+<pre class="r"><code>style &lt;- function(value) {
+  color &lt;- if (value &gt; 0) {
+    # green if above
+    &quot;#008B00&quot;
+    # red if below
+  } else if (value &lt; 0) {
+    &quot;#FF3030&quot;
+  } # adjust the font weight and color
+  list(fontWeight = 600, color = color)
+}
+style(TopBottomBioTechChange$change[1])</code></pre>
+<pre><code>## $fontWeight
+## [1] 600
+## 
+## $color
+## [1] &quot;#008B00&quot;</code></pre>
+<pre class="r"><code>style(TopBottomBioTechChange$percent_change[6])</code></pre>
+<pre><code>## $fontWeight
+## [1] 600
+## 
+## $color
+## [1] &quot;#FF3030&quot;</code></pre>
+</div>
+<div id="coldef-style" class="section level3" number="5.5.2">
+<h3 number="5.5.2"><span class="header-section-number">5.5.2</span> <code>colDef()</code> + <code>style</code></h3>
+<p>This is returning the two values we want to supply (<code>fontWeight</code> and <code>color</code>), so we can add it <em>inside</em> the <code>colDef()</code> function for each column.</p>
+<pre class="r"><code>reactable(
+  data = TopBottomBioTechChange,
+  defaultColDef = colDef(
+    header = function(value) {
+      hdr &lt;- str_replace_all(value, &quot;_&quot;, &quot; &quot;)
+      str_to_title(hdr)
+    },
+    headerStyle = list(
+      fontWeight = 500,
+      fontSize = &quot;13px&quot;,
+      letterSpacing = &quot;1px&quot;
+    ),
+    format = colFormat(digits = 2)
+  ),
+  columns = list(
+    company_name = colDef(minWidth = 240),
+    change = colDef(
+      cell = function(value) {
+        if (value &gt;= 0) {
+          paste0(&quot;+&quot;, value)
+        } else {
+          value
+        }
+      },
+      style = function(value) {
+        color &lt;- if (value &gt; 0) {
+          &quot;#008B00&quot;
+        } else if (value &lt; 0) {
+          &quot;#FF3030&quot;
+        }
+        list(fontWeight = 600, color = color)
+      }
+    ),
+    percent_change = colDef(
+      cell = function(value) {
+        if (value &gt;= 0) {
+          paste0(&quot;+&quot;, value)
+        } else {
+          value
+        }
+      },
+      style = function(value) {
+        color &lt;- if (value &gt; 0) {
+          &quot;#008B00&quot;
+        } else if (value &lt; 0) {
+          &quot;#FF3030&quot;
+        }
+        list(fontWeight = 600, color = color)
+      }
+    )
+  )
+)</code></pre>
+<div id="htmlwidget-025f2fc3530c932ce960" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-025f2fc3530c932ce960">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"symbol":["LLY","RPRX","ZTS","MRK","JNJ","BIIB","TAK","GLAXF","BNTX","MRNA"],"company_name":["Eli Lilly and Company","Royalty Pharma plc","Zoetis Inc.","Merck & Co., Inc.","Johnson & Johnson","Biogen Inc.","Takeda Pharmaceutical Company Limited","GlaxoSmithKline plc","BioNTech SE","Moderna, Inc."],"last_price":[166.66,48.9,160.72,80.14,152.47,248.89,18.11,17.79,96.96,123.39],"change":[1.18,0.29,0.87,0.38,0.53,-2.31,-0.17,-0.46,-3.1,-6.95],"percent_change":[0.71,0.6,0.54,0.48,0.35,-0.92,-0.93,-2.52,-3.1,-5.33]},"columns":[{"accessor":"symbol","name":"symbol","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Symbol","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"}},{"accessor":"company_name","name":"company_name","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Company Name","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"minWidth":240},{"accessor":"last_price","name":"last_price","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Last Price","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"}},{"accessor":"change","name":"change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"cell":["+1.18","+0.29","+0.87","+0.38","+0.53","-2.31","-0.17","-0.46","-3.1","-6.95"],"style":[{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"}]},{"accessor":"percent_change","name":"percent_change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Percent Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"cell":["+0.71","+0.6","+0.54","+0.48","+0.35","-0.92","-0.93","-2.52","-3.1","-5.33"],"style":[{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"}]}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"cd3324d6ec1cd13bd373c30c55c302b8","key":"cd3324d6ec1cd13bd373c30c55c302b8"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="add-column-format" class="section level2 tabset" number="5.6">
+<h2 class="tabset" number="5.6"><span class="header-section-number">5.6</span> Add column <code>format</code></h2>
+<p>Our table is starting to look like the <a href="https://finance.yahoo.com/u/yahoo-finance/watchlists/biotech-and-drug-stocks">original</a>.</p>
+<p><img src="img/yahoo-stocks-table.png" width="454" /></p>
+<p>We need to change the <code>color</code> and <code>weight</code> of the stock symbols and last price</p>
+<div id="style-fonts-and-color" class="section level3" number="5.6.1">
+<h3 number="5.6.1"><span class="header-section-number">5.6.1</span> <code>style</code> fonts and color</h3>
+<p>We can control the font weight and color <em>inside</em> <code>colDef()</code> with the <code>style</code> argument.</p>
+<pre class="r"><code>reactable(
+  data = TopBottomBioTechChange,
+  defaultColDef = colDef(
+    header = function(value) {
+      hdr &lt;- str_replace_all(value, &quot;_&quot;, &quot; &quot;)
+      str_to_title(hdr)
+    },
+    headerStyle = list(
+      fontWeight = 500,
+      fontSize = &quot;13px&quot;,
+      letterSpacing = &quot;1px&quot;
+    ),
+    format = colFormat(digits = 2)
+  ),
+  columns = list(
+    company_name = colDef(minWidth = 240),
+    change = colDef(
+      format = colFormat(digits = 2),
+      cell = function(value) {
+        if (value &gt;= 0) {
+          paste0(&quot;+&quot;, value)
+        } else {
+          value
+        }
+      },
+      style = function(value) {
+        color &lt;- if (value &gt; 0) {
+          &quot;#008B00&quot;
+        } else if (value &lt; 0) {
+          &quot;#FF3030&quot;
+        }
+        list(fontWeight = 600, color = color)
+      }
+    ),
+    percent_change = colDef(
+      format = colFormat(digits = 2),
+      cell = function(value) {
+        if (value &gt;= 0) {
+          paste0(&quot;+&quot;, value)
+        } else {
+          value
+        }
+      },
+      style = function(value) {
+        color &lt;- if (value &gt; 0) {
+          &quot;#008B00&quot;
+        } else if (value &lt; 0) {
+          &quot;#FF3030&quot;
+        }
+        list(fontWeight = 600, color = color)
+      }
+    ),
+    symbol = colDef(
+      style = list(color = &quot;#8470FF&quot;, fontWeight = &quot;bold&quot;)
+    ),
+    last_price = colDef(
+      format = colFormat(digits = 2),
+      style = list(color = &quot;black&quot;, fontWeight = &quot;bold&quot;)
+    )
+  )
+)</code></pre>
+<div id="htmlwidget-2358d995b2c02712da2a" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-2358d995b2c02712da2a">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"symbol":["LLY","RPRX","ZTS","MRK","JNJ","BIIB","TAK","GLAXF","BNTX","MRNA"],"company_name":["Eli Lilly and Company","Royalty Pharma plc","Zoetis Inc.","Merck & Co., Inc.","Johnson & Johnson","Biogen Inc.","Takeda Pharmaceutical Company Limited","GlaxoSmithKline plc","BioNTech SE","Moderna, Inc."],"last_price":[166.66,48.9,160.72,80.14,152.47,248.89,18.11,17.79,96.96,123.39],"change":[1.18,0.29,0.87,0.38,0.53,-2.31,-0.17,-0.46,-3.1,-6.95],"percent_change":[0.71,0.6,0.54,0.48,0.35,-0.92,-0.93,-2.52,-3.1,-5.33]},"columns":[{"accessor":"symbol","name":"symbol","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Symbol","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"style":{"color":"#8470FF","fontWeight":"bold"}},{"accessor":"company_name","name":"company_name","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Company Name","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"minWidth":240},{"accessor":"last_price","name":"last_price","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Last Price","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"style":{"color":"black","fontWeight":"bold"}},{"accessor":"change","name":"change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"cell":["+1.18","+0.29","+0.87","+0.38","+0.53","-2.31","-0.17","-0.46","-3.1","-6.95"],"style":[{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"}]},{"accessor":"percent_change","name":"percent_change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Percent Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"cell":["+0.71","+0.6","+0.54","+0.48","+0.35","-0.92","-0.93","-2.52","-3.1","-5.33"],"style":[{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"}]}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"dataKey":"3e472fbb7e01a26d6eac75fc93b0ca55","key":"3e472fbb7e01a26d6eac75fc93b0ca55"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<p>Now that the table looks similar, we need to add some highlighting (and some other features that aren’t in the original table).</p>
+</div>
+</div>
+<div id="add-highlighting" class="section level2 tabset" number="5.7">
+<h2 class="tabset" number="5.7"><span class="header-section-number">5.7</span> Add highlighting</h2>
+<p>The original table highlights each row when we roll over it with our cursor, and we can add this with the <code>highlight = TRUE</code> argument.</p>
+<div id="highlight" class="section level3" number="5.7.1">
+<h3 number="5.7.1"><span class="header-section-number">5.7.1</span> <code>highlight</code></h3>
+<p>The <code>highlight</code> argument precedes the column definition functions.</p>
+<pre class="r"><code>reactable(
+  data = TopBottomBioTechChange,
+  highlight = TRUE,
+  defaultColDef = colDef(
+    header = function(value) {
+      hdr &lt;- str_replace_all(value, &quot;_&quot;, &quot; &quot;)
+      str_to_title(hdr)
+    },
+    headerStyle = list(
+      fontWeight = 500,
+      fontSize = &quot;13px&quot;,
+      letterSpacing = &quot;1px&quot;
+    ),
+    format = colFormat(digits = 2)
+  ),
+  columns = list(
+    company_name = colDef(minWidth = 240),
+    change = colDef(
+      format = colFormat(digits = 2),
+      cell = function(value) {
+        if (value &gt;= 0) {
+          paste0(&quot;+&quot;, value)
+        } else {
+          value
+        }
+      },
+      style = function(value) {
+        color &lt;- if (value &gt; 0) {
+          &quot;#008B00&quot;
+        } else if (value &lt; 0) {
+          &quot;#FF3030&quot;
+        }
+        list(fontWeight = 600, color = color)
+      }
+    ),
+    percent_change = colDef(
+      format = colFormat(digits = 2),
+      cell = function(value) {
+        if (value &gt;= 0) {
+          paste0(&quot;+&quot;, value)
+        } else {
+          value
+        }
+      },
+      style = function(value) {
+        color &lt;- if (value &gt; 0) {
+          &quot;#008B00&quot;
+        } else if (value &lt; 0) {
+          &quot;#FF3030&quot;
+        }
+        list(fontWeight = 600, color = color)
+      }
+    ),
+    symbol = colDef(
+      style = list(color = &quot;#8470FF&quot;, fontWeight = &quot;bold&quot;)
+    ),
+    last_price = colDef(
+      format = colFormat(digits = 2),
+      style = list(color = &quot;black&quot;, fontWeight = &quot;bold&quot;)
+    )
+  )
+)</code></pre>
+<div id="htmlwidget-77eaf4834fd95cdaee06" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-77eaf4834fd95cdaee06">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"symbol":["LLY","RPRX","ZTS","MRK","JNJ","BIIB","TAK","GLAXF","BNTX","MRNA"],"company_name":["Eli Lilly and Company","Royalty Pharma plc","Zoetis Inc.","Merck & Co., Inc.","Johnson & Johnson","Biogen Inc.","Takeda Pharmaceutical Company Limited","GlaxoSmithKline plc","BioNTech SE","Moderna, Inc."],"last_price":[166.66,48.9,160.72,80.14,152.47,248.89,18.11,17.79,96.96,123.39],"change":[1.18,0.29,0.87,0.38,0.53,-2.31,-0.17,-0.46,-3.1,-6.95],"percent_change":[0.71,0.6,0.54,0.48,0.35,-0.92,-0.93,-2.52,-3.1,-5.33]},"columns":[{"accessor":"symbol","name":"symbol","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Symbol","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"style":{"color":"#8470FF","fontWeight":"bold"}},{"accessor":"company_name","name":"company_name","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Company Name","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"minWidth":240},{"accessor":"last_price","name":"last_price","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Last Price","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"style":{"color":"black","fontWeight":"bold"}},{"accessor":"change","name":"change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"cell":["+1.18","+0.29","+0.87","+0.38","+0.53","-2.31","-0.17","-0.46","-3.1","-6.95"],"style":[{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"}]},{"accessor":"percent_change","name":"percent_change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Percent Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"cell":["+0.71","+0.6","+0.54","+0.48","+0.35","-0.92","-0.93","-2.52","-3.1","-5.33"],"style":[{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"}]}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"dataKey":"3e472fbb7e01a26d6eac75fc93b0ca55","key":"3e472fbb7e01a26d6eac75fc93b0ca55"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="striped" class="section level3" number="5.7.2">
+<h3 number="5.7.2"><span class="header-section-number">5.7.2</span> <code>striped</code></h3>
+<p>The original table also has striping (every other row is a different color), and we can add the <code>striped</code> argument just like the <code>highlight</code> argument.</p>
+<pre class="r"><code>reactable(
+  data = TopBottomBioTechChange,
+  highlight = TRUE,
+  striped = TRUE,
+  defaultColDef = colDef(
+    header = function(value) {
+      hdr &lt;- str_replace_all(value, &quot;_&quot;, &quot; &quot;)
+      str_to_title(hdr)
+    },
+    headerStyle = list(
+      fontWeight = 500,
+      fontSize = &quot;13px&quot;,
+      letterSpacing = &quot;1px&quot;
+    ),
+    format = colFormat(digits = 2)
+  ),
+  columns = list(
+    company_name = colDef(minWidth = 240),
+    change = colDef(
+      format = colFormat(digits = 2),
+      cell = function(value) {
+        if (value &gt;= 0) {
+          paste0(&quot;+&quot;, value)
+        } else {
+          value
+        }
+      },
+      style = function(value) {
+        color &lt;- if (value &gt; 0) {
+          &quot;#008B00&quot;
+        } else if (value &lt; 0) {
+          &quot;#FF3030&quot;
+        }
+        list(fontWeight = 600, 
+             color = color)
+      }
+    ),
+    percent_change = colDef(
+      format = colFormat(digits = 2),
+      cell = function(value) {
+        if (value &gt;= 0) {
+          paste0(&quot;+&quot;, value)
+        } else {
+          value
+        }
+      },
+      style = function(value) {
+        color &lt;- if (value &gt; 0) {
+          &quot;#008B00&quot;
+        } else if (value &lt; 0) {
+          &quot;#FF3030&quot;
+        }
+        list(fontWeight = 600, color = color)
+      }
+    ),
+    symbol = colDef(
+      style = list(color = &quot;#8470FF&quot;, fontWeight = &quot;bold&quot;)
+    ),
+    last_price = colDef(
+      format = colFormat(digits = 2),
+      style = list(color = &quot;black&quot;, fontWeight = &quot;bold&quot;)
+    )
+  )
+)</code></pre>
+<div id="htmlwidget-fb76936f0203cf4f6092" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-fb76936f0203cf4f6092">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"symbol":["LLY","RPRX","ZTS","MRK","JNJ","BIIB","TAK","GLAXF","BNTX","MRNA"],"company_name":["Eli Lilly and Company","Royalty Pharma plc","Zoetis Inc.","Merck & Co., Inc.","Johnson & Johnson","Biogen Inc.","Takeda Pharmaceutical Company Limited","GlaxoSmithKline plc","BioNTech SE","Moderna, Inc."],"last_price":[166.66,48.9,160.72,80.14,152.47,248.89,18.11,17.79,96.96,123.39],"change":[1.18,0.29,0.87,0.38,0.53,-2.31,-0.17,-0.46,-3.1,-6.95],"percent_change":[0.71,0.6,0.54,0.48,0.35,-0.92,-0.93,-2.52,-3.1,-5.33]},"columns":[{"accessor":"symbol","name":"symbol","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Symbol","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"style":{"color":"#8470FF","fontWeight":"bold"}},{"accessor":"company_name","name":"company_name","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Company Name","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"minWidth":240},{"accessor":"last_price","name":"last_price","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Last Price","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"style":{"color":"black","fontWeight":"bold"}},{"accessor":"change","name":"change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"cell":["+1.18","+0.29","+0.87","+0.38","+0.53","-2.31","-0.17","-0.46","-3.1","-6.95"],"style":[{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"}]},{"accessor":"percent_change","name":"percent_change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Percent Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"cell":["+0.71","+0.6","+0.54","+0.48","+0.35","-0.92","-0.93","-2.52","-3.1","-5.33"],"style":[{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"}]}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"striped":true,"dataKey":"3e472fbb7e01a26d6eac75fc93b0ca55","key":"3e472fbb7e01a26d6eac75fc93b0ca55"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<p>Now we have a striped, highlighted table!</p>
+</div>
+</div>
+<div id="add-filtering" class="section level2 tabset" number="5.8">
+<h2 class="tabset" number="5.8"><span class="header-section-number">5.8</span> Add filtering</h2>
+<p>We also want to make navigating the table a little easier by adding filtering.</p>
+<div id="filtering" class="section level3" number="5.8.1">
+<h3 number="5.8.1"><span class="header-section-number">5.8.1</span> filtering</h3>
+<p>This is added with the <code>filterable = TRUE</code> argument.</p>
+<pre class="r"><code>reactable(
+  data = TopBottomBioTechChange,
+  highlight = TRUE,
+  striped = TRUE,
+  filterable = TRUE,
+  defaultColDef = colDef(
+    header = function(value) {
+      hdr &lt;- str_replace_all(value, &quot;_&quot;, &quot; &quot;)
+      str_to_title(hdr)
+    },
+    headerStyle = list(
+      fontWeight = 500,
+      fontSize = &quot;13px&quot;,
+      letterSpacing = &quot;1px&quot;
+    ),
+    format = colFormat(digits = 2)
+  ),
+  columns = list(
+    company_name = colDef(minWidth = 240),
+    change = colDef(
+      cell = function(value) {
+        if (value &gt;= 0) {
+          paste0(&quot;+&quot;, value)
+        } else {
+          value
+        }
+      },
+      style = function(value) {
+        color &lt;- if (value &gt; 0) {
+          &quot;#008B00&quot;
+        } else if (value &lt; 0) {
+          &quot;#FF3030&quot;
+        }
+        list(fontWeight = 600, color = color)
+      }
+    ),
+    percent_change = colDef(
+      cell = function(value) {
+        if (value &gt;= 0) {
+          paste0(&quot;+&quot;, value)
+        } else {
+          value
+        }
+      },
+      style = function(value) {
+        color &lt;- if (value &gt; 0) {
+          &quot;#008B00&quot;
+        } else if (value &lt; 0) {
+          &quot;#FF3030&quot;
+        }
+        list(fontWeight = 600, color = color)
+      }
+    ),
+    symbol = colDef(
+      style = list(color = &quot;#8470FF&quot;, fontWeight = &quot;bold&quot;)
+    ),
+    last_price = colDef(
+      style = list(color = &quot;black&quot;, fontWeight = &quot;bold&quot;)
+    )
+  )
+)</code></pre>
+<div id="htmlwidget-ca6693ab96033968d790" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-ca6693ab96033968d790">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"symbol":["LLY","RPRX","ZTS","MRK","JNJ","BIIB","TAK","GLAXF","BNTX","MRNA"],"company_name":["Eli Lilly and Company","Royalty Pharma plc","Zoetis Inc.","Merck & Co., Inc.","Johnson & Johnson","Biogen Inc.","Takeda Pharmaceutical Company Limited","GlaxoSmithKline plc","BioNTech SE","Moderna, Inc."],"last_price":[166.66,48.9,160.72,80.14,152.47,248.89,18.11,17.79,96.96,123.39],"change":[1.18,0.29,0.87,0.38,0.53,-2.31,-0.17,-0.46,-3.1,-6.95],"percent_change":[0.71,0.6,0.54,0.48,0.35,-0.92,-0.93,-2.52,-3.1,-5.33]},"columns":[{"accessor":"symbol","name":"symbol","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Symbol","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"style":{"color":"#8470FF","fontWeight":"bold"}},{"accessor":"company_name","name":"company_name","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Company Name","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"minWidth":240},{"accessor":"last_price","name":"last_price","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Last Price","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"style":{"color":"black","fontWeight":"bold"}},{"accessor":"change","name":"change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"cell":["+1.18","+0.29","+0.87","+0.38","+0.53","-2.31","-0.17","-0.46","-3.1","-6.95"],"style":[{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"}]},{"accessor":"percent_change","name":"percent_change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Percent Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"cell":["+0.71","+0.6","+0.54","+0.48","+0.35","-0.92","-0.93","-2.52","-3.1","-5.33"],"style":[{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"}]}],"filterable":true,"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"striped":true,"dataKey":"3e472fbb7e01a26d6eac75fc93b0ca55","key":"3e472fbb7e01a26d6eac75fc93b0ca55"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="selective-filtering" class="section level3" number="5.8.2">
+<h3 number="5.8.2"><span class="header-section-number">5.8.2</span> selective filtering</h3>
+<p>We might not want <em>all</em> of the columns filterable, so we can define the feature by column in <code>colDef()</code> too.</p>
+<pre class="r"><code>reactable(
+  data = TopBottomBioTechChange,
+  highlight = TRUE,
+  striped = TRUE,
+  defaultColDef = colDef(
+    header = function(value) {
+      hdr &lt;- str_replace_all(value, &quot;_&quot;, &quot; &quot;)
+      str_to_title(hdr)
+    },
+    headerStyle = list(
+      fontWeight = 500,
+      fontSize = &quot;13px&quot;,
+      letterSpacing = &quot;1px&quot;
+    ),
+    format = colFormat(digits = 2)
+  ),
+  columns = list(
+    company_name = colDef(minWidth = 240, 
+                          filterable = TRUE),
+    change = colDef(
+      cell = function(value) {
+        if (value &gt;= 0) {
+          paste0(&quot;+&quot;, value)
+        } else {
+          value
+        }
+      },
+      style = function(value) {
+        color &lt;- if (value &gt; 0) {
+          &quot;#008B00&quot;
+        } else if (value &lt; 0) {
+          &quot;#FF3030&quot;
+        }
+        list(fontWeight = 600, color = color)
+      }
+    ),
+    percent_change = colDef(
+      cell = function(value) {
+        if (value &gt;= 0) {
+          paste0(&quot;+&quot;, value)
+        } else {
+          value
+        }
+      },
+      style = function(value) {
+        color &lt;- if (value &gt; 0) {
+          &quot;#008B00&quot;
+        } else if (value &lt; 0) {
+          &quot;#FF3030&quot;
+        }
+        list(fontWeight = 600, color = color)
+      }
+    ),
+    symbol = colDef(
+      style = list(color = &quot;#8470FF&quot;, fontWeight = &quot;bold&quot;),
+      filterable = TRUE
+    ),
+    last_price = colDef(
+      style = list(color = &quot;black&quot;, fontWeight = &quot;bold&quot;)
+    )
+  )
+)</code></pre>
+<div id="htmlwidget-cdc54e1be43e0b448c6a" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-cdc54e1be43e0b448c6a">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"symbol":["LLY","RPRX","ZTS","MRK","JNJ","BIIB","TAK","GLAXF","BNTX","MRNA"],"company_name":["Eli Lilly and Company","Royalty Pharma plc","Zoetis Inc.","Merck & Co., Inc.","Johnson & Johnson","Biogen Inc.","Takeda Pharmaceutical Company Limited","GlaxoSmithKline plc","BioNTech SE","Moderna, Inc."],"last_price":[166.66,48.9,160.72,80.14,152.47,248.89,18.11,17.79,96.96,123.39],"change":[1.18,0.29,0.87,0.38,0.53,-2.31,-0.17,-0.46,-3.1,-6.95],"percent_change":[0.71,0.6,0.54,0.48,0.35,-0.92,-0.93,-2.52,-3.1,-5.33]},"columns":[{"accessor":"symbol","name":"symbol","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Symbol","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"filterable":true,"style":{"color":"#8470FF","fontWeight":"bold"}},{"accessor":"company_name","name":"company_name","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Company Name","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"filterable":true,"minWidth":240},{"accessor":"last_price","name":"last_price","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Last Price","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"style":{"color":"black","fontWeight":"bold"}},{"accessor":"change","name":"change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"cell":["+1.18","+0.29","+0.87","+0.38","+0.53","-2.31","-0.17","-0.46","-3.1","-6.95"],"style":[{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"}]},{"accessor":"percent_change","name":"percent_change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Percent Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"cell":["+0.71","+0.6","+0.54","+0.48","+0.35","-0.92","-0.93","-2.52","-3.1","-5.33"],"style":[{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"}]}],"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"striped":true,"dataKey":"921baaa5a0d8d7392f132cd367f673ff","key":"921baaa5a0d8d7392f132cd367f673ff"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<p>Now this table is more interactive and easier to narrow down.</p>
+</div>
+</div>
+<div id="add-selecting" class="section level2 tabset" number="5.9">
+<h2 class="tabset" number="5.9"><span class="header-section-number">5.9</span> Add selecting</h2>
+<p>The last feature we’ll add to this table is searching. This applies to the entire table.</p>
+<div id="searchable" class="section level3" number="5.9.1">
+<h3 number="5.9.1"><span class="header-section-number">5.9.1</span> <code>searchable</code></h3>
+<p>We can make the entire table searchable by adding <code>searchable = TRUE</code> before the column definition functions.</p>
+<pre class="r"><code>reactable(
+  data = TopBottomBioTechChange,
+  highlight = TRUE,
+  striped = TRUE,
+  searchable = TRUE,
+  defaultColDef = colDef(
+    header = function(value) {
+      hdr &lt;- str_replace_all(value, &quot;_&quot;, &quot; &quot;)
+      str_to_title(hdr)
+    },
+    headerStyle = list(
+      fontWeight = 500,
+      fontSize = &quot;13px&quot;,
+      letterSpacing = &quot;1px&quot;
+    ),
+    format = colFormat(digits = 2)
+  ),
+  columns = list(
+    company_name = colDef(minWidth = 240, 
+                          filterable = TRUE),
+    change = colDef(
+      cell = function(value) {
+        if (value &gt;= 0) {
+          paste0(&quot;+&quot;, value)
+        } else {
+          value
+        }
+      },
+      style = function(value) {
+        color &lt;- if (value &gt; 0) {
+          &quot;#008B00&quot;
+        } else if (value &lt; 0) {
+          &quot;#FF3030&quot;
+        }
+        list(fontWeight = 600, color = color)
+      }
+    ),
+    percent_change = colDef(
+      cell = function(value) {
+        if (value &gt;= 0) {
+          paste0(&quot;+&quot;, value)
+        } else {
+          value
+        }
+      },
+      style = function(value) {
+        color &lt;- if (value &gt; 0) {
+          &quot;#008B00&quot;
+        } else if (value &lt; 0) {
+          &quot;#FF3030&quot;
+        }
+        list(fontWeight = 600, color = color)
+      }
+    ),
+    symbol = colDef(
+      style = list(color = &quot;#8470FF&quot;, fontWeight = &quot;bold&quot;),
+      filterable = TRUE
+    ),
+    last_price = colDef(
+      style = list(color = &quot;black&quot;, fontWeight = &quot;bold&quot;)
+    )
+  )
+)</code></pre>
+<div id="htmlwidget-a75ff4567a69ee70c2e6" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-a75ff4567a69ee70c2e6">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"symbol":["LLY","RPRX","ZTS","MRK","JNJ","BIIB","TAK","GLAXF","BNTX","MRNA"],"company_name":["Eli Lilly and Company","Royalty Pharma plc","Zoetis Inc.","Merck & Co., Inc.","Johnson & Johnson","Biogen Inc.","Takeda Pharmaceutical Company Limited","GlaxoSmithKline plc","BioNTech SE","Moderna, Inc."],"last_price":[166.66,48.9,160.72,80.14,152.47,248.89,18.11,17.79,96.96,123.39],"change":[1.18,0.29,0.87,0.38,0.53,-2.31,-0.17,-0.46,-3.1,-6.95],"percent_change":[0.71,0.6,0.54,0.48,0.35,-0.92,-0.93,-2.52,-3.1,-5.33]},"columns":[{"accessor":"symbol","name":"symbol","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Symbol","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"filterable":true,"style":{"color":"#8470FF","fontWeight":"bold"}},{"accessor":"company_name","name":"company_name","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Company Name","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"filterable":true,"minWidth":240},{"accessor":"last_price","name":"last_price","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Last Price","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"style":{"color":"black","fontWeight":"bold"}},{"accessor":"change","name":"change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"cell":["+1.18","+0.29","+0.87","+0.38","+0.53","-2.31","-0.17","-0.46","-3.1","-6.95"],"style":[{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"}]},{"accessor":"percent_change","name":"percent_change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Percent Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"cell":["+0.71","+0.6","+0.54","+0.48","+0.35","-0.92","-0.93","-2.52","-3.1","-5.33"],"style":[{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"}]}],"searchable":true,"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":1,"highlight":true,"striped":true,"dataKey":"921baaa5a0d8d7392f132cd367f673ff","key":"921baaa5a0d8d7392f132cd367f673ff"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="minrows" class="section level3" number="5.9.2">
+<h3 number="5.9.2"><span class="header-section-number">5.9.2</span> <code>minRows</code></h3>
+<p>The <code>searchable</code> argument works well when combined with the <code>minRows</code> argument (especially for large tables).</p>
+<pre class="r"><code>reactable(
+  data = TopBottomBioTechChange,
+  highlight = TRUE,
+  striped = TRUE,
+  searchable = TRUE,
+  minRows = 5,
+  defaultColDef = colDef(
+    header = function(value) {
+      hdr &lt;- str_replace_all(value, &quot;_&quot;, &quot; &quot;)
+      str_to_title(hdr)
+    },
+    headerStyle = list(
+      fontWeight = 500,
+      fontSize = &quot;13px&quot;,
+      letterSpacing = &quot;1px&quot;
+    ),
+    format = colFormat(digits = 2)
+  ),
+  columns = list(
+    company_name = colDef(minWidth = 240, 
+                          filterable = TRUE),
+    change = colDef(
+      cell = function(value) {
+        if (value &gt;= 0) {
+          paste0(&quot;+&quot;, value)
+        } else {
+          value
+        }
+      },
+      style = function(value) {
+        color &lt;- if (value &gt; 0) {
+          &quot;#008B00&quot;
+        } else if (value &lt; 0) {
+          &quot;#FF3030&quot;
+        }
+        list(fontWeight = 600, color = color)
+      }
+    ),
+    percent_change = colDef(
+      cell = function(value) {
+        if (value &gt;= 0) {
+          paste0(&quot;+&quot;, value)
+        } else {
+          value
+        }
+      },
+      style = function(value) {
+        color &lt;- if (value &gt; 0) {
+          &quot;#008B00&quot;
+        } else if (value &lt; 0) {
+          &quot;#FF3030&quot;
+        }
+        list(fontWeight = 600, color = color)
+      }
+    ),
+    symbol = colDef(
+      style = list(color = &quot;#8470FF&quot;, fontWeight = &quot;bold&quot;),
+      filterable = TRUE
+    ),
+    last_price = colDef(
+      style = list(color = &quot;black&quot;, fontWeight = &quot;bold&quot;)
+    )
+  )
+)</code></pre>
+<div id="htmlwidget-120d877aa8bf460d012d" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-120d877aa8bf460d012d">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"symbol":["LLY","RPRX","ZTS","MRK","JNJ","BIIB","TAK","GLAXF","BNTX","MRNA"],"company_name":["Eli Lilly and Company","Royalty Pharma plc","Zoetis Inc.","Merck & Co., Inc.","Johnson & Johnson","Biogen Inc.","Takeda Pharmaceutical Company Limited","GlaxoSmithKline plc","BioNTech SE","Moderna, Inc."],"last_price":[166.66,48.9,160.72,80.14,152.47,248.89,18.11,17.79,96.96,123.39],"change":[1.18,0.29,0.87,0.38,0.53,-2.31,-0.17,-0.46,-3.1,-6.95],"percent_change":[0.71,0.6,0.54,0.48,0.35,-0.92,-0.93,-2.52,-3.1,-5.33]},"columns":[{"accessor":"symbol","name":"symbol","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Symbol","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"filterable":true,"style":{"color":"#8470FF","fontWeight":"bold"}},{"accessor":"company_name","name":"company_name","type":"character","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Company Name","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"filterable":true,"minWidth":240},{"accessor":"last_price","name":"last_price","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Last Price","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"style":{"color":"black","fontWeight":"bold"}},{"accessor":"change","name":"change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"cell":["+1.18","+0.29","+0.87","+0.38","+0.53","-2.31","-0.17","-0.46","-3.1","-6.95"],"style":[{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"}]},{"accessor":"percent_change","name":"percent_change","type":"numeric","format":{"cell":{"digits":2},"aggregated":{"digits":2}},"header":"Percent Change","headerStyle":{"fontWeight":500,"fontSize":"13px","letterSpacing":"1px"},"cell":["+0.71","+0.6","+0.54","+0.48","+0.35","-0.92","-0.93","-2.52","-3.1","-5.33"],"style":[{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#008B00"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"},{"fontWeight":600,"color":"#FF3030"}]}],"searchable":true,"defaultPageSize":10,"paginationType":"numbers","showPageInfo":true,"minRows":5,"highlight":true,"striped":true,"dataKey":"921baaa5a0d8d7392f132cd367f673ff","key":"921baaa5a0d8d7392f132cd367f673ff"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </div>
@@ -623,7 +1513,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeCodeFolding("hide" === "show");
+  window.initializeCodeFolding("show" === "show");
 });
 </script>
 
