@@ -559,6 +559,12 @@ reactable(
 
 ## Add `color` with `style` {.tabset}
 
+Our table is starting to look like the [original](https://finance.yahoo.com/u/yahoo-finance/watchlists/biotech-and-drug-stocks).
+
+```{r yahoo-stocks-table, echo=FALSE}
+knitr::include_graphics(path = "img/yahoo-stocks-table.png")
+```
+
 We want to make the positive `change` and `percent_change` values green, and the negative values red. 
 
 ### Custom `style` function
@@ -640,19 +646,9 @@ reactable(
 ```
 
 
-## Add column `format` {.tabset}
-
-Our table is starting to look like the [original](https://finance.yahoo.com/u/yahoo-finance/watchlists/biotech-and-drug-stocks).
-
-```{r yahoo-stocks-table, echo=FALSE}
-knitr::include_graphics(path = "img/yahoo-stocks-table.png")
-```
-
-We need to change the `color` and `weight` of the stock symbols and last price
-
 ### `style` fonts and color
 
-We can control the font weight and color *inside* `colDef()` with the `style` argument.
+We need to change the `color` and `weight` of the stock symbols and last price, and we can set the font weight and color *inside* `colDef()` with the `style` argument.
 
 ```{r purple-symbols}
 reactable(
@@ -720,7 +716,7 @@ reactable(
 
 Now that the table looks similar, we need to add some highlighting (and some other features that aren't in the original table).
 
-## Add highlighting {.tabset}
+## Add highlighting and formatting {.tabset}
 
 The original table highlights each row when we roll over it with our cursor, and we can add this with the `highlight = TRUE` argument.
 
