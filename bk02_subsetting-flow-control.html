@@ -11,7 +11,7 @@
 
 
 
-<title>Subsetting and Flow Control Statements (under construction)</title>
+<title>Subsetting and Flow Control Statements</title>
 
 <script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
@@ -395,7 +395,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Subsetting and Flow Control Statements (under construction)</h1>
+<h1 class="title toc-ignore">Subsetting and Flow Control Statements</h1>
 
 </div>
 
@@ -845,7 +845,7 @@ identical(x = str(sw_list$name), y = str(sw_list[[1]]))
 </div>
 <div id="flow-control-statements" class="section level1" number="4">
 <h1 number="4"><span class="header-section-number">4</span> Flow Control Statements</h1>
-<p>Below we’ll cover R’s common flow control statements: <code>if()</code>, <code>else()</code>, <code>switch()</code>, and <code>while()</code></p>
+<p>Below we’ll cover R’s common flow control statements: <code>if()</code>, <code>else()</code>, and <code>switch()</code>.</p>
 <div id="if" class="section level2 tabset" number="4.1">
 <h2 class="tabset" number="4.1"><span class="header-section-number">4.1</span> <code>if</code></h2>
 <p>The <code>if()</code> statement can be used to control exactly what operations are carried out in a given chunk of code.</p>
@@ -876,11 +876,11 @@ if (x &gt; y) {
 #&gt; y is greater than x, because y =  5</code></pre>
 <p>We can extend the <code>if()</code> and <code>else()</code> conditions as far as we need. Change the value of <code>y</code> to <code>3</code> and run two logical tests to see what prints.</p>
 <pre class="r"><code>y &lt;- 3
-if (x &gt; y) { # FALSE
+if (x &gt; y) {# FALSE
   cat(&quot;x is greater than y&quot;)
-} else if (y &gt; 4) { # FALSE
+} else if (y &gt; 4) {# FALSE
   cat(&quot;y is greater than 4&quot;)
-} else { # TRUE
+} else {# TRUE
   cat(&quot;If x is &lt; y, and y is &gt; 4, What is x + y? &quot;, sum(x, y))
 }
 #&gt; If x is &lt; y, and y is &gt; 4, What is x + y?  5</code></pre>

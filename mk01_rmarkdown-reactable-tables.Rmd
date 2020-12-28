@@ -1,5 +1,5 @@
 ---
-title: "Displaying Tables With reactable (under construction)"
+title: "Displaying Tables With reactable"
 comment: "*interactive tables in reproducible reports*"
 output:
   html_document:
@@ -31,13 +31,15 @@ knitr::opts_chunk$set(
 
 # Objectives
 
-This section covers some packages for displaying data in tables in your R Markdown reports. 
+This section is an introduction displaying data in tables with [`reactable`](https://glin.github.io/reactable/) in your R Markdown reports. 
 
 # Resources 
 
-Slides: this is an extra lesson, so there aren't currently slides available (yet!)
+Be sure to check out the previous section on [flow control statements](https://mjfrigaard.github.io/bmrn-tutorials/bk02_subsetting-flow-control.html).
 
-RStudio.Cloud: this is an extra lesson, so there isn't an RStudio.Cloud project (yet!)
+*Slides*: this is an extra lesson, so there aren't currently slides available (yet!)
+
+*RStudio.Cloud*: this is an extra lesson, so there isn't an RStudio.Cloud project (yet!)
 
 # Packages
 
@@ -56,9 +58,9 @@ We're going to be returning to stock data for this section. Stock (or quant) dat
 
 Here is the source for the dataset below: https://finance.yahoo.com/u/yahoo-finance/watchlists/biotech-and-drug-stocks
 
-These data are from 2020-12-24.
+I imported these data using the [`datapasta`](https://github.com/MilesMcBain/datapasta) package on 2020-12-24.
 
-```{r datapasta-current, echo=FALSE}
+```{r datapasta-current, class.source = "fold-hide"}
 tibble::tribble(
      ~Symbol,                           ~Company.Name, ~Last.Price, ~Change, ~`%.Change`,   ~Market.Time,   ~Volume, ~`Avg.Vol.(3.month)`, ~Market.Cap,
        "JNJ",                     "Johnson & Johnson",      152.47,    0.53,    "+0.35%",  "1:00 PM EST",   "2.09M",              "7.19M",   "401.38B",
@@ -1003,9 +1005,9 @@ reactable(
 
 Now this table is more interactive and easier to narrow down. 
 
-## Add selecting {.tabset}
+## Add searching {.tabset}
 
-The last feature we'll add to this table is searching. This applies to the entire table. 
+The last feature we'll add to this table is searching. This makes the entire table `searchable`. 
 
 ### `searchable`
 

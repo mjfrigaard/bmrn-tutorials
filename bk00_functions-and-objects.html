@@ -580,21 +580,21 @@ unclass(vec_factor)
 <p>Dates are stored as <code>double</code> vectors with a class attribute set to <code>Date</code>.</p>
 <pre class="r"><code>vec_date &lt;- c(Sys.Date(), Sys.Date() + 1, Sys.Date() + 2)
 vec_date
-#&gt; [1] &quot;2020-12-24&quot; &quot;2020-12-25&quot; &quot;2020-12-26&quot;
+#&gt; [1] &quot;2020-12-27&quot; &quot;2020-12-28&quot; &quot;2020-12-29&quot;
 attributes(vec_date)
 #&gt; $class
 #&gt; [1] &quot;Date&quot;</code></pre>
 <p><code>unclass()</code> tells us what the actual number is.</p>
 <pre class="r"><code>unclass(vec_date)
-#&gt; [1] 18620 18621 18622</code></pre>
+#&gt; [1] 18623 18624 18625</code></pre>
 </div>
 <div id="date-times" class="section level3" number="4.4.3">
 <h3 number="4.4.3"><span class="header-section-number">4.4.3</span> Date-times</h3>
 <p>Date-times contain a bit more information than dates.</p>
 <pre class="r"><code>vec_datetime_ct &lt;- as.POSIXct(x = vec_date)
 vec_datetime_ct
-#&gt; [1] &quot;2020-12-23 17:00:00 MST&quot; &quot;2020-12-24 17:00:00 MST&quot;
-#&gt; [3] &quot;2020-12-25 17:00:00 MST&quot;</code></pre>
+#&gt; [1] &quot;2020-12-26 17:00:00 MST&quot; &quot;2020-12-27 17:00:00 MST&quot;
+#&gt; [3] &quot;2020-12-28 17:00:00 MST&quot;</code></pre>
 <p><code>vec_datetime_ct</code> is a <code>double</code> vector</p>
 <pre class="r"><code>typeof(vec_datetime_ct)
 #&gt; [1] &quot;double&quot;</code></pre>

@@ -1,5 +1,5 @@
 ---
-title: "Subsetting and Flow Control Statements (under construction)"
+title: "Subsetting and Flow Control Statements"
 comment: "*change the flow of your code*"
 output:
   html_document:
@@ -476,7 +476,7 @@ str(sw_list[1])
 
 # Flow Control Statements
 
-Below we'll cover R's common flow control statements: `if()`, `else()`, `switch()`, and `while()`
+Below we'll cover R's common flow control statements: `if()`, `else()`, and `switch()`.
 
 ## `if` {.tabset}
 
@@ -520,11 +520,11 @@ We can extend the `if()` and `else()` conditions as far as we need.  Change the 
 
 ```{r if-else-statement-example-2}
 y <- 3
-if (x > y) { # FALSE
+if (x > y) {# FALSE
   cat("x is greater than y")
-} else if (y > 4) { # FALSE
+} else if (y > 4) {# FALSE
   cat("y is greater than 4")
-} else { # TRUE
+} else {# TRUE
   cat("If x is < y, and y is > 4, What is x + y? ", sum(x, y))
 }
 ```
@@ -639,3 +639,5 @@ switch("number",
   "logical" = TRUE,
   "number" = 15)
 ```
+
+
