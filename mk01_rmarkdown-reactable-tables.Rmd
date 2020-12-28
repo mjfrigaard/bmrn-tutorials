@@ -56,7 +56,12 @@ library(DT)
 
 We're going to be returning to stock data for this section. Stock (or quant) data is typically presented on the web or in a dashboard, so it's great for demonstrating the capabilities of R table packages. 
 
-Here is the source for the dataset below: https://finance.yahoo.com/u/yahoo-finance/watchlists/biotech-and-drug-stocks
+```{r yahoo-table, echo=FALSE}
+knitr::include_graphics("img/yahoo-table.png")
+```
+
+
+Here is the source for the dataset above: https://finance.yahoo.com/u/yahoo-finance/watchlists/biotech-and-drug-stocks
 
 I imported these data using the [`datapasta`](https://github.com/MilesMcBain/datapasta) package on 2020-12-24.
 
