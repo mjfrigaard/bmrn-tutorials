@@ -59,6 +59,13 @@ cat_bullet(x, "^bk")
 cat_bullet(x, "^mk")
 ```
 
+### Data Manipulation and Transformation
+
+```{r dt-files, results = 'asis', echo = FALSE}
+# here we see the 'dt' as core dplyr/tidyr lessons
+cat_bullet(x, "^dt")
+```
+
 ### Simulate Data 
 
 *Coming soon!*
@@ -66,13 +73,6 @@ cat_bullet(x, "^mk")
 ```{r dg-files, eval=FALSE, results = 'asis', echo = FALSE}
 # here we see the 'dg' for data generation lessons
 cat_bullet(x, "^dg")
-```
-
-### Data Manipulation and Transformation
-
-```{r dt-files, results = 'asis', echo = FALSE}
-# here we see the 'dt' as core dplyr/tidyr lessons
-cat_bullet(x, "^dt")
 ```
 
 ### Data Visualization

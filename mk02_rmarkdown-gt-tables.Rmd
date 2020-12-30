@@ -580,9 +580,13 @@ PricesWide %>%
   )
 ```
 
+## Source notes and row groups {.tabset}
+
+Inserting meta-data (more labels, footnotes, etc.) in Excel involves using the GUI to add rows or columns (following the steps outlined above). We're going to cover how to include meta-data and row group labels in `gt`.
+
 ### Source notes (`gt`)
 
-It's good practice to include the source of the data in a table display. To do this in Excel, we would need to follow the steps outlined above, but in `gt` we can simply add a `tab_source_note()` function and include a text string for the `source_note =`. 
+It's good practice to include the source of the data in a table display. In `gt` we can simply add a `tab_source_note()` function and include a text string for the `source_note =`. 
 
 ```{r tab_source_note}
 PricesWide %>% 

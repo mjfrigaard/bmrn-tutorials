@@ -1,6 +1,6 @@
 ---
 title: "Displaying Tables With DT (under construction)"
-comment: "*interactive tables in reproducible reports*"
+comment: "*tables for R Markdown and shiny applications*"
 output:
   html_document:
     toc: yes
