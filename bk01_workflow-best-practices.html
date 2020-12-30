@@ -709,9 +709,10 @@ list.files(all.files = TRUE, pattern = &quot;here&quot;)
 #&gt; ├── 2020-11-24-TopPharmCompRaw.csv
 #&gt; ├── 2020-12-11-BioTechDrugStocks.csv
 #&gt; ├── 2020-12-11-BmrmGoogle.rds
-#&gt; ├── 2020-12-20-BioTechStocks.cs
 #&gt; ├── 2020-12-20-BioTechStocks.csv
 #&gt; ├── 2020-12-24-BioTechStocks.csv
+#&gt; ├── 2020-12-29-PricesWide.csv
+#&gt; ├── 2020-12-30-PricesWide.csv
 #&gt; ├── AppleMobRaw.csv
 #&gt; ├── FasterCures.csv
 #&gt; ├── Infected.csv
@@ -723,23 +724,22 @@ list.files(all.files = TRUE, pattern = &quot;here&quot;)
 #&gt; ├── UsadaRaw.csv
 #&gt; ├── VisitNAData.csv
 #&gt; ├── original-starwars.csv
-#&gt; ├── starwars.rds
-#&gt; └── week16_exercise.xlsx</code></pre>
+#&gt; └── starwars.rds</code></pre>
 </div>
 <div id="list-files" class="section level3" number="6.2.2">
 <h3 number="6.2.2"><span class="header-section-number">6.2.2</span> List files</h3>
 <p>Get the complete path to files using <code>fs::dir_ls()</code>.</p>
 <pre class="r"><code>fs::dir_ls(&quot;data&quot;)
 #&gt; data/2020-11-24-TopPharmCompRaw.csv   data/2020-12-11-BioTechDrugStocks.csv 
-#&gt; data/2020-12-11-BmrmGoogle.rds        data/2020-12-20-BioTechStocks.cs      
-#&gt; data/2020-12-20-BioTechStocks.csv     data/2020-12-24-BioTechStocks.csv     
-#&gt; data/AppleMobRaw.csv                  data/FasterCures.csv                  
-#&gt; data/Infected.csv                     data/LabData.csv                      
-#&gt; data/LabProc.csv                      data/SmallLabData.csv                 
-#&gt; data/TopPharmComp.csv                 data/UsadaBadDates.csv                
-#&gt; data/UsadaRaw.csv                     data/VisitNAData.csv                  
-#&gt; data/original-starwars.csv            data/starwars.rds                     
-#&gt; data/week16_exercise.xlsx</code></pre>
+#&gt; data/2020-12-11-BmrmGoogle.rds        data/2020-12-20-BioTechStocks.csv     
+#&gt; data/2020-12-24-BioTechStocks.csv     data/2020-12-29-PricesWide.csv        
+#&gt; data/2020-12-30-PricesWide.csv        data/AppleMobRaw.csv                  
+#&gt; data/FasterCures.csv                  data/Infected.csv                     
+#&gt; data/LabData.csv                      data/LabProc.csv                      
+#&gt; data/SmallLabData.csv                 data/TopPharmComp.csv                 
+#&gt; data/UsadaBadDates.csv                data/UsadaRaw.csv                     
+#&gt; data/VisitNAData.csv                  data/original-starwars.csv            
+#&gt; data/starwars.rds</code></pre>
 </div>
 </div>
 <div id="reproducible-examples" class="section level2 tabset" number="6.3">
